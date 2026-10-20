@@ -67,6 +67,8 @@ DISCOVERY = [
 # ---------------------------------------------------------------- low-level helpers
 def set_cell_fill(cell, fill):
     tcPr = cell._tc.get_or_add_tcPr()
+    for old in tcPr.findall(qn("w:shd")):
+        tcPr.remove(old)
     shd = OxmlElement("w:shd")
     shd.set(qn("w:val"), "clear")
     shd.set(qn("w:color"), "auto")
@@ -75,9 +77,12 @@ def set_cell_fill(cell, fill):
 
 
 def set_cell_valign(cell, val="center"):
+    tcPr = cell._tc.get_or_add_tcPr()
+    for old in tcPr.findall(qn("w:vAlign")):
+        tcPr.remove(old)
     v = OxmlElement("w:vAlign")
     v.set(qn("w:val"), val)
-    cell._tc.get_or_add_tcPr().append(v)
+    tcPr.append(v)
 
 
 def set_cell_width(cell, w):
@@ -376,7 +381,14 @@ def prepare(template):
     settings = doc.settings.element
     uf = OxmlElement("w:updateFields")
     uf.set(qn("w:val"), "true")
-    settings.append(uf)
+    after = ("hdrShapeDefaults footnotePr endnotePr compat docVars rsids mathPr attachedSchema themeFontLang clrSchemeMapping "
+             "doNotIncludeSubdocsInStats doNotAutoCompressPictures forceUpgrade captions readModeInkLockDown smartTagType "
+             "schemaLibrary shapeDefaults doNotEmbedSmartTags decimalSymbol listSeparator").split()
+    nxt = next((el for el in settings if el.tag.split("}")[1] in after), None)
+    if nxt is not None:
+        nxt.addprevious(uf)
+    else:
+        settings.append(uf)
     return doc
 
 
@@ -498,7 +510,7 @@ def uc_table(doc, uc, ids):
 
 
 def fields_table(doc, fields):
-    t = new_table(doc, [2000, 2000, 1250, 1000, 1100, 2905],
+    t = new_table(doc, [1900, 1900, 1150, 1000, 1250, 3055],
                   header=["Field Name [English]", "Field Name [Arabic]", "Type", "Editable", "Mandatory", "Restrictions/Notes"])
     for f in fields:
         add_row(t, [f.get("en", ""), f.get("ar", ""), f.get("type", ""), f.get("editable", ""), f.get("mandatory", ""), f.get("notes", "")])
@@ -677,7 +689,7 @@ def build(args):
     heading(doc, "7.  Gaps and Recommendations", 1)
     body(doc, "Areas where the prototype does not yet meet the needs of a production grant system. Each gap is reflected as a target "
               "requirement in the use cases above.")
-    t = new_table(doc, [850, 1700, 2900, 2200, 1900, 705], header=["ID", "Area", "Gap", "Business impact", "Recommendation", "Priority"])
+    t = new_table(doc, [800, 1600, 2850, 2150, 1955, 900], header=["ID", "Area", "Gap", "Business impact", "Recommendation", "Priority"])
     g = 0
     rank = {"High": 0, "Medium": 1, "Low": 2}
     allgaps = sorted([(m, x) for m in mods for x in m.get("gaps", [])], key=lambda mx: rank.get(mx[1].get("priority"), 3))
@@ -707,7 +719,46 @@ def build(args):
             add_row(t, [m["_uc"][uc["key"]]["no"], uc["name"], ", ".join(uc.get("trace", []))])
 
     doc.save(args.out)
+    normalize(args.out)
     print(f"{uc_no} use cases, {brq_no} business requirements, {err_no} errors, {sum(msg_no.values())} messages, {br_no} rules, {g} gaps, {q} questions, {diagrams.n} diagrams")
+
+
+ORDERS = {
+    "pPr": "pStyle keepNext keepLines pageBreakBefore framePr widowControl numPr suppressLineNumbers pBdr shd tabs suppressAutoHyphens kinsoku wordWrap overflowPunct topLinePunct autoSpaceDE autoSpaceDN bidi adjustRightInd snapToGrid spacing ind contextualSpacing mirrorIndents suppressOverlap jc textDirection textAlignment textboxTightWrap outlineLvl divId cnfStyle rPr sectPr pPrChange",
+    "rPr": "rStyle rFonts b bCs i iCs caps smallCaps strike dstrike outline shadow emboss imprint noProof snapToGrid vanish webHidden color spacing w kern position sz szCs highlight u effect bdr shd fitText vertAlign rtl cs em lang eastAsianLayout specVanish oMath",
+    "tblPr": "tblStyle tblpPr tblOverlap bidiVisual tblStyleRowBandSize tblStyleColBandSize tblW jc tblCellSpacing tblInd tblBorders shd tblLayout tblCellMar tblLook tblCaption tblDescription",
+    "tcPr": "cnfStyle tcW gridSpan hMerge vMerge tcBorders shd noWrap tcMar textDirection tcFitText vAlign hideMark",
+    "trPr": "cnfStyle divId gridBefore gridAfter wBefore wAfter cantSplit trHeight tblHeader tblCellSpacing jc hidden",
+}
+
+
+def normalize(path):
+    """Reorder property children into schema order (python-docx appends in call order)."""
+    import zipfile
+    from lxml import etree
+    W = "http://schemas.openxmlformats.org/wordprocessingml/2006/main"
+    zin = zipfile.ZipFile(path)
+    files = {n: zin.read(n) for n in zin.namelist()}
+    zin.close()
+    for name in files:
+        if not re.match(r"word/(document|header\d+|footer\d+)\.xml$", name):
+            continue
+        root = etree.fromstring(files[name])
+        for tag, order in ORDERS.items():
+            seq = order.split()
+            for el in root.iter(f"{{{W}}}{tag}"):
+                kids = list(el)
+                kids.sort(key=lambda e: seq.index(etree.QName(e).localname) if etree.QName(e).localname in seq else len(seq))
+                for k in kids:
+                    el.remove(k)
+                for k in kids:
+                    el.append(k)
+        for pm in root.iter(f"{{{W}}}pgMar"):
+            pm.set(f"{{{W}}}gutter", pm.get(f"{{{W}}}gutter", "0"))
+        files[name] = etree.tostring(root, xml_declaration=True, encoding="UTF-8", standalone=True)
+    with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as z:
+        for n, b in files.items():
+            z.writestr(n, b)
 
 
 E2E = """flowchart TD
