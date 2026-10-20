@@ -1,0 +1,1823 @@
+{
+  "module": "PTL",
+  "title": "Partner Portal & Grant Application",
+  "summary": "The Partner Portal is the single front door through which partner organizations (associations, foundations, companies, endowments and individuals) register with the foundation, discover the grant opportunities they are eligible for, and submit project grant applications, in-kind product requests and offers against requests for proposals. After submission, the portal keeps the partner informed of each application's stage, what is required from them and when to expect a reply, lets them answer grantor requests, maintain their organization profile and, once awarded, take part in project execution and confirm receipt of payments. It reduces manual intake work for the Grants Manager, improves data quality through official-registry prefill and verification, and gives partners a transparent, self-service experience.",
+  "process": {
+    "title": "Partner journey from registration to award",
+    "mermaid": "flowchart LR\n  A[\"Check identifier\"] --> B[\"Submit registration\"]\n  B --> C[\"Grantor approves organization\"]\n  C --> D[\"Sign in to partner portal\"]\n  I[\"Private invitation\"] --> D\n  D --> E[\"Browse eligible opportunities\"]\n  E --> F[\"Prepare and submit application\"]\n  F --> G[\"Track status and required action\"]\n  G --> H[\"Respond to edit request or proposed change\"]\n  H --> G\n  G --> J[\"Application approved\"]\n  J --> K[\"Execute project and upload evidence\"]\n  K --> L[\"Confirm payment receipt\"]\n  G --> M[\"Application closed with reason\"]"
+  },
+  "use_cases": [
+    {
+      "key": "PTL-1",
+      "name": "Self-register a partner organization",
+      "title": "As a prospective Partner Organization, I want to register my organization using its official identifier so that I can apply for the foundation's grants once the grantor approves it.",
+      "description": "A visitor selects the type of applicant and enters the official identifier (license number, commercial registration or national ID). If the organization is new, the system prefills the registration form from the official registry, the visitor completes and verifies contact details, and submits the request for review. The organization is created only after the System Administrator approves every field (see BEN).",
+      "actors": [
+        "Partner Organization (Applicant)",
+        "System",
+        "Official Registry"
+      ],
+      "preconditions": [
+        "The registration page is publicly reachable.",
+        "The applicant type is enabled for the partner portal and not closed by the foundation."
+      ],
+      "trigger": "The visitor selects «سجّل جهتك» from the public site or the sign-in page.",
+      "scenario": [
+        "The visitor selects the applicant type (association, non-profit foundation, company, individual, endowment, other).",
+        "The system shows the identifier label relevant to the chosen type and the visitor enters the identifier and selects «تحقق».",
+        "The system checks whether the identifier belongs to a registered organization, a pending registration request, or a new organization.",
+        "For a new organization, the system retrieves the official registry record and prefills the form, marking each field «من السجل».",
+        "The visitor completes missing data and corrects values where needed; corrected fields are marked «معدّل عن السجل».",
+        "The visitor verifies the official email, organization phone and delegate mobile with one-time codes.",
+        "The visitor selects «تأكيد البيانات وإرسالها للتدقيق».",
+        "The system records the request with every field's value, its registry value and its source, and marks it pending review.",
+        "The system confirms that the request was sent for review and that the organization will be activated after approval."
+      ],
+      "alternative_flows": [
+        "If the identifier is not found in the official registry, the visitor enters all data manually («لم نجد الرقم في السجل — أدخل البيانات يدوياً»).",
+        "If the applicant type is «فرد» (individual), organization-only fields are hidden and labels change to full name, mobile and email.",
+        "If the identifier belongs to an already registered organization, the visitor is directed to join it or request a delegate change (PTL-2).",
+        "If a registration request for the identifier is already pending, the system shows only the masked requester name and mobile ending and does not allow a second request.",
+        "If the grantor returns the request, the registrant is notified and can correct only the rejected fields on the same request (Recommended)."
+      ],
+      "business_requirements": [
+        "The system must offer only applicant types that are enabled for the partner portal and not closed by the foundation; government entities must not self-register.",
+        "The system must classify an entered identifier as registered, pending registration or new before showing the registration form.",
+        "The system must prefill registration data from the official registry for the applicant type and label each field as taken from the registry, edited by the registrant, or entered manually.",
+        "The system must require organization name, entity type, region, city, official email, organization phone, delegate name, delegate national ID and delegate mobile for organizations.",
+        "The system must verify every entered mobile number and email address through a one-time code before submission, and must reset verification when the value changes.",
+        "One-time codes must be generated and checked by the system, delivered by SMS/email, expire after a defined period and be limited in retries (Recommended).",
+        "The system must record the registration request with each field's submitted value, registry value and source, with a decision status of pending.",
+        "The system must not create a partner organization until the System Administrator approves the request (see BEN).",
+        "The system must show identities of existing delegates or requesters only in masked form.",
+        "The system should use controlled lists for region and city so that registration data matches eligibility targeting (Recommended).",
+        "The system should notify the registrant of approval or return and explain how to sign in after approval (To be confirmed).",
+        "The official registries to integrate per applicant type (National Center, Ministry of Commerce, Absher, endowments authority) must be defined (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Unverified contact data",
+          "description": "The visitor submits while a filled mobile or email is not verified; the system blocks submission and lists the fields to verify («تحقق أولاً من: …»)."
+        },
+        {
+          "name": "Missing mandatory field",
+          "description": "A mandatory field is empty; the system highlights it and blocks submission."
+        },
+        {
+          "name": "Submission failure",
+          "description": "The request could not be saved; the system shows an error and keeps the entered data."
+        }
+      ],
+      "postconditions": "A pending registration request exists for the identifier and is visible to the System Administrator for field-by-field review.",
+      "fields": [
+        {
+          "en": "Applicant type",
+          "ar": "نوع المستفيد",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Only portal-enabled types not closed by the foundation"
+        },
+        {
+          "en": "Official identifier",
+          "ar": "رقم الترخيص / السجل التجاري / الهوية",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Label depends on applicant type"
+        },
+        {
+          "en": "Organization name",
+          "ar": "اسم الجهة",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Prefilled from registry when available"
+        },
+        {
+          "en": "Entity type",
+          "ar": "نوع الكيان",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Hidden for individuals"
+        },
+        {
+          "en": "Unified number",
+          "ar": "الرقم الموحد",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Hidden for individuals"
+        },
+        {
+          "en": "Region",
+          "ar": "المنطقة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Should use the standard region list"
+        },
+        {
+          "en": "City",
+          "ar": "المدينة",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Classification",
+          "ar": "التصنيف",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Hidden for individuals"
+        },
+        {
+          "en": "Official email",
+          "ar": "البريد الرسمي",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "One-time code verification"
+        },
+        {
+          "en": "Organization phone",
+          "ar": "هاتف الجهة",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "One-time code verification"
+        },
+        {
+          "en": "Delegate name",
+          "ar": "اسم المفوض",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Hidden for individuals"
+        },
+        {
+          "en": "Delegate national ID",
+          "ar": "هوية المفوض",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Hidden for individuals"
+        },
+        {
+          "en": "Delegate mobile",
+          "ar": "جوال المفوض",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "One-time code verification"
+        },
+        {
+          "en": "Bank",
+          "ar": "البنك",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "IBAN",
+          "ar": "الآيبان",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Saudi IBAN format"
+        }
+      ],
+      "trace": [
+        "US-PTL-001",
+        "US-PTL-002",
+        "FR-PTL-001",
+        "FR-PTL-002",
+        "FR-PTL-003",
+        "FR-PTL-004",
+        "FR-PTL-005",
+        "FR-PTL-009"
+      ]
+    },
+    {
+      "key": "PTL-2",
+      "name": "Join a registered organization or request a delegate change",
+      "title": "As a representative of an already registered organization, I want to prove my relation to it or request a change of its delegate so that I can work on its behalf.",
+      "description": "When the identifier belongs to a registered organization, the system shows its masked delegates. The visitor either proves the relation with a one-time code sent to the current delegate, or submits a delegate-change request with a reason for the grantor to review.",
+      "actors": [
+        "Partner Organization (Applicant)",
+        "Partner Delegate",
+        "System"
+      ],
+      "preconditions": [
+        "The identifier lookup returned an already registered organization."
+      ],
+      "trigger": "The registration lookup shows ««<name>» مسجلة مسبقاً».",
+      "scenario": [
+        "The system shows the organization name and its active delegates with masked names and mobiles, marking the primary delegate.",
+        "The visitor selects «إرسال رمز تحقق للمفوض».",
+        "The system sends a one-time code to the current delegate's mobile.",
+        "The visitor enters the code obtained from the delegate and selects «تحقق».",
+        "The system confirms the relation and records a join request for the primary delegate to approve (Recommended).",
+        "The system invites the visitor to sign in («تسجيل الدخول»)."
+      ],
+      "alternative_flows": [
+        "If the organization has no registered delegate, code sending is unavailable and the visitor can only request a delegate change.",
+        "If the visitor selects «طلب تغيير المفوض», they enter the new delegate's name, national ID, mobile and the reason, and submit; the system records a delegate-change request for grantor review and confirms «أُرسل طلب تغيير المفوض»."
+      ],
+      "business_requirements": [
+        "The system must show an existing organization's delegates only with masked names and the last digits of their mobile.",
+        "The system must send the relation-verification code to the current delegate, never display it to the requester, and enforce expiry and retry limits (Recommended).",
+        "The system must record a successful relation verification as a join request linked to the verified person for the primary delegate to accept (Recommended).",
+        "The system must capture new delegate name, national ID, mobile and change reason for a delegate-change request; all four are mandatory.",
+        "The system must record a delegate-change request as a distinct request type so that its approval changes the delegate of the existing organization and never creates a duplicate organization.",
+        "The system should require supporting proof (e.g. board authorization letter) for a delegate change (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Incorrect code",
+          "description": "The code entered does not match; the system shows «الرمز غير صحيح — تأكد وأعد المحاولة»."
+        },
+        {
+          "name": "Request not saved",
+          "description": "The delegate-change request could not be saved; the system shows an error and keeps the entered data."
+        }
+      ],
+      "postconditions": "Either a verified join request awaits the primary delegate, or a delegate-change request awaits grantor review.",
+      "fields": [
+        {
+          "en": "Verification code",
+          "ar": "رمز التحقق",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Numeric, up to 6 digits"
+        },
+        {
+          "en": "New delegate name",
+          "ar": "اسم المفوض الجديد",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "National ID",
+          "ar": "رقم الهوية",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "10 digits"
+        },
+        {
+          "en": "New delegate mobile",
+          "ar": "جوال المفوض الجديد",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Change reason",
+          "ar": "سبب التغيير",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": ""
+        }
+      ],
+      "trace": [
+        "US-PTL-003",
+        "US-PTL-004",
+        "FR-PTL-006",
+        "FR-PTL-007",
+        "FR-PTL-008"
+      ]
+    },
+    {
+      "key": "PTL-3",
+      "name": "Access the partner portal and select the represented organization",
+      "title": "As a Partner Delegate, I want to sign in to my portal and choose which organization I am acting for so that my applications and data are recorded under the right organization.",
+      "description": "After sign-in, the partner user lands on the portal home showing the organization they represent, their applications, open opportunities and projects. A user who belongs to several organizations can switch the represented organization at any time.",
+      "actors": [
+        "Partner Organization (Partner Delegate)",
+        "System"
+      ],
+      "preconditions": [
+        "The user has an active partner account with at least one active organization membership."
+      ],
+      "trigger": "The partner user signs in or opens the portal.",
+      "scenario": [
+        "The system authenticates the partner user and opens the portal home «بوابة المتقدم — الطلبات والمشاريع».",
+        "The system determines the represented organization: the last selected one, otherwise the user's first active membership (primary delegation first).",
+        "The system shows a greeting with the organization name and type, and the user's role in that organization.",
+        "If the user belongs to more than one organization, the system shows «تمثّل حالياً:» with a choice of organizations.",
+        "The user selects another organization.",
+        "The system refreshes the applications, opportunities, projects and the organization profile tab for the selected organization."
+      ],
+      "alternative_flows": [
+        "If a staff user opens the portal, the system shows that the portal is for applicants only.",
+        "If the user has no active organization membership, the system does not allow applying and asks the user to register or join an organization (Recommended)."
+      ],
+      "business_requirements": [
+        "The system must authenticate each partner user individually before showing the portal (Recommended).",
+        "The system must show the partner portal only to partner users and keep staff workspaces inaccessible to them.",
+        "The system must resolve the represented organization from the user's active memberships and allow switching when the user has several.",
+        "The system must show the user's role in the represented organization (primary delegate, project manager, finance officer, member).",
+        "The system must record every application under both the submitting person and the represented organization.",
+        "The system must show the partner only the applications, projects and data of the organization they represent, and never internal evaluation data (Recommended).",
+        "The system must require an active organization membership to apply, unless individual-applicant rules are defined (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Not a partner user",
+          "description": "A non-partner user opens the portal; the system shows «هذه البوابة للمتقدمين»."
+        }
+      ],
+      "postconditions": "The portal shows data scoped to the selected organization.",
+      "fields": [
+        {
+          "en": "Represented organization",
+          "ar": "الجهة الممثَّلة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "From the user's active memberships"
+        },
+        {
+          "en": "Role in organization",
+          "ar": "الصفة في الجهة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Primary delegate / project manager / finance officer / member"
+        }
+      ],
+      "trace": [
+        "US-PTL-005",
+        "FR-PTL-010",
+        "FR-PTL-011"
+      ]
+    },
+    {
+      "key": "PTL-4",
+      "name": "Discover open grant opportunities and check eligibility",
+      "title": "As a Partner Organization, I want to see the open opportunities with clear eligibility and remaining quota so that I only spend effort on opportunities I can apply for.",
+      "description": "The portal lists published opportunities whose submission window is open, evaluates each against the represented organization's profile, and shows why an opportunity is not available. It also shows how many applications the organization has already submitted against the allowed maximum.",
+      "actors": [
+        "Partner Organization (Applicant)",
+        "System"
+      ],
+      "preconditions": [
+        "The partner user is signed in and an organization is selected (PTL-3)."
+      ],
+      "trigger": "The partner opens the section «فرص المنح المفتوحة».",
+      "scenario": [
+        "The system selects opportunities that are active, published and within their submission window.",
+        "The system evaluates each opportunity against the organization's type, classification, governance score, region and governorate, and any direct or group targeting.",
+        "The system counts the organization's non-cancelled applications to each opportunity and compares them with the per-organization maximum.",
+        "The system lists available opportunities first with title, description, closing date, «قدّمت x من max» and the button «تقديم طلب».",
+        "The system groups unavailable opportunities under «فرص غير متاحة لك (n)» showing the eligibility reasons or «استنفدت عدد الطلبات المسموحة».",
+        "The partner selects «تقديم طلب» on an available opportunity to start an application (PTL-6)."
+      ],
+      "alternative_flows": [
+        "If no opportunity is available, the system shows «لا توجد فرص متاحة لك حالياً».",
+        "If an organization is named directly or through a targeted partner group, it is eligible regardless of other criteria."
+      ],
+      "business_requirements": [
+        "The system must show only opportunities that are active, published and within their opening and closing dates.",
+        "The system must evaluate eligibility for the represented organization and show each failed criterion in plain language.",
+        "The system must treat organizations named directly or through a targeted partner group as eligible, and exclude all others when an opportunity targets only named organizations or groups.",
+        "The system must enforce the per-organization application limit for each opportunity (default one) excluding cancelled applications.",
+        "The system must re-validate the submission window, eligibility and quota at the moment of submission, not only when listing (Recommended).",
+        "The system should consider organization status, license validity and bank verification as eligibility prerequisites (To be confirmed)."
+      ],
+      "errors": [],
+      "postconditions": "The partner knows which opportunities they can apply to and why others are unavailable.",
+      "fields": [
+        {
+          "en": "Opportunity title",
+          "ar": "عنوان الفرصة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Closing date",
+          "ar": "يغلق الاستقبال",
+          "type": "Date",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Applications used",
+          "ar": "قدّمت x من max",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Per-organization quota"
+        },
+        {
+          "en": "Ineligibility reasons",
+          "ar": "أسباب عدم الأهلية",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Shown for unavailable opportunities"
+        }
+      ],
+      "trace": [
+        "US-PTL-006",
+        "FR-PTL-012",
+        "FR-PTL-013",
+        "FR-PTL-014"
+      ]
+    },
+    {
+      "key": "PTL-5",
+      "name": "Respond to a private opportunity invitation",
+      "title": "As an invited Partner Organization, I want to open my invitation, activate my account if needed and go straight to applying, or decline, so that the grantor knows my intention.",
+      "description": "Grants Managers invite selected partners to private opportunities (typically requests for proposals). The invitation link shows the opportunity details; the partner can activate the organization account, proceed to the application, or decline. The invitation status is tracked for the grantor.",
+      "actors": [
+        "Partner Organization (Partner Delegate)",
+        "System",
+        "Grants Manager"
+      ],
+      "preconditions": [
+        "A Grants Manager has sent an invitation to the organization (see PRG)."
+      ],
+      "trigger": "The partner opens the invitation link.",
+      "scenario": [
+        "The system validates the invitation and shows «دعوة خاصة لـ <organization>».",
+        "The system shows the opportunity type, ceiling, deadline, implementation duration, description, scope of work and deliverables.",
+        "The system marks the invitation as opened on first view.",
+        "If the organization account is active, the partner selects «الانتقال للتقديم».",
+        "If the account is not yet active, the partner verifies identity, sets credentials and selects «تفعيل والانتقال للتقديم».",
+        "The system activates the account where needed and opens the application for that opportunity (PTL-6).",
+        "When the application is submitted, the system marks the invitation as applied."
+      ],
+      "alternative_flows": [
+        "If the partner selects «اعتذار», the system records the invitation as declined and thanks the partner.",
+        "If the invitation was already declined or applied, the system shows the recorded response."
+      ],
+      "business_requirements": [
+        "The system must show the invited opportunity's key terms on the invitation page without requiring prior sign-in.",
+        "The system must track each invitation as sent, opened, applied or declined, with the date of each response.",
+        "The system must activate an inactive organization account only after the representative's identity is verified and personal credentials are created (Recommended).",
+        "The system must open the application directly for the invited opportunity after activation and apply the same eligibility and quota checks as normal applications.",
+        "The system must allow the partner to decline an invitation and inform the grantor.",
+        "The method of account activation (national digital identity, password, one-time code) must be agreed (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Invalid invitation",
+          "description": "The link is unknown or expired; the system shows «رابط الدعوة غير صالح»."
+        }
+      ],
+      "postconditions": "The invitation is recorded as opened, applied or declined and, where applicable, the organization account is active.",
+      "fields": [
+        {
+          "en": "Opportunity ceiling",
+          "ar": "السقف",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Deadline",
+          "ar": "آخر موعد",
+          "type": "Date",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Implementation duration",
+          "ar": "مدة التنفيذ",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Days"
+        },
+        {
+          "en": "Representative name",
+          "ar": "الاسم",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Activation only"
+        },
+        {
+          "en": "National ID",
+          "ar": "رقم الهوية",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Activation only"
+        },
+        {
+          "en": "Official email",
+          "ar": "البريد الرسمي",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Activation only"
+        }
+      ],
+      "trace": [
+        "US-PTL-007",
+        "FR-PTL-015",
+        "FR-PTL-016"
+      ]
+    },
+    {
+      "key": "PTL-6",
+      "name": "Prepare and submit a grant application",
+      "title": "As a Partner Organization, I want to complete the opportunity's application form, attach the required documents and submit it so that the foundation can review my request.",
+      "description": "The application form adapts to the opportunity: a project grant (title, description, amount, duration, region, target groups), an in-kind product request (quantities within available stock) or an offer against a request for proposals (technical and financial offers). Opportunity-specific questions and document fields are added from the form library. The partner may use the AI Assistant to prefill the form from a free-text description or an attached proposal.",
+      "actors": [
+        "Partner Organization (Applicant)",
+        "AI Assistant",
+        "System"
+      ],
+      "preconditions": [
+        "The opportunity is open and the organization is eligible with remaining quota (PTL-4)."
+      ],
+      "trigger": "The partner selects «تقديم طلب» on an opportunity or arrives from an invitation.",
+      "scenario": [
+        "The system opens «طلب منحة — <opportunity>» with the form variant of the opportunity.",
+        "For an open-track opportunity, the partner selects the annual-plan initiative the request falls under.",
+        "Optionally, the partner opens «تعبئة بالذكاء الاصطناعي», describes the project or attaches a document, and the AI Assistant proposes field values and up to four follow-up questions.",
+        "The partner reviews the proposed values and completes the core data: project title, description, requested amount, duration, implementation region and target groups with beneficiary counts.",
+        "The partner answers the opportunity-specific questions in «البيانات الإضافية» and attaches the required documents.",
+        "The partner selects «إرسال الطلب».",
+        "The system validates mandatory fields, amounts, quantities, the submission window, eligibility and quota.",
+        "The system records the application as pending in the reception stage, freezes a snapshot of the organization and opportunity data, and assigns a reference number.",
+        "The system confirms «تم تقديم الطلب برقم <ref>» and lists the application under «طلباتي»."
+      ],
+      "alternative_flows": [
+        "Product request: the system lists the opportunity's products with unit, unit price and available quantity; the partner enters quantities and the system calculates line and total values; the requested amount equals the calculated total.",
+        "Request for proposals: the system shows scope, deliverables, ceiling, duration, weighted activities and payment schedule; the partner enters a technical offer and a financial offer not exceeding the ceiling.",
+        "If the AI Assistant finds insufficient information, it reports «لم أجد قيماً كافية» and the partner fills the form manually.",
+        "If the partner cancels, the dialog closes; the partner may save a draft and continue later (Recommended)."
+      ],
+      "business_requirements": [
+        "The system must present the application form defined for the opportunity, including its custom questions, in the configured order.",
+        "The system must require project title and requested amount for project grants, and every question marked mandatory, including mandatory document fields.",
+        "The system must require an annual-plan initiative for open-track opportunities and otherwise link the application to the opportunity's default initiative.",
+        "For product requests, the system must require at least one product with a quantity greater than zero and not exceeding the available stock, and must calculate the requested amount from quantities and unit prices.",
+        "For requests for proposals, the system must require a technical offer and a financial offer that does not exceed the opportunity ceiling, and must use the opportunity title and duration.",
+        "The system must re-check the submission window, eligibility, quota and stock when the application is submitted.",
+        "The system must save the application, its items, documents and history as one complete transaction and must fail the submission if a mandatory document is not stored.",
+        "The system must assign a unique reference number in the format REQ + year-month + sequence and confirm it to the partner.",
+        "The system must freeze a snapshot of the organization and opportunity data at submission for later review.",
+        "The system should collect documents per required-document slot, with file size and type limits and an advisory AI pre-check (Recommended).",
+        "The AI Assistant must only propose values that the partner reviews before submission; it must accept a description of up to 20,000 characters or one document up to 10 MB and ask at most four follow-up questions.",
+        "The system should allow saving a draft application and withdrawing a submitted application (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Missing mandatory data",
+          "description": "A mandatory field is empty; the system shows «أكمل الحقول الإلزامية» or «الحقل «…» إلزامي»."
+        },
+        {
+          "name": "Initiative not selected",
+          "description": "Open-track opportunity without an initiative; the system shows «اختر المبادرة التي يندرج تحتها الطلب»."
+        },
+        {
+          "name": "No product selected",
+          "description": "Product request without quantities; the system shows «اختر منتجاً واحداً على الأقل وحدد الكمية»."
+        },
+        {
+          "name": "Quantity exceeds stock",
+          "description": "A quantity exceeds availability; the system shows «الكمية المطلوبة من «…» تتجاوز المتاح»."
+        },
+        {
+          "name": "Incomplete offer",
+          "description": "Technical or financial offer missing; the system shows «أكمل العرض الفني والعرض المالي»."
+        },
+        {
+          "name": "Offer above ceiling",
+          "description": "Financial offer exceeds the ceiling; the system shows «العرض المالي يتجاوز السقف …»."
+        },
+        {
+          "name": "AI prefill failed",
+          "description": "The AI Assistant is unavailable or the file exceeds 10 MB; the system shows the reason and the partner continues manually."
+        }
+      ],
+      "postconditions": "A pending application with a reference number exists in the reception stage, linked to the organization, the opportunity and the initiative; any invitation for the opportunity is marked applied.",
+      "fields": [
+        {
+          "en": "Initiative",
+          "ar": "المبادرة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Open-track opportunities only"
+        },
+        {
+          "en": "Project title",
+          "ar": "عنوان المشروع",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Project grants"
+        },
+        {
+          "en": "Project description",
+          "ar": "وصف المشروع",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Requested amount",
+          "ar": "القيمة المطلوبة (ر.س)",
+          "type": "Amount (SAR)",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Calculated for product requests"
+        },
+        {
+          "en": "Project duration (days)",
+          "ar": "مدة المشروع (أيام)",
+          "type": "Number",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Implementation region",
+          "ar": "مكان التنفيذ",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Standard list of 13 regions"
+        },
+        {
+          "en": "Target group and beneficiaries",
+          "ar": "الفئات المستهدفة وعدد المستفيدين",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Repeatable rows: group and count"
+        },
+        {
+          "en": "Product quantity",
+          "ar": "الكمية",
+          "type": "Number",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Product requests; 0 to available stock"
+        },
+        {
+          "en": "Technical offer",
+          "ar": "العرض الفني",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "RFP offers: methodology, team, experience"
+        },
+        {
+          "en": "Financial offer",
+          "ar": "العرض المالي (ر.س)",
+          "type": "Amount (SAR)",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "RFP offers; not above ceiling"
+        },
+        {
+          "en": "Additional questions",
+          "ar": "البيانات الإضافية",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Defined per opportunity; may be mandatory"
+        },
+        {
+          "en": "Supporting documents",
+          "ar": "المرفقات",
+          "type": "File",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Mandatory when defined so by the opportunity"
+        },
+        {
+          "en": "Reference number",
+          "ar": "رقم الطلب",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Generated by the system"
+        }
+      ],
+      "trace": [
+        "US-PTL-008",
+        "US-PTL-009",
+        "US-PTL-010",
+        "US-PTL-011",
+        "US-PTL-012",
+        "US-PTL-013",
+        "FR-PTL-017",
+        "FR-PTL-018",
+        "FR-PTL-019",
+        "FR-PTL-020",
+        "FR-PTL-021",
+        "FR-PTL-022",
+        "FR-PTL-023",
+        "FR-PTL-024",
+        "FR-PTL-025",
+        "FR-PTL-026",
+        "FR-PTL-027",
+        "FR-PTL-028",
+        "FR-PTL-029",
+        "FR-PTL-030"
+      ]
+    },
+    {
+      "key": "PTL-7",
+      "name": "Track applications and respond to grantor requests",
+      "title": "As a Partner Organization, I want to see each application's stage, status, required action and expected reply date, and respond to edit requests and proposed changes, so that my application keeps moving.",
+      "description": "The portal lists the organization's applications with their stage and status, what the partner must do and when a reply is expected. When a Reviewer requests an edit, the partner updates and resubmits; when the Grants Manager proposes changes to the amount, duration or product quantities, the partner accepts or objects with a reason. No numeric change takes effect without the partner's consent.",
+      "actors": [
+        "Partner Organization (Applicant)",
+        "Reviewer",
+        "Grants Manager",
+        "System"
+      ],
+      "preconditions": [
+        "The organization has at least one submitted application."
+      ],
+      "trigger": "The partner opens «طلباتي», or the grantor requests an edit or proposes a change.",
+      "scenario": [
+        "The system lists each application with title, reference, opportunity, amount, stage label and status.",
+        "The system shows «المطلوب منك: …» when an action is required, otherwise the expected reply date based on the current stage service level.",
+        "When an edit is requested, the system shows «مطلوب تعديل: <reviewer note>».",
+        "The partner updates the flagged data or documents and selects «تم التعديل — إعادة الإرسال».",
+        "The system returns the application to the reception status of the same stage and logs the resubmission.",
+        "When changes are proposed, the system shows «اقترح مسؤول المنح تعديلاً على أرقام الطلب — بانتظار موافقتكم» with old and new amount, duration, product quantities and the staff note.",
+        "The partner selects «الموافقة على التعديل», or enters a reason and selects «اعتراض».",
+        "On acceptance the system applies the new values; on objection it keeps the original values; in both cases it clears the proposal and logs the response."
+      ],
+      "alternative_flows": [
+        "If the application is closed, cancelled or awaiting apology, the system shows the closing reason («السبب: …»).",
+        "If the expected reply date has passed, the system shows «قريباً».",
+        "If the partner objects, the system notifies the Grants Manager and creates a follow-up task (Recommended).",
+        "If the organization has no applications, the system shows «لم تقدّم أي طلب بعد»."
+      ],
+      "business_requirements": [
+        "The system must show for each application its reference, opportunity, amount, stage, status and the action required from the partner.",
+        "The system must show an expected reply date derived from the current stage's service level when no partner action is required.",
+        "Service-level dates shown to partners should be calculated in working days excluding official holidays (To be confirmed).",
+        "The system must show the closing reason for applications that are closed, cancelled or awaiting apology.",
+        "The system must show the Reviewer's edit-request note and allow the partner to change the flagged data and documents before resubmission (Recommended).",
+        "The system must return a resubmitted application to the reception status of the same stage and record the resubmission in the application history.",
+        "The system must apply grantor-proposed changes to amount, duration or product quantities only after the partner accepts them.",
+        "The system must require a reason when the partner objects to proposed changes and record both acceptance and objection in the application history.",
+        "The system should let the partner view the full detail, documents and history of each submitted application, excluding internal evaluation data (Recommended).",
+        "The response deadline for edit requests and the outcome after an objection must be defined (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Objection without reason",
+          "description": "The partner objects without a reason; the system shows «اكتب سبب الاعتراض»."
+        },
+        {
+          "name": "Resubmission failure",
+          "description": "The resubmission could not be saved; the system shows an error and keeps the application in «needs edit»."
+        }
+      ],
+      "postconditions": "The partner sees up-to-date status; resubmitted applications are back in review; accepted changes are applied and every response is logged.",
+      "fields": [
+        {
+          "en": "Reference number",
+          "ar": "رقم الطلب",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Stage",
+          "ar": "المرحلة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Reception, study, approval"
+        },
+        {
+          "en": "Status",
+          "ar": "الحالة",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Pending, approved, closed, cancelled, awaiting apology"
+        },
+        {
+          "en": "Required action",
+          "ar": "المطلوب منك",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Expected reply",
+          "ar": "الرد المتوقع",
+          "type": "Date",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Based on stage service level"
+        },
+        {
+          "en": "Reviewer note",
+          "ar": "ملاحظة المراجع",
+          "type": "Long text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Shown on edit request"
+        },
+        {
+          "en": "Proposed amount",
+          "ar": "القيمة المقترحة",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Old and new value"
+        },
+        {
+          "en": "Proposed duration",
+          "ar": "المدة (أيام)",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Old and new value"
+        },
+        {
+          "en": "Objection reason",
+          "ar": "ملاحظة (إلزامية عند الاعتراض)",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Mandatory only on objection"
+        }
+      ],
+      "trace": [
+        "US-PTL-014",
+        "US-PTL-015",
+        "US-PTL-016",
+        "FR-PTL-031",
+        "FR-PTL-032",
+        "FR-PTL-033",
+        "FR-PTL-034",
+        "FR-PTL-035",
+        "FR-PTL-036",
+        "FR-PTL-037"
+      ]
+    },
+    {
+      "key": "PTL-8",
+      "name": "Maintain the organization profile",
+      "title": "As the primary Partner Delegate, I want to keep our contact data, bank account and license data current so that the foundation can reach us and pay us correctly.",
+      "description": "The organization profile tab shows official, contact, bank and team data. The primary delegate edits contact data directly (with verification of new phone or email), updates the bank account and IBAN certificate (which returns the account to «قيد التحقق» until the grantor verifies it), and submits license renewals with the license document for automatic AI verification or grantor review.",
+      "actors": [
+        "Partner Delegate (primary)",
+        "AI Assistant",
+        "System",
+        "Grants Manager"
+      ],
+      "preconditions": [
+        "The user is the active primary delegate of the represented organization."
+      ],
+      "trigger": "The primary delegate opens «ملف الجهة».",
+      "scenario": [
+        "The system shows official data read-only, contact and location data, bank account with its verification status, and the team.",
+        "The delegate selects «تعديل» on contact data, changes phone, email, region, governorate or city, and verifies any new phone or email by one-time code.",
+        "The system saves contact data immediately and records the change in the organization log under the delegate's name.",
+        "The delegate selects «تحديث الحساب / شهادة الآيبان», enters bank and IBAN and uploads the IBAN certificate.",
+        "The system saves the bank data, sets the bank status to pending verification and records the change.",
+        "The delegate selects «تحديث الترخيص», enters the official name, license number and expiry date and uploads the license document.",
+        "The AI Assistant compares the document with the entered data on license number, name, validity and issuer.",
+        "On a full match the system applies the update; otherwise it routes the request to grantor review with a task (see BEN)."
+      ],
+      "alternative_flows": [
+        "If the match is below 100% or the document cannot be read, the system informs «نسبة المطابقة n% — أُحيل لموظف المانح للتدقيق».",
+        "If a previous license request exists, the system shows its date, status and the reviewer's note.",
+        "If the user is not the primary delegate, edit actions are hidden and data is read-only."
+      ],
+      "business_requirements": [
+        "The system must allow only the primary delegate to edit contact data, update the bank account, request license updates and manage the team (To be confirmed for other roles).",
+        "The system must show official data (name, license number, license expiry) as read-only and change it only through a license update request.",
+        "The system must require one-time-code verification of a changed phone number or email before saving contact data.",
+        "The system must save contact changes without grantor approval and log the before and after values with the editor's name.",
+        "The system must validate the IBAN as a Saudi IBAN (SA followed by 22 digits) and require bank name and IBAN.",
+        "Any change to bank name, IBAN or IBAN certificate must reset the bank status to pending verification and be logged.",
+        "The system must not schedule or release payments to a bank account pending verification (To be confirmed).",
+        "A license update must include the license document; the AI check must score license number, name, validity and issuer equally and auto-apply only on a 100% match.",
+        "License requests below 100% or that cannot be checked must be routed to a grantor reviewer with a two-day review task.",
+        "The system must process a license update request completely or retry it so that no request remains stuck in checking (Recommended)."
+      ],
+      "errors": [
+        {
+          "name": "Contact not verified",
+          "description": "Changed phone or email not verified; the system shows «وثّق الجوال والبريد برمز التحقق قبل الحفظ»."
+        },
+        {
+          "name": "Invalid IBAN",
+          "description": "IBAN does not match the Saudi format; the system blocks saving."
+        },
+        {
+          "name": "License document missing",
+          "description": "The system shows «أرفق وثيقة الترخيص»."
+        },
+        {
+          "name": "Document cannot be checked",
+          "description": "Unsupported or unreadable file; the request goes to manual review with a score of 0."
+        }
+      ],
+      "postconditions": "Contact changes are saved and logged; bank data awaits grantor verification; license updates are applied automatically or queued for grantor review.",
+      "fields": [
+        {
+          "en": "Mobile",
+          "ar": "الجوال",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "One-time code on change"
+        },
+        {
+          "en": "Email",
+          "ar": "البريد",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "One-time code on change"
+        },
+        {
+          "en": "Region",
+          "ar": "المنطقة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Standard list"
+        },
+        {
+          "en": "Governorate",
+          "ar": "المحافظة",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "City",
+          "ar": "المدينة",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Bank",
+          "ar": "البنك",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "IBAN",
+          "ar": "IBAN",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "SA + 22 digits"
+        },
+        {
+          "en": "IBAN certificate",
+          "ar": "شهادة الآيبان",
+          "type": "File",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "PDF or image"
+        },
+        {
+          "en": "Bank status",
+          "ar": "الحالة",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Pending, verified, rejected"
+        },
+        {
+          "en": "Official name as per license",
+          "ar": "اسم الجهة كما في الترخيص",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "License update"
+        },
+        {
+          "en": "License number",
+          "ar": "رقم الترخيص",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "License update"
+        },
+        {
+          "en": "License expiry",
+          "ar": "تاريخ الانتهاء",
+          "type": "Date",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "License update"
+        },
+        {
+          "en": "License document",
+          "ar": "وثيقة الترخيص",
+          "type": "File",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "PDF or image"
+        }
+      ],
+      "trace": [
+        "US-PTL-017",
+        "US-PTL-018",
+        "US-PTL-019",
+        "FR-PTL-038",
+        "FR-PTL-039",
+        "FR-PTL-040",
+        "FR-PTL-041",
+        "FR-PTL-042",
+        "FR-PTL-043",
+        "FR-PTL-044"
+      ]
+    },
+    {
+      "key": "PTL-9",
+      "name": "Participate in project execution and confirm payment receipt",
+      "title": "As a Partner Organization with an awarded project, I want to submit completed tasks with evidence, submit phase reports and confirm receipt of payments so that milestones are approved and payments are closed.",
+      "description": "Once an application is approved and turned into a project, the partner follows it from «مشاريعي»: contract, progress, finance breakdown and indicators are read-only. The partner marks tasks as completed with the required evidence, submits phase reports, and for transferred payments uploads the receipt voucher and confirms receipt.",
+      "actors": [
+        "Partner Organization (Partner Delegate)",
+        "Project Manager",
+        "Finance Officer",
+        "System"
+      ],
+      "preconditions": [
+        "The organization has an awarded project in execution."
+      ],
+      "trigger": "The partner opens a project from «مشاريعي» or a payment is transferred.",
+      "scenario": [
+        "The system lists the organization's projects with reference, status and progress.",
+        "The partner opens a project and views the contract («عرض العقد», «طباعة / PDF»), progress, finance breakdown and indicators.",
+        "For an unlocked task, the partner uploads evidence in each required slot («الشواهد المطلوبة»).",
+        "The partner selects «إكمال المهمة ورفعها لاعتماد المانح»; the system sends the task for grantor approval.",
+        "For an unlocked phase, the partner writes the achievement summary and selects «رفع تقرير المرحلة».",
+        "When a payment is awaiting receipt, the partner views the bank transfer notice and uploads the receipt voucher («سند القبض»).",
+        "The partner optionally enters the voucher number and selects «تأكيد الاستلام وإغلاق الدفعة».",
+        "The system closes the payment as paid and records the receipt date."
+      ],
+      "alternative_flows": [
+        "If the grantor returns a task or report, the system shows «ملاحظات المانح: …» and the partner revises and resubmits («تعديل التقرير وإعادة رفعه»).",
+        "If the AI pre-check flags an uploaded file, the system warns the partner but does not block submission."
+      ],
+      "business_requirements": [
+        "The system must show project contract, finance, allocations, co-funding and indicators to the partner as read-only.",
+        "The system must allow task completion and evidence upload only when the task is unlocked, its dependencies are approved and it is not yet approved.",
+        "The system must accept evidence per required-document slot with files up to 10 MB each and an advisory AI check that never blocks submission.",
+        "The system must allow a phase report to be submitted when the phase is unlocked and no report exists or the report was returned.",
+        "The system must allow receipt confirmation only for payments awaiting receipt and only after a receipt voucher is uploaded.",
+        "The system must close the payment as paid on receipt confirmation and record the voucher number and receipt date.",
+        "Which partner roles (primary delegate, project manager, finance officer) may submit evidence, reports and receipts must be defined (To be confirmed).",
+        "The system must not give partners access to grantor-only screens or internal evaluation data (Recommended)."
+      ],
+      "errors": [
+        {
+          "name": "Receipt voucher missing",
+          "description": "The partner confirms receipt without uploading the voucher; the system blocks the confirmation."
+        }
+      ],
+      "postconditions": "Tasks and reports await grantor approval; confirmed payments are closed as paid.",
+      "fields": [
+        {
+          "en": "Evidence files",
+          "ar": "الشواهد المطلوبة",
+          "type": "File",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Per required slot; up to 10 MB each"
+        },
+        {
+          "en": "Phase achievement summary",
+          "ar": "ملخص الإنجاز في هذه المرحلة",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Bank transfer notice",
+          "ar": "إشعار الحوالة البنكية",
+          "type": "File",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Uploaded by Finance Officer"
+        },
+        {
+          "en": "Receipt voucher",
+          "ar": "سند القبض",
+          "type": "File",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Only while awaiting receipt"
+        },
+        {
+          "en": "Receipt voucher number",
+          "ar": "رقم سند القبض",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        }
+      ],
+      "trace": [
+        "US-PTL-020",
+        "US-PTL-021",
+        "US-PTL-022",
+        "FR-PTL-045",
+        "FR-PTL-046",
+        "FR-PTL-047",
+        "FR-PTL-048",
+        "FR-PTL-049",
+        "FR-PTL-050"
+      ]
+    },
+    {
+      "key": "PTL-10",
+      "name": "Receive an external AI evaluation report for an application",
+      "title": "As the External AI Evaluation Agent, I want to post my evaluation of an application so that grants staff can use it during review.",
+      "description": "The foundation operates its own AI grant-evaluation agent. The agent sends its result for an application (overall score, colour band, label, summary, full report, recommendation and per-criterion scores) to the system, which stores it on the application for display to grants staff only.",
+      "actors": [
+        "External AI Evaluation Agent",
+        "System",
+        "Reviewer",
+        "Grants Manager"
+      ],
+      "preconditions": [
+        "The agent holds valid credentials issued by the foundation.",
+        "The application exists."
+      ],
+      "trigger": "The agent completes an evaluation and sends the report.",
+      "scenario": [
+        "The agent sends the report identifying the application by its identifier or reference number.",
+        "The system authenticates the agent.",
+        "The system validates the report content (score 0-100, criterion scores 0-10, length limits).",
+        "The system finds the application within the agent's organization.",
+        "The system stores the evaluation on the application with the time received.",
+        "The system records the receipt in the application history (Recommended).",
+        "The system confirms acceptance to the agent.",
+        "Reviewers and Grants Managers see the evaluation during review (see REV); partners do not see it."
+      ],
+      "alternative_flows": [
+        "If a new report arrives for the same application, the system keeps the previous reports as history and shows the latest (Recommended)."
+      ],
+      "business_requirements": [
+        "The system must accept evaluation reports only from an authenticated agent using credentials issued by the foundation.",
+        "The system must restrict an agent to applications of the foundation that issued its credentials (Recommended).",
+        "The system must identify the application by its identifier or reference number and reject reports for unknown applications.",
+        "The system must validate the overall score (0-100), criterion scores (0-10, up to 50 criteria) and text length limits.",
+        "The system must take the colour band and label from the agent, since thresholds vary by organization and track.",
+        "The system must keep a history of received reports and log each receipt in the application history (Recommended).",
+        "The system must show evaluation results to grants staff only, never to partners.",
+        "Whether the system should push applications to the agent automatically, and at which stage, must be decided (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Unauthorized agent",
+          "description": "Missing or invalid credentials; the system rejects the report."
+        },
+        {
+          "name": "Invalid report",
+          "description": "Content fails validation; the system rejects it with the list of problems."
+        },
+        {
+          "name": "Application not found",
+          "description": "No matching application; the system rejects the report."
+        },
+        {
+          "name": "Service not configured",
+          "description": "Agent integration is not set up; the system reports the service as unavailable."
+        }
+      ],
+      "postconditions": "The application holds the latest external AI evaluation, visible to grants staff.",
+      "fields": [
+        {
+          "en": "Application reference",
+          "ar": "رقم الطلب",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Identifier or reference number"
+        },
+        {
+          "en": "Overall score",
+          "ar": "الدرجة",
+          "type": "Percentage",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "0-100"
+        },
+        {
+          "en": "Colour band",
+          "ar": "اللون",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Set by the agent"
+        },
+        {
+          "en": "Label",
+          "ar": "التصنيف",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Up to 80 characters"
+        },
+        {
+          "en": "Summary",
+          "ar": "الملخص",
+          "type": "Long text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Up to 2,000 characters"
+        },
+        {
+          "en": "Full report",
+          "ar": "التقرير",
+          "type": "Long text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Up to 100,000 characters"
+        },
+        {
+          "en": "Recommendation",
+          "ar": "التوصية",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Up to 200 characters"
+        },
+        {
+          "en": "Criterion scores",
+          "ar": "درجات المعايير",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Up to 50; each 0-10 with a note"
+        }
+      ],
+      "trace": [
+        "US-PTL-023",
+        "FR-PTL-051",
+        "FR-PTL-052",
+        "FR-PTL-053",
+        "FR-PTL-054"
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "type": "Error",
+      "en": "Verify first: <fields>",
+      "ar": "تحقق أولاً من: …",
+      "use_case": "PTL-1"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Request sent for review — the platform administration reviews the confirmed and entered fields; the organization is activated after approval.",
+      "ar": "أُرسل الطلب للتدقيق — تدقق إدارة المنصة الحقول المؤكدة والمدخلة، وتُفعَّل الجهة بعد اعتمادها.",
+      "use_case": "PTL-1"
+    },
+    {
+      "type": "Information",
+      "en": "We retrieved the data from the official registry.",
+      "ar": "جلبنا البيانات من السجل الرسمي…",
+      "use_case": "PTL-1"
+    },
+    {
+      "type": "Information",
+      "en": "Identifier not found in the registry — enter the data manually.",
+      "ar": "لم نجد الرقم في السجل — أدخل البيانات يدوياً",
+      "use_case": "PTL-1"
+    },
+    {
+      "type": "Warning",
+      "en": "A registration request for this license is under review — submitted by <masked name>, mobile ending <digits>.",
+      "ar": "يوجد طلب تسجيل لهذا الترخيص قيد التدقيق — قدمه <الاسم> وجواله ينتهي بـ <الأرقام>",
+      "use_case": "PTL-1"
+    },
+    {
+      "type": "Information",
+      "en": "«<name>» is already registered — to join the team, verify through the current delegate or request a change.",
+      "ar": "«<الاسم>» مسجلة مسبقاً — للانضمام لفريق الجهة، تحقق عبر المفوض الحالي أو اطلب تغييره",
+      "use_case": "PTL-2"
+    },
+    {
+      "type": "Error",
+      "en": "Incorrect code — check and try again.",
+      "ar": "الرمز غير صحيح — تأكد وأعد المحاولة",
+      "use_case": "PTL-2"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Your relation to the organization is verified — sign in and the delegate will add you to the team.",
+      "ar": "تم التحقق من صلتك بالجهة — سجّل دخولك وسيضيفك المفوض لفريق الجهة",
+      "use_case": "PTL-2"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Delegate change request sent — the platform administration will review it and contact you after approval.",
+      "ar": "أُرسل طلب تغيير المفوض — تدقق إدارة المنصة الطلب وتتواصل معك بعد الاعتماد.",
+      "use_case": "PTL-2"
+    },
+    {
+      "type": "Warning",
+      "en": "This portal is for applicants.",
+      "ar": "هذه البوابة للمتقدمين",
+      "use_case": "PTL-3"
+    },
+    {
+      "type": "Information",
+      "en": "No opportunities are currently available to you.",
+      "ar": "لا توجد فرص متاحة لك حالياً",
+      "use_case": "PTL-4"
+    },
+    {
+      "type": "Warning",
+      "en": "You have used the allowed number of applications.",
+      "ar": "استنفدت عدد الطلبات المسموحة",
+      "use_case": "PTL-4"
+    },
+    {
+      "type": "Error",
+      "en": "Invalid invitation link.",
+      "ar": "رابط الدعوة غير صالح",
+      "use_case": "PTL-5"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Organization account activated.",
+      "ar": "تم تفعيل حساب الجهة",
+      "use_case": "PTL-5"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Your apology has been recorded, thank you.",
+      "ar": "تم تسجيل الاعتذار، شكراً لكم",
+      "use_case": "PTL-5"
+    },
+    {
+      "type": "Error",
+      "en": "Complete the mandatory fields.",
+      "ar": "أكمل الحقول الإلزامية",
+      "use_case": "PTL-6"
+    },
+    {
+      "type": "Error",
+      "en": "The field «<label>» is mandatory.",
+      "ar": "الحقل «…» إلزامي",
+      "use_case": "PTL-6"
+    },
+    {
+      "type": "Error",
+      "en": "Select the initiative this application falls under.",
+      "ar": "اختر المبادرة التي يندرج تحتها الطلب",
+      "use_case": "PTL-6"
+    },
+    {
+      "type": "Error",
+      "en": "Select at least one product and specify the quantity.",
+      "ar": "اختر منتجاً واحداً على الأقل وحدد الكمية",
+      "use_case": "PTL-6"
+    },
+    {
+      "type": "Error",
+      "en": "Requested quantity of «<product>» exceeds the available stock.",
+      "ar": "الكمية المطلوبة من «…» تتجاوز المتاح",
+      "use_case": "PTL-6"
+    },
+    {
+      "type": "Error",
+      "en": "Complete the technical and financial offers.",
+      "ar": "أكمل العرض الفني والعرض المالي",
+      "use_case": "PTL-6"
+    },
+    {
+      "type": "Error",
+      "en": "The financial offer exceeds the ceiling <amount>.",
+      "ar": "العرض المالي يتجاوز السقف …",
+      "use_case": "PTL-6"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Application submitted with reference <ref>.",
+      "ar": "تم تقديم الطلب برقم <ref>",
+      "use_case": "PTL-6"
+    },
+    {
+      "type": "Information",
+      "en": "Values are suggestions only — review them before saving.",
+      "ar": "القيم مقترحة فقط — راجعها قبل الحفظ.",
+      "use_case": "PTL-6"
+    },
+    {
+      "type": "Confirmation",
+      "en": "<n> fields filled — review them before saving.",
+      "ar": "عُبّئ n حقل — راجعها قبل الحفظ",
+      "use_case": "PTL-6"
+    },
+    {
+      "type": "Warning",
+      "en": "Not enough values found.",
+      "ar": "لم أجد قيماً كافية",
+      "use_case": "PTL-6"
+    },
+    {
+      "type": "Error",
+      "en": "Write a description or attach a document.",
+      "ar": "اكتب وصفاً أو أرفق مستنداً",
+      "use_case": "PTL-6"
+    },
+    {
+      "type": "Error",
+      "en": "File size exceeds 10 MB.",
+      "ar": "حجم الملف يتجاوز 10 ميجابايت",
+      "use_case": "PTL-6"
+    },
+    {
+      "type": "Error",
+      "en": "Prefill failed.",
+      "ar": "تعذرت التعبئة",
+      "use_case": "PTL-6"
+    },
+    {
+      "type": "Error",
+      "en": "Answer at least one question.",
+      "ar": "أجب على سؤال واحد على الأقل",
+      "use_case": "PTL-6"
+    },
+    {
+      "type": "Information",
+      "en": "Edit required: <reviewer note>",
+      "ar": "مطلوب تعديل: …",
+      "use_case": "PTL-7"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Application resubmitted.",
+      "ar": "تمت إعادة الإرسال",
+      "use_case": "PTL-7"
+    },
+    {
+      "type": "Notification",
+      "en": "The grants officer proposed a change to the application figures — awaiting your approval.",
+      "ar": "اقترح مسؤول المنح تعديلاً على أرقام الطلب — بانتظار موافقتكم",
+      "use_case": "PTL-7"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Change accepted.",
+      "ar": "تمت الموافقة على التعديل",
+      "use_case": "PTL-7"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Objection sent.",
+      "ar": "تم إرسال الاعتراض",
+      "use_case": "PTL-7"
+    },
+    {
+      "type": "Error",
+      "en": "Write the reason for the objection.",
+      "ar": "اكتب سبب الاعتراض",
+      "use_case": "PTL-7"
+    },
+    {
+      "type": "Information",
+      "en": "You have not submitted any application yet.",
+      "ar": "لم تقدّم أي طلب بعد",
+      "use_case": "PTL-7"
+    },
+    {
+      "type": "Notification",
+      "en": "Your application status has changed / action is required (Recommended).",
+      "ar": "تم تحديث حالة طلبكم / مطلوب إجراء منكم",
+      "use_case": "PTL-7"
+    },
+    {
+      "type": "Error",
+      "en": "Verify the mobile and email with the verification code before saving.",
+      "ar": "وثّق الجوال والبريد برمز التحقق قبل الحفظ",
+      "use_case": "PTL-8"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Contact data saved.",
+      "ar": "حُفظت بيانات التواصل",
+      "use_case": "PTL-8"
+    },
+    {
+      "type": "Information",
+      "en": "Saved directly without approval; the change is recorded in the organization log under your name.",
+      "ar": "تُحفظ مباشرة دون موافقة، ويُسجَّل التغيير في سجل الجهة باسمك.",
+      "use_case": "PTL-8"
+    },
+    {
+      "type": "Warning",
+      "en": "Any change returns the account status to «under verification» until the grantor verifies it.",
+      "ar": "أي تغيير يعيد حالة الحساب إلى «قيد التحقق» حتى يوثقه المانح.",
+      "use_case": "PTL-8"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Saved — awaiting grantor verification.",
+      "ar": "حُفظ — بانتظار توثيق المانح",
+      "use_case": "PTL-8"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Document matched 100% — update approved immediately.",
+      "ar": "طابق المستند 100% — اعتُمد التحديث مباشرة",
+      "use_case": "PTL-8"
+    },
+    {
+      "type": "Information",
+      "en": "Match rate <n>% — referred to grantor staff for review.",
+      "ar": "نسبة المطابقة n% — أُحيل لموظف المانح للتدقيق",
+      "use_case": "PTL-8"
+    },
+    {
+      "type": "Error",
+      "en": "Attach the license document.",
+      "ar": "أرفق وثيقة الترخيص",
+      "use_case": "PTL-8"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Task submitted for grantor approval.",
+      "ar": "رُفعت المهمة لاعتماد المانح",
+      "use_case": "PTL-9"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Report submitted for grantor approval.",
+      "ar": "رُفع التقرير لاعتماد المانح",
+      "use_case": "PTL-9"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Payment closed.",
+      "ar": "أُغلقت الدفعة",
+      "use_case": "PTL-9"
+    },
+    {
+      "type": "Error",
+      "en": "Evaluation report rejected — application not found (Recommended).",
+      "ar": "الطلب غير موجود",
+      "use_case": "PTL-10"
+    }
+  ],
+  "business_rules": [
+    {
+      "rule": "Only applicant types enabled for the portal and not closed by the foundation may self-register; government entities are registered internally.",
+      "use_case": "PTL-1"
+    },
+    {
+      "rule": "A partner organization is created only when the System Administrator accepts every field of its registration request; any rejected field returns the request.",
+      "use_case": "PTL-1"
+    },
+    {
+      "rule": "Every registration field keeps its source: from the registry, edited from the registry, or entered manually.",
+      "use_case": "PTL-1"
+    },
+    {
+      "rule": "Every entered mobile number and email address must be verified by one-time code before submission; changing the value cancels the verification.",
+      "use_case": "PTL-1"
+    },
+    {
+      "rule": "Only one pending registration request may exist per identifier; identities of existing delegates and requesters are shown masked.",
+      "use_case": "PTL-1"
+    },
+    {
+      "rule": "A delegate change on a registered organization is a separate request type that, when approved, changes the delegate and never creates a new organization.",
+      "use_case": "PTL-2"
+    },
+    {
+      "rule": "Every application is recorded under both the submitting person and the represented organization.",
+      "use_case": "PTL-3"
+    },
+    {
+      "rule": "An opportunity is open only when active, published and within its opening and closing dates.",
+      "use_case": "PTL-4"
+    },
+    {
+      "rule": "Organizations named directly or through a targeted partner group are always eligible; when an opportunity targets only named organizations or groups, all others are ineligible; otherwise all configured criteria must match.",
+      "use_case": "PTL-4"
+    },
+    {
+      "rule": "Each organization may submit no more than the opportunity's maximum number of applications (default one), excluding cancelled applications.",
+      "use_case": "PTL-4"
+    },
+    {
+      "rule": "Submitting an application marks the organization's invitation to that opportunity as applied; viewing marks it opened; declining marks it declined.",
+      "use_case": "PTL-5"
+    },
+    {
+      "rule": "Open-track opportunities require the applicant to choose an annual-plan initiative.",
+      "use_case": "PTL-6"
+    },
+    {
+      "rule": "Product requests must not exceed available stock and their requested amount equals quantity multiplied by unit price.",
+      "use_case": "PTL-6"
+    },
+    {
+      "rule": "RFP financial offers must not exceed the opportunity ceiling.",
+      "use_case": "PTL-6"
+    },
+    {
+      "rule": "A new application starts as pending in the reception stage with a reference number REQ + year-month + 5-digit sequence and a frozen snapshot of submitted data.",
+      "use_case": "PTL-6"
+    },
+    {
+      "rule": "The expected reply date equals the date the application entered its current stage plus the stage service level.",
+      "use_case": "PTL-7"
+    },
+    {
+      "rule": "Grantor-proposed changes to amount, duration or product quantities take effect only after partner acceptance; an objection requires a reason.",
+      "use_case": "PTL-7"
+    },
+    {
+      "rule": "The closing reason is always shown to the partner for applications that are not pending or approved.",
+      "use_case": "PTL-7"
+    },
+    {
+      "rule": "Official data (name, license number, expiry) changes only through a license update request; contact data is changed directly by the primary delegate and logged.",
+      "use_case": "PTL-8"
+    },
+    {
+      "rule": "Any change to bank name, IBAN or IBAN certificate returns the bank account to pending verification.",
+      "use_case": "PTL-8"
+    },
+    {
+      "rule": "A license update is applied automatically only on a 100% AI match; otherwise it is reviewed by grantor staff within two days.",
+      "use_case": "PTL-8"
+    },
+    {
+      "rule": "Partners may complete tasks and upload evidence only for unlocked tasks whose dependencies are approved.",
+      "use_case": "PTL-9"
+    },
+    {
+      "rule": "Payment receipt can be confirmed only for payments awaiting receipt and only with an uploaded receipt voucher.",
+      "use_case": "PTL-9"
+    },
+    {
+      "rule": "AI checks on uploaded files are advisory and never block a submission.",
+      "use_case": "PTL-9"
+    },
+    {
+      "rule": "External AI evaluation results are visible to grants staff only.",
+      "use_case": "PTL-10"
+    }
+  ],
+  "kpis": [],
+  "gaps": [
+    {
+      "area": "Partner identity and access",
+      "gap": "Partner users are not individually authenticated and all partner restrictions are enforced only on screen; the portal loads other partners' applications and internal evaluation data.",
+      "impact": "Confidential applications and evaluations could be exposed between partners; actions cannot be reliably attributed.",
+      "recommendation": "Introduce individual partner sign-in (national digital identity or verified one-time code), and restrict every query and action to the represented organization on the server.",
+      "priority": "High"
+    },
+    {
+      "area": "Application submission",
+      "gap": "Submission window, eligibility, quota and stock are checked only on screen; the submission is saved in several separate steps and failed document uploads are silently skipped.",
+      "impact": "Ineligible or over-quota applications and incomplete applications missing mandatory documents may be accepted.",
+      "recommendation": "Validate all rules at submission on the server and save the application, items and documents as one transaction.",
+      "priority": "High"
+    },
+    {
+      "area": "Edit requests",
+      "gap": "When an edit is requested, the partner can only click resubmit; they cannot change the application data or documents.",
+      "impact": "Reviewer edit requests cannot be fulfilled through the system, causing offline exchanges.",
+      "recommendation": "Provide an edit form limited to flagged fields and document replacement before resubmission.",
+      "priority": "High"
+    },
+    {
+      "area": "Delegate change",
+      "gap": "Delegate-change requests are processed like new registrations and would create a duplicate organization instead of changing the delegate.",
+      "impact": "Duplicate partner records and an unchanged, possibly unauthorized delegate.",
+      "recommendation": "Treat delegate change as a distinct request type with its own approval path (see BEN).",
+      "priority": "High"
+    },
+    {
+      "area": "One-time codes",
+      "gap": "Verification codes are generated and displayed on screen with no delivery, expiry or retry limits.",
+      "impact": "Mobile and email verification provides no real assurance.",
+      "recommendation": "Use an SMS/email gateway with expiry, throttling and audit.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Joining an organization",
+      "gap": "A successful delegate verification is not recorded and no join request is created.",
+      "impact": "Team members cannot be added through a controlled request; the step relies on manual follow-up.",
+      "recommendation": "Create a join request for the primary delegate to approve.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Official registry",
+      "gap": "The official registry is simulated with two sample licenses.",
+      "impact": "Registration data is not validated against authoritative sources.",
+      "recommendation": "Integrate the relevant registries per applicant type.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Application lifecycle",
+      "gap": "No draft saving, no application detail/history view for partners and no withdrawal.",
+      "impact": "Partners lose work on long forms and cannot see what they submitted.",
+      "recommendation": "Add drafts, a partner application detail page and withdrawal.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Eligibility",
+      "gap": "Eligibility ignores organization status, license expiry and bank verification; partners without an organization pass all checks; region values are inconsistent with free-text registration.",
+      "impact": "Blocked or expired organizations can apply; region-targeted opportunities may wrongly exclude partners.",
+      "recommendation": "Add status, license and bank prerequisites if confirmed, require an organization to apply, and use controlled region lists.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Partner notifications",
+      "gap": "There are no partner notifications for registration decisions, edit requests, proposed changes, objections handling or payment transfers.",
+      "impact": "Partners must check the portal repeatedly; delays in responses.",
+      "recommendation": "Add email/SMS and in-portal notifications for each partner-facing event; notify staff on partner objection.",
+      "priority": "Medium"
+    },
+    {
+      "area": "AI services",
+      "gap": "The AI prefill service is reachable without sign-in and applicant documents are sent to an external AI provider; license checks can remain stuck if the AI call fails.",
+      "impact": "Misuse and cost exposure; data-protection risk; unresolved license requests.",
+      "recommendation": "Require sign-in and rate limits, confirm data-residency compliance, and process license checks reliably with retry.",
+      "priority": "Medium"
+    },
+    {
+      "area": "External AI evaluation intake",
+      "gap": "Agent reports are not tied to the foundation, overwrite previous results and leave no history.",
+      "impact": "Cross-organization risk and no audit trail of evaluations.",
+      "recommendation": "Bind agent credentials to the foundation, keep report history and log receipt.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Invitation activation",
+      "gap": "Account activation from an invitation is prefilled with sample data and does not create real credentials.",
+      "impact": "Invited partners cannot securely activate accounts.",
+      "recommendation": "Implement real activation with identity verification.",
+      "priority": "Low"
+    },
+    {
+      "area": "Expected reply date",
+      "gap": "Uses calendar days and a default of three days when no service level is defined.",
+      "impact": "Partners may receive inaccurate expectations.",
+      "recommendation": "Use working-day calendars and require stage service levels.",
+      "priority": "Low"
+    }
+  ],
+  "open_questions": [
+    "Which official registries must be integrated per applicant type, and which registry fields may the registrant override?",
+    "How is a registrant notified of approval or return, and how are sign-in credentials created after approval?",
+    "After a successful delegate verification, should a join request be created automatically? What proof is required for a delegate change?",
+    "Which channels, code length, expiry and retry limits apply to one-time codes?",
+    "Should organization status, license validity and a verified bank account be prerequisites to apply?",
+    "How should account activation from an invitation work (national digital identity, password)?",
+    "Are draft applications required, and may partners withdraw a submitted application?",
+    "Should partners see the full detail and history of their applications, and which internal fields must be hidden?",
+    "Are product quantities reserved at submission or deducted only at final approval?",
+    "Which documents are mandatory per opportunity and applicant type, with what formats and size limits?",
+    "Is sending applicant documents to an external AI provider acceptable under the foundation's data-protection and residency policy?",
+    "Should expected reply dates be shown to partners and calculated in working days?",
+    "During an edit request, which fields and documents may the partner change, and is there a response deadline?",
+    "What happens after a partner objects to proposed changes (negotiation, staff decision, closure)?",
+    "Can payments be scheduled while the bank account is pending verification after a partner change?",
+    "Is automatic approval of license updates at a 100% AI match acceptable to compliance, and who reviews the rest?",
+    "Which partner roles may upload evidence, submit reports and confirm payment receipts?",
+    "When should applications be sent to the external AI evaluation agent, and should multiple agent reports be retained?"
+  ]
+}

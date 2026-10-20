@@ -1,0 +1,1347 @@
+{
+  "module": "CFG",
+  "title": "Administration & Configuration",
+  "summary": "This capability area lets the foundation set up and govern how Manih works for it: who the staff are and what each role may do, how the organization is structured into departments, which application forms, communication templates and reference lists are used, which applicant types may self-register, and which endowments fund the annual plan. At platform level, the System Administrator onboards and suspends grantor organizations. Sensitive configuration changes are made in controlled edit sessions that require a supporting document and leave a permanent change history, giving the foundation accountable, auditable control over its grant operations.",
+  "process": {
+    "title": "Setting up and governing a grantor organization",
+    "mermaid": "flowchart LR\n  A[\"Platform admin creates organization\"] --> B[\"Define roles and permissions\"]\n  B --> C[\"Create departments\"]\n  C --> D[\"Add staff and assign roles\"]\n  D --> E[\"Register endowments\"]\n  E --> F[\"Build application forms\"]\n  F --> G[\"Maintain templates and reference lists\"]\n  G --> H[\"Open or close applicant types\"]\n  H --> I[\"Organization ready for grant cycle\"]\n  I --> J[\"Change configuration with supporting document\"]\n  J --> K[\"Change history and audit log\"]\n  A --> L[\"Suspend or reactivate organization\"]"
+  },
+  "use_cases": [
+    {
+      "key": "CFG-1",
+      "name": "Manage the organization's team members",
+      "title": "As a Grants Manager, I want to add employees, assign their role and department, and remove leavers so that the right people can work on grants with the right authority.",
+      "description": "The Team tab (فريق العمل) lists the organization's staff with their email, role and department. The Grants Manager adds new employees, changes their role or department when responsibilities change, and removes people who leave. The assigned role determines what each person can see and do throughout the system.",
+      "actors": [
+        "Grants Manager",
+        "System"
+      ],
+      "preconditions": [
+        "The Grants Manager is signed in and authorised to manage the team.",
+        "Roles and departments are defined (CFG-2, CFG-3)."
+      ],
+      "trigger": "The Grants Manager opens Settings > Team (الإعدادات ← فريق العمل).",
+      "scenario": [
+        "The system lists the organization's staff (excluding partner users and platform administrators) with name, email, role and department.",
+        "The Grants Manager selects Add employee (إضافة موظف).",
+        "The Grants Manager enters the name and email, selects the role and, optionally, the department; the AI helper may propose name and email from pasted text for the manager to confirm.",
+        "The system validates the data, creates the employee and their membership in the organization, and confirms «تمت إضافة الموظف».",
+        "To change responsibilities, the Grants Manager edits a team member's role or department; the system saves the change and confirms it.",
+        "To remove a leaver, the Grants Manager selects remove from team (إزالة من الفريق) and confirms; the system deactivates the membership.",
+        "The system records each addition, role change and removal in the audit trail."
+      ],
+      "alternative_flows": [
+        "If the name is missing, then the system shows «الاسم مطلوب» and does not save.",
+        "If the Grants Manager attempts to remove their own membership, then the system does not allow it.",
+        "If the removed employee has open tasks or assignments, then the system asks the Grants Manager to reassign them first (To be confirmed)."
+      ],
+      "business_requirements": [
+        "The system must list only staff of the user's own organization with name, email, role, department and active status.",
+        "The system must require a name (up to 100 characters) and validate the email format when adding an employee.",
+        "The system must ensure a person has one authoritative role per organization, used consistently for menus, home page, tasks, permissions and reports.",
+        "The system must apply a role change immediately to what the employee can see and do.",
+        "The system must not allow a user to remove themselves from the team.",
+        "The system must ask for confirmation before removing a team member.",
+        "The system must deactivate (not delete) a removed member, keeping their history and past actions intact.",
+        "The system must handle the removed member's open tasks and assignments according to a defined reassignment policy (To be confirmed).",
+        "The system must record additions, role changes, department changes and removals in the audit trail with the acting user and time (To be confirmed).",
+        "The system must create the employee and their membership together so that partial records are never left behind."
+      ],
+      "errors": [
+        {
+          "name": "Name missing",
+          "description": "The employee name is empty. The system shows «الاسم مطلوب» and keeps the dialog open."
+        },
+        {
+          "name": "Employee not added",
+          "description": "The employee cannot be saved. The system shows «تعذّر إضافة الموظف» and nothing is created."
+        }
+      ],
+      "postconditions": "The team list reflects current staff, roles and departments; each person's access matches their assigned role and changes are audited.",
+      "fields": [
+        {
+          "en": "Name",
+          "ar": "الاسم",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Up to 100 characters"
+        },
+        {
+          "en": "Email",
+          "ar": "البريد",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Valid email, up to 255 characters; mandatory once individual sign-in is used (To be confirmed)"
+        },
+        {
+          "en": "Role",
+          "ar": "الدور",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "System roles and the organization's custom roles; default Reviewer"
+        },
+        {
+          "en": "Department",
+          "ar": "الإدارة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Organization's departments, or «بدون إدارة»"
+        }
+      ],
+      "trace": [
+        "US-CFG-001",
+        "US-CFG-002",
+        "US-CFG-003",
+        "FR-CFG-001",
+        "FR-CFG-002",
+        "FR-CFG-003",
+        "FR-CFG-004",
+        "FT-CFG-01"
+      ]
+    },
+    {
+      "key": "CFG-2",
+      "name": "Define roles and permissions",
+      "title": "As a Grants Manager, I want to view the permissions of each role and create custom roles with tailored permissions so that access matches our organization's positions and is actually enforced.",
+      "description": "The Roles & Permissions tab (الأدوار والصلاحيات) shows a permission matrix of 13 permissions in four groups (applications and review, finance and payments, projects and evidence, settings and customisation) with view, write and delete levels. Built-in system roles are read-only; the Grants Manager can create custom roles, optionally starting from a system role, adjust their permissions, delete unused roles, and review a history of every change.",
+      "actors": [
+        "Grants Manager",
+        "System"
+      ],
+      "preconditions": [
+        "The Grants Manager is signed in and authorised to manage roles."
+      ],
+      "trigger": "The Grants Manager opens Settings > Roles & Permissions.",
+      "scenario": [
+        "The Grants Manager selects a role; the system shows its permission matrix, marking system roles as «نظامي — للقراءة فقط».",
+        "The Grants Manager selects New role (دور جديد), enters the role name and optionally chooses a system role to copy permissions from.",
+        "The system creates the role, records the creation in the role history and confirms «تم إنشاء الدور».",
+        "The Grants Manager selects edit on a custom role and grants or removes view, write or delete per permission, per group or for all permissions.",
+        "The Grants Manager saves; the system stores the permissions, records each change (from → to) in the role history and confirms «تم حفظ صلاحيات الدور».",
+        "The Grants Manager opens the role history (سجل الدور) to see who changed what and when.",
+        "The new permissions take effect for all staff assigned to the role."
+      ],
+      "alternative_flows": [
+        "If the Grants Manager cancels editing, then the system discards the unsaved changes.",
+        "If the Grants Manager deletes a custom role that is assigned to staff, then the system refuses with «الدور مُسند لموظفين — غيّر أدوارهم أولاً».",
+        "If no permissions were changed, then the system closes edit mode without recording a change."
+      ],
+      "business_requirements": [
+        "The system must display for each role a matrix of permissions grouped by business area with view, write and delete levels.",
+        "The system must keep system roles read-only.",
+        "The system must allow creating a custom role with a unique name (up to 60 characters), optionally copying a system role's permissions.",
+        "The system must allow editing a custom role's permissions per permission, per group and for all permissions at once.",
+        "The system must enforce the configured permissions on all pages, actions and data for every user assigned to the role.",
+        "The system must not allow deleting a custom role while it is assigned to any staff member.",
+        "The system must ask for confirmation before deleting a role.",
+        "The system must record every role creation, permission change and deletion with the acting user, time and before/after values, and must not record empty changes.",
+        "The system must show each role's change history newest first.",
+        "The system must define how the platform administrator's permissions relate to the matrix (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Role name missing",
+          "description": "The new role has no name. The system shows «اسم الدور مطلوب»."
+        },
+        {
+          "name": "Role not created",
+          "description": "The role cannot be saved. The system shows «تعذّر إنشاء الدور»."
+        },
+        {
+          "name": "Role in use",
+          "description": "Deleting a role assigned to staff. The system refuses with «الدور مُسند لموظفين — غيّر أدوارهم أولاً»."
+        }
+      ],
+      "postconditions": "Roles and their permissions are defined, enforced for assigned staff, and every change is traceable in the role history.",
+      "fields": [
+        {
+          "en": "Role name",
+          "ar": "اسم الدور",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Up to 60 characters, unique in the organization; e.g. «منسق برامج»"
+        },
+        {
+          "en": "Copy permissions from",
+          "ar": "نسخ صلاحيات قالب",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "One of the system roles"
+        },
+        {
+          "en": "Permission levels",
+          "ar": "عرض / كتابة / حذف",
+          "type": "Yes/No",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Per permission; custom roles only"
+        }
+      ],
+      "trace": [
+        "US-CFG-004",
+        "US-CFG-005",
+        "US-CFG-006",
+        "US-CFG-007",
+        "US-CFG-008",
+        "US-CFG-009",
+        "FR-CFG-005",
+        "FR-CFG-006",
+        "FR-CFG-007",
+        "FR-CFG-008",
+        "FR-CFG-009",
+        "FR-CFG-010",
+        "FR-CFG-011"
+      ]
+    },
+    {
+      "key": "CFG-3",
+      "name": "Organize departments",
+      "title": "As a Grants Manager, I want to maintain the organization's departments and see who belongs to each so that staff and projects can be organized by department.",
+      "description": "The Departments tab (الإدارات) shows each department with its number of members and their names. The Grants Manager adds new departments and removes obsolete ones; staff and projects of a removed department become unassigned.",
+      "actors": [
+        "Grants Manager",
+        "System"
+      ],
+      "preconditions": [
+        "The Grants Manager is signed in and authorised to manage settings."
+      ],
+      "trigger": "The Grants Manager opens Settings > Departments.",
+      "scenario": [
+        "The system shows each department with its member count and member names.",
+        "The Grants Manager enters a department name (اسم الإدارة) and selects Add (إضافة).",
+        "The system creates the department and confirms «تمت إضافة الإدارة».",
+        "The Grants Manager assigns staff to departments from the Team tab (CFG-1).",
+        "To remove an obsolete department, the Grants Manager selects delete and confirms.",
+        "The system removes the department and leaves its staff and projects without a department."
+      ],
+      "alternative_flows": [
+        "If the department still has staff or projects, then the system warns how many records will be unassigned before deletion."
+      ],
+      "business_requirements": [
+        "The system must require a department name of up to 100 characters, unique within the organization.",
+        "The system must show the number and names of staff in each department.",
+        "The system must ask for confirmation before deleting a department and state how many staff and projects will be unassigned.",
+        "The system must keep staff and projects when their department is deleted, marking them as without department.",
+        "The system must show an empty-state message when no departments exist."
+      ],
+      "errors": [
+        {
+          "name": "Duplicate department",
+          "description": "A department with the same name exists. The system rejects the entry (Recommended)."
+        }
+      ],
+      "postconditions": "The organization's department structure is current and staff/projects are linked to valid departments.",
+      "fields": [
+        {
+          "en": "Department name",
+          "ar": "اسم الإدارة",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Up to 100 characters, unique"
+        }
+      ],
+      "trace": [
+        "US-CFG-010",
+        "US-CFG-011",
+        "FR-CFG-012",
+        "FR-CFG-013",
+        "FR-CFG-014",
+        "FT-CFG-04"
+      ]
+    },
+    {
+      "key": "CFG-4",
+      "name": "Review a staff member's workload and performance",
+      "title": "As a Grants Manager, I want to open a staff member's profile with key indicators, open tasks and managed projects so that I can balance workload across the team.",
+      "description": "The staff profile (ملف الموظف وأداؤه) summarises a person's recent decisions, completed and open tasks, average task completion time, overdue items and the projects they manage.",
+      "actors": [
+        "Grants Manager",
+        "CEO / Executive Approver",
+        "System"
+      ],
+      "preconditions": [
+        "The user is authorised to view staff performance (To be confirmed)."
+      ],
+      "trigger": "The user selects a staff member's name in the Team list or an assignee in My Tasks.",
+      "scenario": [
+        "The system shows the staff member's name, role and email.",
+        "The system shows four indicators: decisions in the last 30 days, completed tasks, average task completion time and open tasks.",
+        "The system lists the open tasks with due dates, highlighting overdue ones.",
+        "The system lists the projects the staff member manages.",
+        "The user opens a project to review it."
+      ],
+      "alternative_flows": [
+        "If the staff member has no open tasks or projects, then the system shows «لا توجد مهام عالقة.» / «لا يشرف على مشاريع.».",
+        "If the profile does not exist or belongs to another organization, then the system shows «الموظف غير موجود.»."
+      ],
+      "business_requirements": [
+        "The system must show staff profiles only for staff of the user's own organization.",
+        "The system must restrict staff performance information to authorised roles (To be confirmed).",
+        "The system must show the staff member's current organizational role.",
+        "The system must count as decisions the application status decisions and payment approvals made by the person in the last 30 days.",
+        "The system must include both manual and workflow-generated tasks in task indicators (To be confirmed).",
+        "The system must highlight overdue open tasks.",
+        "The system should allow choosing the indicator period and show service-level compliance (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Staff member not found",
+          "description": "The requested profile does not exist or is not accessible. The system shows «الموظف غير موجود.»."
+        }
+      ],
+      "postconditions": "The user understands the staff member's workload and recent output.",
+      "fields": [],
+      "trace": [
+        "US-CFG-012",
+        "FR-CFG-015",
+        "FR-CFG-016",
+        "FR-CFG-017",
+        "FT-CFG-05"
+      ]
+    },
+    {
+      "key": "CFG-5",
+      "name": "Build and maintain application forms",
+      "title": "As a Grants Manager, I want a library of reusable application forms whose fields I can define so that each grant opportunity collects exactly the information we need from applicants.",
+      "description": "The Application Forms tab (نماذج التقديم) holds reusable forms. Each form lists its fields with label, type (text, long text, number, date, list, file, email, phone), required flag and options. A form is linked to grant opportunities, and applicants see its fields after the standard partner data. The tab also links to each opportunity's workflow, criteria and form configuration.",
+      "actors": [
+        "Grants Manager",
+        "System"
+      ],
+      "preconditions": [
+        "The Grants Manager is authorised to edit workflows and forms."
+      ],
+      "trigger": "The Grants Manager opens Settings > Application Forms, or follows «إدارة مكتبة النماذج» from an opportunity.",
+      "scenario": [
+        "The system lists the organization's forms with the number of opportunities using each («مستخدم في N فرصة»).",
+        "The Grants Manager creates a new form by name; the system confirms «تم إنشاء النموذج».",
+        "The Grants Manager selects the form and adds a field: label (عنوان الحقل), type, required (إلزامي) and, for lists, options.",
+        "The Grants Manager edits, reorders, marks as required/optional or deletes fields.",
+        "The system saves each change and shows the updated form.",
+        "The Grants Manager links the form to one or more grant opportunities (in the opportunity configuration).",
+        "Applicants see the form's fields when applying to those opportunities."
+      ],
+      "alternative_flows": [
+        "If the form is used by any opportunity, then the system prevents deleting it and explains «النموذج مستخدم في فرص».",
+        "If a form already has submitted applications, then changes apply only to new submissions; submitted applications keep the data as submitted (To be confirmed: form versioning).",
+        "From the Workflow tab (سير الإجراءات), the Grants Manager opens an opportunity's stages, criteria and form configuration."
+      ],
+      "business_requirements": [
+        "The system must let authorised staff create, rename, describe and delete application forms in a shared library.",
+        "The system must show how many opportunities use each form.",
+        "The system must prevent deleting a form that is used by any opportunity.",
+        "The system must support field types: short text, long text, number, date, list (with options), file, email and phone.",
+        "The system must require a label for every field and at least one option for list fields.",
+        "The system must allow editing a field's label, type, options and required flag and reordering fields.",
+        "The system must ask for confirmation before deleting a field or a form.",
+        "The system must preserve applications already submitted exactly as submitted when a form changes.",
+        "The system must show applicants the form's fields after the standard partner data in every opportunity using the form.",
+        "The system must confirm successful saves and report failures to the user.",
+        "The system must list only the organization's own opportunities in the Workflow tab."
+      ],
+      "errors": [
+        {
+          "name": "Form in use",
+          "description": "Deleting a form linked to opportunities. The system blocks deletion and explains it is in use."
+        },
+        {
+          "name": "Field not saved",
+          "description": "A field cannot be saved. The system informs the user and keeps the entry for correction."
+        }
+      ],
+      "postconditions": "The organization has up-to-date forms ready to be linked to grant opportunities.",
+      "fields": [
+        {
+          "en": "Form name",
+          "ar": "اسم النموذج",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Unique within the organization (Recommended)"
+        },
+        {
+          "en": "Field label",
+          "ar": "عنوان الحقل",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "—"
+        },
+        {
+          "en": "Field type",
+          "ar": "نوع الحقل",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Text, long text, number, date, list, file, email, phone"
+        },
+        {
+          "en": "Required",
+          "ar": "إلزامي",
+          "type": "Yes/No",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Default No"
+        },
+        {
+          "en": "Options",
+          "ar": "الخيارات",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Mandatory for list fields; separated by commas"
+        }
+      ],
+      "trace": [
+        "US-CFG-013",
+        "US-CFG-014",
+        "US-CFG-015",
+        "US-CFG-016",
+        "FR-CFG-018",
+        "FR-CFG-019",
+        "FR-CFG-020",
+        "FR-CFG-021",
+        "FR-CFG-022",
+        "FR-CFG-023",
+        "FR-CFG-024",
+        "FT-CFG-06",
+        "FT-CFG-07"
+      ]
+    },
+    {
+      "key": "CFG-6",
+      "name": "Maintain communication templates",
+      "title": "As a Grants Manager, I want to maintain apology, contract and notification templates with placeholders so that communications to partners are consistent and generated without retyping.",
+      "description": "The Templates tab (القوالب) holds standard texts of three kinds: apology (اعتذار), contract (عقد) and notification (إشعار). Templates may include placeholders such as {ref}, {program}, {beneficiary} and {amount}, which the system fills in when the communication is produced.",
+      "actors": [
+        "Grants Manager",
+        "System"
+      ],
+      "preconditions": [
+        "The Grants Manager is authorised to manage settings."
+      ],
+      "trigger": "The Grants Manager opens Settings > Templates.",
+      "scenario": [
+        "The system lists templates with kind, name and a preview of the text.",
+        "The Grants Manager selects New template (قالب جديد) or edits an existing one.",
+        "The Grants Manager selects the kind, enters the name and the text, using the available placeholders.",
+        "The Grants Manager saves; the system confirms «تم حفظ القالب».",
+        "When a related event occurs (e.g. rejecting an application, issuing a contract, sending a notification), the system uses the template and fills in the placeholders.",
+        "The Grants Manager deletes templates no longer needed, after confirmation."
+      ],
+      "alternative_flows": [
+        "If the name is empty, then the system shows a validation message and does not save."
+      ],
+      "business_requirements": [
+        "The system must support template kinds: apology, contract and notification.",
+        "The system must require a template name and text.",
+        "The system must show the list of available placeholders while editing.",
+        "The system must fill placeholders with the actual reference number, opportunity, partner name and amount when generating a communication.",
+        "The system must use the organization's templates in rejection messages, contract generation and notifications (To be confirmed which events).",
+        "The system must allow deleting a template after confirmation.",
+        "The system must show a validation message when required template data is missing."
+      ],
+      "errors": [
+        {
+          "name": "Name missing",
+          "description": "The template has no name. The system shows a validation message (Recommended) and does not save."
+        }
+      ],
+      "postconditions": "Standard communication texts are maintained and used consistently in generated communications.",
+      "fields": [
+        {
+          "en": "Kind",
+          "ar": "النوع",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "اعتذار / عقد / إشعار; default إشعار"
+        },
+        {
+          "en": "Name",
+          "ar": "الاسم",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "—"
+        },
+        {
+          "en": "Text",
+          "ar": "النص",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "May include {ref}, {program}, {beneficiary}, {amount}"
+        }
+      ],
+      "trace": [
+        "US-CFG-017",
+        "US-CFG-018",
+        "FR-CFG-025",
+        "FR-CFG-026",
+        "FR-CFG-027",
+        "FT-CFG-08"
+      ]
+    },
+    {
+      "key": "CFG-7",
+      "name": "Maintain reference lists and applicant-type availability",
+      "title": "As a Grants Manager, I want to maintain our lists of entity types, regions and target groups and decide which applicant types may self-register so that forms use our terminology and only eligible partners register.",
+      "description": "The Taxonomies tab (التصنيفات) manages the organization's reference lists (entity types, regions, target groups) used as choices in forms. It also contains the applicant-type switches (أنواع المتقدمين): each type that can register through the portal (associations, non-profit foundations, companies, individuals, endowments, other) can be opened or closed for registration. Government entities are added internally only.",
+      "actors": [
+        "Grants Manager",
+        "System"
+      ],
+      "preconditions": [
+        "The Grants Manager is authorised to manage settings."
+      ],
+      "trigger": "The Grants Manager opens Settings > Taxonomies.",
+      "scenario": [
+        "The system shows the applicant types with their identifier label (e.g. «رقم السجل التجاري») and an open/closed switch.",
+        "The Grants Manager closes or opens an applicant type for registration.",
+        "The system saves the setting and confirms «أُغلق التسجيل: …» or «فُتح التسجيل: …».",
+        "The system shows the reference lists: entity types (أنواع الجهات), regions (المناطق) and target groups (الفئات المستهدفة).",
+        "The Grants Manager adds a value or removes an existing one after confirmation.",
+        "The updated lists appear as choices in partner registration and profile forms."
+      ],
+      "alternative_flows": [
+        "If the value already exists in the list, then the system rejects the duplicate.",
+        "If a value in use is removed, then existing records keep it but it is no longer offered for new entries (To be confirmed)."
+      ],
+      "business_requirements": [
+        "The system must allow opening and closing each portal applicant type per organization.",
+        "The system must hide closed applicant types from the partner registration page of that organization.",
+        "The system must never offer the government applicant type for self-registration.",
+        "The system must apply the applicant-type settings of the organization the registration is for (To be confirmed for multi-organization use).",
+        "The system must allow adding and removing values in the entity types, regions and target groups lists (up to 80 characters each).",
+        "The system must prevent duplicate values in the same list and allow ordering of values.",
+        "The system must use these lists as the choices in partner registration, partner profile and other relevant forms.",
+        "The system must ask for confirmation before removing a value.",
+        "The system must only confirm a setting change after it has been saved successfully."
+      ],
+      "errors": [
+        {
+          "name": "Setting not saved",
+          "description": "The applicant-type change or list value cannot be saved. The system reports the failure and keeps the previous value."
+        }
+      ],
+      "postconditions": "Registration is open only to the chosen applicant types and forms use the organization's reference lists.",
+      "fields": [
+        {
+          "en": "Applicant type open for registration",
+          "ar": "أنواع المتقدمين",
+          "type": "Yes/No",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Default open; government not switchable"
+        },
+        {
+          "en": "Entity types",
+          "ar": "أنواع الجهات",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Values up to 80 characters, unique"
+        },
+        {
+          "en": "Regions",
+          "ar": "المناطق",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Values up to 80 characters, unique"
+        },
+        {
+          "en": "Target groups",
+          "ar": "الفئات المستهدفة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Values up to 80 characters, unique"
+        }
+      ],
+      "trace": [
+        "US-CFG-019",
+        "US-CFG-020",
+        "FR-CFG-028",
+        "FR-CFG-029",
+        "FR-CFG-030",
+        "FR-CFG-031",
+        "FT-CFG-09",
+        "FT-CFG-10"
+      ]
+    },
+    {
+      "key": "CFG-8",
+      "name": "Register and manage endowments",
+      "title": "As a Grants Manager, I want to register the endowments that fund our grants, see their current size and deactivate them when needed so that the annual plan's funding sources are known and protected.",
+      "description": "The Endowments tab (الأوقاف) lists the organization's funding sources with description, current size (total of fundings received) and active status. Active endowments take part in annual-plan allocation; with a single endowment the whole plan is counted against it, and with several the plan is split between them.",
+      "actors": [
+        "Grants Manager",
+        "Finance Officer",
+        "System"
+      ],
+      "preconditions": [
+        "The user is authorised to manage endowments (Grants Manager; Finance Officer To be confirmed)."
+      ],
+      "trigger": "The user opens Settings > Endowments.",
+      "scenario": [
+        "The system lists endowments with name, description, current size in SAR and active switch.",
+        "The user enters the endowment name and optional description and selects Add (إضافة).",
+        "The system creates the endowment and confirms «تمت إضافة الوقف».",
+        "The user opens an endowment to see its details and fundings (Annual Plan module).",
+        "The user deactivates an endowment that should no longer fund new allocations.",
+        "The system excludes inactive endowments from new plan allocations."
+      ],
+      "alternative_flows": [
+        "If the user tries to delete an endowment that has fundings or plan shares, then the system refuses and proposes deactivation instead.",
+        "If the endowment has no fundings or plan shares, then the system deletes it after confirmation."
+      ],
+      "business_requirements": [
+        "The system must require an endowment name; description is optional.",
+        "The system must show each endowment's current size as the total of its recorded fundings in SAR.",
+        "The system must allow activating and deactivating an endowment.",
+        "The system must include only active endowments in annual-plan allocation.",
+        "The system must count the whole plan against the endowment when only one is active and show the split only when two or more are active.",
+        "The system must not allow deleting an endowment that has fundings or plan shares; deactivation must be used instead.",
+        "The system must ask for confirmation before deleting an endowment.",
+        "The system must record creation, activation changes and deletion of endowments in the audit trail."
+      ],
+      "errors": [
+        {
+          "name": "Endowment in use",
+          "description": "Deleting an endowment with fundings or plan shares. The system refuses and suggests deactivation (Recommended)."
+        }
+      ],
+      "postconditions": "The organization's funding sources are registered, and plan allocations use only active endowments.",
+      "fields": [
+        {
+          "en": "Endowment name",
+          "ar": "اسم الوقف",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Unique within the organization (Recommended)"
+        },
+        {
+          "en": "Description",
+          "ar": "الوصف",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "—"
+        },
+        {
+          "en": "Current size",
+          "ar": "الحجم الحالي",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Calculated from fundings"
+        },
+        {
+          "en": "Active",
+          "ar": "نشط",
+          "type": "Yes/No",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Default Yes"
+        }
+      ],
+      "trace": [
+        "US-CFG-021",
+        "US-CFG-022",
+        "US-CFG-023",
+        "FR-CFG-032",
+        "FR-CFG-033",
+        "FR-CFG-034",
+        "FR-CFG-035",
+        "FT-CFG-11"
+      ]
+    },
+    {
+      "key": "CFG-9",
+      "name": "Manage grantor organizations on the platform",
+      "title": "As the System Administrator, I want to create grantor organizations and suspend or reactivate them so that I can onboard new grantors and control their access to the platform.",
+      "description": "The platform administration page (الجهات والمستخدمون) lists all grantor organizations with official email, number of users, creation date and status (فعّالة / موقوفة). The System Administrator creates new organizations and suspends or reactivates them. This page is separate from each organization's own settings, which the System Administrator does not manage by default.",
+      "actors": [
+        "System Administrator",
+        "System"
+      ],
+      "preconditions": [
+        "The user is signed in as System Administrator."
+      ],
+      "trigger": "The System Administrator opens Settings > Organizations & Users.",
+      "scenario": [
+        "The system lists all organizations with name, official email, number of users, creation date and status.",
+        "The System Administrator selects New organization (جهة مانحة جديدة).",
+        "The System Administrator enters the organization name and official email (the AI helper may propose them from pasted text).",
+        "The system creates the organization as active and confirms «تم إنشاء الجهة».",
+        "The System Administrator suspends (إيقاف) or reactivates (تفعيل) an organization after confirmation.",
+        "The system updates the status, confirms «تم تحديث حالة الجهة» and applies the effects of suspension.",
+        "The system records the action in the platform audit trail."
+      ],
+      "alternative_flows": [
+        "If a user other than the System Administrator opens this page, then the system shows «هذه الصفحة خاصة بإدارة المنصة» with a link to team settings.",
+        "From the same area, the System Administrator reviews partner registration requests (Partners module)."
+      ],
+      "business_requirements": [
+        "The system must restrict organization management to the System Administrator.",
+        "The system must require an organization name (up to 120 characters) and validate the official email.",
+        "The system must show for each organization the number of users without exposing their personal data.",
+        "The system must allow suspending and reactivating an organization, with confirmation.",
+        "The system must block sign-in, partner registration and new transactions for users of a suspended organization while preserving its data (To be confirmed exact scope).",
+        "The system must separate platform-level settings (organizations) from organization-level settings (team, roles, endowments) and show each only to authorised users.",
+        "The system must enforce settings-tab access on the server, not only by hiding tabs.",
+        "The system must set up the first organization administrator when an organization is created (Recommended).",
+        "The system must record organization creation, suspension and reactivation in the audit trail."
+      ],
+      "errors": [
+        {
+          "name": "Organization not created",
+          "description": "The organization cannot be saved. The system shows «تعذّر إنشاء الجهة»."
+        },
+        {
+          "name": "Status not updated",
+          "description": "The status change fails. The system shows «تعذّر تحديث حالة الجهة» and keeps the previous status."
+        }
+      ],
+      "postconditions": "The organization exists on the platform with the intended status, and suspension effectively blocks its activity.",
+      "fields": [
+        {
+          "en": "Organization name",
+          "ar": "اسم الجهة",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Up to 120 characters"
+        },
+        {
+          "en": "Official email",
+          "ar": "البريد الرسمي",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Valid email format"
+        },
+        {
+          "en": "Status",
+          "ar": "الحالة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "فعّالة / موقوفة; default فعّالة"
+        },
+        {
+          "en": "Number of users",
+          "ar": "المستخدمون",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Calculated"
+        },
+        {
+          "en": "Creation date",
+          "ar": "تاريخ الإنشاء",
+          "type": "Date",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Set by the system"
+        }
+      ],
+      "trace": [
+        "US-CFG-024",
+        "US-CFG-025",
+        "US-CFG-026",
+        "US-CFG-027",
+        "FR-CFG-036",
+        "FR-CFG-037",
+        "FR-CFG-038",
+        "FR-CFG-039",
+        "FR-CFG-040",
+        "FR-CFG-041",
+        "FR-CFG-042",
+        "FR-CFG-043",
+        "FT-CFG-12",
+        "FT-CFG-13"
+      ]
+    },
+    {
+      "key": "CFG-10",
+      "name": "Change key configuration with a supporting document",
+      "title": "As a Grants Manager, I want to change grant opportunities, workflow engines and the product catalogue in a controlled edit session that requires a supporting document so that every configuration change is justified and auditable.",
+      "description": "Key configuration pages are read-only by default. To change them, the Grants Manager starts an edit session (وضع التعديل), makes the changes, and confirms them by attaching a supporting document (المستند الشاهد) with an optional note. The system keeps a permanent change history (سجل التغييرات) showing before and after values, who made the change, when, and the supporting document.",
+      "actors": [
+        "Grants Manager",
+        "AI Assistant",
+        "System"
+      ],
+      "preconditions": [
+        "The Grants Manager is authorised to edit the configuration item.",
+        "The item is an opportunity, a workflow engine or the product catalogue (other settings To be confirmed)."
+      ],
+      "trigger": "The Grants Manager selects Edit (تعديل) on a configuration page.",
+      "scenario": [
+        "The system switches the page to edit mode, showing «وضع التعديل — التغييرات لا تُعتمد إلا بإرفاق المستند الشاهد».",
+        "The Grants Manager makes the required changes.",
+        "The Grants Manager selects Save changes (حفظ التعديلات).",
+        "The system asks for confirmation (تأكيد التعديلات) with the supporting document (mandatory) and an optional note.",
+        "The AI Assistant performs an advisory check of the document's relevance; it does not block saving.",
+        "The Grants Manager selects Approve and save (اعتماد وحفظ).",
+        "The system stores the document, records the change with before/after values, user and time, and confirms «حُفظت التعديلات ووُثّقت في السجل».",
+        "Authorised users open the change history and view the supporting document of any change."
+      ],
+      "alternative_flows": [
+        "If nothing was changed, then the system closes edit mode with «لا توجد تغييرات» and records nothing.",
+        "If the Grants Manager selects Undo (تراجع), then the system restores the values from before the session.",
+        "If the Grants Manager selects Back to editing (رجوع للتعديل), then the system returns to edit mode without saving."
+      ],
+      "business_requirements": [
+        "The system must show key configuration pages read-only until an edit session is started.",
+        "The system must require a supporting document before committing any configuration change.",
+        "The system must not record a change when no values were modified.",
+        "The system must restore the original values when an edit session is cancelled.",
+        "The system must record for each committed change the item, before and after values, note, supporting document, acting user and time.",
+        "The system must keep the change history permanent; entries cannot be edited or deleted.",
+        "The system must keep the supporting document and history entry together: if either fails, neither is saved.",
+        "The system must let authorised users view the change history and open supporting documents securely.",
+        "The system must treat the AI document check as advisory only.",
+        "The system must decide whether team, roles, forms and endowments changes also require supporting documents (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Supporting document missing",
+          "description": "Saving without a document. The system blocks saving with «المستند الشاهد إلزامي لحفظ التعديلات»."
+        },
+        {
+          "name": "Save failed",
+          "description": "The change cannot be saved. The system shows «تعذر الحفظ», keeps the user in the confirmation step and does not keep a partial record."
+        },
+        {
+          "name": "Document cannot be opened",
+          "description": "The supporting document cannot be retrieved. The system shows «تعذر فتح المستند»."
+        }
+      ],
+      "postconditions": "The configuration change is in effect and documented with evidence in a permanent history.",
+      "fields": [
+        {
+          "en": "Supporting document",
+          "ar": "المستند الشاهد",
+          "type": "File",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Accepted file types and size To be confirmed"
+        },
+        {
+          "en": "Note",
+          "ar": "ملاحظة",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Reason for the change"
+        }
+      ],
+      "trace": [
+        "US-CFG-028",
+        "US-CFG-029",
+        "US-CFG-030",
+        "FR-CFG-044",
+        "FR-CFG-045",
+        "FR-CFG-046",
+        "FR-CFG-047",
+        "FR-CFG-048",
+        "FT-CFG-14"
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "type": "Error",
+      "en": "Name is required",
+      "ar": "الاسم مطلوب",
+      "use_case": "CFG-1"
+    },
+    {
+      "type": "Error",
+      "en": "Could not add the employee",
+      "ar": "تعذّر إضافة الموظف",
+      "use_case": "CFG-1"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Employee added",
+      "ar": "تمت إضافة الموظف",
+      "use_case": "CFG-1"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Role updated",
+      "ar": "تم تحديث الدور",
+      "use_case": "CFG-1"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Department updated",
+      "ar": "تم تحديث الإدارة",
+      "use_case": "CFG-1"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Removed from the team",
+      "ar": "تمت الإزالة من الفريق",
+      "use_case": "CFG-1"
+    },
+    {
+      "type": "Warning",
+      "en": "Are you sure you want to remove this member from the team? (Recommended)",
+      "ar": "هل أنت متأكد من إزالة هذا العضو من الفريق؟",
+      "use_case": "CFG-1"
+    },
+    {
+      "type": "Error",
+      "en": "Role name is required",
+      "ar": "اسم الدور مطلوب",
+      "use_case": "CFG-2"
+    },
+    {
+      "type": "Error",
+      "en": "Could not create the role",
+      "ar": "تعذّر إنشاء الدور",
+      "use_case": "CFG-2"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Role created",
+      "ar": "تم إنشاء الدور",
+      "use_case": "CFG-2"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Role permissions saved",
+      "ar": "تم حفظ صلاحيات الدور",
+      "use_case": "CFG-2"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Role deleted",
+      "ar": "تم حذف الدور",
+      "use_case": "CFG-2"
+    },
+    {
+      "type": "Error",
+      "en": "The role is assigned to staff — change their roles first",
+      "ar": "الدور مُسند لموظفين — غيّر أدوارهم أولاً",
+      "use_case": "CFG-2"
+    },
+    {
+      "type": "Information",
+      "en": "System role — read only",
+      "ar": "نظامي — للقراءة فقط",
+      "use_case": "CFG-2"
+    },
+    {
+      "type": "Information",
+      "en": "No events recorded for this role yet",
+      "ar": "لا توجد أحداث مسجلة لهذا الدور بعد",
+      "use_case": "CFG-2"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Department added",
+      "ar": "تمت إضافة الإدارة",
+      "use_case": "CFG-3"
+    },
+    {
+      "type": "Information",
+      "en": "Staff member not found.",
+      "ar": "الموظف غير موجود.",
+      "use_case": "CFG-4"
+    },
+    {
+      "type": "Information",
+      "en": "No open tasks.",
+      "ar": "لا توجد مهام عالقة.",
+      "use_case": "CFG-4"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Form created",
+      "ar": "تم إنشاء النموذج",
+      "use_case": "CFG-5"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Form deleted",
+      "ar": "تم حذف النموذج",
+      "use_case": "CFG-5"
+    },
+    {
+      "type": "Warning",
+      "en": "The form is used in opportunities",
+      "ar": "النموذج مستخدم في فرص",
+      "use_case": "CFG-5"
+    },
+    {
+      "type": "Information",
+      "en": "No forms yet.",
+      "ar": "لا توجد نماذج بعد.",
+      "use_case": "CFG-5"
+    },
+    {
+      "type": "Information",
+      "en": "No fields yet.",
+      "ar": "لا توجد حقول بعد.",
+      "use_case": "CFG-5"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Template saved",
+      "ar": "تم حفظ القالب",
+      "use_case": "CFG-6"
+    },
+    {
+      "type": "Error",
+      "en": "Template name is required (Recommended)",
+      "ar": "اسم القالب مطلوب",
+      "use_case": "CFG-6"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Registration opened: <applicant type>",
+      "ar": "فُتح التسجيل: …",
+      "use_case": "CFG-7"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Registration closed: <applicant type>",
+      "ar": "أُغلق التسجيل: …",
+      "use_case": "CFG-7"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Endowment added",
+      "ar": "تمت إضافة الوقف",
+      "use_case": "CFG-8"
+    },
+    {
+      "type": "Error",
+      "en": "The endowment cannot be deleted because it has fundings or plan shares — deactivate it instead (Recommended)",
+      "ar": "لا يمكن حذف الوقف لارتباطه بتمويلات أو حصص في الخطة — يمكنك إيقافه",
+      "use_case": "CFG-8"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Organization created",
+      "ar": "تم إنشاء الجهة",
+      "use_case": "CFG-9"
+    },
+    {
+      "type": "Error",
+      "en": "Could not create the organization",
+      "ar": "تعذّر إنشاء الجهة",
+      "use_case": "CFG-9"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Organization status updated",
+      "ar": "تم تحديث حالة الجهة",
+      "use_case": "CFG-9"
+    },
+    {
+      "type": "Error",
+      "en": "Could not update the organization status",
+      "ar": "تعذّر تحديث حالة الجهة",
+      "use_case": "CFG-9"
+    },
+    {
+      "type": "Warning",
+      "en": "This page is reserved for platform administration",
+      "ar": "هذه الصفحة خاصة بإدارة المنصة",
+      "use_case": "CFG-9"
+    },
+    {
+      "type": "Information",
+      "en": "Edit mode — changes are not approved without attaching the supporting document",
+      "ar": "وضع التعديل — التغييرات لا تُعتمد إلا بإرفاق المستند الشاهد",
+      "use_case": "CFG-10"
+    },
+    {
+      "type": "Error",
+      "en": "The supporting document is mandatory to save changes",
+      "ar": "المستند الشاهد إلزامي لحفظ التعديلات",
+      "use_case": "CFG-10"
+    },
+    {
+      "type": "Information",
+      "en": "No changes",
+      "ar": "لا توجد تغييرات",
+      "use_case": "CFG-10"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Changes saved and documented in the history",
+      "ar": "حُفظت التعديلات ووُثّقت في السجل",
+      "use_case": "CFG-10"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Changes undone",
+      "ar": "تم التراجع عن التعديلات",
+      "use_case": "CFG-10"
+    },
+    {
+      "type": "Error",
+      "en": "Could not save",
+      "ar": "تعذر الحفظ",
+      "use_case": "CFG-10"
+    },
+    {
+      "type": "Error",
+      "en": "Could not open the document",
+      "ar": "تعذر فتح المستند",
+      "use_case": "CFG-10"
+    },
+    {
+      "type": "Information",
+      "en": "No documented changes yet.",
+      "ar": "لا توجد تعديلات موثقة بعد.",
+      "use_case": "CFG-10"
+    }
+  ],
+  "business_rules": [
+    {
+      "rule": "The team list shows only staff of the user's own organization; partner users and platform administrators are not listed.",
+      "use_case": "CFG-1"
+    },
+    {
+      "rule": "Each person has one authoritative role per organization, which drives menus, home page, tasks and permissions.",
+      "use_case": "CFG-1"
+    },
+    {
+      "rule": "A user cannot remove themselves from the team.",
+      "use_case": "CFG-1"
+    },
+    {
+      "rule": "Removing a team member deactivates the membership; history and past actions are retained.",
+      "use_case": "CFG-1"
+    },
+    {
+      "rule": "System roles (Grants Manager, Reviewer, Project Manager, Finance Officer, CEO, Committee Secretary) are read-only; only custom roles can be edited.",
+      "use_case": "CFG-2"
+    },
+    {
+      "rule": "Each permission can be granted at view, write and delete levels; a custom role may start as a copy of a system role.",
+      "use_case": "CFG-2"
+    },
+    {
+      "rule": "A custom role cannot be deleted while assigned to any staff member.",
+      "use_case": "CFG-2"
+    },
+    {
+      "rule": "Every role creation, permission change and deletion is recorded with the acting user, time and before/after values.",
+      "use_case": "CFG-2"
+    },
+    {
+      "rule": "Configured permissions are enforced by the system for every page, action and data request.",
+      "use_case": "CFG-2"
+    },
+    {
+      "rule": "Deleting a department leaves its staff and projects without a department; they are not deleted.",
+      "use_case": "CFG-3"
+    },
+    {
+      "rule": "Staff 'decisions' are the application status decisions and payment approvals made by the person in the last 30 days.",
+      "use_case": "CFG-4"
+    },
+    {
+      "rule": "An application form cannot be deleted while used by any grant opportunity.",
+      "use_case": "CFG-5"
+    },
+    {
+      "rule": "A form's fields are shown to applicants after the standard partner data in every opportunity that uses the form; submitted applications keep the data as submitted.",
+      "use_case": "CFG-5"
+    },
+    {
+      "rule": "Templates are of kind apology, contract or notification and may use the placeholders {ref}, {program}, {beneficiary} and {amount}.",
+      "use_case": "CFG-6"
+    },
+    {
+      "rule": "Applicant types are open for registration by default and can be closed per organization; government entities are added internally only.",
+      "use_case": "CFG-7"
+    },
+    {
+      "rule": "Closed applicant types do not appear on the partner registration page.",
+      "use_case": "CFG-7"
+    },
+    {
+      "rule": "Reference list values (entity types, regions, target groups) are unique per list and up to 80 characters.",
+      "use_case": "CFG-7"
+    },
+    {
+      "rule": "Only active endowments take part in annual-plan allocation; with a single endowment the whole plan is counted against it, with two or more the plan is split.",
+      "use_case": "CFG-8"
+    },
+    {
+      "rule": "An endowment's current size is the total of its recorded fundings.",
+      "use_case": "CFG-8"
+    },
+    {
+      "rule": "An endowment with fundings or plan shares cannot be deleted; it can only be deactivated.",
+      "use_case": "CFG-8"
+    },
+    {
+      "rule": "Only the System Administrator manages grantor organizations; organization settings are managed by authorised organization staff.",
+      "use_case": "CFG-9"
+    },
+    {
+      "rule": "A new organization is active by default; a suspended organization's users cannot sign in or start new transactions.",
+      "use_case": "CFG-9"
+    },
+    {
+      "rule": "Changes to opportunities, workflow engines and the product catalogue require a supporting document before they take effect.",
+      "use_case": "CFG-10"
+    },
+    {
+      "rule": "The configuration change history is permanent and cannot be edited or deleted.",
+      "use_case": "CFG-10"
+    },
+    {
+      "rule": "Destructive actions in settings (remove member, delete role, department, form, field, value, template or endowment) require confirmation.",
+      "use_case": "CFG-1"
+    }
+  ],
+  "kpis": [
+    {
+      "name": "Decisions in the last 30 days (قرارات آخر 30 يوم)",
+      "definition": "Number of application status decisions plus payment approvals made by the staff member in the last 30 days."
+    },
+    {
+      "name": "Completed tasks (مهام منجزة)",
+      "definition": "Number of tasks assigned to the staff member that are marked done."
+    },
+    {
+      "name": "Average task completion time (متوسط زمن إنجاز المهمة)",
+      "definition": "Average number of days between creation and completion of the staff member's completed tasks."
+    },
+    {
+      "name": "Open tasks (مهام عالقة)",
+      "definition": "Number of tasks assigned to the staff member that are not yet done; overdue ones highlighted."
+    }
+  ],
+  "gaps": [
+    {
+      "area": "Roles & permissions",
+      "gap": "The permission matrix and custom roles are displayed and edited but not enforced anywhere; access depends only on menu visibility.",
+      "impact": "Role configuration gives a false sense of control; users can perform actions beyond their authority.",
+      "recommendation": "Enforce configured permissions for every page, action and data request.",
+      "priority": "High"
+    },
+    {
+      "area": "Team roles",
+      "gap": "Changing a member's role in the Team tab does not change what the person sees and does, because another role value drives menus and tasks; adding a person with a custom role silently gives them the Reviewer role.",
+      "impact": "Role changes are ineffective and misleading.",
+      "recommendation": "Use one authoritative role per person per organization everywhere.",
+      "priority": "High"
+    },
+    {
+      "area": "Endowments",
+      "gap": "Endowments can be deleted without confirmation or usage check, removing their plan shares.",
+      "impact": "Silent loss of annual-plan funding splits and financial history.",
+      "recommendation": "Block deletion when used; require deactivation; confirm deletes.",
+      "priority": "High"
+    },
+    {
+      "area": "Confirmations",
+      "gap": "No confirmation before removing team members or deleting departments, list values, forms, fields or roles.",
+      "impact": "Accidental loss of configuration.",
+      "recommendation": "Add confirmation to all destructive actions.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Templates",
+      "gap": "Templates are maintained but not used by any process; placeholders are not filled; templates cannot be deleted.",
+      "impact": "No consistency benefit from templates.",
+      "recommendation": "Connect templates to rejection, contract and notification events, or hide the tab until then.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Reference lists",
+      "gap": "Entity types, regions and target groups are maintained but not used by registration or profile forms, which use fixed lists.",
+      "impact": "Organization terminology is not applied.",
+      "recommendation": "Use the maintained lists as form choices.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Organization suspension",
+      "gap": "Suspending an organization has no effect on sign-in, registration or transactions.",
+      "impact": "Suspension cannot be used to control access.",
+      "recommendation": "Define and implement suspension effects.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Data isolation",
+      "gap": "The Workflow tab, form usage counts and staff profiles may include other organizations' data; applicant-type switches only affect one fixed organization's registration page.",
+      "impact": "Confidentiality breach and incorrect configuration effect in a multi-organization service.",
+      "recommendation": "Scope all settings data to the user's organization and resolve the registration organization from context.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Settings access",
+      "gap": "Settings tabs and staff profiles can be opened by any user who knows the address.",
+      "impact": "Unauthorised users can change configuration.",
+      "recommendation": "Enforce access to settings tabs on the server.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Governance consistency",
+      "gap": "Team, roles, forms and endowments are changed directly without supporting documents, while opportunities, engines and products require them; team changes are not audited.",
+      "impact": "Inconsistent accountability for sensitive changes.",
+      "recommendation": "Decide which settings require supporting documents and audit all settings changes.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Form builder",
+      "gap": "Existing fields cannot be edited or reordered, save errors are not reported, and form name/description cannot be edited.",
+      "impact": "Forms must be rebuilt to correct mistakes.",
+      "recommendation": "Add field editing, reordering, form editing and error reporting.",
+      "priority": "Low"
+    },
+    {
+      "area": "Team membership",
+      "gap": "Removing a member deletes the membership (history lost) and active status is not shown or managed.",
+      "impact": "Loss of history and possible task assignment to inactive staff.",
+      "recommendation": "Deactivate instead of delete and show status.",
+      "priority": "Low"
+    },
+    {
+      "area": "Validation and states",
+      "gap": "Duplicate department, list and template names are allowed; empty template names are silently ignored; most tabs lack loading, empty and error states.",
+      "impact": "Data quality issues and unclear feedback.",
+      "recommendation": "Add uniqueness checks, validation messages and standard states.",
+      "priority": "Low"
+    }
+  ],
+  "open_questions": [
+    "What is the authoritative source of a person's role, and must the permission matrix be enforced for all roles including the System Administrator?",
+    "Which roles may access each settings tab (only the Grants Manager? the Finance Officer for endowments as the permission matrix suggests?), and does the System Administrator configure any organization's settings?",
+    "Which processes use which templates (rejection apology, contract generation, notifications), and what is the full list of placeholders?",
+    "Which forms should use the entity types, regions and target groups lists?",
+    "What is the policy for deleting or deactivating an endowment that has fundings or plan shares?",
+    "What exactly should suspension of an organization block (sign-in, portal, payments, data visibility)?",
+    "May fields of a form already used by submitted applications be changed, or must forms be versioned?",
+    "Should changes to roles, forms, endowments and team also require supporting documents?",
+    "How should staff performance indicators be defined (workflow tasks, service-level compliance, selectable period) and who may view them?",
+    "Should the colour palette be an organization-level branding setting rather than a personal one?",
+    "In a multi-organization deployment, which organization's applicant-type settings apply to the public registration page?",
+    "Should team membership changes (add, remove, role change) be audited?",
+    "What happens to a removed staff member's open tasks and workflow assignments?",
+    "Which identity verification is required before a person becomes a partner organization's primary delegate (managed in the Partners module)?"
+  ]
+}

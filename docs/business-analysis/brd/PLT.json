@@ -591,14 +591,11 @@
         "The system must keep a complete, tamper-proof audit trail of significant actions (sign-in, creation, changes, approvals, payments, exports, configuration changes) recording the real user, date-time and before/after values.",
         "The system must take the acting user for audit purposes from the signed-in identity, never from information supplied by the screen.",
         "The system must present the entire interface in Arabic with right-to-left layout, including menus, dialogs, messages, error pages and exports.",
-        "The system must display all numbers, amounts and dates with Western digits (0-9) and amounts in SAR with thousands separators.",
-        "The system must accept Arabic-Indic digits typed by users and treat them as Western digits (Recommended).",
-        "The system must show a loading indicator while data loads and a clear error message with retry when loading fails.",
-        "The system must show a friendly Arabic error page with retry and return-home options for unexpected errors and report the error to technical support.",
+        "The system must display all numbers, amounts and dates with Western digits (0-9) and amounts in SAR with thousands separators, and should accept Arabic-Indic digits typed by users as their Western equivalents (Recommended).",
+        "The system must show a loading indicator while data loads, a clear Arabic error message with retry when loading fails, and a friendly Arabic error page with retry and return-home options for unexpected errors, reporting them to technical support.",
         "The system must keep sensitive data (conversation history, recent searches, notes) out of shared device storage or clear it on sign-out.",
         "The system must break long data-entry forms into short guided steps and provide in-place explanations of key grant concepts.",
-        "The system must exclude all demonstration-only features from the live service.",
-        "The system must use one confirmed product name and brand throughout (To be confirmed)."
+        "The system must exclude all demonstration-only features from the live service and use one confirmed product name and brand throughout (To be confirmed)."
       ],
       "errors": [
         {

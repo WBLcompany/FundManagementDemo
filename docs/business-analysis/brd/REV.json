@@ -1,0 +1,1906 @@
+{
+  "module": "REV",
+  "title": "Application Review, Evaluation & Decision",
+  "summary": "This capability covers everything that happens to a grant application after the partner organization submits it: queueing, studying, AI-assisted evaluation, stage decisions through the three-stage approval journey (Reception, Study, Approval), committee decisions recorded against a single signed minute, and the hand-over of approved grants to contracting and execution. It gives the foundation a single, auditable workspace where every decision is attributable, justified and traceable to its evidence, while allowing controlled adjustments (revised figures agreed with the partner, initiative relocation, merging of related requests, co-funding conditions and indicator commitments) before the grant becomes a contract.",
+  "process": {
+    "title": "Grant application approval journey",
+    "mermaid": "flowchart LR\n  A[\"Partner submits application\"] --> B[\"Stage 1: Reception\"]\n  B --> C[\"Stage 2: Study and AI evaluation\"]\n  C --> D{\"Meets pass score?\"}\n  D -->|\"Yes\"| E[\"Stage 3: Approval committee\"]\n  D -->|\"No\"| R[\"Rejected with reason and apology\"]\n  B -->|\"Incomplete\"| F[\"Returned to partner for edits\"]\n  C -->|\"Clarification needed\"| F\n  F -->|\"Partner resubmits\"| B\n  E --> G{\"Committee decision by minute\"}\n  G -->|\"Return\"| C\n  G -->|\"Reject\"| R\n  G -->|\"Approve\"| H[\"Final approval\"]\n  H --> I{\"Grant type\"}\n  I -->|\"Project grant\"| J[\"Contract approved and transferred to projects\"]\n  I -->|\"In-kind grant\"| K[\"Products reserved and delivered\"]"
+  },
+  "use_cases": [
+    {
+      "key": "REV-1",
+      "name": "Manage the grant applications review queue",
+      "title": "As a Grants Manager, I want one queue of all grant applications with their stage, status, AI score and delay so that I can prioritise the requests that need attention.",
+      "description": "Grants staff need a single cross-opportunity list of all applications to locate, prioritise and report on the review backlog. The list shows each application's project, partner, current stage, status, AI evaluation score and requested amount, highlights late applications, and supports filtering, personal saved views and export.",
+      "actors": [
+        "Grants Manager",
+        "Reviewer",
+        "Committee Secretary",
+        "CEO / Executive Approver",
+        "System Administrator",
+        "System"
+      ],
+      "preconditions": [
+        "The user is signed in with a staff role that has access to grant applications.",
+        "At least one application has been submitted by a partner organization."
+      ],
+      "trigger": "The user opens «طلبات المنح» from the main menu, the tasks area or global search.",
+      "scenario": [
+        "The user opens the grant applications list.",
+        "The system shows summary cards for total, pending, approved and closed applications.",
+        "The system lists applications with project title and reference, partner, stage and sub-status, status, AI score and requested amount, flagging applications that exceed their stage service level as «متأخر».",
+        "The user searches by reference, project or partner name and/or filters by stage, status, grant opportunity, grant type, region or partner account type.",
+        "The user chooses which columns to display and saves the layout as a personal view.",
+        "The user optionally exports the filtered list to a spreadsheet.",
+        "The user opens an application to study it (see REV-2)."
+      ],
+      "alternative_flows": [
+        "If the user clicks a summary card, then the list is filtered to that status; «مغلقة» includes closed, awaiting-apology and cancelled applications.",
+        "If the user removes a filter chip, then that filter is reset to «all».",
+        "If no application matches the criteria, then the system shows «لا توجد طلبات مطابقة»."
+      ],
+      "business_requirements": [
+        "The system must list all applications of the organization across all grant opportunities with project, reference, partner, stage, status, AI score and requested amount.",
+        "The system must allow filtering by stage, status, grant opportunity, grant type, region and partner account type, and searching by reference, project title or partner name.",
+        "The system should make text search case-insensitive.",
+        "The system must flag an application as late when its time in the current stage exceeds that stage's configured service level (not a fixed number of days).",
+        "The system must provide summary counts by status that act as quick filters.",
+        "The system should allow each user to choose visible columns and save filters and columns as a personal default view.",
+        "The system must allow export of the currently filtered list, containing exactly the rows displayed.",
+        "The system should show the opportunity and date-added columns on demand (hidden by default).",
+        "The system must only show applications belonging to the user's organization."
+      ],
+      "errors": [
+        {
+          "name": "No matching applications",
+          "description": "When filters return no rows, the system shows «لا توجد طلبات مطابقة» and keeps the filters editable."
+        },
+        {
+          "name": "List cannot be loaded",
+          "description": "When application data cannot be retrieved, the system should show a clear error message with a retry option instead of an empty list (Recommended)."
+        }
+      ],
+      "postconditions": "The user has located the applications to work on; any saved view is restored on the next visit.",
+      "fields": [
+        {
+          "en": "Search",
+          "ar": "بحث برقم الطلب أو المشروع أو الجهة",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Matches reference, project title or partner name; not saved in the view."
+        },
+        {
+          "en": "Stage",
+          "ar": "المرحلة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "All stages or a specific stage (Reception, Study, Approval)."
+        },
+        {
+          "en": "Status",
+          "ar": "الحالة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "All, all closed, pending, approved, closed, awaiting apology, cancelled."
+        },
+        {
+          "en": "Grant opportunity",
+          "ar": "الفرصة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Grant type",
+          "ar": "النوع",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Project, products, or tendered project (RFP)."
+        },
+        {
+          "en": "Region",
+          "ar": "المنطقة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Partner account type",
+          "ar": "نوع الحساب",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "AI evaluation score",
+          "ar": "التقييم",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "0–100, coloured per the evaluation agent."
+        },
+        {
+          "en": "Requested amount",
+          "ar": "القيمة",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        }
+      ],
+      "trace": [
+        "US-REV-001",
+        "US-REV-002",
+        "FR-REV-001",
+        "FR-REV-002",
+        "FR-REV-003",
+        "FR-REV-004",
+        "FR-REV-005"
+      ]
+    },
+    {
+      "key": "REV-2",
+      "name": "Study the application dossier and its audit trail",
+      "title": "As a Reviewer, I want the complete application dossier, partner profile, service-level status and decision history on one page so that I can decide without switching screens and every decision remains auditable.",
+      "description": "The application workspace brings together the project data, dynamic form answers, product lines, partner profile, supporting files, the approval chain per stage and the full operations log. Partner and opportunity data are frozen at submission and at final approval so the basis of each decision is preserved even if master data changes later.",
+      "actors": [
+        "Reviewer",
+        "Grants Manager",
+        "Committee Secretary",
+        "CEO / Executive Approver",
+        "System"
+      ],
+      "preconditions": [
+        "The application exists and the user is authorised to view it."
+      ],
+      "trigger": "The user opens an application from the list, a task, a link or search.",
+      "scenario": [
+        "The system shows the header: project title, AI score, eligibility flag, status, reference, opportunity, partner, three-step stage tracker, current stage and its service-level progress («x من y أيام» or «متأخر n أيام (المستهدف y)»), and requested amount.",
+        "The user reviews the project card: description, duration, region, beneficiaries, initiative, product lines (if any), target groups and the answers to the opportunity's application form.",
+        "The user reviews the partner card: status, bank verification status, running and previous projects, last grant year and the full partner profile.",
+        "The user consults the partner and opportunity snapshots taken «عند التقديم» and «عند الاعتماد».",
+        "The user opens supporting files and, where needed, attaches additional review evidence; each file is tagged with the stage at which it was added.",
+        "The user reviews the approval chain showing, per stage, its status, approver, time taken against the service level and stage notes.",
+        "The user expands the operations log to see every action with actor, stage, note and date.",
+        "The user adds a free-text note to the record when needed."
+      ],
+      "alternative_flows": [
+        "If the application has no linked partner, then the partner card shows «لا توجد جهة مرتبطة».",
+        "If there are no files, then the attachments section shows «لا توجد مرفقات».",
+        "If the decision area is scrolled out of view, then a sticky decision bar offers the same decision actions."
+      ],
+      "business_requirements": [
+        "The system must present the full dossier (project data, form answers, product lines, partner profile, files, approval chain, history) on a single workspace.",
+        "The system must show the service-level status of the current stage, turning to an overdue indicator when the stage target is exceeded.",
+        "The system must freeze a snapshot of key partner data (name, account type, licence, region, city, status, bank and IBAN, bank verification status) and opportunity data (title, pass score, contract requirement) together with the requested amount at submission and at every final-approval path.",
+        "The system must record every workflow action (submission, stage decisions, returns, edits, notes, evaluations, merges, relocations, transfers, deliveries, figure proposals and responses) in an append-only history with actor, stage, action, note, date and, where applicable, the committee minute.",
+        "The system must display every history action with a readable business label.",
+        "The system must reconstruct the approval chain per stage, including reopen and merge events, with approver and time taken against the service level.",
+        "The system must allow staff to attach supporting files to an application and open them securely; partners must not see staff-only controls.",
+        "The system should manage application files per required-document slot with an advisory AI check, consistent with project and payment evidence (Recommended).",
+        "The system should re-evaluate the opportunity's eligibility rules against the partner's current data and display any failed rules to the reviewer (Recommended).",
+        "The system must allow staff to add a free-text note to the application history at any status."
+      ],
+      "errors": [
+        {
+          "name": "File upload failed",
+          "description": "When a file cannot be stored, the system shows «تعذّر الحفظ، حاول مرة أخرى» and does not register the file."
+        },
+        {
+          "name": "Application not found",
+          "description": "When the application does not exist or the user lacks access, the system should show a clear not-found / no-access page (Recommended)."
+        }
+      ],
+      "postconditions": "The reviewer has a complete, evidence-based view of the application; any added file or note is recorded in the history.",
+      "fields": [
+        {
+          "en": "Project title",
+          "ar": "المشروع",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Entered by the partner."
+        },
+        {
+          "en": "Reference number",
+          "ar": "رقم الطلب",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Generated automatically at submission."
+        },
+        {
+          "en": "Requested amount",
+          "ar": "القيمة المطلوبة",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Changes only through an accepted proposal or a merge."
+        },
+        {
+          "en": "Project duration (days)",
+          "ar": "مدة المشروع (أيام)",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Region",
+          "ar": "المنطقة",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Initiative",
+          "ar": "المبادرة",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Changed only via relocation (REV-7)."
+        },
+        {
+          "en": "Current stage",
+          "ar": "المرحلة",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Reception, Study, Approval."
+        },
+        {
+          "en": "Stage service level",
+          "ar": "المستهدف",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Days, from workflow configuration."
+        },
+        {
+          "en": "Attachment",
+          "ar": "المرفقات",
+          "type": "File",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "PDF, Word, Excel, PowerPoint or image; tagged with the stage."
+        },
+        {
+          "en": "Note",
+          "ar": "ملاحظة",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Required when adding a note."
+        }
+      ],
+      "trace": [
+        "US-REV-003",
+        "US-REV-004",
+        "US-REV-005",
+        "US-REV-028",
+        "FR-REV-006",
+        "FR-REV-007",
+        "FR-REV-008",
+        "FR-REV-009",
+        "FR-REV-010",
+        "FR-REV-011",
+        "FR-REV-012",
+        "FR-REV-013",
+        "FR-REV-014",
+        "FR-REV-020",
+        "FR-REV-035",
+        "FR-REV-069",
+        "FR-REV-070"
+      ]
+    },
+    {
+      "key": "REV-3",
+      "name": "Evaluate an application with AI decision support",
+      "title": "As a Reviewer, I want the external AI evaluation, my own opinion and a comparison with similar applications side by side so that my assessment is evidence-based and consistent.",
+      "description": "An external AI evaluation agent operated by the foundation scores each application, checks eligibility conditions and produces a detailed study (strengths, risks, gaps, cost per beneficiary, suggested payment schedule and initiative). Reviewers record their own accept/reject opinion, must justify any disagreement with the AI recommendation, can compare the application with another in the same opportunity, and can send feedback to the agent for re-evaluation. AI output is advisory only.",
+      "actors": [
+        "Reviewer",
+        "Grants Manager",
+        "CEO / Executive Approver",
+        "External AI Evaluation Agent",
+        "System"
+      ],
+      "preconditions": [
+        "The application has been submitted.",
+        "For reviewer opinions: the current stage is configured as a criteria-based (study) stage and the application is pending."
+      ],
+      "trigger": "The external agent posts its evaluation, or the reviewer opens the study section «دراسة وتقييم الطلب».",
+      "scenario": [
+        "The External AI Evaluation Agent submits its evaluation for the application through a secured channel.",
+        "The system stores and displays the AI score with the agent's colour and label, recommendation, summary and last-update date.",
+        "If any mandatory eligibility condition is unmet, the system flags the application «غير مؤهل» without changing the score.",
+        "The reviewer opens the detailed report: conditions (met / unmet / not verifiable), strengths, risks, gaps, suggested committee questions, budget and cost per beneficiary, suggested payment schedule, suggested initiative and track, and per-criterion scores.",
+        "The reviewer optionally compares the application with another from the same opportunity and reads the list of significant differences («نقاط الخلاف للمدير»).",
+        "The reviewer writes a note and records an opinion «قبول» or «رفض».",
+        "If the opinion contradicts the AI recommendation, the system requires a justification before saving.",
+        "The system saves one opinion per reviewer (a later opinion replaces the earlier one) and logs it.",
+        "The system warns decision-makers when one or more reviewers decided against the AI recommendation.",
+        "The Grants Manager optionally sends feedback to the agent for re-evaluation."
+      ],
+      "alternative_flows": [
+        "If no AI evaluation has arrived yet, then the system shows «لم يصل تقرير وكيل التقييم بعد.» and the feedback action is hidden.",
+        "If there is no other application in the same opportunity, then the comparison shows «لا توجد طلبات أخرى في هذا المسار».",
+        "If the two compared applications have no significant differences, then the system shows «لا توجد فروقات جوهرية بين الطلبين»."
+      ],
+      "business_requirements": [
+        "The system must accept AI evaluation results only from the authorised evaluation agent and only for an existing application.",
+        "The system must store and display the AI score (0–100), colour, label, recommendation, summary, detailed report, criteria scores and evaluation date.",
+        "The system must flag an application as not eligible when any mandatory AI condition is unmet, without altering the score.",
+        "The system must treat all AI output as advisory: a suggested track, initiative or payment schedule must never be applied automatically.",
+        "The system must allow each reviewer to record one accept/reject opinion per application with a comment, replaceable by the same reviewer.",
+        "The system must require a justification when a reviewer's opinion contradicts the AI recommendation.",
+        "The system must alert decision-makers when reviewers' opinions disagree with the AI recommendation, showing the count.",
+        "The system should allow comparing an application with another from the same opportunity and list significant differences (score gap of 15 points or more, different recommendations, eligibility mismatch, criterion gap of 3/10 or more, amount ratio of 2x or more, risks on one side only).",
+        "The system must send reviewer feedback to the external evaluation agent so that it can actually re-evaluate the application, and record the feedback in the history (Recommended).",
+        "The system should keep reviewers' opinions internal and not visible to the partner (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Unjustified disagreement with AI",
+          "description": "When a reviewer's opinion contradicts the AI recommendation without a note, the system shows «قرارك يخالف توصية الوكيل — اكتب المبرر في الملاحظة» and does not save."
+        },
+        {
+          "name": "Evaluation rejected from agent",
+          "description": "When the agent's submission is unauthorised, malformed or refers to an unknown application, the system rejects it and stores nothing."
+        },
+        {
+          "name": "Opinion not saved",
+          "description": "When saving fails, the system shows «تعذّر الحفظ، حاول مرة أخرى»."
+        }
+      ],
+      "postconditions": "The application carries the AI evaluation and the reviewers' recorded opinions, available to the stage decision-maker and the committee.",
+      "fields": [
+        {
+          "en": "AI evaluation score",
+          "ar": "درجة الوكيل",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "0–100, provided by the agent."
+        },
+        {
+          "en": "AI recommendation",
+          "ar": "التوصية",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Eligibility flag",
+          "ar": "غير مؤهل",
+          "type": "Yes/No",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Set when a mandatory condition is unmet."
+        },
+        {
+          "en": "Criterion score",
+          "ar": "درجة الوكيل /10",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Per evaluation criterion with weight and note."
+        },
+        {
+          "en": "Reviewer opinion",
+          "ar": "رأيك كمقيّم",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Accept (قبول) or Reject (رفض)."
+        },
+        {
+          "en": "Reviewer note",
+          "ar": "الملاحظة",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Mandatory when contradicting the AI recommendation."
+        },
+        {
+          "en": "Feedback to agent",
+          "ar": "تغذية راجعة للوكيل",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Available only when an AI score exists."
+        },
+        {
+          "en": "Application to compare",
+          "ar": "اختر الطلب الآخر من نفس المسار",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Same opportunity only."
+        }
+      ],
+      "trace": [
+        "US-REV-011",
+        "US-REV-013",
+        "US-REV-014",
+        "US-REV-015",
+        "FR-REV-026",
+        "FR-REV-027",
+        "FR-REV-028",
+        "FR-REV-030",
+        "FR-REV-031",
+        "FR-REV-032",
+        "FR-REV-033",
+        "FR-REV-034",
+        "FR-REV-036",
+        "FR-REV-037"
+      ]
+    },
+    {
+      "key": "REV-4",
+      "name": "Take a stage decision on an application",
+      "title": "As a stage supervisor (Reviewer or Grants Manager), I want to approve, skip, send back, reject or reopen an application according to the stage rules so that it progresses through the approval journey under control.",
+      "description": "Each application passes through three stages: Reception, Study and Approval. The authorised decision-maker of the current stage can approve (moving it to the next stage, or final approval at the last stage), skip the stage when the workflow allows, return it to the previous stage, or reject it with a standard reason and optional apology message. Closed applications can be reopened. Study-stage approval is gated by the opportunity's pass score.",
+      "actors": [
+        "Reviewer",
+        "Grants Manager",
+        "Committee Secretary",
+        "CEO / Executive Approver",
+        "System Administrator",
+        "System"
+      ],
+      "preconditions": [
+        "The application is pending at a configured stage (or closed, for reopening).",
+        "The user is an authorised decision-maker for the current stage."
+      ],
+      "trigger": "The decision-maker uses the decision area «القرار — <stage>» on the application, or a quick action from tasks (see TSK).",
+      "scenario": [
+        "The decision-maker reviews the dossier and evaluations (REV-2, REV-3).",
+        "The decision-maker optionally enters a note and selects «اعتماد» (or «اعتماد نهائي» at the Approval stage).",
+        "At the Study stage, the system checks that an evaluation score exists and meets the opportunity's pass score.",
+        "The system checks that no edits are awaited from the partner, no figure proposal is pending and no co-funding approval condition is unconfirmed.",
+        "For stages 1 and 2, the system moves the application to the next stage and restarts the stage service-level clock.",
+        "For the final stage, the system marks the application approved, freezes the approval snapshot and makes it available for transfer to contract (REV-9) or delivery (REV-10).",
+        "The system records the decision in the history and removes the task from the stage owners (see TSK).",
+        "The system confirms «تم اعتماد المرحلة ونقل الطلب للمرحلة التالية» or «تم اعتماد الطلب نهائياً»."
+      ],
+      "alternative_flows": [
+        "If the stage allows skipping and the user selects «تخطي», then the stage is passed as if approved and logged as a skip; skipping the final stage equals final approval.",
+        "If the stage allows return and the application is beyond stage 1, then «إرجاع للسابقة» moves it back one stage.",
+        "If the user selects «رفض», then the user must choose a closure reason (عدم توفر ميزانية مخصصة / لم يجتز نسبة التقييم / خارج نطاق الفرصة / نقص في المتطلبات / اخرى) and may write an apology message; with an apology the status becomes «بانتظار الاعتذار», otherwise «مغلق».",
+        "If a closed, awaiting-apology or cancelled application must be corrected, then an authorised user selects «إعادة فتح الطلب» and it returns to pending at its last stage.",
+        "If the current stage is a committee stage, then the decision must be backed by a committee minute (see REV-6) (To be confirmed)."
+      ],
+      "business_requirements": [
+        "The system must enforce a three-stage approval journey (Reception, Study, Approval) driven by the workflow configured for the grant opportunity; the number of stages should follow the configuration (To be confirmed).",
+        "Only the configured supervisors or committee secretary of the current stage, or a Grants Manager or System Administrator, may take a stage decision; this must be enforced for every entry point (application page, tasks, focus mode, committee minute).",
+        "The system must block Study-stage approval when the evaluation score is missing or below the opportunity's pass score (default 80%), regardless of the entry point.",
+        "Whether the Study-stage gate uses the AI score, reviewers' opinions (quorum/majority) or both must be configurable (To be confirmed).",
+        "The system must prevent approval while the application awaits partner edits, while a figure proposal awaits the partner's response, or while a co-funding approval condition is unconfirmed.",
+        "The system must offer skip and return-to-previous-stage only when the stage configuration allows them; return is never offered at stage 1.",
+        "The system must require a closure reason from the standard list for every rejection and store it with the optional apology message.",
+        "The system must define and support the follow-up for «بانتظار الاعتذار» (sending the apology to the partner) and the meaning of «ملغي» (To be confirmed).",
+        "The system must allow reopening only for closed, awaiting-apology or cancelled applications that were not merged into another request; reopening returns the application to its last stage.",
+        "The system should restrict reopening to authorised roles (To be confirmed).",
+        "The system must restart the stage service-level clock on every stage entry and record each decision with actor, stage and note.",
+        "The system should require that final approval verifies the partner is active and its bank account is verified (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "No evaluation at Study stage",
+          "description": "When approving the Study stage without a score, the system shows «لا يمكن اعتماد مرحلة الدراسة قبل إدخال تقييم واحد على الأقل» and the application stays in stage 2."
+        },
+        {
+          "name": "Score below pass score",
+          "description": "When the score is below the pass score, the system shows «متوسط التقييم x% أقل من نسبة الاجتياز y%» and blocks approval."
+        },
+        {
+          "name": "Pending edits or conditions",
+          "description": "When edits, a figure proposal or a co-funding condition are pending, the system blocks approval and lists what is outstanding (Recommended)."
+        },
+        {
+          "name": "Unauthorised decision",
+          "description": "When the user is not an authorised decision-maker for the stage, the system refuses the action and records nothing (Recommended)."
+        },
+        {
+          "name": "Action failed",
+          "description": "When an unexpected error occurs, the system shows «تعذّر تنفيذ الإجراء، حاول مرة أخرى» and the application is unchanged."
+        }
+      ],
+      "postconditions": "The application is at its new stage, finally approved, closed (with reason) or reopened; the decision is recorded in the history and approval chain.",
+      "fields": [
+        {
+          "en": "Decision",
+          "ar": "القرار",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Approve, final approve, skip, return to previous stage, return for edit, reject, note (per stage configuration)."
+        },
+        {
+          "en": "Decision note",
+          "ar": "ملاحظة",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Closure reason",
+          "ar": "سبب الإغلاق",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "عدم توفر ميزانية مخصصة / لم يجتز نسبة التقييم / خارج نطاق الفرصة / نقص في المتطلبات / اخرى."
+        },
+        {
+          "en": "Apology message",
+          "ar": "رسالة الاعتذار (اختياري)",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "When entered, status becomes awaiting apology."
+        },
+        {
+          "en": "Application status",
+          "ar": "الحالة",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Pending, approved, closed, awaiting apology, cancelled."
+        },
+        {
+          "en": "Opportunity pass score",
+          "ar": "نسبة الاجتياز",
+          "type": "Percentage",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Configured per opportunity; default 80%."
+        }
+      ],
+      "trace": [
+        "US-REV-006",
+        "US-REV-007",
+        "US-REV-009",
+        "US-REV-010",
+        "US-REV-012",
+        "FR-REV-015",
+        "FR-REV-016",
+        "FR-REV-017",
+        "FR-REV-018",
+        "FR-REV-019",
+        "FR-REV-024",
+        "FR-REV-025",
+        "FR-REV-029",
+        "FR-REV-059",
+        "FR-REV-071",
+        "FR-REV-072"
+      ]
+    },
+    {
+      "key": "REV-5",
+      "name": "Return an application to the partner for edits or revised figures",
+      "title": "As a Reviewer, I want to return an application to the partner with the required changes, or propose revised amount, duration or quantities for the partner's acceptance, so that incomplete applications are fixed without rejection and figures change only with the partner's consent.",
+      "description": "Instead of rejecting, staff can return an application to the partner with a mandatory note describing what must be corrected. While doing so, staff can propose new figures (requested amount and duration for project grants, product quantities for in-kind grants); the proposal applies only when the partner accepts it in the partner portal.",
+      "actors": [
+        "Reviewer",
+        "Grants Manager",
+        "Partner Organization",
+        "System"
+      ],
+      "preconditions": [
+        "The application is pending at a stage that allows requesting edits.",
+        "No other figure proposal is pending (for proposals)."
+      ],
+      "trigger": "The reviewer selects «إرجاع للتعديل» on the application.",
+      "scenario": [
+        "The reviewer selects «إرجاع للتعديل إلى مقدم الطلب» and writes the required changes.",
+        "Optionally, the reviewer selects «تعديل الأرقام» and enters a new requested amount and duration (project grant) or new product quantities (in-kind grant, total recalculated automatically), with a note to the partner.",
+        "The reviewer confirms; the system marks the application as awaiting partner edits at the same stage and removes it from the stage owners' tasks.",
+        "The partner sees «مطلوب تعديل: <note>» and, if applicable, the figure proposal in the partner portal.",
+        "The partner accepts or rejects the proposal (with a note when rejecting); on acceptance the system applies the new figures.",
+        "The partner updates the application and selects «تم التعديل — إعادة الإرسال».",
+        "The system returns the application to the same stage as received and recreates the stage task."
+      ],
+      "alternative_flows": [
+        "If the partner rejects the proposed figures, then the original figures remain and the rejection note is recorded.",
+        "If a proposal is already pending, then the system shows «تعديل أرقام بانتظار موافقة الجهة» instead of allowing a new proposal."
+      ],
+      "business_requirements": [
+        "The system must require a note describing the required edits when returning an application to the partner.",
+        "Returning for edits must keep the application's status and stage unchanged and suspend the stage task until the partner resubmits.",
+        "The system must show the reviewer's note to the partner and allow the partner to resubmit only while edits are requested.",
+        "The system must allow staff to propose a new requested amount and duration (project grants) or new product quantities (in-kind grants) with a note to the partner.",
+        "For in-kind grants, the proposed amount must equal the sum of quantity times unit price; duration is not editable.",
+        "The system must allow only one pending figure proposal per application and only for pending applications.",
+        "The system must apply proposed figures only after the partner explicitly accepts; a rejection must keep the original figures and record the partner's note.",
+        "The system must record the proposal, acceptance or rejection with the before and after values in the history.",
+        "The system should decide whether the stage service-level clock pauses while the application is with the partner (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Missing edit note",
+          "description": "Confirmation is disabled until the note is entered."
+        },
+        {
+          "name": "No figure changed",
+          "description": "When the proposal does not change any figure, the system shows «لم تغيّر أي رقم» and nothing is sent."
+        },
+        {
+          "name": "No proposal to answer",
+          "description": "When the partner responds to a proposal that no longer exists, the system shows «لا يوجد تعديل مقترح»."
+        }
+      ],
+      "postconditions": "The application is with the partner for correction (or back in the stage queue after resubmission); any accepted figures are applied and logged.",
+      "fields": [
+        {
+          "en": "Required changes note",
+          "ar": "النص",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Shown to the partner."
+        },
+        {
+          "en": "Proposed requested amount",
+          "ar": "القيمة المطلوبة (ر.س)",
+          "type": "Amount (SAR)",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Project grants only."
+        },
+        {
+          "en": "Proposed duration (days)",
+          "ar": "مدة المشروع (أيام)",
+          "type": "Number",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Project grants only."
+        },
+        {
+          "en": "Proposed product quantity",
+          "ar": "الكمية",
+          "type": "Number",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "In-kind grants; minimum 0."
+        },
+        {
+          "en": "New total",
+          "ar": "الإجمالي الجديد",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Calculated for in-kind grants."
+        },
+        {
+          "en": "Note to partner",
+          "ar": "ملاحظة للجهة",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Partner response",
+          "ar": "قبول / رفض التعديل",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Accept or reject; note on rejection."
+        }
+      ],
+      "trace": [
+        "US-REV-008",
+        "US-REV-019",
+        "US-REV-020",
+        "FR-REV-021",
+        "FR-REV-022",
+        "FR-REV-023",
+        "FR-REV-045",
+        "FR-REV-046",
+        "FR-REV-047",
+        "FR-REV-048"
+      ]
+    },
+    {
+      "key": "REV-6",
+      "name": "Record a committee decision by minute",
+      "title": "As a Committee Secretary, I want to apply one committee decision to several applications at the same stage with a single signed minute so that a meeting's outcome is recorded once and every decision is traceable to its minute.",
+      "description": "Committee stages decide many applications in one meeting. The committee secretary selects the applications of their committee at the same stage, enters the minute details, attaches the signed minute (with an advisory AI check of the document) and applies approve, reject or return to all of them at once. Each application's history references the minute, and per-item results are reported.",
+      "actors": [
+        "Committee Secretary",
+        "AI Assistant",
+        "System"
+      ],
+      "preconditions": [
+        "The applications are pending at a committee stage where the user is the configured committee secretary.",
+        "The signed minute document is available."
+      ],
+      "trigger": "The secretary selects committee items in «مهامي» and chooses «قرار بمحضر».",
+      "scenario": [
+        "The secretary selects pending applications of the same committee and stage; incompatible items cannot be selected.",
+        "The secretary opens «قرار بمحضر واحد» and enters the minute number, minute date and committee name (pre-filled).",
+        "The secretary chooses the decision: «اعتماد», «رفض» or «إرجاع».",
+        "The secretary enters a note (mandatory for rejection) and attaches the signed minute file.",
+        "The system runs an advisory AI check on the minute and shows its opinion without blocking.",
+        "The secretary confirms «تطبيق على n».",
+        "The system stores the minute once and applies the decision to each selected application using the same rules as an individual decision, including the pass-score gate.",
+        "The system links every decided application to the minute and reports the number succeeded and failed with reasons."
+      ],
+      "alternative_flows": [
+        "If some applications fail (e.g. already decided or failing a rule), then the system shows «نجح: x · تعذّر: y» with the reason for each failure.",
+        "If all succeed, then the system shows «تم تطبيق القرار على n طلب» and closes the dialog."
+      ],
+      "business_requirements": [
+        "Only the configured secretary of a committee stage may select its applications for a minute decision.",
+        "All applications in one minute decision must belong to the same committee and the same stage.",
+        "The system must require minute number, minute date and the signed minute file (PDF, Word, Excel or image, up to 10 MB); a note is mandatory for rejection.",
+        "The system must store one minute record per decision and link it to every application decided under it.",
+        "The system must apply exactly the same rules as an individual stage decision (authorisation, pass-score gate, pending-edit and condition checks) to each application.",
+        "The system must record the outcome per application (succeeded or failed with reason) and show a summary.",
+        "The system should apply a minute decision as a whole or provide a clear compensation path, so that a minute is not stored when no application could be decided (Recommended).",
+        "The system must treat the AI check of the minute as advisory and never block the decision.",
+        "Every decision at a committee stage, including decisions taken from the application page, should be backed by a minute (To be confirmed).",
+        "Minute decisions for payment approvals allow only approve or reject (To be confirmed whether payment minutes are needed)."
+      ],
+      "errors": [
+        {
+          "name": "Mixed stages",
+          "description": "When the selection contains different stages, the system shows «اختر طلبات في المرحلة نفسها فقط» and nothing is decided."
+        },
+        {
+          "name": "Rejection without reason",
+          "description": "The system shows «اكتب سبب الرفض في الملاحظة»."
+        },
+        {
+          "name": "Missing minute data",
+          "description": "The apply button stays disabled; the system shows «رقم المحضر مطلوب», «تاريخ المحضر مطلوب» or «مرفق المحضر إلزامي»."
+        },
+        {
+          "name": "Invalid minute file",
+          "description": "When the file type or size is not allowed, the system shows «المرفق يجب أن يكون PDF أو Word أو Excel أو صورة وبحجم لا يتجاوز 10MB»."
+        }
+      ],
+      "postconditions": "Each successfully decided application has moved, been returned or been rejected, and carries a history entry referencing the committee minute.",
+      "fields": [
+        {
+          "en": "Minute number",
+          "ar": "رقم المحضر",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Minute date",
+          "ar": "تاريخ المحضر",
+          "type": "Date",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Defaults to today."
+        },
+        {
+          "en": "Committee name",
+          "ar": "اسم اللجنة",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Pre-filled from the stage configuration."
+        },
+        {
+          "en": "Decision",
+          "ar": "القرار",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Approve (اعتماد), Reject (رفض), Return (إرجاع)."
+        },
+        {
+          "en": "Note",
+          "ar": "ملاحظة",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Mandatory for rejection; used as the closure reason."
+        },
+        {
+          "en": "Minute attachment",
+          "ar": "مرفق المحضر",
+          "type": "File",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "PDF, Word, Excel or image, max 10 MB; advisory AI check."
+        }
+      ],
+      "trace": [
+        "US-REV-016",
+        "US-REV-017",
+        "US-REV-018",
+        "FR-REV-038",
+        "FR-REV-041",
+        "FR-REV-042",
+        "FR-REV-043",
+        "FR-REV-044"
+      ]
+    },
+    {
+      "key": "REV-7",
+      "name": "Set funding conditions, indicators and initiative placement",
+      "title": "As a Grants Manager, I want to register co-funders and approval conditions, commit plan indicators and relocate an application to the right initiative before contracting so that funding, outcomes and plan consumption are correct from the start.",
+      "description": "Before an application becomes a contract, staff can record contributions from other donors (confirmed or as a condition of approval, confirmed when the donor's approval is attached), link the strategic plan indicators that the project will deliver with required quantities, and move the application to a different initiative with a recorded reason. All of these follow the application into the resulting project.",
+      "actors": [
+        "Grants Manager",
+        "Reviewer",
+        "System"
+      ],
+      "preconditions": [
+        "The application is pending (or approved and not yet transferred) and not closed."
+      ],
+      "trigger": "The user opens «التمويل والمؤشرات», «إضافة مانح شريك أو شرط مساهمة» or «إعادة تسكين» on the application.",
+      "scenario": [
+        "The user adds a co-funder by selecting an existing donor or entering a new one (with optional update email) and the contribution amount.",
+        "The user marks the contribution as «مساهمة مؤكدة» or «شرط اعتماد (بانتظار موافقته)»; a condition is tied to the current stage and logged.",
+        "When the donor approves, the user attaches the approval evidence and the condition becomes «موافقة مثبتة».",
+        "The user links plan indicators to the application, entering the required quantity (milestones are fixed at 1); the system shows the remaining target of each indicator.",
+        "The user unlinks an indicator if it was linked by mistake.",
+        "The user relocates the application to another initiative, selecting the new initiative and entering a reason.",
+        "The system records each change in the application history."
+      ],
+      "alternative_flows": [
+        "If an indicator's target is exhausted, then it cannot be selected.",
+        "If the requested quantity exceeds the remaining target, then the system rejects the link and states the remaining quantity."
+      ],
+      "business_requirements": [
+        "The system must allow registering co-funders (new or existing) with a contribution amount greater than zero, either as a confirmed contribution or as an approval condition tied to the current stage.",
+        "The system must mark a co-funding condition as confirmed only when the donor's approval evidence is attached.",
+        "The system must block final approval and transfer while any co-funding approval condition is unconfirmed.",
+        "The system must allow linking plan indicators to an application only before transfer, with a required quantity; milestone indicators are linked with a target of 1.",
+        "The system must prevent linking a quantitative indicator beyond its remaining target across all applications and projects.",
+        "The system must not allow indicator links, co-funding or allocations to be changed from the application once it has been transferred to a project.",
+        "The system must hide funding and indicator editing for every closed status (closed, awaiting apology, cancelled).",
+        "The system must require a different initiative and a reason for relocation and record both in the history.",
+        "The system should lock relocation after transfer or propagate it to the resulting projects, and should check the target initiative's available budget (To be confirmed).",
+        "The system must carry co-funding, plan allocations and indicators into the resulting project(s) on transfer."
+      ],
+      "errors": [
+        {
+          "name": "Missing donor or amount",
+          "description": "The system shows «أدخل اسم المانح والمبلغ»."
+        },
+        {
+          "name": "Indicator not specified",
+          "description": "The system shows «اختر المؤشر وحدد العدد المطلوب»."
+        },
+        {
+          "name": "Indicator target exceeded",
+          "description": "The system shows «المتبقي من المؤشر … فقط — خفّض العدد المطلوب» or «المؤشر استنفد مستهدفه … — لا يمكن ربطه»."
+        },
+        {
+          "name": "Same initiative selected",
+          "description": "The system shows «اختر مبادرة مختلفة»."
+        },
+        {
+          "name": "Missing relocation reason",
+          "description": "The system shows «اكتب سبب إعادة التسكين»."
+        }
+      ],
+      "postconditions": "The application carries its co-funding, conditions, indicator commitments and correct initiative, ready for final approval and transfer.",
+      "fields": [
+        {
+          "en": "Co-funder",
+          "ar": "المانح",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Existing donor or new name."
+        },
+        {
+          "en": "Update email",
+          "ar": "بريد التحديثات (اختياري)",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Contribution amount",
+          "ar": "مبلغ المساهمة",
+          "type": "Amount (SAR)",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Greater than zero."
+        },
+        {
+          "en": "Contribution type",
+          "ar": "مساهمة مؤكدة / شرط اعتماد",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Condition is tied to the current stage."
+        },
+        {
+          "en": "Donor approval evidence",
+          "ar": "إرفاق الموافقة",
+          "type": "File",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Confirms the condition."
+        },
+        {
+          "en": "Plan indicator",
+          "ar": "المؤشر",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Shows remaining/target and initiative."
+        },
+        {
+          "en": "Required quantity",
+          "ar": "العدد المطلوب",
+          "type": "Number",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Greater than zero and not above remaining; fixed 1 for milestones."
+        },
+        {
+          "en": "New initiative",
+          "ar": "المبادرة الجديدة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Must differ from current."
+        },
+        {
+          "en": "Relocation reason",
+          "ar": "السبب",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": ""
+        }
+      ],
+      "trace": [
+        "US-REV-021",
+        "US-REV-024",
+        "US-REV-025",
+        "FR-REV-049",
+        "FR-REV-057",
+        "FR-REV-058",
+        "FR-REV-059",
+        "FR-REV-060",
+        "FR-REV-061",
+        "FR-REV-062"
+      ]
+    },
+    {
+      "key": "REV-8",
+      "name": "Merge and unmerge applications of the same partner",
+      "title": "As a Grants Manager, I want to merge several eligible requests of the same partner into one request, and undo the merge while the contract is still being prepared, so that the partner is contracted once without losing prior approvals.",
+      "description": "When a partner has several related requests, staff can merge them into one unified request that will produce a single contract. The merged request restarts at the stage after the lowest stage already approved among its parts, and stays approved only if every part was finally approved. Absorbed requests are closed with a link to the merged request. The merge can be undone while the resulting contract is still being prepared.",
+      "actors": [
+        "Grants Manager",
+        "Reviewer",
+        "System"
+      ],
+      "preconditions": [
+        "The primary request is pending or approved and not transferred.",
+        "Other requests of the same partner and grant type exist that are pending or approved, not transferred and not already merged."
+      ],
+      "trigger": "The user selects «دمج مع طلب آخر لنفس الجهة» (or «فك الدمج» on a merged request).",
+      "scenario": [
+        "The system lists eligible requests of the same partner and grant type, with amount, prior approval level and opportunity.",
+        "The user selects the requests to merge.",
+        "If the selected requests differ in opportunity or plan item, the user chooses the opportunity and plan item of the merged request.",
+        "The system shows the impact: the target stage (or that all parts are finally approved), the merged total and the requests that will be closed.",
+        "If the merge would move a finally approved request back into review, the user must confirm a second time.",
+        "The system builds the merged request (total amount, combined bill of quantities, payment schedule), records each part's prior approval, moves indicators, co-funding and allocations to it, and closes the absorbed requests with «مُدمج ضمن الطلب <ref>».",
+        "The merged request continues through the normal approval journey and shows each part with «سبق اعتماده حتى المرحلة n»."
+      ],
+      "alternative_flows": [
+        "Unmerge: if the merged request has no contract or its contract is still «بانتظار الإعداد», then «فك الدمج» deletes that contract and its projects and restores each original request with its original status, stage and linked items.",
+        "If no eligible request exists, then the system shows «لا توجد طلبات أخرى مؤهلة لهذه الجهة»."
+      ],
+      "business_requirements": [
+        "The system must allow merging only requests of the same partner and the same grant type that are pending or approved, not transferred and not already merged.",
+        "The system must require the user to choose the opportunity and plan item of the merged request when the parts differ.",
+        "The merged request must restart at the stage after the lowest prior approved stage among its parts and remain approved only if all parts were finally approved.",
+        "The system must require a second explicit confirmation when a merge would move a finally approved request back into review.",
+        "The system must close absorbed requests with a reason linking to the merged request and move their indicators, co-funding and plan allocations to it.",
+        "The system must handle in-kind product lines and reserved stock correctly on merge, or disallow merging of in-kind requests (To be confirmed).",
+        "The system must allow unmerge only before the contract has moved past «بانتظار الإعداد», restoring every original request and its linked items exactly.",
+        "An absorbed request must not be reopenable on its own; it can only be restored through unmerge.",
+        "Merge and unmerge must complete fully or not at all, never leaving partial contracts, projects or requests (Recommended).",
+        "The system must record merge and unmerge in the history of every affected request."
+      ],
+      "errors": [
+        {
+          "name": "Ineligible request",
+          "description": "The system shows «الطلب <ref> غير مؤهل للدمج»."
+        },
+        {
+          "name": "Different partners",
+          "description": "The system shows «الطلبات لجهات مختلفة»."
+        },
+        {
+          "name": "Unmerge after contract progressed",
+          "description": "The system hides the action and shows «لا يمكن فك الدمج بعد تجاوز العقد حالة «بانتظار الإعداد»» if attempted."
+        },
+        {
+          "name": "Merge or unmerge failed",
+          "description": "The system shows «تعذّر دمج الطلبات» or «تعذّر فك الدمج» and no change is kept."
+        }
+      ],
+      "postconditions": "One unified request represents the partner's merged requests (or the originals are restored after unmerge), with full history on every request.",
+      "fields": [
+        {
+          "en": "Requests to merge",
+          "ar": "الطلبات",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Same partner and grant type only."
+        },
+        {
+          "en": "Merged opportunity",
+          "ar": "فرصة المنح للطلب الموحد",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Mandatory when parts differ."
+        },
+        {
+          "en": "Merged plan item",
+          "ar": "بند الخطة للطلب الموحد",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Mandatory when parts differ; «بدون بند» allowed."
+        },
+        {
+          "en": "Merged total",
+          "ar": "قيمة الطلب الموحد",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Sum of the parts."
+        },
+        {
+          "en": "Target stage",
+          "ar": "المرحلة المستهدفة",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Calculated from prior approvals."
+        }
+      ],
+      "trace": [
+        "US-REV-022",
+        "US-REV-023",
+        "FR-REV-050",
+        "FR-REV-051",
+        "FR-REV-052",
+        "FR-REV-053",
+        "FR-REV-054",
+        "FR-REV-055",
+        "FR-REV-056"
+      ]
+    },
+    {
+      "key": "REV-9",
+      "name": "Approve the contract and transfer an approved application to projects",
+      "title": "As a Grants Manager, I want to approve the contract and transfer an approved application into one or several projects so that execution and disbursement can start.",
+      "description": "Once a project-type application is finally approved, the Grants Manager converts it into one contract (in preparation) and one or more projects. The bill of quantities can be split into several named projects, each with its own budget; payments are scheduled from the approved payment schedule. The project manager, contract requirement and plan item are taken from the opportunity defaults, and transfer is refused when the plan's budget is locked.",
+      "actors": [
+        "Grants Manager",
+        "System Administrator",
+        "System"
+      ],
+      "preconditions": [
+        "The application is finally approved, not yet transferred and has no in-kind product lines.",
+        "All co-funding approval conditions are confirmed."
+      ],
+      "trigger": "The Grants Manager selects «اعتماد العقد وترحيله».",
+      "scenario": [
+        "The Grants Manager chooses «مشروع واحد» or «تقسيم إلى عدة مشاريع».",
+        "In split mode, the Grants Manager names each project and assigns each bill-of-quantities item to a project; each project's budget is the sum of its items.",
+        "The Grants Manager confirms «اعتماد وترحيل».",
+        "The system determines the project manager, whether a contract is required and the plan item from the opportunity defaults, and checks that the plan's budget is not locked.",
+        "The system creates one contract in preparation for the full amount (when a contract is required) and the project(s) in planning.",
+        "The system schedules payments for each project from the payment-schedule percentages (or the predefined tender plan for RFP opportunities).",
+        "The system carries co-funding, plan allocations and indicators into the project(s), marks the application as transferred and records the transfer.",
+        "The system confirms «تم اعتماد العقد وترحيل الطلب» and opens the first project."
+      ],
+      "alternative_flows": [
+        "If the opportunity does not require a contract, then only the project(s) are created.",
+        "If the application is the winning offer of a tender (RFP), then awarding it approves and transfers it automatically and closes the other offers with an apology (see PRG).",
+        "If the bill of quantities has fewer than two items, then splitting is not available («التقسيم يحتاج جدول كميات من بندين أو أكثر»)."
+      ],
+      "business_requirements": [
+        "The system must allow transfer only for finally approved, non-transferred project-type applications; one contract per application.",
+        "The system must refuse transfer when the target plan's budget is locked, naming the plan.",
+        "The system must allow splitting the bill of quantities into several named projects, each with at least one item; each project's budget equals the sum of its items.",
+        "The system must create payments for each project in proportion to the approved payment-schedule percentages, with due dates relative to the transfer date.",
+        "The system must assign the project manager from the opportunity default when none is chosen (To be confirmed whether a manager must always be named).",
+        "The system must distribute co-funding, plan allocations and indicators across split projects according to a defined rule, not only to the first project (To be confirmed).",
+        "Transfer must complete fully or not at all, never leaving a partial contract or projects (Recommended).",
+        "The system should verify that the partner is active and has a verified bank account before transfer (To be confirmed).",
+        "The system must record the transfer with contract and project references in the application history and display the contract on the application."
+      ],
+      "errors": [
+        {
+          "name": "Plan budget locked",
+          "description": "The system shows «ميزانية «<plan>» مقفلة — لا يمكن اعتماد مشاريع جديدة منها» and creates nothing."
+        },
+        {
+          "name": "Project without items",
+          "description": "In split mode, the system shows «كل مشروع يحتاج بنداً واحداً على الأقل» and disables confirmation."
+        },
+        {
+          "name": "Transfer failed",
+          "description": "The system shows an error and no contract, project or payment is kept (Recommended)."
+        }
+      ],
+      "postconditions": "A contract in preparation and one or more projects in planning exist with scheduled payments; the application is marked transferred and execution continues in Projects and Finance.",
+      "fields": [
+        {
+          "en": "Transfer mode",
+          "ar": "مشروع واحد / تقسيم إلى عدة مشاريع",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Split requires two or more items."
+        },
+        {
+          "en": "Project name",
+          "ar": "اسم المشروع",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Defaults to the largest item in split mode."
+        },
+        {
+          "en": "Item assignment",
+          "ar": "البند → المشروع",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Each project needs at least one item."
+        },
+        {
+          "en": "Project budget",
+          "ar": "ميزانية المشروع",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Sum of assigned items."
+        },
+        {
+          "en": "Contract amount",
+          "ar": "قيمة العقد",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Equals the approved amount."
+        }
+      ],
+      "trace": [
+        "US-REV-026",
+        "FR-REV-063",
+        "FR-REV-064",
+        "FR-REV-065",
+        "FR-REV-066"
+      ]
+    },
+    {
+      "key": "REV-10",
+      "name": "Approve and deliver an in-kind (product) grant",
+      "title": "As a Grants Manager, I want final approval of an in-kind request to reserve the products and then record their delivery so that in-kind grants are tracked to handover.",
+      "description": "For product grants, final approval reserves the approved quantities from the available stock and marks the grant as awaiting delivery. Staff then record delivery of the products to the partner. In-kind grants do not go through contract transfer.",
+      "actors": [
+        "Grants Manager",
+        "System Administrator",
+        "System"
+      ],
+      "preconditions": [
+        "The application contains product lines and is at the final Approval stage (or approved awaiting delivery)."
+      ],
+      "trigger": "Final approval of a product application, then «تسجيل تسليم المنتجات».",
+      "scenario": [
+        "The decision-maker gives final approval to the product application (REV-4).",
+        "The system checks that enough stock is available for every product line.",
+        "The system reserves the quantities, marks the grant «بانتظار التسليم» and records the approval.",
+        "After the products are handed over, the Grants Manager selects «تسجيل تسليم المنتجات».",
+        "The system records the delivered quantities, marks the grant «تم التسليم» and logs the delivery."
+      ],
+      "alternative_flows": [
+        "If stock is insufficient for any line, then final approval is blocked with a message naming the product and available quantity (Recommended)."
+      ],
+      "business_requirements": [
+        "The system must deduct the approved quantity of each product from available stock at final approval.",
+        "The system must block final approval when available stock is insufficient instead of silently reducing stock to zero (Recommended).",
+        "The system must mark an approved in-kind grant as awaiting delivery and allow recording delivery only in that state.",
+        "The system must record delivered quantities per product line; partial deliveries should be supported (To be confirmed).",
+        "The system must not offer contract transfer for in-kind grants.",
+        "The system must record approval and delivery in the application history."
+      ],
+      "errors": [
+        {
+          "name": "Insufficient stock",
+          "description": "Final approval is refused with the product name and available quantity (Recommended)."
+        }
+      ],
+      "postconditions": "Stock reflects the reserved quantities and the in-kind grant is recorded as delivered.",
+      "fields": [
+        {
+          "en": "Product",
+          "ar": "المنتج",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Unit price",
+          "ar": "سعر الوحدة",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Quantity",
+          "ar": "الكمية",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Delivered quantity",
+          "ar": "المُسلَّم",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Set when delivery is recorded."
+        },
+        {
+          "en": "Fulfilment status",
+          "ar": "حالة التسليم",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Awaiting delivery or delivered."
+        }
+      ],
+      "trace": [
+        "US-REV-027",
+        "FR-REV-067",
+        "FR-REV-068"
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "type": "Information",
+      "en": "No matching applications",
+      "ar": "لا توجد طلبات مطابقة",
+      "use_case": "REV-1"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Attachment uploaded",
+      "ar": "تم رفع المرفق",
+      "use_case": "REV-2"
+    },
+    {
+      "type": "Error",
+      "en": "Could not save, please try again",
+      "ar": "تعذّر الحفظ، حاول مرة أخرى",
+      "use_case": "REV-2"
+    },
+    {
+      "type": "Information",
+      "en": "No attachments",
+      "ar": "لا توجد مرفقات",
+      "use_case": "REV-2"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Note added",
+      "ar": "تمت إضافة الملاحظة",
+      "use_case": "REV-2"
+    },
+    {
+      "type": "Information",
+      "en": "The evaluation agent's report has not arrived yet.",
+      "ar": "لم يصل تقرير وكيل التقييم بعد.",
+      "use_case": "REV-3"
+    },
+    {
+      "type": "Error",
+      "en": "Your decision contradicts the agent's recommendation — write the justification in the note",
+      "ar": "قرارك يخالف توصية الوكيل — اكتب المبرر في الملاحظة",
+      "use_case": "REV-3"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Your decision has been saved",
+      "ar": "تم حفظ قرارك",
+      "use_case": "REV-3"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Feedback sent to the agent for re-evaluation",
+      "ar": "أُرسلت التغذية الراجعة للوكيل لإعادة التقييم",
+      "use_case": "REV-3"
+    },
+    {
+      "type": "Information",
+      "en": "No significant differences between the two applications",
+      "ar": "لا توجد فروقات جوهرية بين الطلبين",
+      "use_case": "REV-3"
+    },
+    {
+      "type": "Error",
+      "en": "The study stage cannot be approved before at least one evaluation is entered",
+      "ar": "لا يمكن اعتماد مرحلة الدراسة قبل إدخال تقييم واحد على الأقل",
+      "use_case": "REV-4"
+    },
+    {
+      "type": "Error",
+      "en": "Evaluation average x% is below the pass score y%",
+      "ar": "متوسط التقييم x% أقل من نسبة الاجتياز y%",
+      "use_case": "REV-4"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Stage approved and application moved to the next stage",
+      "ar": "تم اعتماد المرحلة ونقل الطلب للمرحلة التالية",
+      "use_case": "REV-4"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Application finally approved",
+      "ar": "تم اعتماد الطلب نهائياً",
+      "use_case": "REV-4"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Stage skipped",
+      "ar": "تم تخطي المرحلة",
+      "use_case": "REV-4"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Application returned to the previous stage",
+      "ar": "تم إرجاع الطلب للمرحلة السابقة",
+      "use_case": "REV-4"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Application rejected",
+      "ar": "تم رفض الطلب",
+      "use_case": "REV-4"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Application reopened",
+      "ar": "تمت إعادة فتح الطلب",
+      "use_case": "REV-4"
+    },
+    {
+      "type": "Error",
+      "en": "The action could not be completed, please try again",
+      "ar": "تعذّر تنفيذ الإجراء، حاول مرة أخرى",
+      "use_case": "REV-4"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Edit request sent to the applicant",
+      "ar": "تم إرسال طلب التعديل للمتقدم",
+      "use_case": "REV-5"
+    },
+    {
+      "type": "Confirmation",
+      "en": "The change was sent to the partner for approval",
+      "ar": "أُرسل التعديل للجهة للموافقة",
+      "use_case": "REV-5"
+    },
+    {
+      "type": "Error",
+      "en": "You did not change any figure",
+      "ar": "لم تغيّر أي رقم",
+      "use_case": "REV-5"
+    },
+    {
+      "type": "Error",
+      "en": "There is no proposed change",
+      "ar": "لا يوجد تعديل مقترح",
+      "use_case": "REV-5"
+    },
+    {
+      "type": "Notification",
+      "en": "Edit required: <note> (shown to the partner)",
+      "ar": "مطلوب تعديل: <الملاحظة>",
+      "use_case": "REV-5"
+    },
+    {
+      "type": "Warning",
+      "en": "Figure changes awaiting the partner's approval",
+      "ar": "تعديل أرقام بانتظار موافقة الجهة",
+      "use_case": "REV-5"
+    },
+    {
+      "type": "Error",
+      "en": "Select applications at the same stage only",
+      "ar": "اختر طلبات في المرحلة نفسها فقط",
+      "use_case": "REV-6"
+    },
+    {
+      "type": "Error",
+      "en": "Write the rejection reason in the note",
+      "ar": "اكتب سبب الرفض في الملاحظة",
+      "use_case": "REV-6"
+    },
+    {
+      "type": "Error",
+      "en": "Minute number is required",
+      "ar": "رقم المحضر مطلوب",
+      "use_case": "REV-6"
+    },
+    {
+      "type": "Error",
+      "en": "Minute date is required",
+      "ar": "تاريخ المحضر مطلوب",
+      "use_case": "REV-6"
+    },
+    {
+      "type": "Error",
+      "en": "The minute attachment is mandatory",
+      "ar": "مرفق المحضر إلزامي",
+      "use_case": "REV-6"
+    },
+    {
+      "type": "Error",
+      "en": "The attachment must be PDF, Word, Excel or an image and not exceed 10MB",
+      "ar": "المرفق يجب أن يكون PDF أو Word أو Excel أو صورة وبحجم لا يتجاوز 10MB",
+      "use_case": "REV-6"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Decision applied to n applications",
+      "ar": "تم تطبيق القرار على n طلب",
+      "use_case": "REV-6"
+    },
+    {
+      "type": "Warning",
+      "en": "Succeeded: x · Failed: y",
+      "ar": "نجح: x · تعذّر: y",
+      "use_case": "REV-6"
+    },
+    {
+      "type": "Information",
+      "en": "Does not block saving — the decision is yours (advisory AI document check)",
+      "ar": "لا يمنع الحفظ — القرار لك",
+      "use_case": "REV-6"
+    },
+    {
+      "type": "Error",
+      "en": "Enter the donor name and amount",
+      "ar": "أدخل اسم المانح والمبلغ",
+      "use_case": "REV-7"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Donor approval confirmed",
+      "ar": "تم إثبات موافقة المانح",
+      "use_case": "REV-7"
+    },
+    {
+      "type": "Error",
+      "en": "Select the indicator and specify the required quantity",
+      "ar": "اختر المؤشر وحدد العدد المطلوب",
+      "use_case": "REV-7"
+    },
+    {
+      "type": "Error",
+      "en": "Only … remains of the indicator — reduce the required quantity",
+      "ar": "المتبقي من المؤشر … فقط — خفّض العدد المطلوب",
+      "use_case": "REV-7"
+    },
+    {
+      "type": "Error",
+      "en": "Select a different initiative",
+      "ar": "اختر مبادرة مختلفة",
+      "use_case": "REV-7"
+    },
+    {
+      "type": "Error",
+      "en": "Write the relocation reason",
+      "ar": "اكتب سبب إعادة التسكين",
+      "use_case": "REV-7"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Application relocated",
+      "ar": "تمت إعادة تسكين الطلب",
+      "use_case": "REV-7"
+    },
+    {
+      "type": "Error",
+      "en": "Request <ref> is not eligible for merging",
+      "ar": "الطلب <ref> غير مؤهل للدمج",
+      "use_case": "REV-8"
+    },
+    {
+      "type": "Error",
+      "en": "The requests belong to different partners",
+      "ar": "الطلبات لجهات مختلفة",
+      "use_case": "REV-8"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Requests merged into one unified request",
+      "ar": "تم دمج الطلبات في طلب موحد",
+      "use_case": "REV-8"
+    },
+    {
+      "type": "Error",
+      "en": "Cannot unmerge after the contract has passed «awaiting preparation»",
+      "ar": "لا يمكن فك الدمج بعد تجاوز العقد حالة «بانتظار الإعداد»",
+      "use_case": "REV-8"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Merge undone and original requests restored",
+      "ar": "تم فك الدمج وإعادة الطلبات الأصلية",
+      "use_case": "REV-8"
+    },
+    {
+      "type": "Warning",
+      "en": "The contract (awaiting preparation) and its projects will be deleted.",
+      "ar": "سيُحذف العقد (بانتظار الإعداد) ومشاريعه.",
+      "use_case": "REV-8"
+    },
+    {
+      "type": "Error",
+      "en": "Budget «<plan>» is locked — no new projects can be approved from it",
+      "ar": "ميزانية «<plan>» مقفلة — لا يمكن اعتماد مشاريع جديدة منها",
+      "use_case": "REV-9"
+    },
+    {
+      "type": "Error",
+      "en": "Each project needs at least one item",
+      "ar": "كل مشروع يحتاج بنداً واحداً على الأقل",
+      "use_case": "REV-9"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Contract approved and application transferred",
+      "ar": "تم اعتماد العقد وترحيل الطلب",
+      "use_case": "REV-9"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Product delivery recorded",
+      "ar": "تم تسجيل تسليم المنتجات",
+      "use_case": "REV-10"
+    },
+    {
+      "type": "Notification",
+      "en": "Recommended: notify the partner when the application is returned for edits, approved or rejected (with the apology message)",
+      "ar": "إشعار الجهة بإرجاع الطلب أو اعتماده أو رفضه (مقترح)",
+      "use_case": "REV-4"
+    }
+  ],
+  "business_rules": [
+    {
+      "rule": "Every application passes through three stages — Reception («استقبال الطلبات»), Study («دراسة الطلبات») and Approval («اعتماد الطلبات»); approval at the last stage is the final approval.",
+      "use_case": "REV-4"
+    },
+    {
+      "rule": "Only the configured supervisors or committee secretary of the current stage, or a Grants Manager / System Administrator, may decide on that stage.",
+      "use_case": "REV-4"
+    },
+    {
+      "rule": "Study-stage approval requires an evaluation score at or above the opportunity's pass score (default 80%), whatever screen the decision is taken from.",
+      "use_case": "REV-4"
+    },
+    {
+      "rule": "Skip and return-to-previous-stage are available only if the stage configuration allows them; an application is never returned below stage 1.",
+      "use_case": "REV-4"
+    },
+    {
+      "rule": "Every rejection carries a reason from the standard list; an apology message places the application in «بانتظار الاعتذار», otherwise it is «مغلق».",
+      "use_case": "REV-4"
+    },
+    {
+      "rule": "Only closed, awaiting-apology or cancelled applications can be reopened; they return to their last stage. Merged-away requests cannot be reopened.",
+      "use_case": "REV-4"
+    },
+    {
+      "rule": "An application cannot be approved while partner edits, a figure proposal or a co-funding approval condition are pending.",
+      "use_case": "REV-4"
+    },
+    {
+      "rule": "Returning an application for edits keeps its stage; it returns to the same stage when the partner resubmits.",
+      "use_case": "REV-5"
+    },
+    {
+      "rule": "Staff-proposed changes to amount, duration or quantities apply only after the partner accepts; only one proposal may be pending at a time.",
+      "use_case": "REV-5"
+    },
+    {
+      "rule": "A reviewer opinion that contradicts the AI recommendation must be justified; each reviewer has one opinion per application.",
+      "use_case": "REV-3"
+    },
+    {
+      "rule": "AI evaluations and AI document checks are advisory only and never block a decision or apply a suggestion automatically; an unmet mandatory AI condition flags the application as not eligible without changing its score.",
+      "use_case": "REV-3"
+    },
+    {
+      "rule": "A committee minute decision applies to applications of one committee and one stage only, requires minute number, date and signed minute file, and requires a note for rejection.",
+      "use_case": "REV-6"
+    },
+    {
+      "rule": "One minute record is kept per committee decision and every decided application references it.",
+      "use_case": "REV-6"
+    },
+    {
+      "rule": "A co-funding condition is confirmed only when the donor's approval evidence is attached.",
+      "use_case": "REV-7"
+    },
+    {
+      "rule": "Indicators are linked only at application stage and a quantitative link cannot exceed the indicator's remaining target; milestones count as 1.",
+      "use_case": "REV-7"
+    },
+    {
+      "rule": "Relocation to another initiative requires a different initiative and a recorded reason.",
+      "use_case": "REV-7"
+    },
+    {
+      "rule": "Only requests of the same partner and grant type, pending or approved, not transferred and not already merged can be merged.",
+      "use_case": "REV-8"
+    },
+    {
+      "rule": "A merged request restarts at the stage after the lowest prior approved stage of its parts and remains approved only if all parts were finally approved; lowering an approved request requires a second confirmation.",
+      "use_case": "REV-8"
+    },
+    {
+      "rule": "Unmerge is allowed only while the resulting contract is still «بانتظار الإعداد»; it removes that contract and its projects.",
+      "use_case": "REV-8"
+    },
+    {
+      "rule": "Only finally approved project-type applications that are not yet transferred can be transferred; one contract per application.",
+      "use_case": "REV-9"
+    },
+    {
+      "rule": "Transfer is refused when the plan's budget is locked.",
+      "use_case": "REV-9"
+    },
+    {
+      "rule": "On split transfer, each project's budget equals the sum of its items and payments follow the approved schedule percentages; tender (RFP) opportunities use their predefined plan.",
+      "use_case": "REV-9"
+    },
+    {
+      "rule": "Final approval of an in-kind grant reserves the approved stock and sets the grant to awaiting delivery.",
+      "use_case": "REV-10"
+    },
+    {
+      "rule": "Partner and opportunity data are frozen at submission and at final approval.",
+      "use_case": "REV-2"
+    },
+    {
+      "rule": "Every action on an application is recorded in an append-only history with actor, stage, note and, where applicable, the committee minute.",
+      "use_case": "REV-2"
+    }
+  ],
+  "kpis": [
+    {
+      "name": "Applications by status",
+      "definition": "Count of applications that are pending, approved and closed (closed + awaiting apology + cancelled), overall and per opportunity."
+    },
+    {
+      "name": "Applications by stage",
+      "definition": "Count of pending applications at Reception, Study and Approval."
+    },
+    {
+      "name": "Late applications",
+      "definition": "Number and percentage of pending applications whose time in the current stage exceeds the stage service level."
+    },
+    {
+      "name": "Average time per stage",
+      "definition": "Average days from stage entry to stage decision, per stage and opportunity, compared with the service level."
+    },
+    {
+      "name": "Approval rate",
+      "definition": "Finally approved applications divided by decided applications (approved + rejected) in the period."
+    },
+    {
+      "name": "Rejection reasons distribution",
+      "definition": "Share of rejections per standard closure reason."
+    },
+    {
+      "name": "Returned-for-edit rate",
+      "definition": "Percentage of applications returned to the partner at least once."
+    },
+    {
+      "name": "Reviewer–AI disagreement rate",
+      "definition": "Percentage of reviewer opinions that contradict the AI recommendation."
+    },
+    {
+      "name": "Approval-to-transfer time",
+      "definition": "Average days from final approval to transfer into contract and projects."
+    }
+  ],
+  "gaps": [
+    {
+      "area": "Decision authorisation",
+      "gap": "Any staff user who can open an application (including Finance and Project Managers) can approve, reject or transfer it; stage ownership and roles are not enforced.",
+      "impact": "Decisions can be taken by unauthorised staff, undermining governance and audit.",
+      "recommendation": "Enforce stage supervisors, committee secretary and role permissions for every decision and entry point.",
+      "priority": "High"
+    },
+    {
+      "area": "Pass-score gate",
+      "gap": "The Study-stage pass-score check applies only on the application page; decisions from tasks, focus mode and committee minutes bypass it.",
+      "impact": "Applications below the pass score can advance unnoticed.",
+      "recommendation": "Apply the gate centrally for all entry points.",
+      "priority": "High"
+    },
+    {
+      "area": "Approval preconditions",
+      "gap": "Approval is possible while partner edits are awaited, a figure proposal is pending or co-funding conditions are unconfirmed.",
+      "impact": "Grants may be approved on incomplete or unagreed terms.",
+      "recommendation": "Block approval until these items are resolved and list what is outstanding.",
+      "priority": "High"
+    },
+    {
+      "area": "Merge of in-kind grants",
+      "gap": "Merging ignores product lines; re-approving a merged in-kind request can deduct stock twice.",
+      "impact": "Incorrect stock and grant values.",
+      "recommendation": "Merge product lines correctly or disallow merging in-kind requests.",
+      "priority": "High"
+    },
+    {
+      "area": "Stock control",
+      "gap": "Final approval of an in-kind grant does not check stock availability.",
+      "impact": "Grants approved for products that are not available.",
+      "recommendation": "Validate stock before final approval.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Gate basis",
+      "gap": "The Study-stage gate uses the AI score although its message refers to human evaluations; reviewers' opinions do not influence approval.",
+      "impact": "Unclear decision basis for committees and auditors.",
+      "recommendation": "Agree the gate source and quorum and align the message.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Committee minutes",
+      "gap": "Committee-stage applications can be decided individually without a minute; minute decisions are not all-or-nothing.",
+      "impact": "Committee decisions may lack documentary evidence; orphan minutes can exist.",
+      "recommendation": "Require a minute for committee stages and make bulk decisions atomic.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Reopen of merged requests",
+      "gap": "A request absorbed by a merge can be reopened, creating an active duplicate.",
+      "impact": "Double funding risk.",
+      "recommendation": "Block reopen of merged requests; use unmerge instead.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Split transfer",
+      "gap": "All co-funding, plan allocations and indicators go to the first project when an application is split.",
+      "impact": "Incorrect project-level reporting of funding and outcomes.",
+      "recommendation": "Distribute per project or ask the user.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Post-transfer changes",
+      "gap": "Indicator links and initiative relocation remain editable on the application after transfer without updating the project.",
+      "impact": "Plan attribution and indicator achievement diverge between application and project.",
+      "recommendation": "Lock these after transfer or propagate changes to projects.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Data integrity",
+      "gap": "Transfer, merge and unmerge are multi-step operations that can stop half-way.",
+      "impact": "Partial contracts, projects or payments.",
+      "recommendation": "Make these operations atomic.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Eligibility at review",
+      "gap": "Opportunity eligibility rules are checked only at submission, not at review/approval.",
+      "impact": "Partners whose situation changed may be approved.",
+      "recommendation": "Re-check eligibility on the review workspace and at final approval.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Partner readiness",
+      "gap": "Final approval and transfer do not check partner status or bank verification.",
+      "impact": "Contracts with inactive partners or unverified bank accounts.",
+      "recommendation": "Confirm and enforce the readiness rule.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Fixed three-stage journey",
+      "gap": "The journey is fixed at three stages although workflows are configurable.",
+      "impact": "Opportunities needing a different number of stages cannot be supported.",
+      "recommendation": "Derive stages from the configured workflow.",
+      "priority": "Medium"
+    },
+    {
+      "area": "AI feedback loop",
+      "gap": "Feedback to the AI agent is only recorded as a note; the agent is not notified although the user is told it was sent.",
+      "impact": "Misleading confirmation; no re-evaluation happens.",
+      "recommendation": "Send feedback to the agent and track the re-evaluation.",
+      "priority": "Low"
+    },
+    {
+      "area": "Apology and cancellation",
+      "gap": "«بانتظار الاعتذار» has no follow-up step and «ملغي» is never set.",
+      "impact": "Unclear closure process and partner communication.",
+      "recommendation": "Define the apology-sending process and the cancellation scenario.",
+      "priority": "Low"
+    },
+    {
+      "area": "Late indicator in list",
+      "gap": "The list flags lateness after a fixed 3 days while the workspace uses the stage service level.",
+      "impact": "Inconsistent prioritisation.",
+      "recommendation": "Use the stage service level everywhere.",
+      "priority": "Low"
+    },
+    {
+      "area": "Application files",
+      "gap": "Application files have no required-document slots, no AI check and cannot be removed, unlike project and payment evidence.",
+      "impact": "Inconsistent document control.",
+      "recommendation": "Align application files with the slot-based evidence standard.",
+      "priority": "Low"
+    },
+    {
+      "area": "History labels and approval chain",
+      "gap": "Some history actions (proposals, relocation, award) show technical keys, and the approval chain ignores reopen/merge events.",
+      "impact": "Harder audit reading; inaccurate stage durations.",
+      "recommendation": "Label all actions and include reopen/merge in stage timing.",
+      "priority": "Low"
+    },
+    {
+      "area": "Export and search",
+      "gap": "Search is case-sensitive and the 'Excel' export produces a CSV file.",
+      "impact": "Minor usability issues.",
+      "recommendation": "Normalise search and provide a true spreadsheet export.",
+      "priority": "Low"
+    }
+  ],
+  "open_questions": [
+    "Who may decide at each stage — only the configured supervisors/secretary, or any grants staff? Which roles may transfer, merge and reopen?",
+    "Should the Study-stage gate rely on the AI score, reviewers' opinions (quorum/majority) or both, and is 80% the right default pass score?",
+    "What do «بانتظار الاعتذار» and «ملغي» mean operationally; who sends the apology letter, through which channel, and who can cancel an application?",
+    "Must approval be blocked while edits are requested, a figure proposal is pending or co-funding conditions are unconfirmed?",
+    "Are all approval workflows strictly three stages, or can opportunities have more or fewer stages?",
+    "Must every decision at a committee stage be backed by a minute, including individual decisions?",
+    "Are merges of in-kind (product) requests allowed, and how should already reserved stock be handled?",
+    "On split transfer, how should co-funding, plan allocations and indicators be distributed across the resulting projects?",
+    "Should initiative relocation be locked after approval/transfer, and should it check the target initiative's available budget?",
+    "Should eligibility rules be re-checked at review and final approval against the partner's current data?",
+    "Is an active partner status and verified bank account required before final approval or transfer?",
+    "What should feedback to the AI evaluation agent trigger (automatic re-evaluation, notification, manual follow-up)?",
+    "Are service levels measured in calendar or working days (Saudi weekend and public holidays)?",
+    "Should reviewer opinions or comments ever be visible to the partner, e.g. on rejection?",
+    "Should reopening be restricted by role, time window or for non-awarded tender offers?",
+    "Should the stage service-level clock pause while the application is with the partner for edits?"
+  ]
+}

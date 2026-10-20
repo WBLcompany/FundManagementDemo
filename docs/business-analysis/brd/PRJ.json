@@ -1,0 +1,1713 @@
+{
+  "module": "PRJ",
+  "title": "Projects, Contracts & Execution Monitoring",
+  "summary": "This capability turns an approved grant application into a signed grant contract and one or more executable projects, and then follows each project from planning to closure. It lets the foundation agree a costed bill of quantities and payment schedule, build an execution plan of sequential milestones, let the partner organization report progress with supporting evidence, and release each milestone payment only once the work is verified. It also covers internal initiatives, controlled plan revisions, achievement of the agreed indicators, and a final evaluation at closure, giving management a single, evidence-based view of what has been delivered against what was funded.",
+  "process": {
+    "title": "Project lifecycle from approved application to closure",
+    "mermaid": "flowchart LR\n  A[\"Application approved\"] --> B[\"Prepare bill of quantities and payment schedule\"]\n  B --> C[\"Approve contract and create project(s)\"]\n  C --> D[\"Contract prepared and signed\"]\n  C --> E[\"Build execution plan and distribute indicators\"]\n  D --> F{\"Ready to start execution?\"}\n  E --> F\n  F -->|\"Yes\"| G[\"Partner executes tasks and uploads evidence\"]\n  F -->|\"No\"| E\n  G --> H[\"Grantor reviews evidence and phase report\"]\n  H -->|\"Returned\"| G\n  H -->|\"Milestone approved\"| I[\"Milestone payment becomes due\"]\n  I --> J{\"More milestones?\"}\n  J -->|\"Yes\"| G\n  J -->|\"No\"| K[\"Final evaluation and closure checklist\"]\n  K --> L[\"Project closed\"]\n  G -.->|\"Change needed\"| M[\"Plan revision request and independent approval\"]\n  M -.-> G"
+  },
+  "use_cases": [
+    {
+      "key": "PRJ-1",
+      "name": "Prepare the bill of quantities and payment schedule",
+      "title": "As a Grants Manager, I want to prepare and validate a costed bill of quantities and payment schedule for an approved application so that the contract and payments are based on a consistent, agreed budget.",
+      "description": "Before contracting, the Grants Manager breaks the requested grant amount into cost items (bill of quantities) and a schedule of instalments. The AI Assistant can propose a first draft from the application, which the Grants Manager reviews and adjusts. The system checks that the items add up to the requested amount and that instalments add up to 100% before saving.",
+      "actors": [
+        "Grants Manager",
+        "AI Assistant",
+        "System"
+      ],
+      "preconditions": [
+        "The application has been approved and has not yet been transferred to a project.",
+        "The user is a member of the grantor staff with permission to prepare contracts."
+      ],
+      "trigger": "The Grants Manager opens the budget section of an approved application.",
+      "scenario": [
+        "The Grants Manager opens the budget section of the approved application.",
+        "The Grants Manager asks the AI Assistant to propose a bill of quantities and payment schedule.",
+        "The system shows the proposed cost items (item, quantity, unit cost, total) and instalments (title, percentage, days after start, amount).",
+        "The Grants Manager edits, adds or removes cost items and adjusts the instalments.",
+        "The system shows running totals and highlights any difference from the requested amount or from 100%.",
+        "The Grants Manager saves the bill of quantities and payment schedule.",
+        "The system validates the totals and stores both tables on the application."
+      ],
+      "alternative_flows": [
+        "If the Grants Manager prefers not to use AI, they enter the cost items and instalments manually.",
+        "If a previous proposal exists, the Grants Manager can regenerate it; the new proposal replaces the unsaved content.",
+        "If the payment schedule is left empty, only the cost-item total is validated."
+      ],
+      "business_requirements": [
+        "The system must allow the AI Assistant to propose a bill of quantities and payment schedule from the application title, description, requested amount and duration.",
+        "The system must ensure an AI-proposed bill of quantities totals exactly the requested amount.",
+        "The system must allow staff to edit, add and delete cost items and edit instalment titles, percentages and timing.",
+        "The system must show line totals, the overall total and the instalment percentage total while editing.",
+        "The system must refuse to save the bill of quantities when its total differs from the requested amount.",
+        "The system must refuse to save the payment schedule when the instalment percentages do not total 100%.",
+        "The system must not store an AI proposal until the user explicitly saves it.",
+        "The system must make the bill of quantities and payment schedule read-only once the application has been transferred to a project.",
+        "The system should allow staff to add and remove instalment rows manually (Recommended).",
+        "The system should validate the payment schedule against the foundation's payment policies (e.g. advance not above 20%, final retention of at least 10%) (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "AI proposal unavailable",
+          "description": "The AI Assistant cannot generate a proposal; the system shows an error and leaves the tables unchanged."
+        },
+        {
+          "name": "Total mismatch",
+          "description": "The cost items do not add up to the requested amount; the system shows both amounts and does not save."
+        },
+        {
+          "name": "Instalments not 100%",
+          "description": "The instalment percentages do not total 100%; the system shows an error and does not save."
+        }
+      ],
+      "postconditions": "The application holds a validated bill of quantities and payment schedule ready for contract approval.",
+      "fields": [
+        {
+          "en": "Cost item",
+          "ar": "البند",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Description of the cost item."
+        },
+        {
+          "en": "Quantity",
+          "ar": "الكمية",
+          "type": "Number",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Positive number."
+        },
+        {
+          "en": "Unit cost",
+          "ar": "تكلفة الوحدة",
+          "type": "Amount (SAR)",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Positive amount."
+        },
+        {
+          "en": "Item total",
+          "ar": "الإجمالي",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Quantity × unit cost; sum of all items must equal the requested amount."
+        },
+        {
+          "en": "Instalment",
+          "ar": "الدفعة",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Instalment title, e.g. advance payment."
+        },
+        {
+          "en": "Percentage",
+          "ar": "النسبة %",
+          "type": "Percentage",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "All instalments must total 100%."
+        },
+        {
+          "en": "Due after (days)",
+          "ar": "بعد (يوم)",
+          "type": "Number",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Days after project start when the instalment falls due."
+        },
+        {
+          "en": "Instalment amount",
+          "ar": "المبلغ",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Requested amount × percentage."
+        }
+      ],
+      "trace": [
+        "US-PRJ-001",
+        "US-PRJ-002",
+        "FR-PRJ-001",
+        "FR-PRJ-002",
+        "FR-PRJ-003",
+        "FR-PRJ-004"
+      ]
+    },
+    {
+      "key": "PRJ-2",
+      "name": "Approve the contract and transfer the application into project(s)",
+      "title": "As a Grants Manager, I want to approve the contract and convert an approved application into one or several projects so that execution can be planned and monitored.",
+      "description": "Once the budget is agreed, the Grants Manager approves the contract and transfers the application into execution. The grant can become a single project or be split into several projects (e.g. by location or component) under one contract. The system creates the contract, the project(s) and their scheduled payments, and carries over commitments agreed at application stage (indicators, initiative funding shares and co-funding).",
+      "actors": [
+        "Grants Manager",
+        "CEO / Executive Approver",
+        "System"
+      ],
+      "preconditions": [
+        "The application is approved, not yet transferred, and is not an in-kind (product) grant.",
+        "A bill of quantities and payment schedule have been saved for the application.",
+        "The budget of the strategic plan item funding the application is not locked."
+      ],
+      "trigger": "The Grants Manager selects 'Approve contract and transfer' on the approved application.",
+      "scenario": [
+        "The Grants Manager selects 'Approve contract and transfer' on the approved application.",
+        "The Grants Manager chooses to create a single project or to split the grant into several projects.",
+        "When splitting, the Grants Manager names each project and assigns every cost item to one project; the system shows each project's subtotal.",
+        "The Grants Manager confirms the approval.",
+        "The system creates one contract for the application (when the program requires a contract) in 'Being prepared' status.",
+        "The system creates each project in 'Planning' status with its budget, dates and project manager, and creates its instalments from the payment schedule.",
+        "The system carries the indicators, initiative funding shares and co-funding agreed at application stage over to the project(s).",
+        "The system marks the application as transferred, records the action in its history and opens the (first) new project."
+      ],
+      "alternative_flows": [
+        "If the program does not require a contract, the projects are created without a contract.",
+        "If the grant came from a request for proposals (RFP), the plan and payments are seeded from the program definition instead of the payment schedule."
+      ],
+      "business_requirements": [
+        "The system must create exactly one contract per approved application when the program requires a contract.",
+        "The system must set the contract amount to the approved grant amount and assign it a unique contract reference.",
+        "The system must allow a grant to be split into two or more projects only when it has at least two cost items, with every project receiving at least one item.",
+        "The system must set each split project's budget to the sum of its assigned cost items, and a single project's budget to the full grant amount.",
+        "The system must create each project's instalments from the agreed payment schedule in proportion to the project budget.",
+        "The system must assign a project manager to each project, defaulting to the program's default manager.",
+        "The system must refuse the transfer when the funding plan item's budget is locked, and create nothing.",
+        "The system must carry indicators, initiative funding shares and co-funding from the application to the project(s).",
+        "The system must define how indicators, funding shares and co-funding are divided among split projects (e.g. pro-rata to budget or explicit assignment) (To be confirmed).",
+        "The system must complete the transfer as a single all-or-nothing operation so that no partial contract or project remains after a failure.",
+        "The system must record the transfer in the application history with the contract and project references.",
+        "Only authorised roles may approve the contract and transfer an application (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Plan budget locked",
+          "description": "The funding plan item's budget is locked; the system names the plan, refuses the transfer and creates nothing."
+        },
+        {
+          "name": "Project without items",
+          "description": "In split mode a project has no cost items; the system prevents confirmation until every project has at least one item."
+        },
+        {
+          "name": "Transfer failure",
+          "description": "Any failure during creation cancels the whole operation and the application remains approved and not transferred."
+        }
+      ],
+      "postconditions": "A contract (if required) and one or more projects in 'Planning' status exist with their scheduled instalments; the application is marked as transferred.",
+      "fields": [
+        {
+          "en": "Transfer mode",
+          "ar": "مشروع واحد / تقسيم إلى عدة مشاريع",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Split is available only with two or more cost items."
+        },
+        {
+          "en": "Project title",
+          "ar": "عنوان المشروع",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Defaults to the main cost item title in split mode."
+        },
+        {
+          "en": "Assigned project (per cost item)",
+          "ar": "المشروع",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Each cost item belongs to exactly one project."
+        },
+        {
+          "en": "Project subtotal",
+          "ar": "المجموع",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Sum of the cost items assigned to the project."
+        },
+        {
+          "en": "Contract amount",
+          "ar": "قيمة العقد",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Equals the approved grant amount."
+        }
+      ],
+      "trace": [
+        "US-PRJ-003",
+        "US-PRJ-004",
+        "US-PRJ-005",
+        "FR-PRJ-005",
+        "FR-PRJ-006",
+        "FR-PRJ-007",
+        "FR-PRJ-008",
+        "FR-PRJ-009",
+        "FR-PRJ-010",
+        "FR-PRJ-055"
+      ]
+    },
+    {
+      "key": "PRJ-3",
+      "name": "Manage contract signing and the contracts register",
+      "title": "As a Grants Manager, I want to move each grant contract through preparation and signature and keep a register of all contracts so that execution only starts under a signed agreement.",
+      "description": "Each contract goes through preparation, partner review and signature. Staff and partners can view and print a contract document generated from the agreed project, partner and payment data. A contracts register gives an overview of all contracts, their status and the projects created from them.",
+      "actors": [
+        "Grants Manager",
+        "Partner Organization",
+        "CEO / Executive Approver",
+        "System"
+      ],
+      "preconditions": [
+        "A contract was created when the application was transferred."
+      ],
+      "trigger": "The Grants Manager opens a project with a contract, or the contracts register.",
+      "scenario": [
+        "The Grants Manager opens the project and sees the current contract status.",
+        "The Grants Manager reviews the contract document (parties, subject, duration, value and instalments, bank account, obligations).",
+        "The Grants Manager advances the contract to the next step: Being prepared → Awaiting partner → Awaiting signature → Signed.",
+        "The partner organization reviews and accepts the contract (Recommended).",
+        "When the contract is signed, the system records the signature date and shows the signature stamp on the document.",
+        "Any user with access prints the contract or saves it as PDF.",
+        "Staff consult the contracts register to see all contracts with partner, application, value, linked projects, status and date."
+      ],
+      "alternative_flows": [
+        "If the contract has several projects, the project page shows 'Project i of N' with a link to the register.",
+        "If no instalments exist yet, the contract states that instalments are set when the project plan is approved."
+      ],
+      "business_requirements": [
+        "The system must move a contract strictly forward through the steps Being prepared, Awaiting partner, Awaiting signature and Signed.",
+        "The system must record the date the contract is signed.",
+        "The system must allow the partner organization to review and accept the contract at the 'Awaiting partner' step (Recommended).",
+        "The system must capture an electronic signature from both parties or store the signed contract document (To be confirmed).",
+        "The system must freeze the signed version of the contract so that later plan or payment changes do not alter it (Recommended).",
+        "The system must generate a printable contract document showing the parties, subject, duration, value, instalments, bank account and standard obligations.",
+        "The contract document must list the instalments of all projects created under the contract so that it reconciles with the contract value.",
+        "The system must provide a contracts register with counts per status, contract number, partner, application, value, linked projects and date.",
+        "The system must show a contract summary card on the transferred application.",
+        "The system should allow cancellation or suspension of a contract, e.g. when the grantor stops disbursement (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Status update failed",
+          "description": "The contract status cannot be saved; the system shows an error and keeps the previous status."
+        }
+      ],
+      "postconditions": "The contract is signed and its signature date recorded; the register reflects the current status.",
+      "fields": [
+        {
+          "en": "Contract number",
+          "ar": "رقم العقد",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "System-generated unique reference."
+        },
+        {
+          "en": "Partner organization",
+          "ar": "الجهة الشريكة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "From the application."
+        },
+        {
+          "en": "Contract value",
+          "ar": "القيمة",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Approved grant amount."
+        },
+        {
+          "en": "Contract status",
+          "ar": "الحالة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "بانتظار الإعداد / بانتظار الجهة الشريكة / بانتظار التوقيع / موقّع; forward only."
+        },
+        {
+          "en": "Signature date",
+          "ar": "التاريخ",
+          "type": "Date",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Set when the contract becomes signed."
+        },
+        {
+          "en": "Linked projects",
+          "ar": "المشاريع",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Projects created from the contract with their budgets."
+        }
+      ],
+      "trace": [
+        "US-PRJ-006",
+        "US-PRJ-007",
+        "US-PRJ-008",
+        "FR-PRJ-011",
+        "FR-PRJ-012",
+        "FR-PRJ-013",
+        "FR-PRJ-014",
+        "FR-PRJ-015",
+        "FR-PRJ-016"
+      ]
+    },
+    {
+      "key": "PRJ-4",
+      "name": "Monitor the project portfolio and project status",
+      "title": "As a Grants Manager or CEO, I want to see all projects and initiatives with their status, progress and finances so that I can identify stalled projects and act early.",
+      "description": "Management needs a portfolio view of all grant projects and internal initiatives, with status counters, progress and value, and a detailed project overview. Projects with overdue, unapproved work are flagged as stalled. Partners see their own projects from the partner portal without grantor-only actions.",
+      "actors": [
+        "Grants Manager",
+        "Project Manager",
+        "CEO / Executive Approver",
+        "Finance Officer",
+        "Partner Organization",
+        "System"
+      ],
+      "preconditions": [
+        "At least one project or initiative exists."
+      ],
+      "trigger": "The user opens the Projects area or a project from the portal, search or a task.",
+      "scenario": [
+        "The user opens the projects list.",
+        "The system shows counters: total, in planning, in execution, stalled and completed.",
+        "The user filters by source (all, grants, initiatives) or by status group, e.g. by clicking a counter.",
+        "The system lists each project with reference, executing organization, value, progress and status.",
+        "The user exports the list or chooses which columns to display.",
+        "The user opens a project and sees its status (with the reason when stalled), contract status, partner, progress, value split (approved, due, paid), funding sources, duration, manager and plan item.",
+        "The partner organization opens its own project from the portal and sees the same information without grantor actions."
+      ],
+      "alternative_flows": [
+        "If there are no projects, the system shows an empty-list message.",
+        "If the project has several funding initiatives or co-funders, these are shown read-only."
+      ],
+      "business_requirements": [
+        "The system must list all grant projects and internal initiatives with reference, executing organization, value, progress and status.",
+        "The system must provide clickable counters for total, planning, in execution, stalled and completed projects.",
+        "The system must allow filtering by source (grant or initiative) and by status group.",
+        "The system must allow exporting the project list and saving the preferred column view.",
+        "The system must calculate project progress as the weighted average of activity progress.",
+        "The system must flag a project as stalled when any activity is past its due date and not approved, and must apply the same rule in the list counters and on the project page.",
+        "The system must show the reason a project is stalled (number of overdue items).",
+        "The system must show on the project page the value split into approved, due and paid amounts.",
+        "The system must allow a partner organization to view only the projects it executes or holds the contract for.",
+        "The system must hide grantor-only actions from partner users.",
+        "The system should notify the Project Manager and escalate when a project becomes stalled, after an agreed tolerance (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Project not accessible",
+          "description": "A partner tries to open a project of another organization; the system denies access (Recommended)."
+        }
+      ],
+      "postconditions": "The user has an up-to-date view of project status, progress and finances.",
+      "fields": [
+        {
+          "en": "Project",
+          "ar": "المشروع",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Title and reference number."
+        },
+        {
+          "en": "Executing organization",
+          "ar": "الجهة المنفّذة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "'داخلياً' for internal initiatives."
+        },
+        {
+          "en": "Value",
+          "ar": "القيمة",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Project budget."
+        },
+        {
+          "en": "Progress",
+          "ar": "الإنجاز",
+          "type": "Percentage",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Weighted by activity weights."
+        },
+        {
+          "en": "Status",
+          "ar": "الحالة",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Planning, in execution, stalled, completed."
+        },
+        {
+          "en": "Source",
+          "ar": "المصدر",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Grant or initiative."
+        },
+        {
+          "en": "Project manager",
+          "ar": "مدير المشروع",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Contract status",
+          "ar": "حالة العقد",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Duration",
+          "ar": "المدة",
+          "type": "Date",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Start and end dates."
+        }
+      ],
+      "trace": [
+        "US-PRJ-009",
+        "US-PRJ-012",
+        "US-PRJ-013",
+        "US-PRJ-024",
+        "FR-PRJ-017",
+        "FR-PRJ-018",
+        "FR-PRJ-022",
+        "FR-PRJ-023",
+        "FR-PRJ-024",
+        "FR-PRJ-043"
+      ]
+    },
+    {
+      "key": "PRJ-5",
+      "name": "Create an internal initiative",
+      "title": "As a Grants Manager, I want to register an internal initiative linked to a strategic plan item so that work funded directly by the foundation is planned and monitored like grant projects.",
+      "description": "Besides grants, the foundation runs its own initiatives, executed internally or with a partner. The Grants Manager registers the initiative with its plan item, budget, dates, department and manager. The AI Assistant can prefill the form from a short description.",
+      "actors": [
+        "Grants Manager",
+        "AI Assistant",
+        "System"
+      ],
+      "preconditions": [
+        "An active strategic plan with plan items exists."
+      ],
+      "trigger": "The Grants Manager selects 'New initiative' on the projects list.",
+      "scenario": [
+        "The Grants Manager selects 'New initiative'.",
+        "Optionally, the Grants Manager describes the initiative in a sentence and the AI Assistant proposes the field values.",
+        "The Grants Manager accepts or adjusts the proposed values.",
+        "The Grants Manager enters the name, description, plan item, executor (internal or a partner), department, project manager, dates and budget.",
+        "The Grants Manager saves the initiative.",
+        "The system validates the data, creates the initiative in 'Planning' status and refreshes the list and plan figures."
+      ],
+      "alternative_flows": [
+        "If a partner executes the initiative, the partner can log in and update progress like a grant project.",
+        "If an AI-proposed value does not match an available option, the field is left unchanged."
+      ],
+      "business_requirements": [
+        "The system must require an initiative name and a budget greater than zero.",
+        "The system must reject an end date that is earlier than the start date.",
+        "The system must allow the executor to be internal or a registered partner organization.",
+        "The system must default the project manager to the current user.",
+        "The system must create a new initiative in 'Planning' status.",
+        "The system must allow the AI Assistant to propose values from a short description, applied only when the user accepts them.",
+        "The system must require a plan item for every initiative (To be confirmed).",
+        "The system must check the initiative budget against the plan item's available amount (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Missing name",
+          "description": "The initiative name is empty; the system shows an error and does not save."
+        },
+        {
+          "name": "Invalid budget",
+          "description": "The budget is empty or not greater than zero; the system shows an error."
+        },
+        {
+          "name": "End before start",
+          "description": "The end date precedes the start date; the system shows an error."
+        }
+      ],
+      "postconditions": "The initiative exists in 'Planning' status and counts toward its plan item.",
+      "fields": [
+        {
+          "en": "Initiative name",
+          "ar": "اسم المبادرة",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Up to 200 characters."
+        },
+        {
+          "en": "Description",
+          "ar": "الوصف",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Up to 2,000 characters."
+        },
+        {
+          "en": "Plan item",
+          "ar": "بند الخطة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Items of active plans (mandatory to be confirmed)."
+        },
+        {
+          "en": "Execution",
+          "ar": "التنفيذ",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Internal or with a partner organization."
+        },
+        {
+          "en": "Department",
+          "ar": "الإدارة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Project manager",
+          "ar": "مدير المشروع",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Defaults to current user."
+        },
+        {
+          "en": "Start date",
+          "ar": "البداية",
+          "type": "Date",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "End date",
+          "ar": "النهاية",
+          "type": "Date",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Not before start date."
+        },
+        {
+          "en": "Budget",
+          "ar": "الميزانية (ر.س)",
+          "type": "Amount (SAR)",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Greater than zero."
+        }
+      ],
+      "trace": [
+        "US-PRJ-010",
+        "US-PRJ-011",
+        "FR-PRJ-019",
+        "FR-PRJ-020",
+        "FR-PRJ-021"
+      ]
+    },
+    {
+      "key": "PRJ-6",
+      "name": "Plan the project and start execution",
+      "title": "As a Project Manager, I want to build the project execution plan, spread the agreed indicators over its activities and start execution only when everything is in place so that the partner works against a clear, measurable plan.",
+      "description": "During planning, the Project Manager builds the execution plan as a sequence of milestones (phases), each with partner tasks, required evidence, due dates and a linked payment. The AI Assistant can draft the plan from the application and the foundation's payment policies. Each quantitative indicator target is distributed across plan activities. Execution starts only when the plan exists, the contract is signed and indicators are fully distributed.",
+      "actors": [
+        "Project Manager",
+        "AI Assistant",
+        "System"
+      ],
+      "preconditions": [
+        "The project is in 'Planning' status."
+      ],
+      "trigger": "The Project Manager opens a project in planning.",
+      "scenario": [
+        "The Project Manager asks the AI Assistant to build the execution plan.",
+        "The system proposes 3–5 sequential milestones with weights, 2–4 partner tasks per milestone with required evidence and due dates, and milestone payments.",
+        "The Project Manager reviews the timeline and filters it by tasks, reports or payments.",
+        "For each quantitative indicator, the Project Manager assigns quantities to plan activities until the full target is distributed.",
+        "The system warns if an indicator is under- or over-distributed.",
+        "The Project Manager selects 'Approve plan and start execution'.",
+        "The system verifies the start conditions and moves the project to 'In execution', unlocking partner actions."
+      ],
+      "alternative_flows": [
+        "If a plan already exists and execution has not started, the Project Manager may rebuild it after confirming that the current plan will be replaced.",
+        "If any start condition is not met, the start action stays disabled and the system lists what is missing."
+      ],
+      "business_requirements": [
+        "The system must allow the AI Assistant to propose an execution plan of sequential milestones, tasks, required evidence, due dates and milestone payments.",
+        "The system must allow a plan to be rebuilt only before execution starts, and only after the user confirms the replacement.",
+        "The system must make milestones sequential: only the current milestone is open and later milestones are locked until the previous one is approved.",
+        "The system must prevent action on a task until the tasks it depends on are approved.",
+        "The system must allow staff to distribute each quantitative indicator target across plan activities during planning.",
+        "The system must warn when an indicator is distributed below or above its target.",
+        "The system must allow execution to start only when the plan has at least one activity, the contract (if any) is signed and every quantitative indicator is fully distributed.",
+        "The system must list the unmet start conditions when execution cannot start.",
+        "The system must keep partner task actions locked while the project is in planning.",
+        "The system must ensure that the total of all project payments equals the project budget before the plan is accepted (Recommended).",
+        "The system must validate the plan's payments against the foundation's payment policies (advance, retention, report per payment, field visit above threshold) (To be confirmed).",
+        "The system must define a single authoritative payment schedule for grant projects (agreed schedule or plan milestones) (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Execution already started",
+          "description": "The user tries to rebuild the plan after execution has started; the system refuses and directs the user to request a plan revision."
+        },
+        {
+          "name": "No plan generated",
+          "description": "The AI Assistant returns no milestones; the system shows an error and keeps the current plan."
+        },
+        {
+          "name": "Incomplete distribution",
+          "description": "An indicator activity or quantity is missing; the system asks the user to choose the activity and quantity."
+        },
+        {
+          "name": "Save failed",
+          "description": "The project could not be moved to execution; the system asks the user to try again."
+        }
+      ],
+      "postconditions": "The project is 'In execution' with an approved plan and fully distributed indicators; the partner can start working on the first milestone.",
+      "fields": [
+        {
+          "en": "Milestone",
+          "ar": "المرحلة / المحطة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Sequential; weight in %."
+        },
+        {
+          "en": "Milestone weight",
+          "ar": "الوزن",
+          "type": "Percentage",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Weights total 100%."
+        },
+        {
+          "en": "Task",
+          "ar": "المهمة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Partner activity within a milestone."
+        },
+        {
+          "en": "Required evidence",
+          "ar": "الشواهد المطلوبة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Documents the partner must upload."
+        },
+        {
+          "en": "Due date",
+          "ar": "تاريخ الاستحقاق",
+          "type": "Date",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Indicator activity",
+          "ar": "النشاط",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Activity without another indicator."
+        },
+        {
+          "en": "Indicator quantity",
+          "ar": "الكمية",
+          "type": "Number",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Sum across activities must equal the target."
+        }
+      ],
+      "trace": [
+        "US-PRJ-014",
+        "US-PRJ-015",
+        "US-PRJ-016",
+        "US-PRJ-017",
+        "FR-PRJ-025",
+        "FR-PRJ-026",
+        "FR-PRJ-027",
+        "FR-PRJ-028",
+        "FR-PRJ-029",
+        "FR-PRJ-030",
+        "FR-PRJ-031",
+        "FR-PRJ-032",
+        "FR-PRJ-033",
+        "FR-PRJ-054"
+      ]
+    },
+    {
+      "key": "PRJ-7",
+      "name": "Execute tasks and report progress",
+      "title": "As a Partner Organization, I want to upload evidence for my tasks, mark them complete and submit a report for each milestone so that the grantor can verify my work and release the payment.",
+      "description": "During execution, the partner organization works through the open milestone. For each task it uploads the required evidence and marks the task complete for grantor approval. At the end of each milestone it submits a milestone report. Returned tasks or reports can be corrected and resubmitted.",
+      "actors": [
+        "Partner Organization",
+        "AI Assistant",
+        "System"
+      ],
+      "preconditions": [
+        "The project is in execution.",
+        "The milestone is open and the task's prerequisite tasks are approved."
+      ],
+      "trigger": "The partner opens its project from the partner portal.",
+      "scenario": [
+        "The partner opens the current milestone and its tasks.",
+        "For each task, the partner uploads one or more files for each required evidence item.",
+        "The system runs an advisory AI check on each uploaded file.",
+        "The partner marks the task complete and sends it for grantor approval.",
+        "When the milestone tasks are done, the partner writes and submits the milestone report.",
+        "The system notifies the grantor that items await review."
+      ],
+      "alternative_flows": [
+        "If the grantor returns a task with notes, the partner corrects the evidence and resubmits.",
+        "If the grantor returns the milestone report, the partner edits and resubmits it."
+      ],
+      "business_requirements": [
+        "The system must allow the partner to upload several files for each required evidence item, plus other supporting files.",
+        "The system must require at least one file for each required evidence item before a task can be submitted (To be confirmed).",
+        "The system must allow the partner to submit a task only when its milestone is open and its prerequisite tasks are approved.",
+        "The system must allow the partner to resubmit a returned task.",
+        "The system must run an advisory AI check on uploaded evidence without blocking the partner.",
+        "The system must allow the partner to submit one report per milestone, with mandatory content.",
+        "The system must allow the partner to edit and resubmit a returned milestone report and show the grantor's return reason.",
+        "The system must show the partner the grantor's feedback on returned tasks.",
+        "The system must list returned items in the partner's task inbox (Recommended)."
+      ],
+      "errors": [
+        {
+          "name": "Upload failed",
+          "description": "A file cannot be uploaded; the system shows an error and the task remains unchanged."
+        },
+        {
+          "name": "Milestone locked",
+          "description": "The milestone or a prerequisite task is not yet approved; task actions are not available."
+        }
+      ],
+      "postconditions": "Tasks and the milestone report are awaiting grantor approval.",
+      "fields": [
+        {
+          "en": "Evidence file",
+          "ar": "الشاهد",
+          "type": "File",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "One or more files per required evidence item."
+        },
+        {
+          "en": "Task status",
+          "ar": "حالة المهمة",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "مفتوحة / بانتظار اعتماد المانح / أُعيدت / معتمدة."
+        },
+        {
+          "en": "Milestone report",
+          "ar": "تقرير المرحلة",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Required before milestone approval."
+        },
+        {
+          "en": "Report status",
+          "ar": "حالة التقرير",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "لم يُرفع / بانتظار اعتماد المانح / مُعاد للجمعية / معتمد."
+        }
+      ],
+      "trace": [
+        "US-PRJ-018",
+        "US-PRJ-021",
+        "FR-PRJ-033",
+        "FR-PRJ-034",
+        "FR-PRJ-035",
+        "FR-PRJ-039"
+      ]
+    },
+    {
+      "key": "PRJ-8",
+      "name": "Verify work and approve milestones",
+      "title": "As a Project Manager, I want to review the partner's evidence and reports, approve or return them, and approve a whole milestone so that only verified work triggers a payment.",
+      "description": "The Project Manager reviews each submitted task with the help of an advisory AI check of the evidence, and approves, returns with notes or revokes approval. Milestone reports are approved or returned. When the milestone is complete, approving it makes the linked payment due, which then follows the payment approval process.",
+      "actors": [
+        "Project Manager",
+        "AI Assistant",
+        "System"
+      ],
+      "preconditions": [
+        "The partner has submitted tasks, evidence or a milestone report."
+      ],
+      "trigger": "A submitted item appears in the Project Manager's task inbox or on the project timeline.",
+      "scenario": [
+        "The Project Manager opens the submitted task and reviews the evidence.",
+        "The system shows the AI pre-check result (verdict, score, issues) and suggested notes.",
+        "The Project Manager accepts the evidence and approves the task, or returns it with notes.",
+        "The Project Manager reviews the milestone report and approves or returns it.",
+        "Once all tasks, evidence and the report are approved, the Project Manager approves the milestone.",
+        "The system marks the milestone as complete and makes the linked payment due.",
+        "The next milestone becomes the current milestone."
+      ],
+      "alternative_flows": [
+        "The Project Manager can approve the whole current milestone in one action once its report exists; the system warns if any evidence was flagged by the AI check.",
+        "The Project Manager can send the AI-suggested notes as-is or edit them before returning the task.",
+        "The Project Manager can revoke a task approval; the task returns to 'awaiting approval'."
+      ],
+      "business_requirements": [
+        "The system must allow staff to approve a submitted task or return it with mandatory notes.",
+        "The system must allow staff to revoke a task approval, reverting its evidence acceptance and re-locking the milestone payment if it has not entered approval.",
+        "The system must show an advisory AI pre-check of evidence with suggested notes; the AI result must never approve or block on its own.",
+        "The system must allow staff to approve or return a milestone report, with a mandatory reason when returning.",
+        "The system must offer milestone approval only for the current milestone and only once its report has been submitted.",
+        "The system must warn before milestone approval when any evidence was flagged by the AI check.",
+        "The system must count indicator achievement only for tasks whose evidence files exist and were accepted.",
+        "The system must keep a milestone payment locked until all milestone tasks are approved, evidence accepted and the report approved.",
+        "The system must make the linked payment due when the milestone is approved.",
+        "The system must show items awaiting the reviewer (submitted tasks and reports) in the task inbox.",
+        "Only the assigned Project Manager (or an authorised delegate) may approve tasks, reports and milestones (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "No milestone report",
+          "description": "The milestone report has not been submitted; milestone approval is unavailable."
+        },
+        {
+          "name": "AI-flagged evidence",
+          "description": "Evidence was flagged by the AI check; the system asks for confirmation before approving."
+        },
+        {
+          "name": "Empty return notes",
+          "description": "The reviewer tries to return a task without notes; the system prevents sending."
+        }
+      ],
+      "postconditions": "The milestone is approved, its payment is due for the approval chain, and the next milestone is open.",
+      "fields": [
+        {
+          "en": "AI evidence opinion",
+          "ar": "رأي الذكاء الاصطناعي في الشواهد",
+          "type": "Long text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Advisory only."
+        },
+        {
+          "en": "Return notes",
+          "ar": "الملاحظات",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Required when returning a task."
+        },
+        {
+          "en": "Milestone progress",
+          "ar": "الإنجاز",
+          "type": "Percentage",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Average of task progress."
+        },
+        {
+          "en": "Milestone payment status",
+          "ar": "حالة الدفعة",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "'معلقة' until conditions are met, then due."
+        }
+      ],
+      "trace": [
+        "US-PRJ-019",
+        "US-PRJ-020",
+        "US-PRJ-022",
+        "US-PRJ-023",
+        "US-PRJ-031",
+        "FR-PRJ-036",
+        "FR-PRJ-037",
+        "FR-PRJ-038",
+        "FR-PRJ-040",
+        "FR-PRJ-041",
+        "FR-PRJ-042",
+        "FR-PRJ-056"
+      ]
+    },
+    {
+      "key": "PRJ-9",
+      "name": "Request and approve a plan revision",
+      "title": "As a Project Manager, I want to request a revision of the remaining plan with a justification, approved by another authorised person, so that the plan can adapt without changing completed work or exceeding the budget.",
+      "description": "After execution starts, the plan can only change through a formal revision. The requester gives a reason and optional supporting document; the AI Assistant proposes changes to the remaining work only. A different authorised person reviews the differences and approves or rejects them. All revisions remain in a history.",
+      "actors": [
+        "Project Manager",
+        "Grants Manager",
+        "AI Assistant",
+        "System"
+      ],
+      "preconditions": [
+        "The project is in execution.",
+        "No other revision is pending for the project."
+      ],
+      "trigger": "The Project Manager selects 'Request plan revision'.",
+      "scenario": [
+        "The Project Manager enters the reason for the revision and optionally attaches a supporting document.",
+        "The AI Assistant proposes changes to the remaining milestones, tasks and payments.",
+        "The system keeps approved work and payments already in process unchanged, checks that total payments do not exceed the budget, and shows the differences (added, changed, removed).",
+        "The Project Manager submits the request for approval.",
+        "Another authorised person reviews the reason and the differences.",
+        "The approver approves (optionally with a note) and the system applies the changes, or rejects with a mandatory note.",
+        "The revision is recorded in the project's revision history."
+      ],
+      "alternative_flows": [
+        "If the proposal is not suitable, the requester edits the reason and asks for a new proposal.",
+        "While the request is pending, work continues on the current plan."
+      ],
+      "business_requirements": [
+        "The system must allow plan changes after execution starts only through a revision request.",
+        "The system must require a reason for every revision request.",
+        "The system must require a supporting document for revisions that change payments (To be confirmed).",
+        "The system must allow only one pending revision per project.",
+        "The system must keep approved tasks, approved milestones and payments already in process unchanged in any revision.",
+        "The system must ensure that the total of all project payments after the revision does not exceed the project budget, checked again at approval time.",
+        "The system must prevent the requester from approving their own revision.",
+        "The system must require a note when a revision is rejected.",
+        "The system must apply an approved revision completely or not at all.",
+        "The system must keep task dependencies and indicator distribution valid after a revision, and block approval if indicators become under-distributed.",
+        "The system must keep a history of all revisions with requester, approver, dates, reason, decision note and differences.",
+        "The system must define which roles are eligible to approve a revision, possibly by budget impact (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Payments exceed budget",
+          "description": "The proposed payments exceed the grant value; the system rejects the proposal and asks the user to retry with a clearer reason."
+        },
+        {
+          "name": "Self-approval",
+          "description": "The requester tries to approve their own request; the system refuses."
+        },
+        {
+          "name": "Already decided",
+          "description": "The request has already been decided; the system refuses a second decision."
+        }
+      ],
+      "postconditions": "The revision is approved and applied, or rejected with a note; the history is updated.",
+      "fields": [
+        {
+          "en": "Revision reason",
+          "ar": "سبب إعادة التخطيط",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "At least 5 characters."
+        },
+        {
+          "en": "Supporting document",
+          "ar": "مستند داعم",
+          "type": "File",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Mandatory for payment changes (to be confirmed)."
+        },
+        {
+          "en": "Decision note",
+          "ar": "ملاحظة القرار",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Mandatory when rejecting."
+        },
+        {
+          "en": "Revision status",
+          "ar": "الحالة",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "بانتظار الاعتماد / معتمد / مرفوض."
+        }
+      ],
+      "trace": [
+        "US-PRJ-025",
+        "US-PRJ-026",
+        "US-PRJ-027",
+        "FR-PRJ-044",
+        "FR-PRJ-045",
+        "FR-PRJ-046",
+        "FR-PRJ-047",
+        "FR-PRJ-048",
+        "FR-PRJ-049",
+        "FR-PRJ-055"
+      ]
+    },
+    {
+      "key": "PRJ-10",
+      "name": "Close the project and confirm results",
+      "title": "As a Project Manager, I want to record a final evaluation, confirm the achieved indicators and approve closure once all milestones and payments are settled so that the project is formally closed with its results recorded.",
+      "description": "When every milestone is approved, the closure step opens. The Project Manager confirms milestone-type indicators, records a final evaluation (impact, adherence to plan, lessons learned) and approves closure after a checklist confirms that all payments, including retention, are settled. Indicator achievements roll up to the strategic plan.",
+      "actors": [
+        "Project Manager",
+        "Grants Manager",
+        "CEO / Executive Approver",
+        "System"
+      ],
+      "preconditions": [
+        "All project milestones are approved."
+      ],
+      "trigger": "The closure step on the project timeline becomes available.",
+      "scenario": [
+        "The system unlocks the closure step after the last milestone is approved.",
+        "The Project Manager confirms the achievement of milestone-type indicators.",
+        "The system shows quantitative indicator achievement calculated from accepted evidence.",
+        "The Project Manager writes and saves the final evaluation.",
+        "The system checks the closure checklist (all payments settled including retention, receipts uploaded, indicators confirmed).",
+        "The Project Manager approves the project closure.",
+        "The system marks the project as closed and makes the evaluation read-only; achievements roll up to the plan."
+      ],
+      "alternative_flows": [
+        "If a checklist item is not satisfied, closure stays disabled and the system lists what is missing.",
+        "The Project Manager may save the evaluation as a draft before approving closure."
+      ],
+      "business_requirements": [
+        "The system must unlock closure only when every milestone is approved.",
+        "The system must require a non-empty final evaluation before closure.",
+        "The system must make the evaluation read-only after closure.",
+        "The system must allow confirmation of milestone-type indicators before closure is approved.",
+        "The system must require milestone-type indicators to be confirmed before closure (To be confirmed).",
+        "The system must require all project payments, including retention, to be paid and receipted before closure (Recommended).",
+        "The system must calculate quantitative indicator achievement from accepted evidence and roll it up to the strategic plan.",
+        "The system must distinguish 'completed' from 'closed' if both stages are needed (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Empty evaluation",
+          "description": "The evaluation is empty; closure approval is disabled."
+        },
+        {
+          "name": "Milestones incomplete",
+          "description": "Not all milestones are approved; the closure step remains locked."
+        },
+        {
+          "name": "Checklist not met",
+          "description": "Payments or indicators are outstanding; the system lists the missing items and blocks closure."
+        }
+      ],
+      "postconditions": "The project is closed with a recorded evaluation and confirmed indicators.",
+      "fields": [
+        {
+          "en": "Final evaluation",
+          "ar": "تقييم المشروع",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Impact achieved, adherence to plan, lessons learned."
+        },
+        {
+          "en": "Indicator target",
+          "ar": "المطلوب",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Indicator achieved",
+          "ar": "المحقق",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "From accepted evidence, or confirmed for milestone indicators."
+        },
+        {
+          "en": "Milestone indicator confirmation",
+          "ar": "تأكيد التحقق",
+          "type": "Yes/No",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        }
+      ],
+      "trace": [
+        "US-PRJ-028",
+        "US-PRJ-029",
+        "US-PRJ-030",
+        "FR-PRJ-050",
+        "FR-PRJ-051",
+        "FR-PRJ-052",
+        "FR-PRJ-053",
+        "FR-PRJ-057"
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "type": "Error",
+      "en": "Could not generate the schedule, please try again",
+      "ar": "تعذّر توليد الجدول، حاول مرة أخرى",
+      "use_case": "PRJ-1"
+    },
+    {
+      "type": "Error",
+      "en": "The items total {sum} does not equal the application value {amount}",
+      "ar": "مجموع البنود {المجموع} لا يساوي قيمة الطلب {القيمة}",
+      "use_case": "PRJ-1"
+    },
+    {
+      "type": "Error",
+      "en": "Instalment percentages must total 100%",
+      "ar": "مجموع نسب الدفعات يجب أن يكون 100%",
+      "use_case": "PRJ-1"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Bill of quantities and payment schedule saved",
+      "ar": "حُفظ جدول الكميات والدفعات",
+      "use_case": "PRJ-1"
+    },
+    {
+      "type": "Error",
+      "en": "The budget of «{plan}» is locked — new projects cannot be approved from it",
+      "ar": "ميزانية «{الخطة}» مقفلة — لا يمكن اعتماد مشاريع جديدة منها",
+      "use_case": "PRJ-2"
+    },
+    {
+      "type": "Warning",
+      "en": "Each project needs at least one item",
+      "ar": "كل مشروع يحتاج بنداً واحداً على الأقل",
+      "use_case": "PRJ-2"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Contract approved and application transferred",
+      "ar": "تم اعتماد العقد وترحيل الطلب",
+      "use_case": "PRJ-2"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Contract is now: {status}",
+      "ar": "العقد الآن: {الحالة}",
+      "use_case": "PRJ-3"
+    },
+    {
+      "type": "Information",
+      "en": "Awaiting signature",
+      "ar": "بانتظار التوقيع",
+      "use_case": "PRJ-3"
+    },
+    {
+      "type": "Information",
+      "en": "No contracts yet",
+      "ar": "لا توجد عقود بعد",
+      "use_case": "PRJ-3"
+    },
+    {
+      "type": "Information",
+      "en": "No projects yet",
+      "ar": "لا توجد مشاريع بعد",
+      "use_case": "PRJ-4"
+    },
+    {
+      "type": "Notification",
+      "en": "Project is stalled: {n} overdue items awaiting approval (recommended notification to the Project Manager)",
+      "ar": "المشروع متعثر: {n} بنود متأخرة بانتظار الاعتماد",
+      "use_case": "PRJ-4"
+    },
+    {
+      "type": "Error",
+      "en": "Initiative name is required",
+      "ar": "اسم المبادرة مطلوب",
+      "use_case": "PRJ-5"
+    },
+    {
+      "type": "Error",
+      "en": "Enter a valid budget",
+      "ar": "أدخل ميزانية صحيحة",
+      "use_case": "PRJ-5"
+    },
+    {
+      "type": "Error",
+      "en": "End date is before the start date",
+      "ar": "تاريخ النهاية قبل البداية",
+      "use_case": "PRJ-5"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Initiative added",
+      "ar": "تمت إضافة المبادرة",
+      "use_case": "PRJ-5"
+    },
+    {
+      "type": "Error",
+      "en": "Execution has started — use a plan revision request",
+      "ar": "بدأ التنفيذ — استخدم طلب إعادة التخطيط",
+      "use_case": "PRJ-6"
+    },
+    {
+      "type": "Error",
+      "en": "No plan was generated",
+      "ar": "لم تُولد خطة",
+      "use_case": "PRJ-6"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Plan built",
+      "ar": "تم بناء الخطة",
+      "use_case": "PRJ-6"
+    },
+    {
+      "type": "Error",
+      "en": "Choose the activity and specify the quantity",
+      "ar": "اختر النشاط وحدد الكمية",
+      "use_case": "PRJ-6"
+    },
+    {
+      "type": "Warning",
+      "en": "The indicator must be fully distributed",
+      "ar": "يجب توزيع المؤشر كاملاً",
+      "use_case": "PRJ-6"
+    },
+    {
+      "type": "Error",
+      "en": "Could not save, please try again",
+      "ar": "تعذّر الحفظ، حاول مرة أخرى",
+      "use_case": "PRJ-6"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Project execution started",
+      "ar": "بدأ تنفيذ المشروع",
+      "use_case": "PRJ-6"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Task submitted for grantor approval",
+      "ar": "رُفعت المهمة لاعتماد المانح",
+      "use_case": "PRJ-7"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Report submitted for grantor approval",
+      "ar": "رُفع التقرير لاعتماد المانح",
+      "use_case": "PRJ-7"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Task approved",
+      "ar": "اعتُمدت المهمة",
+      "use_case": "PRJ-8"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Notes sent to the partner organization",
+      "ar": "أُرسلت الملاحظات للجمعية",
+      "use_case": "PRJ-8"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Approval revoked",
+      "ar": "أُلغي الاعتماد",
+      "use_case": "PRJ-8"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Evidence accepted — task completed",
+      "ar": "قُبل الشاهد — أُنجزت المهمة",
+      "use_case": "PRJ-8"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Report approved",
+      "ar": "اعتُمد التقرير",
+      "use_case": "PRJ-8"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Report returned",
+      "ar": "أُعيد التقرير",
+      "use_case": "PRJ-8"
+    },
+    {
+      "type": "Warning",
+      "en": "The AI pre-check found non-compliant files. Do you want to continue anyway?",
+      "ar": "الفحص الأولي بالذكاء الاصطناعي وجد ملفات غير مطابقة… هل تريد المتابعة رغم ذلك؟",
+      "use_case": "PRJ-8"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Milestone approved — payment ready for disbursement",
+      "ar": "اعتُمدت المحطة — الدفعة جاهزة للصرف",
+      "use_case": "PRJ-8"
+    },
+    {
+      "type": "Error",
+      "en": "Proposed payments exceed the grant value; retry with a clearer reason",
+      "ar": "مجموع الدفعات المقترحة يتجاوز قيمة المنحة، أعد المحاولة بسبب أوضح",
+      "use_case": "PRJ-9"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Plan revision request submitted for approval",
+      "ar": "رُفع طلب إعادة التخطيط للاعتماد",
+      "use_case": "PRJ-9"
+    },
+    {
+      "type": "Information",
+      "en": "Awaiting approval by another person — work continues on the current plan",
+      "ar": "بانتظار اعتماد شخص آخر — العمل مستمر على الخطة الحالية",
+      "use_case": "PRJ-9"
+    },
+    {
+      "type": "Error",
+      "en": "The requester cannot approve their own request",
+      "ar": "لا يمكن لمقدم الطلب اعتماده بنفسه",
+      "use_case": "PRJ-9"
+    },
+    {
+      "type": "Error",
+      "en": "The request has already been decided",
+      "ar": "تم البت في الطلب مسبقاً",
+      "use_case": "PRJ-9"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Revised plan approved",
+      "ar": "اعتُمدت الخطة المعدلة",
+      "use_case": "PRJ-9"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Request rejected",
+      "ar": "رُفض الطلب",
+      "use_case": "PRJ-9"
+    },
+    {
+      "type": "Information",
+      "en": "Opens after all phases are approved",
+      "ar": "يُفتح بعد اعتماد كل المراحل",
+      "use_case": "PRJ-10"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Evaluation saved",
+      "ar": "تم حفظ التقييم",
+      "use_case": "PRJ-10"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Project closure approved",
+      "ar": "تم اعتماد إغلاق المشروع",
+      "use_case": "PRJ-10"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Updated",
+      "ar": "تم التحديث",
+      "use_case": "PRJ-10"
+    }
+  ],
+  "business_rules": [
+    {
+      "rule": "One contract is created per approved application when the program requires a contract; one contract may give rise to several projects.",
+      "use_case": "PRJ-2"
+    },
+    {
+      "rule": "The contract value equals the approved grant amount at the time of transfer.",
+      "use_case": "PRJ-2"
+    },
+    {
+      "rule": "The bill of quantities must total exactly the requested amount, and instalment percentages must total 100%.",
+      "use_case": "PRJ-1"
+    },
+    {
+      "rule": "A grant can be split into several projects only if it has at least two cost items, and each project must receive at least one item; each project's budget is the sum of its items.",
+      "use_case": "PRJ-2"
+    },
+    {
+      "rule": "Each project's instalments are calculated from the payment schedule as a percentage of the project budget, due a set number of days after the transfer date.",
+      "use_case": "PRJ-2"
+    },
+    {
+      "rule": "No new project can be approved against a plan item whose budget is locked.",
+      "use_case": "PRJ-2"
+    },
+    {
+      "rule": "A contract moves forward only: Being prepared → Awaiting partner → Awaiting signature → Signed.",
+      "use_case": "PRJ-3"
+    },
+    {
+      "rule": "Every new project or initiative starts in 'Planning' status.",
+      "use_case": "PRJ-5"
+    },
+    {
+      "rule": "An initiative requires a name and a budget greater than zero, and its end date cannot precede its start date.",
+      "use_case": "PRJ-5"
+    },
+    {
+      "rule": "The execution plan can be (re)built only before execution starts; afterwards changes require an approved plan revision.",
+      "use_case": "PRJ-6"
+    },
+    {
+      "rule": "Execution starts only when the plan has at least one activity, the contract (if any) is signed and every quantitative indicator is fully distributed across activities.",
+      "use_case": "PRJ-6"
+    },
+    {
+      "rule": "Milestones are sequential: only the first unapproved milestone is open, and a task cannot be worked on until the tasks it depends on are approved.",
+      "use_case": "PRJ-6"
+    },
+    {
+      "rule": "Indicators are linked to a grant at application stage only; at project stage they can only be distributed and confirmed.",
+      "use_case": "PRJ-6"
+    },
+    {
+      "rule": "AI checks of evidence are advisory: they never approve or block on their own, but approval warns when evidence was flagged.",
+      "use_case": "PRJ-8"
+    },
+    {
+      "rule": "A milestone payment becomes due only when all milestone tasks are approved, evidence accepted and the milestone report approved.",
+      "use_case": "PRJ-8"
+    },
+    {
+      "rule": "Returning a task to the partner requires notes and resets its progress to zero.",
+      "use_case": "PRJ-8"
+    },
+    {
+      "rule": "A project is shown as stalled when any of its activities is past due and not approved.",
+      "use_case": "PRJ-4"
+    },
+    {
+      "rule": "Project progress is the weighted average of activity progress; milestone progress is the average of its tasks.",
+      "use_case": "PRJ-4"
+    },
+    {
+      "rule": "Only one plan revision may be pending per project; a revision requires a reason, and cannot be approved by its requester.",
+      "use_case": "PRJ-9"
+    },
+    {
+      "rule": "A revision may change only remaining work: approved tasks and milestones and payments already in process stay unchanged, and total payments may not exceed the project budget.",
+      "use_case": "PRJ-9"
+    },
+    {
+      "rule": "Rejecting a plan revision requires a decision note.",
+      "use_case": "PRJ-9"
+    },
+    {
+      "rule": "Closure opens only when every milestone is approved and requires a non-empty final evaluation.",
+      "use_case": "PRJ-10"
+    },
+    {
+      "rule": "Quantitative indicator achievement equals the quantities of activities whose evidence has been accepted; milestone indicators are achieved when staff confirm them.",
+      "use_case": "PRJ-10"
+    },
+    {
+      "rule": "Foundation payment policies apply to plans: advance of at most 20%, at least 10% retained until closure, each payment conditional on an approved report and evidence, field visit for payments above SAR 200,000 (To be confirmed).",
+      "use_case": "PRJ-6"
+    },
+    {
+      "rule": "A merged application can be separated again only while its contract is still being prepared.",
+      "use_case": "PRJ-2"
+    }
+  ],
+  "kpis": [
+    {
+      "name": "Total projects",
+      "definition": "Number of grant projects and internal initiatives in the portfolio (filterable by source)."
+    },
+    {
+      "name": "Projects in planning",
+      "definition": "Number of projects that have been created but have not started execution."
+    },
+    {
+      "name": "Projects in execution",
+      "definition": "Number of projects currently being executed by the partner or internally."
+    },
+    {
+      "name": "Stalled projects",
+      "definition": "Number of projects in execution with at least one activity past its due date and not yet approved."
+    },
+    {
+      "name": "Completed / closed projects",
+      "definition": "Number of projects whose closure has been approved."
+    },
+    {
+      "name": "Project progress (actual achievement)",
+      "definition": "Share of the project's planned work that has been approved by the grantor, weighted by the importance (weight) of each activity; also shown as 'x of y milestones approved'."
+    },
+    {
+      "name": "Project value split",
+      "definition": "How the project budget is divided between amounts already paid, amounts due or in approval, and amounts approved but not yet due."
+    },
+    {
+      "name": "Indicator achievement",
+      "definition": "For each agreed indicator, the quantity achieved (from accepted evidence) against the target, as a percentage."
+    },
+    {
+      "name": "Contracts by status",
+      "definition": "Number of contracts at each step: being prepared, awaiting partner, awaiting signature, signed."
+    }
+  ],
+  "gaps": [
+    {
+      "area": "Access control",
+      "gap": "Project, contract, task, report, revision and closure decisions are protected only by what the screen shows; any grantor staff member can perform any project action, and the rules can be bypassed.",
+      "impact": "Unauthorised approvals, starts or closures; weak audit and control environment.",
+      "recommendation": "Define a permission matrix per action and enforce state checks and roles centrally in the system.",
+      "priority": "High"
+    },
+    {
+      "area": "Partner data privacy",
+      "gap": "A partner organization can open another organization's project if it knows the link.",
+      "impact": "Disclosure of confidential project and financial information between partners.",
+      "recommendation": "Restrict project access to the owning or executing partner organization.",
+      "priority": "High"
+    },
+    {
+      "area": "Split projects",
+      "gap": "When a grant is split into several projects, indicators, funding shares and co-funding move only to the first project.",
+      "impact": "Indicator targets, plan usage and start-execution checks are wrong for the other projects.",
+      "recommendation": "Apportion commitments across split projects (pro-rata or explicit assignment in the split step).",
+      "priority": "High"
+    },
+    {
+      "area": "Payment schedule",
+      "gap": "Instalments from the agreed schedule and payments from the AI plan can coexist, so total payments can exceed the project budget.",
+      "impact": "Risk of over-disbursement and confusing financial position.",
+      "recommendation": "Agree one authoritative schedule and validate total payments against the budget whenever the plan changes.",
+      "priority": "High"
+    },
+    {
+      "area": "Data integrity",
+      "gap": "Transferring an application and applying a plan revision are multi-step operations that can stop half-way.",
+      "impact": "Orphan contracts or projects, or half-applied plans.",
+      "recommendation": "Make transfer and revision application all-or-nothing.",
+      "priority": "High"
+    },
+    {
+      "area": "Contract signing",
+      "gap": "There is no partner acceptance or real signature; 'Signed' is only a status set by staff, and the contract document keeps changing after signature.",
+      "impact": "No legal evidence of agreement; signed terms can silently change.",
+      "recommendation": "Add partner acceptance and electronic signature, and freeze the signed version.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Closure controls",
+      "gap": "Closure does not check that payments (including retention) are settled, receipts uploaded or indicators confirmed; milestone indicators can only be confirmed after closure.",
+      "impact": "Projects closed with open financial or results obligations.",
+      "recommendation": "Introduce a closure checklist and a 'closing' stage in which indicators are confirmed before closure.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Status consistency",
+      "gap": "'Stalled' is shown on the project page but the list counter always shows zero; some statuses are displayed but never used.",
+      "impact": "Management under-estimates delayed projects.",
+      "recommendation": "Use one status model and calculate 'stalled' consistently, with notification and escalation.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Indicator achievement",
+      "gap": "Indicator achievement can be counted without any evidence (bulk milestone approval) or missed when a task is approved without accepting evidence.",
+      "impact": "Unreliable impact reporting to the board and in plan roll-ups.",
+      "recommendation": "Count achievement only when evidence exists and is accepted; align single and bulk approval.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Revocation",
+      "gap": "Revoking a task approval does not revert evidence acceptance or re-lock a payment already made due.",
+      "impact": "Payments may proceed for work no longer approved.",
+      "recommendation": "Revert evidence and re-lock the milestone payment on revocation if it has not entered approval.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Evidence before submission",
+      "gap": "A partner can mark a task complete without uploading evidence.",
+      "impact": "Review effort wasted and weaker accountability.",
+      "recommendation": "Require evidence for each required item before submission (to be confirmed).",
+      "priority": "Medium"
+    },
+    {
+      "area": "Task inbox",
+      "gap": "Submitted tasks, reports, pending revisions and readiness to start are not listed in users' task inboxes; only payment approvals are.",
+      "impact": "Reviews are delayed, increasing stalled projects.",
+      "recommendation": "Surface all project items awaiting action in the task inbox.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Payment policies",
+      "gap": "Foundation payment policies (advance cap, retention, report per payment, field visit threshold) are only guidance to the AI and are not validated.",
+      "impact": "Plans can breach financial policy unnoticed.",
+      "recommendation": "Make payment policies configurable and validate plans and schedules against them.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Multi-organization",
+      "gap": "Contracts and the contract document may use the wrong grantor organization in a multi-organization setup.",
+      "impact": "Incorrect legal party on contracts.",
+      "recommendation": "Always use the organization that owns the application.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Report return",
+      "gap": "Returning a milestone report requires no reason and the partner sees no feedback.",
+      "impact": "Partner does not know what to correct.",
+      "recommendation": "Require and display a return reason.",
+      "priority": "Low"
+    },
+    {
+      "area": "Initiative budgeting",
+      "gap": "Initiatives are not required to have a plan item and their budget is not checked against the item's available amount.",
+      "impact": "Plan budgets can be over-committed.",
+      "recommendation": "Require a plan item and validate available budget (to be confirmed).",
+      "priority": "Low"
+    },
+    {
+      "area": "Project dates",
+      "gap": "Project dates are set from the transfer date, not from contract signature or start of execution.",
+      "impact": "Due dates and stalled status may be misleading.",
+      "recommendation": "Confirm the anchor date and recalculate on start of execution if needed.",
+      "priority": "Low"
+    }
+  ],
+  "open_questions": [
+    "Which roles may perform each project action (create initiative, advance contract, start execution, approve tasks/reports/milestones, request and approve revisions, close project)? Is a Project Manager limited to their own projects?",
+    "Who is eligible to approve a plan revision, and should approval thresholds depend on the budget or payment impact?",
+    "How should indicator targets, initiative funding shares and co-funding be divided among projects created from a split grant?",
+    "Which payment schedule is authoritative for grant projects: the schedule agreed at contracting, or the milestone payments in the execution plan?",
+    "What is the real contract signing process (partner acceptance, electronic signature provider, upload of a signed copy), and should the signed version be frozen?",
+    "What are the closure preconditions (all payments incl. retention, receipts, indicators, final report), and is there a separate 'closed' stage after 'completed'?",
+    "Should 'stalled' trigger notifications or escalation, and after how many days overdue?",
+    "Are the foundation's payment policies (advance ≤20%, retention ≥10%, report per payment, field visit above SAR 200,000) mandatory, and configurable per program?",
+    "Is evidence mandatory before a partner submits a task, and may staff approve a task without evidence?",
+    "Should project dates start from transfer, contract signature or start of execution?",
+    "Must every initiative be linked to a plan item within its available budget, and can initiatives have a contract?",
+    "Should a supporting document be mandatory for plan revisions that change payments?",
+    "Can a project or contract be suspended or cancelled (e.g. when the grantor stops disbursement), and who decides?",
+    "What business value is expected from AI plan generation and AI re-planning (time saved, plan quality), and how will it be measured?"
+  ]
+}
