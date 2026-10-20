@@ -1,0 +1,628 @@
+# Traceability Matrix
+
+Requirement → Feature → Epic → User Stories → Screens. Generated from `data/*.json` by `build.py`.
+
+## PLT — Platform: Shell, Navigation, Personas & Shared UI
+
+| Requirement | Evidence | Feature | Epic | User Stories | Screens |
+|---|---|---|---|---|---|
+| FR-PLT-001 | Observed | FT-PLT-01 | EP-PLT-01 | US-PLT-001 | SCR-PLT-02, SCR-PLT-05 |
+| FR-PLT-002 | Observed | FT-PLT-01 | EP-PLT-01 | US-PLT-002 | SCR-PLT-02, SCR-PLT-05 |
+| FR-PLT-003 | Observed | FT-PLT-01 | EP-PLT-01 | US-PLT-001 | SCR-PLT-02, SCR-PLT-05 |
+| FR-PLT-004 | Recommended | FT-PLT-17 | EP-PLT-01 | US-PLT-003 | SCR-PLT-02 |
+| FR-PLT-005 | Recommended | FT-PLT-17 | EP-PLT-01 | US-PLT-004 | SCR-PLT-02 |
+| FR-PLT-006 | Recommended | FT-PLT-17 | EP-PLT-01 | US-PLT-003 | SCR-PLT-02 |
+| FR-PLT-007 | Observed | FT-PLT-02 | EP-PLT-01 | US-PLT-005 | SCR-PLT-06, SCR-PLT-05 |
+| FR-PLT-008 | Observed | FT-PLT-02 | EP-PLT-01 | US-PLT-005 | SCR-PLT-06, SCR-PLT-05 |
+| FR-PLT-009 | Observed | FT-PLT-02 | EP-PLT-01 | US-PLT-005 | SCR-PLT-06, SCR-PLT-05 |
+| FR-PLT-010 | Observed | FT-PLT-03 | EP-PLT-03 | US-PLT-006 | SCR-PLT-05, SCR-PLT-11 |
+| FR-PLT-011 | Observed | FT-PLT-03 | EP-PLT-03 | US-PLT-006 | SCR-PLT-05, SCR-PLT-11 |
+| FR-PLT-012 | Observed | FT-PLT-03 | EP-PLT-03 | US-PLT-006 | SCR-PLT-05, SCR-PLT-11 |
+| FR-PLT-013 | Observed | FT-PLT-03 | EP-PLT-03 | US-PLT-007 | SCR-PLT-05, SCR-PLT-11 |
+| FR-PLT-014 | Observed | FT-PLT-03 | EP-PLT-03 | US-PLT-007 | SCR-PLT-05, SCR-PLT-11 |
+| FR-PLT-015 | Observed | FT-PLT-03 | EP-PLT-03 | US-PLT-008 | SCR-PLT-05, SCR-PLT-11 |
+| FR-PLT-016 | Observed | FT-PLT-03 | EP-PLT-03 | US-PLT-008 | SCR-PLT-05, SCR-PLT-11 |
+| FR-PLT-017 | Observed | FT-PLT-04 | EP-PLT-02 | US-PLT-009 | SCR-PLT-01 |
+| FR-PLT-018 | Observed | FT-PLT-04 | EP-PLT-02 | US-PLT-009 | SCR-PLT-01 |
+| FR-PLT-019 | Observed | FT-PLT-05 | EP-PLT-02 | US-PLT-010 | SCR-PLT-03 |
+| FR-PLT-020 | Observed | FT-PLT-05 | EP-PLT-02 | US-PLT-010 | SCR-PLT-03 |
+| FR-PLT-021 | Observed | FT-PLT-05 | EP-PLT-02 | US-PLT-011 | SCR-PLT-03 |
+| FR-PLT-022 | Observed | FT-PLT-05 | EP-PLT-02 | US-PLT-011 | SCR-PLT-03 |
+| FR-PLT-023 | Observed | FT-PLT-05 | EP-PLT-02 | US-PLT-012 | SCR-PLT-03 |
+| FR-PLT-024 | Observed | FT-PLT-05 | EP-PLT-02 | US-PLT-011 | SCR-PLT-03 |
+| FR-PLT-025 | Observed | FT-PLT-06 | EP-PLT-02 | US-PLT-013 | SCR-PLT-03 |
+| FR-PLT-026 | Observed | FT-PLT-06 | EP-PLT-02 | US-PLT-014 | SCR-PLT-03 |
+| FR-PLT-027 | Recommended | FT-PLT-06 | EP-PLT-02 | US-PLT-013 | SCR-PLT-03 |
+| FR-PLT-028 | Observed | FT-PLT-07 | EP-PLT-02 | US-PLT-015 | SCR-PLT-04 |
+| FR-PLT-029 | Observed | FT-PLT-07 | EP-PLT-02 | US-PLT-015 | SCR-PLT-04 |
+| FR-PLT-030 | Observed | FT-PLT-07 | EP-PLT-02 | US-PLT-015 | SCR-PLT-04 |
+| FR-PLT-031 | Observed | FT-PLT-07 | EP-PLT-02 | US-PLT-015, US-PLT-016 | SCR-PLT-04 |
+| FR-PLT-032 | Observed | FT-PLT-07 | EP-PLT-02 | US-PLT-016 | SCR-PLT-04 |
+| FR-PLT-033 | Observed | FT-PLT-07 | EP-PLT-02 | US-PLT-017 | SCR-PLT-04 |
+| FR-PLT-034 | Observed | FT-PLT-08 | EP-PLT-03 | US-PLT-018 | SCR-PLT-07 |
+| FR-PLT-035 | Observed | FT-PLT-08 | EP-PLT-03 | US-PLT-018 | SCR-PLT-07 |
+| FR-PLT-036 | Observed | FT-PLT-08 | EP-PLT-03 | US-PLT-018 | SCR-PLT-07 |
+| FR-PLT-037 | Recommended | FT-PLT-08 | EP-PLT-03 | US-PLT-019 | SCR-PLT-07 |
+| FR-PLT-038 | Observed | FT-PLT-09 | EP-PLT-03 | US-PLT-020 | SCR-PLT-05, SCR-PLT-12 |
+| FR-PLT-039 | Observed | FT-PLT-09 | EP-PLT-03 | US-PLT-020 | SCR-PLT-05, SCR-PLT-12 |
+| FR-PLT-040 | Observed | FT-PLT-09 | EP-PLT-03 | US-PLT-021 | SCR-PLT-05, SCR-PLT-12 |
+| FR-PLT-041 | Observed | FT-PLT-09 | EP-PLT-03 | US-PLT-021 | SCR-PLT-05, SCR-PLT-12 |
+| FR-PLT-042 | Observed | FT-PLT-10 | EP-PLT-04 | US-PLT-022 | SCR-PLT-08 |
+| FR-PLT-043 | Observed | FT-PLT-10 | EP-PLT-04 | US-PLT-022 | SCR-PLT-08 |
+| FR-PLT-044 | Observed | FT-PLT-10 | EP-PLT-04 | US-PLT-022 | SCR-PLT-08 |
+| FR-PLT-045 | Observed | FT-PLT-10 | EP-PLT-04 | US-PLT-023 | SCR-PLT-08 |
+| FR-PLT-046 | Observed | FT-PLT-10 | EP-PLT-04 | US-PLT-022 | SCR-PLT-08 |
+| FR-PLT-047 | Recommended | FT-PLT-10 | EP-PLT-04 | US-PLT-023 | SCR-PLT-08 |
+| FR-PLT-048 | Observed | FT-PLT-11 | EP-PLT-05 | US-PLT-024 | SCR-PLT-09 |
+| FR-PLT-049 | Observed | FT-PLT-11 | EP-PLT-05 | US-PLT-024 | SCR-PLT-09 |
+| FR-PLT-050 | Observed | FT-PLT-12 | EP-PLT-05 | US-PLT-025 | SCR-PLT-10 |
+| FR-PLT-051 | Observed | FT-PLT-13 | EP-PLT-05 | US-PLT-026 | SCR-PLT-11 |
+| FR-PLT-052 | Observed | FT-PLT-13 | EP-PLT-05 | US-PLT-027 | SCR-PLT-11 |
+| FR-PLT-053 | Recommended | FT-PLT-13 | EP-PLT-05 | US-PLT-027 | SCR-PLT-11 |
+| FR-PLT-054 | Observed | FT-PLT-14 | EP-PLT-06 | US-PLT-028 | (used by list screens in other modules) |
+| FR-PLT-055 | Observed | FT-PLT-14 | EP-PLT-06 | US-PLT-028 | (used by list screens in other modules) |
+| FR-PLT-056 | Observed | FT-PLT-14 | EP-PLT-06 | US-PLT-029 | (used by list screens in other modules) |
+| FR-PLT-057 | Observed | FT-PLT-14 | EP-PLT-06 | US-PLT-028 | (used by list screens in other modules) |
+| FR-PLT-058 | Observed | FT-PLT-15 | EP-PLT-06 | US-PLT-030 | SCR-PLT-13, SCR-PLT-14 |
+| FR-PLT-059 | Observed | FT-PLT-15 | EP-PLT-06 | US-PLT-030 | SCR-PLT-13, SCR-PLT-14 |
+| FR-PLT-060 | Observed | FT-PLT-15 | EP-PLT-06 | US-PLT-030 | SCR-PLT-13, SCR-PLT-14 |
+| FR-PLT-061 | Observed | FT-PLT-16 | EP-PLT-06 | US-PLT-031 | (embedded in other modules) |
+| FR-PLT-062 | Observed | FT-PLT-16 | EP-PLT-06 | US-PLT-032 | (embedded in other modules) |
+| FR-PLT-063 | Observed | FT-PLT-16 | EP-PLT-06 | US-PLT-031 | (embedded in other modules) |
+| FR-PLT-064 | Observed | FT-PLT-16 | EP-PLT-06 | US-PLT-032 | (embedded in other modules) |
+| FR-PLT-065 | Observed | FT-PLT-16 | EP-PLT-06 | US-PLT-028 | (embedded in other modules) |
+
+## CFG — Settings & Configuration
+
+| Requirement | Evidence | Feature | Epic | User Stories | Screens |
+|---|---|---|---|---|---|
+| FR-CFG-001 | Observed | FT-CFG-01 | EP-CFG-01 | US-CFG-001 | SCR-CFG-01, SCR-CFG-12 |
+| FR-CFG-002 | Observed | FT-CFG-01 | EP-CFG-01 | US-CFG-001 | SCR-CFG-01, SCR-CFG-12 |
+| FR-CFG-003 | Observed | FT-CFG-01 | EP-CFG-01 | US-CFG-002 | SCR-CFG-01, SCR-CFG-12 |
+| FR-CFG-004 | Observed | FT-CFG-01 | EP-CFG-01 | US-CFG-003 | SCR-CFG-01, SCR-CFG-12 |
+| FR-CFG-005 | Observed | FT-CFG-02 | EP-CFG-01 | US-CFG-004 | SCR-CFG-02 |
+| FR-CFG-006 | Observed | FT-CFG-02 | EP-CFG-01 | US-CFG-005 | SCR-CFG-02 |
+| FR-CFG-007 | Observed | FT-CFG-02 | EP-CFG-01 | US-CFG-006 | SCR-CFG-02 |
+| FR-CFG-008 | Observed | FT-CFG-02 | EP-CFG-01 | US-CFG-007 | SCR-CFG-02 |
+| FR-CFG-009 | Recommended | FT-CFG-02 | EP-CFG-01 | US-CFG-008 | SCR-CFG-02 |
+| FR-CFG-010 | Observed | FT-CFG-03 | EP-CFG-01 | US-CFG-009 | SCR-CFG-02 |
+| FR-CFG-011 | Observed | FT-CFG-03 | EP-CFG-01 | US-CFG-009 | SCR-CFG-02 |
+| FR-CFG-012 | Observed | FT-CFG-04 | EP-CFG-01 | US-CFG-010 | SCR-CFG-03 |
+| FR-CFG-013 | Observed | FT-CFG-04 | EP-CFG-01 | US-CFG-010 | SCR-CFG-03 |
+| FR-CFG-014 | Observed | FT-CFG-04 | EP-CFG-01 | US-CFG-011 | SCR-CFG-03 |
+| FR-CFG-015 | Observed | FT-CFG-05 | EP-CFG-01 | US-CFG-012 | SCR-CFG-12 |
+| FR-CFG-016 | Observed | FT-CFG-05 | EP-CFG-01 | US-CFG-012 | SCR-CFG-12 |
+| FR-CFG-017 | Observed | FT-CFG-05 | EP-CFG-01 | US-CFG-012 | SCR-CFG-12 |
+| FR-CFG-018 | Observed | FT-CFG-06 | EP-CFG-02 | US-CFG-013 | SCR-CFG-05 |
+| FR-CFG-019 | Observed | FT-CFG-06 | EP-CFG-02 | US-CFG-013 | SCR-CFG-05 |
+| FR-CFG-020 | Observed | FT-CFG-06 | EP-CFG-02 | US-CFG-013 | SCR-CFG-05 |
+| FR-CFG-021 | Observed | FT-CFG-06 | EP-CFG-02 | US-CFG-014 | SCR-CFG-05 |
+| FR-CFG-022 | Observed | FT-CFG-06 | EP-CFG-02 | US-CFG-014 | SCR-CFG-05 |
+| FR-CFG-023 | Recommended | FT-CFG-06 | EP-CFG-02 | US-CFG-015 | SCR-CFG-05 |
+| FR-CFG-024 | Observed | FT-CFG-07 | EP-CFG-02 | US-CFG-016 | SCR-CFG-04 |
+| FR-CFG-025 | Observed | FT-CFG-08 | EP-CFG-02 | US-CFG-017 | SCR-CFG-07 |
+| FR-CFG-026 | Observed | FT-CFG-08 | EP-CFG-02 | US-CFG-017 | SCR-CFG-07 |
+| FR-CFG-027 | Recommended | FT-CFG-08 | EP-CFG-02 | US-CFG-018 | SCR-CFG-07 |
+| FR-CFG-028 | Observed | FT-CFG-09 | EP-CFG-02 | US-CFG-019 | SCR-CFG-08 |
+| FR-CFG-029 | Recommended | FT-CFG-09 | EP-CFG-02 | US-CFG-019 | SCR-CFG-08 |
+| FR-CFG-030 | Observed | FT-CFG-10 | EP-CFG-02 | US-CFG-020 | SCR-CFG-08 |
+| FR-CFG-031 | Observed | FT-CFG-10 | EP-CFG-02 | US-CFG-020 | SCR-CFG-08 |
+| FR-CFG-032 | Observed | FT-CFG-11 | EP-CFG-03 | US-CFG-021 | SCR-CFG-06 |
+| FR-CFG-033 | Observed | FT-CFG-11 | EP-CFG-03 | US-CFG-021 | SCR-CFG-06 |
+| FR-CFG-034 | Observed | FT-CFG-11 | EP-CFG-03 | US-CFG-022 | SCR-CFG-06 |
+| FR-CFG-035 | Recommended | FT-CFG-11 | EP-CFG-03 | US-CFG-023 | SCR-CFG-06 |
+| FR-CFG-036 | Observed | FT-CFG-12 | EP-CFG-04 | US-CFG-024 | SCR-CFG-10 |
+| FR-CFG-037 | Observed | FT-CFG-12 | EP-CFG-04 | US-CFG-024 | SCR-CFG-10 |
+| FR-CFG-038 | Observed | FT-CFG-12 | EP-CFG-04 | US-CFG-025 | SCR-CFG-10 |
+| FR-CFG-039 | Recommended | FT-CFG-12 | EP-CFG-04 | US-CFG-025 | SCR-CFG-10 |
+| FR-CFG-040 | Observed | FT-CFG-13 | EP-CFG-04 | US-CFG-026 | SCR-CFG-10, SCR-CFG-11, SCR-CFG-01 |
+| FR-CFG-041 | Observed | FT-CFG-13 | EP-CFG-04 | US-CFG-026 | SCR-CFG-10, SCR-CFG-11, SCR-CFG-01 |
+| FR-CFG-042 | Observed | FT-CFG-13 | EP-CFG-04 | US-CFG-026 | SCR-CFG-10, SCR-CFG-11, SCR-CFG-01 |
+| FR-CFG-043 | Recommended | FT-CFG-13 | EP-CFG-04 | US-CFG-027 | SCR-CFG-10, SCR-CFG-11, SCR-CFG-01 |
+| FR-CFG-044 | Observed | FT-CFG-14 | EP-CFG-05 | US-CFG-028 | SCR-CFG-13 |
+| FR-CFG-045 | Observed | FT-CFG-14 | EP-CFG-05 | US-CFG-028 | SCR-CFG-13 |
+| FR-CFG-046 | Observed | FT-CFG-14 | EP-CFG-05 | US-CFG-028 | SCR-CFG-13 |
+| FR-CFG-047 | Observed | FT-CFG-14 | EP-CFG-05 | US-CFG-029 | SCR-CFG-13 |
+| FR-CFG-048 | Observed | FT-CFG-14 | EP-CFG-05 | US-CFG-030 | SCR-CFG-13 |
+| FR-CFG-049 | Observed | FT-CFG-15 | EP-CFG-05 | US-CFG-031 | SCR-CFG-09 |
+| FR-CFG-050 | Observed | FT-CFG-16 | EP-CFG-01 | US-CFG-032 |  |
+| FR-CFG-051 | Observed | FT-CFG-16 | EP-CFG-01 | US-CFG-032 |  |
+| FR-CFG-052 | Observed | FT-CFG-16 | EP-CFG-01 | US-CFG-033 |  |
+| FR-CFG-053 | Observed | FT-CFG-16 | EP-CFG-01 | US-CFG-034 |  |
+| FR-CFG-054 | Recommended | FT-CFG-16 | EP-CFG-01 | US-CFG-033 |  |
+
+## PLN — Annual Plans, Endowments & Initiatives
+
+| Requirement | Evidence | Feature | Epic | User Stories | Screens |
+|---|---|---|---|---|---|
+| FR-PLN-001 | Observed | FT-PLN-01 | EP-PLN-01 | US-PLN-001 | SCR-PLN-01 |
+| FR-PLN-002 | Observed | FT-PLN-01 | EP-PLN-01 | US-PLN-001 | SCR-PLN-01 |
+| FR-PLN-003 | Observed | FT-PLN-01 | EP-PLN-01 | US-PLN-002 | SCR-PLN-01 |
+| FR-PLN-004 | Observed | FT-PLN-01 | EP-PLN-01 | US-PLN-001 | SCR-PLN-01 |
+| FR-PLN-005 | Observed | FT-PLN-01 | EP-PLN-01 | US-PLN-001 | SCR-PLN-01 |
+| FR-PLN-006 | Observed | FT-PLN-02 | EP-PLN-01 | US-PLN-003 | SCR-PLN-01, SCR-PLN-09 |
+| FR-PLN-007 | Observed | FT-PLN-02 | EP-PLN-01 | US-PLN-003 | SCR-PLN-01, SCR-PLN-09 |
+| FR-PLN-008 | Observed | FT-PLN-02 | EP-PLN-01 | US-PLN-003 | SCR-PLN-01, SCR-PLN-09 |
+| FR-PLN-009 | Observed | FT-PLN-03 | EP-PLN-01 | US-PLN-004 | SCR-PLN-01, SCR-PLN-11 |
+| FR-PLN-010 | Observed | FT-PLN-03 | EP-PLN-01 | US-PLN-005 | SCR-PLN-01, SCR-PLN-11 |
+| FR-PLN-011 | Observed | FT-PLN-03 | EP-PLN-01 | US-PLN-004, US-PLN-005 | SCR-PLN-01, SCR-PLN-11 |
+| FR-PLN-012 | Recommended | FT-PLN-03 | EP-PLN-01 | US-PLN-004 | SCR-PLN-01, SCR-PLN-11 |
+| FR-PLN-013 | Observed | FT-PLN-04 | EP-PLN-02 | US-PLN-006, US-PLN-010 | SCR-PLN-04, SCR-PLN-09, SCR-PLN-12, SCR-PLN-13 |
+| FR-PLN-014 | Observed | FT-PLN-04 | EP-PLN-02 | US-PLN-006 | SCR-PLN-04, SCR-PLN-09, SCR-PLN-12, SCR-PLN-13 |
+| FR-PLN-015 | Observed | FT-PLN-04 | EP-PLN-02 | US-PLN-007 | SCR-PLN-04, SCR-PLN-09, SCR-PLN-12, SCR-PLN-13 |
+| FR-PLN-016 | Observed | FT-PLN-04 | EP-PLN-02 | US-PLN-008 | SCR-PLN-04, SCR-PLN-09, SCR-PLN-12, SCR-PLN-13 |
+| FR-PLN-017 | Observed | FT-PLN-04 | EP-PLN-02 | US-PLN-006, US-PLN-007 | SCR-PLN-04, SCR-PLN-09, SCR-PLN-12, SCR-PLN-13 |
+| FR-PLN-018 | Observed | FT-PLN-04 | EP-PLN-02 | US-PLN-007 | SCR-PLN-04, SCR-PLN-09, SCR-PLN-12, SCR-PLN-13 |
+| FR-PLN-019 | Observed | FT-PLN-04 | EP-PLN-02 | US-PLN-009 | SCR-PLN-04, SCR-PLN-09, SCR-PLN-12, SCR-PLN-13 |
+| FR-PLN-020 | Observed | FT-PLN-04 | EP-PLN-02 | US-PLN-009 | SCR-PLN-04, SCR-PLN-09, SCR-PLN-12, SCR-PLN-13 |
+| FR-PLN-021 | Observed | FT-PLN-04 | EP-PLN-02 | US-PLN-009 | SCR-PLN-04, SCR-PLN-09, SCR-PLN-12, SCR-PLN-13 |
+| FR-PLN-022 | Recommended | FT-PLN-04 | EP-PLN-02 | US-PLN-009 | SCR-PLN-04, SCR-PLN-09, SCR-PLN-12, SCR-PLN-13 |
+| FR-PLN-023 | Observed | FT-PLN-05 | EP-PLN-02 | US-PLN-011 | SCR-PLN-02, SCR-PLN-03, SCR-PLN-05 |
+| FR-PLN-024 | Observed | FT-PLN-05 | EP-PLN-02 | US-PLN-011 | SCR-PLN-02, SCR-PLN-03, SCR-PLN-05 |
+| FR-PLN-025 | Observed | FT-PLN-06 | EP-PLN-02 | US-PLN-012 | SCR-PLN-03, SCR-PLN-04 |
+| FR-PLN-026 | Observed | FT-PLN-06 | EP-PLN-02 | US-PLN-012 | SCR-PLN-03, SCR-PLN-04 |
+| FR-PLN-027 | Observed | FT-PLN-07 | EP-PLN-03 | US-PLN-013 | SCR-PLN-02, SCR-PLN-03 |
+| FR-PLN-028 | Observed | FT-PLN-07 | EP-PLN-03 | US-PLN-013 | SCR-PLN-02, SCR-PLN-03 |
+| FR-PLN-029 | Observed | FT-PLN-07 | EP-PLN-03 | US-PLN-014 | SCR-PLN-02, SCR-PLN-03 |
+| FR-PLN-030 | Observed | FT-PLN-07 | EP-PLN-03 | US-PLN-013 | SCR-PLN-02, SCR-PLN-03 |
+| FR-PLN-031 | Observed | FT-PLN-07 | EP-PLN-03 | US-PLN-013 | SCR-PLN-02, SCR-PLN-03 |
+| FR-PLN-032 | Observed | FT-PLN-07 | EP-PLN-03 | US-PLN-014 | SCR-PLN-02, SCR-PLN-03 |
+| FR-PLN-033 | Observed | FT-PLN-07 | EP-PLN-03 | US-PLN-013 | SCR-PLN-02, SCR-PLN-03 |
+| FR-PLN-034 | Observed | FT-PLN-08 | EP-PLN-03 | US-PLN-015 | SCR-PLN-02 |
+| FR-PLN-035 | Observed | FT-PLN-08 | EP-PLN-03 | US-PLN-015 | SCR-PLN-02 |
+| FR-PLN-036 | Observed | FT-PLN-08 | EP-PLN-03 | US-PLN-015 | SCR-PLN-02 |
+| FR-PLN-037 | Observed | FT-PLN-08 | EP-PLN-03 | US-PLN-015, US-PLN-028 | SCR-PLN-02 |
+| FR-PLN-038 | Observed | FT-PLN-08 | EP-PLN-03 | US-PLN-015 | SCR-PLN-02 |
+| FR-PLN-039 | Observed | FT-PLN-09 | EP-PLN-03 | US-PLN-016 | SCR-PLN-03 |
+| FR-PLN-040 | Observed | FT-PLN-09 | EP-PLN-03 | US-PLN-017 | SCR-PLN-03 |
+| FR-PLN-041 | Observed | FT-PLN-09 | EP-PLN-03 | US-PLN-016 | SCR-PLN-03 |
+| FR-PLN-042 | Observed | FT-PLN-09 | EP-PLN-03 | US-PLN-016 | SCR-PLN-03 |
+| FR-PLN-043 | Observed | FT-PLN-10 | EP-PLN-03 | US-PLN-018 | SCR-PLN-05 |
+| FR-PLN-044 | Observed | FT-PLN-11 | EP-PLN-04 | US-PLN-019, US-PLN-020, US-PLN-021 | SCR-PLN-10, SCR-PLN-01, SCR-PLN-06 |
+| FR-PLN-045 | Observed | FT-PLN-11 | EP-PLN-04 | US-PLN-019, US-PLN-020, US-PLN-021 | SCR-PLN-10, SCR-PLN-01, SCR-PLN-06 |
+| FR-PLN-046 | Observed | FT-PLN-11 | EP-PLN-04 | US-PLN-020, US-PLN-021 | SCR-PLN-10, SCR-PLN-01, SCR-PLN-06 |
+| FR-PLN-047 | Observed | FT-PLN-11 | EP-PLN-04 | US-PLN-019, US-PLN-020, US-PLN-021 | SCR-PLN-10, SCR-PLN-01, SCR-PLN-06 |
+| FR-PLN-048 | Observed | FT-PLN-11 | EP-PLN-04 | US-PLN-019 | SCR-PLN-10, SCR-PLN-01, SCR-PLN-06 |
+| FR-PLN-049 | Observed | FT-PLN-11 | EP-PLN-04 | US-PLN-020 | SCR-PLN-10, SCR-PLN-01, SCR-PLN-06 |
+| FR-PLN-050 | Observed | FT-PLN-11 | EP-PLN-04 | US-PLN-021 | SCR-PLN-10, SCR-PLN-01, SCR-PLN-06 |
+| FR-PLN-051 | Observed | FT-PLN-11 | EP-PLN-04 | US-PLN-019, US-PLN-020, US-PLN-021 | SCR-PLN-10, SCR-PLN-01, SCR-PLN-06 |
+| FR-PLN-052 | Observed | FT-PLN-12 | EP-PLN-04 | US-PLN-022 | SCR-PLN-06 |
+| FR-PLN-053 | Observed | FT-PLN-12 | EP-PLN-04 | US-PLN-022 | SCR-PLN-06 |
+| FR-PLN-054 | Observed | FT-PLN-12 | EP-PLN-04 | US-PLN-022 | SCR-PLN-06 |
+| FR-PLN-055 | Observed | FT-PLN-13 | EP-PLN-05 | US-PLN-023 | SCR-PLN-07, SCR-PLN-14 |
+| FR-PLN-056 | Observed | FT-PLN-13 | EP-PLN-05 | US-PLN-023 | SCR-PLN-07, SCR-PLN-14 |
+| FR-PLN-057 | Observed | FT-PLN-14 | EP-PLN-05 | US-PLN-024 | SCR-PLN-07, SCR-PLN-03 |
+| FR-PLN-058 | Observed | FT-PLN-14 | EP-PLN-05 | US-PLN-024 | SCR-PLN-07, SCR-PLN-03 |
+| FR-PLN-059 | Observed | FT-PLN-14 | EP-PLN-05 | US-PLN-024 | SCR-PLN-07, SCR-PLN-03 |
+| FR-PLN-060 | Observed | FT-PLN-15 | EP-PLN-05 | US-PLN-025 | SCR-PLN-07 |
+| FR-PLN-061 | Observed | FT-PLN-15 | EP-PLN-05 | US-PLN-025 | SCR-PLN-07 |
+| FR-PLN-062 | Observed | FT-PLN-15 | EP-PLN-05 | US-PLN-025 | SCR-PLN-07 |
+| FR-PLN-063 | Observed | FT-PLN-16 | EP-PLN-06 | US-PLN-026 | SCR-PLN-03 |
+| FR-PLN-064 | Observed | FT-PLN-16 | EP-PLN-06 | US-PLN-027 | SCR-PLN-03 |
+| FR-PLN-065 | Observed | FT-PLN-16 | EP-PLN-06 | US-PLN-026 | SCR-PLN-03 |
+| FR-PLN-066 | Observed | FT-PLN-17 | EP-PLN-06 | US-PLN-028 | SCR-PLN-08, SCR-PLN-02 |
+| FR-PLN-067 | Observed | FT-PLN-17 | EP-PLN-06 | US-PLN-028 | SCR-PLN-08, SCR-PLN-02 |
+
+## PRG — Grant Programs / Opportunities, Workflow Engines, Products
+
+| Requirement | Evidence | Feature | Epic | User Stories | Screens |
+|---|---|---|---|---|---|
+| FR-PRG-001 | Observed | FT-PRG-01 | EP-PRG-01 | US-PRG-001 | SCR-PRG-01 |
+| FR-PRG-002 | Observed | FT-PRG-01 | EP-PRG-01 | US-PRG-001 | SCR-PRG-01 |
+| FR-PRG-003 | Observed | FT-PRG-01 | EP-PRG-01 | US-PRG-001 | SCR-PRG-01 |
+| FR-PRG-004 | Observed | FT-PRG-01 | EP-PRG-01 | US-PRG-002 | SCR-PRG-01 |
+| FR-PRG-005 | Observed | FT-PRG-02 | EP-PRG-01 | US-PRG-003 | SCR-PRG-02 |
+| FR-PRG-006 | Observed | FT-PRG-02 | EP-PRG-01 | US-PRG-003 | SCR-PRG-02 |
+| FR-PRG-007 | Observed | FT-PRG-02 | EP-PRG-01 | US-PRG-004 | SCR-PRG-02 |
+| FR-PRG-008 | Observed | FT-PRG-02 | EP-PRG-01 | US-PRG-003 | SCR-PRG-02 |
+| FR-PRG-009 | Recommended | FT-PRG-02 | EP-PRG-01 | US-PRG-003 | SCR-PRG-02 |
+| FR-PRG-010 | Observed | FT-PRG-03 | EP-PRG-01 | US-PRG-005 | SCR-PRG-03, SCR-PRG-04 |
+| FR-PRG-011 | Observed | FT-PRG-03 | EP-PRG-01 | US-PRG-005 | SCR-PRG-03, SCR-PRG-04 |
+| FR-PRG-012 | Observed | FT-PRG-03 | EP-PRG-01 | US-PRG-006 | SCR-PRG-03, SCR-PRG-04 |
+| FR-PRG-013 | Recommended | FT-PRG-03 | EP-PRG-01 | US-PRG-005 | SCR-PRG-03, SCR-PRG-04 |
+| FR-PRG-014 | Observed | FT-PRG-04 | EP-PRG-01 | US-PRG-007 | SCR-PRG-02, SCR-PRG-08 |
+| FR-PRG-015 | Observed | FT-PRG-04 | EP-PRG-01 | US-PRG-007 | SCR-PRG-02, SCR-PRG-08 |
+| FR-PRG-016 | Recommended | FT-PRG-04 | EP-PRG-01 | US-PRG-007 | SCR-PRG-02, SCR-PRG-08 |
+| FR-PRG-017 | Observed | FT-PRG-05 | EP-PRG-02 | US-PRG-008 | SCR-PRG-04 |
+| FR-PRG-018 | Observed | FT-PRG-05 | EP-PRG-02 | US-PRG-009 | SCR-PRG-04 |
+| FR-PRG-019 | Observed | FT-PRG-05 | EP-PRG-02 | US-PRG-009 | SCR-PRG-04 |
+| FR-PRG-020 | Observed | FT-PRG-05 | EP-PRG-02 | US-PRG-008 | SCR-PRG-04 |
+| FR-PRG-021 | Recommended | FT-PRG-05 | EP-PRG-02 | US-PRG-010 | SCR-PRG-04 |
+| FR-PRG-022 | Observed | FT-PRG-06 | EP-PRG-03 | US-PRG-011 | SCR-PRG-05 |
+| FR-PRG-023 | Observed | FT-PRG-06 | EP-PRG-03 | US-PRG-012 | SCR-PRG-05 |
+| FR-PRG-024 | Observed | FT-PRG-06 | EP-PRG-03 | US-PRG-011 | SCR-PRG-05 |
+| FR-PRG-025 | Recommended | FT-PRG-06 | EP-PRG-03 | US-PRG-011 | SCR-PRG-05 |
+| FR-PRG-026 | Observed | FT-PRG-07 | EP-PRG-03 | US-PRG-013 | SCR-PRG-06 |
+| FR-PRG-027 | Observed | FT-PRG-07 | EP-PRG-03 | US-PRG-013 | SCR-PRG-06 |
+| FR-PRG-028 | Recommended | FT-PRG-07 | EP-PRG-03 | US-PRG-013 | SCR-PRG-06 |
+| FR-PRG-029 | Observed | FT-PRG-08 | EP-PRG-03 | US-PRG-014 | SCR-PRG-07 |
+| FR-PRG-030 | Observed | FT-PRG-09 | EP-PRG-03 | US-PRG-015 | SCR-PRG-08 |
+| FR-PRG-031 | Observed | FT-PRG-09 | EP-PRG-03 | US-PRG-015 | SCR-PRG-08 |
+| FR-PRG-032 | Observed | FT-PRG-10 | EP-PRG-04 | US-PRG-016 | SCR-PRG-13, SCR-PRG-14 |
+| FR-PRG-033 | Observed | FT-PRG-10 | EP-PRG-04 | US-PRG-016 | SCR-PRG-13, SCR-PRG-14 |
+| FR-PRG-034 | Observed | FT-PRG-10 | EP-PRG-04 | US-PRG-017 | SCR-PRG-13, SCR-PRG-14 |
+| FR-PRG-035 | Observed | FT-PRG-10 | EP-PRG-04 | US-PRG-017 | SCR-PRG-13, SCR-PRG-14 |
+| FR-PRG-036 | Recommended | FT-PRG-10 | EP-PRG-04 | US-PRG-017 | SCR-PRG-13, SCR-PRG-14 |
+| FR-PRG-037 | Observed | FT-PRG-11 | EP-PRG-04 | US-PRG-018 | SCR-PRG-05 |
+| FR-PRG-038 | Recommended | FT-PRG-11 | EP-PRG-04 | US-PRG-018 | SCR-PRG-05 |
+| FR-PRG-039 | Observed | FT-PRG-12 | EP-PRG-04 | US-PRG-019 | SCR-PRG-14 |
+| FR-PRG-040 | Observed | FT-PRG-12 | EP-PRG-04 | US-PRG-019 | SCR-PRG-14 |
+| FR-PRG-041 | Observed | FT-PRG-12 | EP-PRG-04 | US-PRG-019 | SCR-PRG-14 |
+| FR-PRG-042 | Observed | FT-PRG-13 | EP-PRG-05 | US-PRG-020 | SCR-PRG-15 |
+| FR-PRG-043 | Observed | FT-PRG-13 | EP-PRG-05 | US-PRG-020 | SCR-PRG-15 |
+| FR-PRG-044 | Observed | FT-PRG-13 | EP-PRG-05 | US-PRG-020 | SCR-PRG-15 |
+| FR-PRG-045 | Observed | FT-PRG-13 | EP-PRG-05 | US-PRG-021 | SCR-PRG-15 |
+| FR-PRG-046 | Recommended | FT-PRG-13 | EP-PRG-05 | US-PRG-020, US-PRG-021 | SCR-PRG-15 |
+| FR-PRG-047 | Observed | FT-PRG-14 | EP-PRG-05 | US-PRG-022 | SCR-PRG-09 |
+| FR-PRG-048 | Observed | FT-PRG-15 | EP-PRG-05 | US-PRG-023 | SCR-PRG-16 |
+| FR-PRG-049 | Observed | FT-PRG-15 | EP-PRG-05 | US-PRG-023 | SCR-PRG-16 |
+| FR-PRG-050 | Observed | FT-PRG-16 | EP-PRG-06 | US-PRG-024 | SCR-PRG-10 |
+| FR-PRG-051 | Observed | FT-PRG-16 | EP-PRG-06 | US-PRG-025 | SCR-PRG-10 |
+| FR-PRG-052 | Observed | FT-PRG-16 | EP-PRG-06 | US-PRG-025 | SCR-PRG-10 |
+| FR-PRG-053 | Recommended | FT-PRG-16 | EP-PRG-06 | US-PRG-024 | SCR-PRG-10 |
+| FR-PRG-054 | Observed | FT-PRG-17 | EP-PRG-06 | US-PRG-026 | SCR-PRG-11 |
+| FR-PRG-055 | Observed | FT-PRG-17 | EP-PRG-06 | US-PRG-026 | SCR-PRG-11 |
+| FR-PRG-056 | Observed | FT-PRG-18 | EP-PRG-06 | US-PRG-027 | SCR-PRG-12 |
+| FR-PRG-057 | Observed | FT-PRG-18 | EP-PRG-06 | US-PRG-028 | SCR-PRG-12 |
+| FR-PRG-058 | Recommended | FT-PRG-18 | EP-PRG-06 | US-PRG-028 | SCR-PRG-12 |
+| FR-PRG-059 | Observed | FT-PRG-19 | EP-PRG-07 | US-PRG-029 | SCR-PRG-17, SCR-PRG-03, SCR-PRG-14, SCR-PRG-15 |
+| FR-PRG-060 | Observed | FT-PRG-19 | EP-PRG-07 | US-PRG-029 | SCR-PRG-17, SCR-PRG-03, SCR-PRG-14, SCR-PRG-15 |
+| FR-PRG-061 | Observed | FT-PRG-19 | EP-PRG-07 | US-PRG-030 | SCR-PRG-17, SCR-PRG-03, SCR-PRG-14, SCR-PRG-15 |
+| FR-PRG-062 | Observed | FT-PRG-19 | EP-PRG-07 | US-PRG-030 | SCR-PRG-17, SCR-PRG-03, SCR-PRG-14, SCR-PRG-15 |
+| FR-PRG-063 | Observed | FT-PRG-20 | EP-PRG-07 | US-PRG-031 | SCR-PRG-03 |
+| FR-PRG-064 | Observed | FT-PRG-20 | EP-PRG-07 | US-PRG-031 | SCR-PRG-03 |
+| FR-PRG-065 | Observed | FT-PRG-20 | EP-PRG-07 | US-PRG-031 | SCR-PRG-03 |
+
+## PTL — Partner Portal (Applicant Side)
+
+| Requirement | Evidence | Feature | Epic | User Stories | Screens |
+|---|---|---|---|---|---|
+| FR-PTL-001 | Observed | FT-PTL-01 | EP-PTL-01 | US-PTL-001 | SCR-PTL-01 |
+| FR-PTL-002 | Observed | FT-PTL-01 | EP-PTL-01 | US-PTL-001 | SCR-PTL-01 |
+| FR-PTL-003 | Observed | FT-PTL-01 | EP-PTL-01 | US-PTL-001 | SCR-PTL-01 |
+| FR-PTL-004 | Observed | FT-PTL-01 | EP-PTL-01 | US-PTL-001, US-PTL-002 | SCR-PTL-01 |
+| FR-PTL-005 | Observed | FT-PTL-01 | EP-PTL-01 | US-PTL-002 | SCR-PTL-01 |
+| FR-PTL-006 | Observed | FT-PTL-02 | EP-PTL-01 | US-PTL-003 | SCR-PTL-02, SCR-PTL-01 |
+| FR-PTL-007 | Observed | FT-PTL-02 | EP-PTL-01 | US-PTL-003 | SCR-PTL-02, SCR-PTL-01 |
+| FR-PTL-008 | Observed | FT-PTL-02 | EP-PTL-01 | US-PTL-004 | SCR-PTL-02, SCR-PTL-01 |
+| FR-PTL-009 | Observed | FT-PTL-03 | EP-PTL-01 | US-PTL-001, US-PTL-017 | SCR-PTL-01, SCR-PTL-07 |
+| FR-PTL-010 | Observed | FT-PTL-04 | EP-PTL-02 | US-PTL-005 | SCR-PTL-03 |
+| FR-PTL-011 | Observed | FT-PTL-04 | EP-PTL-02 | US-PTL-005 | SCR-PTL-03 |
+| FR-PTL-012 | Observed | FT-PTL-05 | EP-PTL-02 | US-PTL-006 | SCR-PTL-03 |
+| FR-PTL-013 | Observed | FT-PTL-05 | EP-PTL-02 | US-PTL-006 | SCR-PTL-03 |
+| FR-PTL-014 | Observed | FT-PTL-05 | EP-PTL-02 | US-PTL-006 | SCR-PTL-03 |
+| FR-PTL-015 | Observed | FT-PTL-06 | EP-PTL-02 | US-PTL-007 | SCR-PTL-10, SCR-PTL-03 |
+| FR-PTL-016 | Observed | FT-PTL-06 | EP-PTL-02 | US-PTL-007 | SCR-PTL-10, SCR-PTL-03 |
+| FR-PTL-017 | Observed | FT-PTL-07 | EP-PTL-03 | US-PTL-008 | SCR-PTL-04 |
+| FR-PTL-018 | Observed | FT-PTL-07 | EP-PTL-03 | US-PTL-008 | SCR-PTL-04 |
+| FR-PTL-019 | Observed | FT-PTL-07 | EP-PTL-03 | US-PTL-008 | SCR-PTL-04 |
+| FR-PTL-020 | Observed | FT-PTL-07 | EP-PTL-03 | US-PTL-008, US-PTL-009 | SCR-PTL-04 |
+| FR-PTL-021 | Observed | FT-PTL-07 | EP-PTL-03 | US-PTL-009 | SCR-PTL-04 |
+| FR-PTL-022 | Observed | FT-PTL-08 | EP-PTL-03 | US-PTL-010 | SCR-PTL-04 |
+| FR-PTL-023 | Observed | FT-PTL-08 | EP-PTL-03 | US-PTL-010 | SCR-PTL-04 |
+| FR-PTL-024 | Observed | FT-PTL-09 | EP-PTL-03 | US-PTL-011 | SCR-PTL-04 |
+| FR-PTL-025 | Observed | FT-PTL-09 | EP-PTL-03 | US-PTL-011 | SCR-PTL-04 |
+| FR-PTL-026 | Observed | FT-PTL-10 | EP-PTL-03 | US-PTL-012 | SCR-PTL-04 |
+| FR-PTL-027 | Recommended | FT-PTL-10 | EP-PTL-03 | US-PTL-012 | SCR-PTL-04 |
+| FR-PTL-028 | Observed | FT-PTL-11 | EP-PTL-03 | US-PTL-013 | SCR-PTL-05, SCR-PTL-04 |
+| FR-PTL-029 | Observed | FT-PTL-11 | EP-PTL-03 | US-PTL-013 | SCR-PTL-05, SCR-PTL-04 |
+| FR-PTL-030 | Observed | FT-PTL-11 | EP-PTL-03 | US-PTL-013 | SCR-PTL-05, SCR-PTL-04 |
+| FR-PTL-031 | Observed | FT-PTL-12 | EP-PTL-04 | US-PTL-014 | SCR-PTL-03 |
+| FR-PTL-032 | Observed | FT-PTL-12 | EP-PTL-04 | US-PTL-014 | SCR-PTL-03 |
+| FR-PTL-033 | Observed | FT-PTL-12 | EP-PTL-04 | US-PTL-014 | SCR-PTL-03 |
+| FR-PTL-034 | Observed | FT-PTL-13 | EP-PTL-04 | US-PTL-015 | SCR-PTL-06 |
+| FR-PTL-035 | Observed | FT-PTL-13 | EP-PTL-04 | US-PTL-015 | SCR-PTL-06 |
+| FR-PTL-036 | Observed | FT-PTL-14 | EP-PTL-04 | US-PTL-016 | SCR-PTL-06 |
+| FR-PTL-037 | Observed | FT-PTL-14 | EP-PTL-04 | US-PTL-016 | SCR-PTL-06 |
+| FR-PTL-038 | Observed | FT-PTL-15 | EP-PTL-05 | US-PTL-017 | SCR-PTL-07 |
+| FR-PTL-039 | Observed | FT-PTL-15 | EP-PTL-05 | US-PTL-017 | SCR-PTL-07 |
+| FR-PTL-040 | Observed | FT-PTL-16 | EP-PTL-05 | US-PTL-018 | SCR-PTL-08, SCR-PTL-07 |
+| FR-PTL-041 | Observed | FT-PTL-16 | EP-PTL-05 | US-PTL-018 | SCR-PTL-08, SCR-PTL-07 |
+| FR-PTL-042 | Observed | FT-PTL-17 | EP-PTL-05 | US-PTL-019 | SCR-PTL-09, SCR-PTL-07 |
+| FR-PTL-043 | Observed | FT-PTL-17 | EP-PTL-05 | US-PTL-019 | SCR-PTL-09, SCR-PTL-07 |
+| FR-PTL-044 | Observed | FT-PTL-17 | EP-PTL-05 | US-PTL-019 | SCR-PTL-09, SCR-PTL-07 |
+| FR-PTL-045 | Observed | FT-PTL-18 | EP-PTL-06 | US-PTL-020 | SCR-PTL-11 |
+| FR-PTL-046 | Observed | FT-PTL-18 | EP-PTL-06 | US-PTL-020 | SCR-PTL-11 |
+| FR-PTL-047 | Observed | FT-PTL-18 | EP-PTL-06 | US-PTL-020 | SCR-PTL-11 |
+| FR-PTL-048 | Observed | FT-PTL-18 | EP-PTL-06 | US-PTL-021 | SCR-PTL-11 |
+| FR-PTL-049 | Observed | FT-PTL-19 | EP-PTL-06 | US-PTL-022 | SCR-PTL-12 |
+| FR-PTL-050 | Observed | FT-PTL-19 | EP-PTL-06 | US-PTL-022 | SCR-PTL-12 |
+| FR-PTL-051 | Observed | FT-PTL-20 | EP-PTL-07 | US-PTL-023 |  |
+| FR-PTL-052 | Observed | FT-PTL-20 | EP-PTL-07 | US-PTL-023 |  |
+| FR-PTL-053 | Observed | FT-PTL-20 | EP-PTL-07 | US-PTL-023 |  |
+| FR-PTL-054 | Recommended | FT-PTL-20 | EP-PTL-07 | US-PTL-023 |  |
+
+## BEN — Partner Organizations Management (Beneficiaries)
+
+| Requirement | Evidence | Feature | Epic | User Stories | Screens |
+|---|---|---|---|---|---|
+| FR-BEN-001 | Observed | FT-BEN-01 | EP-BEN-01 | US-BEN-001 | SCR-BEN-01 |
+| FR-BEN-002 | Observed | FT-BEN-01 | EP-BEN-01 | US-BEN-001 | SCR-BEN-01 |
+| FR-BEN-003 | Observed | FT-BEN-01 | EP-BEN-01 | US-BEN-001 | SCR-BEN-01 |
+| FR-BEN-004 | Observed | FT-BEN-01 | EP-BEN-01 | US-BEN-001 | SCR-BEN-01 |
+| FR-BEN-005 | Observed | FT-BEN-02 | EP-BEN-01 | US-BEN-002 | SCR-BEN-01 |
+| FR-BEN-006 | Observed | FT-BEN-02 | EP-BEN-01 | US-BEN-002 | SCR-BEN-01 |
+| FR-BEN-007 | Observed | FT-BEN-03 | EP-BEN-01 | US-BEN-003 | SCR-BEN-03 |
+| FR-BEN-008 | Observed | FT-BEN-03 | EP-BEN-01 | US-BEN-003 | SCR-BEN-03 |
+| FR-BEN-009 | Observed | FT-BEN-03 | EP-BEN-01 | US-BEN-003 | SCR-BEN-03 |
+| FR-BEN-010 | Observed | FT-BEN-04 | EP-BEN-02 | US-BEN-004 | SCR-BEN-03 |
+| FR-BEN-011 | Observed | FT-BEN-04 | EP-BEN-02 | US-BEN-005 | SCR-BEN-03 |
+| FR-BEN-012 | Recommended | FT-BEN-04 | EP-BEN-02 | US-BEN-004, US-BEN-005 | SCR-BEN-03 |
+| FR-BEN-013 | Observed | FT-BEN-05 | EP-BEN-02 | US-BEN-006 | SCR-BEN-03, SCR-BEN-06 |
+| FR-BEN-014 | Observed | FT-BEN-05 | EP-BEN-02 | US-BEN-006 | SCR-BEN-03, SCR-BEN-06 |
+| FR-BEN-015 | Observed | FT-BEN-05 | EP-BEN-02 | US-BEN-007 | SCR-BEN-03, SCR-BEN-06 |
+| FR-BEN-016 | Observed | FT-BEN-05 | EP-BEN-02 | US-BEN-008 | SCR-BEN-03, SCR-BEN-06 |
+| FR-BEN-017 | Observed | FT-BEN-06 | EP-BEN-02 | US-BEN-011 | SCR-BEN-03 |
+| FR-BEN-018 | Observed | FT-BEN-06 | EP-BEN-02 | US-BEN-011 | SCR-BEN-03 |
+| FR-BEN-019 | Observed | FT-BEN-06 | EP-BEN-02 | US-BEN-009, US-BEN-010 | SCR-BEN-03 |
+| FR-BEN-020 | Observed | FT-BEN-06 | EP-BEN-02 | US-BEN-009 | SCR-BEN-03 |
+| FR-BEN-021 | Observed | FT-BEN-06 | EP-BEN-02 | US-BEN-010 | SCR-BEN-03 |
+| FR-BEN-022 | Observed | FT-BEN-07 | EP-BEN-02 | US-BEN-012 | SCR-BEN-03 |
+| FR-BEN-023 | Observed | FT-BEN-07 | EP-BEN-02 | US-BEN-012 | SCR-BEN-03 |
+| FR-BEN-024 | Recommended | FT-BEN-07 | EP-BEN-02 | US-BEN-012 | SCR-BEN-03 |
+| FR-BEN-025 | Observed | FT-BEN-08 | EP-BEN-03 | US-BEN-013 | SCR-BEN-04 |
+| FR-BEN-026 | Observed | FT-BEN-08 | EP-BEN-03 | US-BEN-013 | SCR-BEN-04 |
+| FR-BEN-027 | Observed | FT-BEN-08 | EP-BEN-03 | US-BEN-013 | SCR-BEN-04 |
+| FR-BEN-028 | Observed | FT-BEN-08 | EP-BEN-03 | US-BEN-014, US-BEN-015 | SCR-BEN-04 |
+| FR-BEN-029 | Observed | FT-BEN-08 | EP-BEN-03 | US-BEN-014 | SCR-BEN-04 |
+| FR-BEN-030 | Observed | FT-BEN-08 | EP-BEN-03 | US-BEN-015 | SCR-BEN-04 |
+| FR-BEN-031 | Recommended | FT-BEN-08 | EP-BEN-03 | US-BEN-016 | SCR-BEN-04 |
+| FR-BEN-032 | Observed | FT-BEN-09 | EP-BEN-03 | US-BEN-017 | SCR-BEN-01, SCR-BEN-03 |
+| FR-BEN-033 | Observed | FT-BEN-09 | EP-BEN-03 | US-BEN-017 | SCR-BEN-01, SCR-BEN-03 |
+| FR-BEN-034 | Recommended | FT-BEN-09 | EP-BEN-03 | US-BEN-017 | SCR-BEN-01, SCR-BEN-03 |
+| FR-BEN-035 | Observed | FT-BEN-10 | EP-BEN-04 | US-BEN-018, US-BEN-019 | SCR-BEN-05 |
+| FR-BEN-036 | Observed | FT-BEN-10 | EP-BEN-04 | US-BEN-018 | SCR-BEN-05 |
+| FR-BEN-037 | Observed | FT-BEN-10 | EP-BEN-04 | US-BEN-019 | SCR-BEN-05 |
+| FR-BEN-038 | Observed | FT-BEN-11 | EP-BEN-04 | US-BEN-020 | SCR-BEN-05 |
+| FR-BEN-039 | Observed | FT-BEN-11 | EP-BEN-04 | US-BEN-020 | SCR-BEN-05 |
+| FR-BEN-040 | Observed | FT-BEN-12 | EP-BEN-05 | US-BEN-021 | SCR-BEN-02 |
+| FR-BEN-041 | Observed | FT-BEN-12 | EP-BEN-05 | US-BEN-021 | SCR-BEN-02 |
+| FR-BEN-042 | Observed | FT-BEN-12 | EP-BEN-05 | US-BEN-022 | SCR-BEN-02 |
+| FR-BEN-043 | Observed | FT-BEN-13 | EP-BEN-06 | US-BEN-024 | SCR-BEN-06 |
+| FR-BEN-044 | Observed | FT-BEN-13 | EP-BEN-06 | US-BEN-023 | SCR-BEN-06 |
+| FR-BEN-045 | Observed | FT-BEN-13 | EP-BEN-06 | US-BEN-024 | SCR-BEN-06 |
+
+## REV — Application Review & Decision
+
+| Requirement | Evidence | Feature | Epic | User Stories | Screens |
+|---|---|---|---|---|---|
+| FR-REV-001 | Observed | FT-REV-01 | EP-REV-01 | US-REV-001 | SCR-REV-01 |
+| FR-REV-002 | Observed | FT-REV-01 | EP-REV-01 | US-REV-001 | SCR-REV-01 |
+| FR-REV-003 | Observed | FT-REV-01 | EP-REV-01 | US-REV-001 | SCR-REV-01 |
+| FR-REV-004 | Observed | FT-REV-01 | EP-REV-01 | US-REV-002 | SCR-REV-01 |
+| FR-REV-005 | Observed | FT-REV-01 | EP-REV-01 | US-REV-002 | SCR-REV-01 |
+| FR-REV-006 | Observed | FT-REV-02 | EP-REV-01 | US-REV-003 | SCR-REV-02 |
+| FR-REV-007 | Observed | FT-REV-02 | EP-REV-01 | US-REV-003 | SCR-REV-02 |
+| FR-REV-008 | Observed | FT-REV-02 | EP-REV-01 | US-REV-003 | SCR-REV-02 |
+| FR-REV-009 | Observed | FT-REV-02 | EP-REV-01 | US-REV-003 | SCR-REV-02 |
+| FR-REV-010 | Observed | FT-REV-03 | EP-REV-01 | US-REV-004 | SCR-REV-02 |
+| FR-REV-011 | Observed | FT-REV-03 | EP-REV-01 | US-REV-004 | SCR-REV-02 |
+| FR-REV-012 | Observed | FT-REV-04 | EP-REV-01 | US-REV-005 | SCR-REV-02 |
+| FR-REV-013 | Observed | FT-REV-04 | EP-REV-01 | US-REV-005 | SCR-REV-02 |
+| FR-REV-014 | Observed | FT-REV-04 | EP-REV-01 | US-REV-005 | SCR-REV-02 |
+| FR-REV-015 | Observed | FT-REV-05 | EP-REV-02 | US-REV-006 | SCR-REV-02 |
+| FR-REV-016 | Observed | FT-REV-05 | EP-REV-02 | US-REV-006 | SCR-REV-02 |
+| FR-REV-017 | Observed | FT-REV-05 | EP-REV-02 | US-REV-007 | SCR-REV-02 |
+| FR-REV-018 | Observed | FT-REV-05 | EP-REV-02 | US-REV-007 | SCR-REV-02 |
+| FR-REV-019 | Observed | FT-REV-05 | EP-REV-02 | US-REV-006 | SCR-REV-02 |
+| FR-REV-020 | Observed | FT-REV-05 | EP-REV-02 | US-REV-006 | SCR-REV-02 |
+| FR-REV-021 | Observed | FT-REV-06 | EP-REV-02 | US-REV-008 | SCR-REV-02, SCR-REV-03 |
+| FR-REV-022 | Observed | FT-REV-06 | EP-REV-02 | US-REV-008 | SCR-REV-02, SCR-REV-03 |
+| FR-REV-023 | Observed | FT-REV-06 | EP-REV-02 | US-REV-008 | SCR-REV-02, SCR-REV-03 |
+| FR-REV-024 | Observed | FT-REV-07 | EP-REV-02 | US-REV-009 | SCR-REV-02, SCR-REV-03 |
+| FR-REV-025 | Observed | FT-REV-07 | EP-REV-02 | US-REV-010 | SCR-REV-02, SCR-REV-03 |
+| FR-REV-026 | Observed | FT-REV-08 | EP-REV-02 | US-REV-011 | SCR-REV-02 |
+| FR-REV-027 | Observed | FT-REV-08 | EP-REV-02 | US-REV-011 | SCR-REV-02 |
+| FR-REV-028 | Observed | FT-REV-08 | EP-REV-02 | US-REV-012 | SCR-REV-02 |
+| FR-REV-029 | Observed | FT-REV-08 | EP-REV-02 | US-REV-012 | SCR-REV-02 |
+| FR-REV-030 | Observed | FT-REV-09 | EP-REV-03 | US-REV-013 | SCR-REV-02, SCR-REV-04 |
+| FR-REV-031 | Observed | FT-REV-09 | EP-REV-03 | US-REV-013 | SCR-REV-02, SCR-REV-04 |
+| FR-REV-032 | Observed | FT-REV-09 | EP-REV-03 | US-REV-013 | SCR-REV-02, SCR-REV-04 |
+| FR-REV-033 | Observed | FT-REV-09 | EP-REV-03 | US-REV-013 | SCR-REV-02, SCR-REV-04 |
+| FR-REV-034 | Observed | FT-REV-09 | EP-REV-03 | US-REV-014 | SCR-REV-02, SCR-REV-04 |
+| FR-REV-035 | Recommended | FT-REV-09 | EP-REV-03 | US-REV-013 | SCR-REV-02, SCR-REV-04 |
+| FR-REV-036 | Observed | FT-REV-10 | EP-REV-03 | US-REV-015 | SCR-REV-05 |
+| FR-REV-037 | Observed | FT-REV-10 | EP-REV-03 | US-REV-015 | SCR-REV-05 |
+| FR-REV-038 | Observed | FT-REV-11 | EP-REV-03 | US-REV-016 | SCR-REV-12 |
+| FR-REV-039 | Observed | FT-REV-11 | EP-REV-03 | US-REV-016 | SCR-REV-12 |
+| FR-REV-040 | Observed | FT-REV-11 | EP-REV-03 | US-REV-016 | SCR-REV-12 |
+| FR-REV-041 | Observed | FT-REV-12 | EP-REV-04 | US-REV-017 | SCR-REV-12 |
+| FR-REV-042 | Observed | FT-REV-12 | EP-REV-04 | US-REV-018 | SCR-REV-12 |
+| FR-REV-043 | Observed | FT-REV-12 | EP-REV-04 | US-REV-017, US-REV-018 | SCR-REV-12 |
+| FR-REV-044 | Observed | FT-REV-12 | EP-REV-04 | US-REV-017 | SCR-REV-12 |
+| FR-REV-045 | Observed | FT-REV-13 | EP-REV-05 | US-REV-019 | SCR-REV-08 |
+| FR-REV-046 | Observed | FT-REV-13 | EP-REV-05 | US-REV-019 | SCR-REV-08 |
+| FR-REV-047 | Observed | FT-REV-13 | EP-REV-05 | US-REV-019 | SCR-REV-08 |
+| FR-REV-048 | Observed | FT-REV-13 | EP-REV-05 | US-REV-020 | SCR-REV-08 |
+| FR-REV-049 | Observed | FT-REV-14 | EP-REV-05 | US-REV-021 | SCR-REV-09 |
+| FR-REV-050 | Observed | FT-REV-15 | EP-REV-05 | US-REV-022 | SCR-REV-06, SCR-REV-07 |
+| FR-REV-051 | Observed | FT-REV-15 | EP-REV-05 | US-REV-022 | SCR-REV-06, SCR-REV-07 |
+| FR-REV-052 | Observed | FT-REV-15 | EP-REV-05 | US-REV-022 | SCR-REV-06, SCR-REV-07 |
+| FR-REV-053 | Observed | FT-REV-15 | EP-REV-05 | US-REV-022 | SCR-REV-06, SCR-REV-07 |
+| FR-REV-054 | Observed | FT-REV-15 | EP-REV-05 | US-REV-022 | SCR-REV-06, SCR-REV-07 |
+| FR-REV-055 | Observed | FT-REV-15 | EP-REV-05 | US-REV-022 | SCR-REV-06, SCR-REV-07 |
+| FR-REV-056 | Observed | FT-REV-15 | EP-REV-05 | US-REV-023 | SCR-REV-06, SCR-REV-07 |
+| FR-REV-057 | Observed | FT-REV-16 | EP-REV-06 | US-REV-024 | SCR-REV-02, SCR-REV-11 |
+| FR-REV-058 | Observed | FT-REV-16 | EP-REV-06 | US-REV-024 | SCR-REV-02, SCR-REV-11 |
+| FR-REV-059 | Recommended | FT-REV-16 | EP-REV-06 | US-REV-024 | SCR-REV-02, SCR-REV-11 |
+| FR-REV-060 | Observed | FT-REV-17 | EP-REV-06 | US-REV-025 | SCR-REV-02 |
+| FR-REV-061 | Observed | FT-REV-17 | EP-REV-06 | US-REV-025 | SCR-REV-02 |
+| FR-REV-062 | Observed | FT-REV-17 | EP-REV-06 | US-REV-025 | SCR-REV-02 |
+| FR-REV-063 | Observed | FT-REV-18 | EP-REV-07 | US-REV-026 | SCR-REV-10 |
+| FR-REV-064 | Observed | FT-REV-18 | EP-REV-07 | US-REV-026 | SCR-REV-10 |
+| FR-REV-065 | Observed | FT-REV-18 | EP-REV-07 | US-REV-026 | SCR-REV-10 |
+| FR-REV-066 | Observed | FT-REV-18 | EP-REV-07 | US-REV-026 | SCR-REV-10 |
+| FR-REV-067 | Observed | FT-REV-19 | EP-REV-07 | US-REV-027 | SCR-REV-02 |
+| FR-REV-068 | Observed | FT-REV-19 | EP-REV-07 | US-REV-027 | SCR-REV-02 |
+| FR-REV-069 | Observed | FT-REV-20 | EP-REV-07 | US-REV-028 | SCR-REV-02 |
+| FR-REV-070 | Observed | FT-REV-20 | EP-REV-07 | US-REV-028 | SCR-REV-02 |
+| FR-REV-071 | Recommended | FT-REV-05 | EP-REV-02 | US-REV-006 | SCR-REV-02 |
+| FR-REV-072 | Recommended | FT-REV-05 | EP-REV-02 | US-REV-006 | SCR-REV-02 |
+
+## PRJ — Projects & Contracts
+
+| Requirement | Evidence | Feature | Epic | User Stories | Screens |
+|---|---|---|---|---|---|
+| FR-PRJ-001 | Observed | FT-PRJ-01 | EP-PRJ-01 | US-PRJ-001 | SCR-PRJ-09 |
+| FR-PRJ-002 | Observed | FT-PRJ-01 | EP-PRJ-01 | US-PRJ-002 | SCR-PRJ-09 |
+| FR-PRJ-003 | Observed | FT-PRJ-01 | EP-PRJ-01 | US-PRJ-002 | SCR-PRJ-09 |
+| FR-PRJ-004 | Observed | FT-PRJ-01 | EP-PRJ-01 | US-PRJ-002 | SCR-PRJ-09 |
+| FR-PRJ-005 | Observed | FT-PRJ-02 | EP-PRJ-01 | US-PRJ-003 | SCR-PRJ-10, SCR-PRJ-03 |
+| FR-PRJ-006 | Observed | FT-PRJ-02 | EP-PRJ-01 | US-PRJ-004 | SCR-PRJ-10, SCR-PRJ-03 |
+| FR-PRJ-007 | Observed | FT-PRJ-02 | EP-PRJ-01 | US-PRJ-003, US-PRJ-004 | SCR-PRJ-10, SCR-PRJ-03 |
+| FR-PRJ-008 | Observed | FT-PRJ-02 | EP-PRJ-01 | US-PRJ-003 | SCR-PRJ-10, SCR-PRJ-03 |
+| FR-PRJ-009 | Observed | FT-PRJ-02 | EP-PRJ-01 | US-PRJ-005 | SCR-PRJ-10, SCR-PRJ-03 |
+| FR-PRJ-010 | Observed | FT-PRJ-02 | EP-PRJ-01 | US-PRJ-003 | SCR-PRJ-10, SCR-PRJ-03 |
+| FR-PRJ-011 | Observed | FT-PRJ-03 | EP-PRJ-01 | US-PRJ-006 | SCR-PRJ-03, SCR-PRJ-08, SCR-PRJ-11 |
+| FR-PRJ-012 | Observed | FT-PRJ-03 | EP-PRJ-01 | US-PRJ-006 | SCR-PRJ-03, SCR-PRJ-08, SCR-PRJ-11 |
+| FR-PRJ-013 | Observed | FT-PRJ-03 | EP-PRJ-01 | US-PRJ-007 | SCR-PRJ-03, SCR-PRJ-08, SCR-PRJ-11 |
+| FR-PRJ-014 | Observed | FT-PRJ-03 | EP-PRJ-01 | US-PRJ-007 | SCR-PRJ-03, SCR-PRJ-08, SCR-PRJ-11 |
+| FR-PRJ-015 | Observed | FT-PRJ-04 | EP-PRJ-01 | US-PRJ-008 | SCR-PRJ-07 |
+| FR-PRJ-016 | Observed | FT-PRJ-04 | EP-PRJ-01 | US-PRJ-008 | SCR-PRJ-07 |
+| FR-PRJ-017 | Observed | FT-PRJ-05 | EP-PRJ-02 | US-PRJ-009 | SCR-PRJ-01 |
+| FR-PRJ-018 | Observed | FT-PRJ-05 | EP-PRJ-02 | US-PRJ-009 | SCR-PRJ-01 |
+| FR-PRJ-019 | Observed | FT-PRJ-06 | EP-PRJ-02 | US-PRJ-010 | SCR-PRJ-02, SCR-PRJ-01 |
+| FR-PRJ-020 | Observed | FT-PRJ-06 | EP-PRJ-02 | US-PRJ-011 | SCR-PRJ-02, SCR-PRJ-01 |
+| FR-PRJ-021 | Observed | FT-PRJ-06 | EP-PRJ-02 | US-PRJ-010 | SCR-PRJ-02, SCR-PRJ-01 |
+| FR-PRJ-022 | Observed | FT-PRJ-07 | EP-PRJ-02 | US-PRJ-012 | SCR-PRJ-03 |
+| FR-PRJ-023 | Observed | FT-PRJ-07 | EP-PRJ-02 | US-PRJ-012 | SCR-PRJ-03 |
+| FR-PRJ-024 | Observed | FT-PRJ-07 | EP-PRJ-02 | US-PRJ-013 | SCR-PRJ-03 |
+| FR-PRJ-025 | Observed | FT-PRJ-08 | EP-PRJ-03 | US-PRJ-014 | SCR-PRJ-05 |
+| FR-PRJ-026 | Observed | FT-PRJ-08 | EP-PRJ-03 | US-PRJ-014 | SCR-PRJ-05 |
+| FR-PRJ-027 | Observed | FT-PRJ-08 | EP-PRJ-03 | US-PRJ-015 | SCR-PRJ-05 |
+| FR-PRJ-028 | Observed | FT-PRJ-08 | EP-PRJ-03 | US-PRJ-015 | SCR-PRJ-05 |
+| FR-PRJ-029 | Observed | FT-PRJ-09 | EP-PRJ-03 | US-PRJ-016 | SCR-PRJ-04 |
+| FR-PRJ-030 | Observed | FT-PRJ-09 | EP-PRJ-03 | US-PRJ-016 | SCR-PRJ-04 |
+| FR-PRJ-031 | Observed | FT-PRJ-09 | EP-PRJ-03 | US-PRJ-016 | SCR-PRJ-04 |
+| FR-PRJ-032 | Observed | FT-PRJ-10 | EP-PRJ-03 | US-PRJ-017 | SCR-PRJ-03 |
+| FR-PRJ-033 | Observed | FT-PRJ-10 | EP-PRJ-03 | US-PRJ-017 | SCR-PRJ-03 |
+| FR-PRJ-034 | Observed | FT-PRJ-11 | EP-PRJ-04 | US-PRJ-018 | SCR-PRJ-05 |
+| FR-PRJ-035 | Observed | FT-PRJ-11 | EP-PRJ-04 | US-PRJ-018 | SCR-PRJ-05 |
+| FR-PRJ-036 | Observed | FT-PRJ-11 | EP-PRJ-04 | US-PRJ-020 | SCR-PRJ-05 |
+| FR-PRJ-037 | Observed | FT-PRJ-11 | EP-PRJ-04 | US-PRJ-019 | SCR-PRJ-05 |
+| FR-PRJ-038 | Observed | FT-PRJ-11 | EP-PRJ-04 | US-PRJ-020 | SCR-PRJ-05 |
+| FR-PRJ-039 | Observed | FT-PRJ-12 | EP-PRJ-04 | US-PRJ-021 | SCR-PRJ-05 |
+| FR-PRJ-040 | Observed | FT-PRJ-12 | EP-PRJ-04 | US-PRJ-022 | SCR-PRJ-05 |
+| FR-PRJ-041 | Observed | FT-PRJ-12 | EP-PRJ-04 | US-PRJ-023 | SCR-PRJ-05 |
+| FR-PRJ-042 | Observed | FT-PRJ-12 | EP-PRJ-04 | US-PRJ-023 | SCR-PRJ-05 |
+| FR-PRJ-043 | Observed | FT-PRJ-13 | EP-PRJ-04 | US-PRJ-024 | SCR-PRJ-03, SCR-PRJ-01 |
+| FR-PRJ-044 | Observed | FT-PRJ-13 | EP-PRJ-04 | US-PRJ-024 | SCR-PRJ-03, SCR-PRJ-01 |
+| FR-PRJ-045 | Observed | FT-PRJ-14 | EP-PRJ-05 | US-PRJ-025 | SCR-PRJ-06, SCR-PRJ-05 |
+| FR-PRJ-046 | Observed | FT-PRJ-14 | EP-PRJ-05 | US-PRJ-025 | SCR-PRJ-06, SCR-PRJ-05 |
+| FR-PRJ-047 | Observed | FT-PRJ-14 | EP-PRJ-05 | US-PRJ-026 | SCR-PRJ-06, SCR-PRJ-05 |
+| FR-PRJ-048 | Observed | FT-PRJ-14 | EP-PRJ-05 | US-PRJ-026 | SCR-PRJ-06, SCR-PRJ-05 |
+| FR-PRJ-049 | Observed | FT-PRJ-14 | EP-PRJ-05 | US-PRJ-027 | SCR-PRJ-06, SCR-PRJ-05 |
+| FR-PRJ-050 | Observed | FT-PRJ-15 | EP-PRJ-06 | US-PRJ-028 | SCR-PRJ-03, SCR-PRJ-04 |
+| FR-PRJ-051 | Observed | FT-PRJ-15 | EP-PRJ-06 | US-PRJ-029 | SCR-PRJ-03, SCR-PRJ-04 |
+| FR-PRJ-052 | Observed | FT-PRJ-16 | EP-PRJ-06 | US-PRJ-030 | SCR-PRJ-04, SCR-PRJ-05 |
+| FR-PRJ-053 | Observed | FT-PRJ-16 | EP-PRJ-06 | US-PRJ-030 | SCR-PRJ-04, SCR-PRJ-05 |
+| FR-PRJ-054 | Recommended | FT-PRJ-10 | EP-PRJ-03 | US-PRJ-017 | SCR-PRJ-03 |
+| FR-PRJ-055 | Recommended | FT-PRJ-02 | EP-PRJ-01 | US-PRJ-005 | SCR-PRJ-10, SCR-PRJ-03 |
+| FR-PRJ-056 | Recommended | FT-PRJ-11 | EP-PRJ-04 | US-PRJ-031 | SCR-PRJ-05 |
+| FR-PRJ-057 | Recommended | FT-PRJ-15 | EP-PRJ-06 | US-PRJ-028 | SCR-PRJ-03, SCR-PRJ-04 |
+
+## FIN — Finance, Payments, Reporting & Analytics
+
+| Requirement | Evidence | Feature | Epic | User Stories | Screens |
+|---|---|---|---|---|---|
+| FR-FIN-001 | Observed | FT-FIN-01 | EP-FIN-03 | US-FIN-001 | SCR-FIN-01, SCR-FIN-02 |
+| FR-FIN-002 | Observed | FT-FIN-01 | EP-FIN-03 | US-FIN-001 | SCR-FIN-01, SCR-FIN-02 |
+| FR-FIN-003 | Observed | FT-FIN-01 | EP-FIN-03 | US-FIN-001 | SCR-FIN-01, SCR-FIN-02 |
+| FR-FIN-004 | Observed | FT-FIN-01 | EP-FIN-03 | US-FIN-001 | SCR-FIN-01, SCR-FIN-02 |
+| FR-FIN-005 | Observed | FT-FIN-01 | EP-FIN-03 | US-FIN-001 | SCR-FIN-01, SCR-FIN-02 |
+| FR-FIN-006 | Observed | FT-FIN-01 | EP-FIN-03 | US-FIN-002 | SCR-FIN-01, SCR-FIN-02 |
+| FR-FIN-007 | Recommended | FT-FIN-01 | EP-FIN-03 | US-FIN-001 | SCR-FIN-01, SCR-FIN-02 |
+| FR-FIN-008 | Observed | FT-FIN-02 | EP-FIN-01 | US-FIN-003 | SCR-FIN-01, SCR-FIN-02 |
+| FR-FIN-009 | Observed | FT-FIN-02 | EP-FIN-01 | US-FIN-003 | SCR-FIN-01, SCR-FIN-02 |
+| FR-FIN-010 | Observed | FT-FIN-02 | EP-FIN-01 | US-FIN-003 | SCR-FIN-01, SCR-FIN-02 |
+| FR-FIN-011 | Observed | FT-FIN-02 | EP-FIN-01 | US-FIN-004 | SCR-FIN-01, SCR-FIN-02 |
+| FR-FIN-012 | Recommended | FT-FIN-02 | EP-FIN-01 | US-FIN-003, US-FIN-004 | SCR-FIN-01, SCR-FIN-02 |
+| FR-FIN-013 | Observed | FT-FIN-03 | EP-FIN-01 | US-FIN-005, US-FIN-006 | SCR-FIN-02, SCR-FIN-03 |
+| FR-FIN-014 | Observed | FT-FIN-03 | EP-FIN-01 | US-FIN-005, US-FIN-006 | SCR-FIN-02, SCR-FIN-03 |
+| FR-FIN-015 | Observed | FT-FIN-03 | EP-FIN-01 | US-FIN-005, US-FIN-006 | SCR-FIN-02, SCR-FIN-03 |
+| FR-FIN-016 | Observed | FT-FIN-03 | EP-FIN-01 | US-FIN-005, US-FIN-006 | SCR-FIN-02, SCR-FIN-03 |
+| FR-FIN-017 | Observed | FT-FIN-03 | EP-FIN-01 | US-FIN-007 | SCR-FIN-02, SCR-FIN-03 |
+| FR-FIN-018 | Observed | FT-FIN-03 | EP-FIN-01 | US-FIN-005, US-FIN-006, US-FIN-007 | SCR-FIN-02, SCR-FIN-03 |
+| FR-FIN-019 | Observed | FT-FIN-03 | EP-FIN-01 | US-FIN-008 | SCR-FIN-02, SCR-FIN-03 |
+| FR-FIN-020 | Observed | FT-FIN-03 | EP-FIN-01 | US-FIN-005 | SCR-FIN-02, SCR-FIN-03 |
+| FR-FIN-021 | Observed | FT-FIN-03 | EP-FIN-01 | US-FIN-009 | SCR-FIN-02, SCR-FIN-03 |
+| FR-FIN-022 | Recommended | FT-FIN-03 | EP-FIN-01 | US-FIN-005, US-FIN-006 | SCR-FIN-02, SCR-FIN-03 |
+| FR-FIN-023 | Observed | FT-FIN-04 | EP-FIN-02 | US-FIN-010 | SCR-FIN-04 |
+| FR-FIN-024 | Observed | FT-FIN-04 | EP-FIN-02 | US-FIN-010 | SCR-FIN-04 |
+| FR-FIN-025 | Observed | FT-FIN-04 | EP-FIN-02 | US-FIN-010 | SCR-FIN-04 |
+| FR-FIN-026 | Observed | FT-FIN-04 | EP-FIN-02 | US-FIN-010 | SCR-FIN-04 |
+| FR-FIN-027 | Recommended | FT-FIN-04 | EP-FIN-02 | US-FIN-010 | SCR-FIN-04 |
+| FR-FIN-028 | Observed | FT-FIN-05 | EP-FIN-02 | US-FIN-011 | SCR-FIN-04 |
+| FR-FIN-029 | Observed | FT-FIN-05 | EP-FIN-02 | US-FIN-011 | SCR-FIN-04 |
+| FR-FIN-030 | Observed | FT-FIN-05 | EP-FIN-02 | US-FIN-011 | SCR-FIN-04 |
+| FR-FIN-031 | Recommended | FT-FIN-05 | EP-FIN-02 | US-FIN-011 | SCR-FIN-04 |
+| FR-FIN-032 | Observed | FT-FIN-06 | EP-FIN-02 | US-FIN-012 | SCR-FIN-02 |
+| FR-FIN-033 | Observed | FT-FIN-06 | EP-FIN-02 | US-FIN-012 | SCR-FIN-02 |
+| FR-FIN-034 | Observed | FT-FIN-06 | EP-FIN-02 | US-FIN-012 | SCR-FIN-02 |
+| FR-FIN-035 | Observed | FT-FIN-07 | EP-FIN-02 | US-FIN-013 | SCR-FIN-02 |
+| FR-FIN-036 | Observed | FT-FIN-07 | EP-FIN-02 | US-FIN-013 | SCR-FIN-02 |
+| FR-FIN-037 | Observed | FT-FIN-07 | EP-FIN-02 | US-FIN-014 | SCR-FIN-02 |
+| FR-FIN-038 | Observed | FT-FIN-08 | EP-FIN-03 | US-FIN-015 | SCR-FIN-08 |
+| FR-FIN-039 | Observed | FT-FIN-08 | EP-FIN-03 | US-FIN-016 | SCR-FIN-08 |
+| FR-FIN-040 | Observed | FT-FIN-08 | EP-FIN-03 | US-FIN-015, US-FIN-016 | SCR-FIN-08 |
+| FR-FIN-041 | Observed | FT-FIN-08 | EP-FIN-03 | US-FIN-016 | SCR-FIN-08 |
+| FR-FIN-042 | Observed | FT-FIN-09 | EP-FIN-03 | US-FIN-017 | SCR-FIN-07 |
+| FR-FIN-043 | Observed | FT-FIN-09 | EP-FIN-03 | US-FIN-017 | SCR-FIN-07 |
+| FR-FIN-044 | Observed | FT-FIN-10 | EP-FIN-04 | US-FIN-018 | SCR-FIN-05 |
+| FR-FIN-045 | Observed | FT-FIN-10 | EP-FIN-04 | US-FIN-018 | SCR-FIN-05 |
+| FR-FIN-046 | Observed | FT-FIN-10 | EP-FIN-04 | US-FIN-018 | SCR-FIN-05 |
+| FR-FIN-047 | Observed | FT-FIN-10 | EP-FIN-04 | US-FIN-018 | SCR-FIN-05 |
+| FR-FIN-048 | Observed | FT-FIN-10 | EP-FIN-04 | US-FIN-019 | SCR-FIN-05 |
+| FR-FIN-049 | Recommended | FT-FIN-10 | EP-FIN-04 | US-FIN-018 | SCR-FIN-05 |
+| FR-FIN-050 | Observed | FT-FIN-11 | EP-FIN-04 | US-FIN-020, US-FIN-021, US-FIN-022 | SCR-FIN-06 |
+| FR-FIN-051 | Observed | FT-FIN-11 | EP-FIN-04 | US-FIN-020 | SCR-FIN-06 |
+| FR-FIN-052 | Observed | FT-FIN-11 | EP-FIN-04 | US-FIN-021 | SCR-FIN-06 |
+| FR-FIN-053 | Observed | FT-FIN-11 | EP-FIN-04 | US-FIN-021 | SCR-FIN-06 |
+| FR-FIN-054 | Observed | FT-FIN-11 | EP-FIN-04 | US-FIN-022 | SCR-FIN-06 |
+| FR-FIN-055 | Observed | FT-FIN-11 | EP-FIN-04 | US-FIN-022 | SCR-FIN-06 |
+| FR-FIN-056 | Observed | FT-FIN-11 | EP-FIN-04 | US-FIN-020, US-FIN-021, US-FIN-022 | SCR-FIN-06 |
+
+## TSK — Tasks
+
+| Requirement | Evidence | Feature | Epic | User Stories | Screens |
+|---|---|---|---|---|---|
+| FR-TSK-001 | Observed | FT-TSK-01 | EP-TSK-01 | US-TSK-001, US-TSK-002 | SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-002 | Observed | FT-TSK-01 | EP-TSK-01 | US-TSK-001 | SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-003 | Observed | FT-TSK-01 | EP-TSK-01 | US-TSK-001 | SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-004 | Observed | FT-TSK-01 | EP-TSK-01 | US-TSK-001 | SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-005 | Observed | FT-TSK-02 | EP-TSK-01 | US-TSK-003 | SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-006 | Observed | FT-TSK-02 | EP-TSK-01 | US-TSK-003 | SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-007 | Recommended | FT-TSK-02 | EP-TSK-01 | US-TSK-004 | SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-008 | Observed | FT-TSK-03 | EP-TSK-01 | US-TSK-005 | SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-009 | Observed | FT-TSK-03 | EP-TSK-01 | US-TSK-006 | SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-010 | Observed | FT-TSK-03 | EP-TSK-01 | US-TSK-005 | SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-011 | Observed | FT-TSK-03 | EP-TSK-01 | US-TSK-007 | SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-012 | Observed | FT-TSK-03 | EP-TSK-01 | US-TSK-005 | SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-013 | Observed | FT-TSK-03 | EP-TSK-01 | US-TSK-005 | SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-014 | Observed | FT-TSK-03 | EP-TSK-01 | US-TSK-008 | SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-015 | Observed | FT-TSK-03 | EP-TSK-01 | US-TSK-005 | SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-016 | Observed | FT-TSK-04 | EP-TSK-01 | US-TSK-009 | SCR-TSK-09 |
+| FR-TSK-017 | Observed | FT-TSK-05 | EP-TSK-02 | US-TSK-010 | SCR-TSK-03 |
+| FR-TSK-018 | Observed | FT-TSK-05 | EP-TSK-02 | US-TSK-010 | SCR-TSK-03 |
+| FR-TSK-019 | Observed | FT-TSK-05 | EP-TSK-02 | US-TSK-011 | SCR-TSK-03 |
+| FR-TSK-020 | Observed | FT-TSK-05 | EP-TSK-02 | US-TSK-012 | SCR-TSK-03 |
+| FR-TSK-021 | Observed | FT-TSK-06 | EP-TSK-02 | US-TSK-013 | SCR-TSK-03, SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-022 | Observed | FT-TSK-06 | EP-TSK-02 | US-TSK-013 | SCR-TSK-03, SCR-TSK-01, SCR-TSK-02 |
+| FR-TSK-023 | Observed | FT-TSK-07 | EP-TSK-02 | US-TSK-014 | SCR-TSK-02, SCR-TSK-03 |
+| FR-TSK-024 | Observed | FT-TSK-07 | EP-TSK-02 | US-TSK-014 | SCR-TSK-02, SCR-TSK-03 |
+| FR-TSK-025 | Recommended | FT-TSK-07 | EP-TSK-02 | US-TSK-015 | SCR-TSK-02, SCR-TSK-03 |
+| FR-TSK-026 | Observed | FT-TSK-08 | EP-TSK-03 | US-TSK-016, US-TSK-017 | SCR-TSK-01, SCR-TSK-04, SCR-TSK-05 |
+| FR-TSK-027 | Observed | FT-TSK-08 | EP-TSK-03 | US-TSK-017 | SCR-TSK-01, SCR-TSK-04, SCR-TSK-05 |
+| FR-TSK-028 | Observed | FT-TSK-08 | EP-TSK-03 | US-TSK-016 | SCR-TSK-01, SCR-TSK-04, SCR-TSK-05 |
+| FR-TSK-029 | Observed | FT-TSK-08 | EP-TSK-03 | US-TSK-016, US-TSK-017 | SCR-TSK-01, SCR-TSK-04, SCR-TSK-05 |
+| FR-TSK-030 | Observed | FT-TSK-09 | EP-TSK-03 | US-TSK-018 | SCR-TSK-06 |
+| FR-TSK-031 | Observed | FT-TSK-09 | EP-TSK-03 | US-TSK-018 | SCR-TSK-06 |
+| FR-TSK-032 | Observed | FT-TSK-09 | EP-TSK-03 | US-TSK-018 | SCR-TSK-06 |
+| FR-TSK-033 | Observed | FT-TSK-10 | EP-TSK-04 | US-TSK-019 | SCR-TSK-07 |
+| FR-TSK-034 | Observed | FT-TSK-10 | EP-TSK-04 | US-TSK-019 | SCR-TSK-07 |
+| FR-TSK-035 | Observed | FT-TSK-10 | EP-TSK-04 | US-TSK-020 | SCR-TSK-07 |
+| FR-TSK-036 | Observed | FT-TSK-10 | EP-TSK-04 | US-TSK-019, US-TSK-020 | SCR-TSK-07 |
+| FR-TSK-037 | Recommended | FT-TSK-10 | EP-TSK-04 | US-TSK-021 | SCR-TSK-07 |
+| FR-TSK-038 | Observed | FT-TSK-11 | EP-TSK-04 | US-TSK-022 | SCR-TSK-07, SCR-TSK-08 |
+| FR-TSK-039 | Observed | FT-TSK-11 | EP-TSK-04 | US-TSK-022 | SCR-TSK-07, SCR-TSK-08 |
+| FR-TSK-040 | Observed | FT-TSK-11 | EP-TSK-04 | US-TSK-022 | SCR-TSK-07, SCR-TSK-08 |

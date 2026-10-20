@@ -141,7 +141,7 @@
 | INT-CFG-041 | SCR-CFG-12 | Project link | Navigates to project detail | — | [Observed] staff.$id.tsx:64 |
 | INT-CFG-042 | SCR-CFG-13 | «تعديل» | Takes snapshot; enables controls (Editable fieldset); shows amber edit bar | — | [Observed] EditSession.tsx:27,51-61,89-91 |
 | INT-CFG-043 | SCR-CFG-13 | «حفظ التعديلات» | Compares snapshot; if unchanged → info toast and exit; else opens evidence dialog | — | [Observed] EditSession.tsx:34-38 |
-| INT-CFG-044 | SCR-CFG-13 | Evidence dialog «اعتماد وحفظ» | Requires file; AI doc check (advisory); uploads evidence; inserts history; rollback file on failure | storage attachments/config/...; config_edit_history | [Observed] EditSession.tsx:39-50,68-86; configEdits.ts:12-27 |
+| INT-CFG-044 | SCR-CFG-13 | Evidence dialog «اعتماد وحفظ» | Requires file; AI doc check (advisory); uploads evidence; inserts history; rollback file on failure | storage attachments/config/...; config_edit_history | [Observed] EditSession.tsx:39-50,68-86; configEdits.ts:11-26 |
 | INT-CFG-045 | SCR-CFG-13 | «تراجع» | Restores pre-edit snapshot via page-supplied restore() | Entity table restored (PRG) | [Observed] EditSession.tsx:28-33 |
 | INT-CFG-046 | SCR-CFG-13 | History row evidence button | Creates 300 s signed URL and opens evidence in new tab | — | [Observed] EditSession.tsx:102-106 |
 
@@ -255,7 +255,7 @@ flowchart LR
 | BR-CFG-14 | Department name is required (trimmed, ≤100). Deleting a department nulls department_id on personas and projects (FK ON DELETE SET NULL). | [Observed] `src/routes/settings.tsx:395-396; supabase/migrations/20261004132647_*.sql` |
 | BR-CFG-15 | Templates have a kind of apology (اعتذار), contract (عقد) or notification (إشعار; default) and a required name; the body may use {ref}, {program}, {beneficiary}, {amount} placeholders. | [Observed] `src/routes/settings.tsx:42,425-433` |
 | BR-CFG-16 | Reference taxonomies are per tenant in three kinds: account_type (أنواع الجهات), region (المناطق), target_group (الفئات المستهدفة); a value is required and ≤80 chars. | [Observed] `src/routes/settings.tsx:43,451-465` |
-| BR-CFG-17 | Applicant types are a fixed list (association, nonprofit, company, individual, endowment, government, other). Government is internal-only (portal=false) and is not switchable; others are open by default and closed per tenant by a taxonomies row of kind 'closed_applicant_type' whose label is the type key. | [Observed] `src/lib/applicantTypes.ts:4-33` |
+| BR-CFG-17 | Applicant types are a fixed list (association, nonprofit, company, individual, endowment, government, other). Government is internal-only (portal=false) and is not switchable; others are open by default and closed per tenant by a taxonomies row of kind 'closed_applicant_type' whose label is the type key. | [Observed] `src/lib/applicantTypes.ts:5-33` |
 | BR-CFG-18 | Closed applicant types are hidden from the public registration page. | [Observed] `src/routes/register-tenant.tsx:33-34` |
 | BR-CFG-19 | An application form cannot be deleted while any grant program references it (form_id); deleting a form deletes its fields (cascade). | [Observed] `src/routes/settings.tsx:478,493; supabase/migrations/20261004144143_*.sql` |
 | BR-CFG-20 | Form fields require a label; type ∈ text, textarea, number, date, select, file, email, phone; select options are split on ',' or '،' and trimmed; new fields append at sort_order = count+1. | [Observed] `src/components/FormBuilder.tsx:15-24; src/lib/data.ts:304-313` |
@@ -264,11 +264,11 @@ flowchart LR
 | BR-CFG-23 | Only active endowments participate in plan allocation; the displayed current size is the sum of the endowment's fundings (see PLN). | [Observed] `src/lib/plans.ts:118-121,195; src/routes/settings.tsx:515` |
 | BR-CFG-24 | Deleting an endowment is not guarded and cascades its plan_level_endowments shares. | [Observed] `src/routes/settings.tsx:517; supabase/migrations/20261004184736_*.sql` |
 | BR-CFG-25 | A tenant requires a name (≤120); contact email optional; status toggles between active and suspended; user count = number of persona_memberships rows for the tenant (aggregate only, no personal data). | [Observed] `src/routes/admin.tsx:91-134,231` |
-| BR-CFG-26 | Committing a configuration edit requires an evidence document; it is uploaded to attachments/config/<entity_type>/<entity_id|catalog>/<timestamp>-<sanitized name>, and a config_edit_history row stores before/after snapshots, note and actor. If the history insert fails the uploaded file is removed. | [Observed] `src/lib/configEdits.ts:12-27` |
-| BR-CFG-27 | An edit session with no differences between the entry snapshot and the current state is closed without saving ('لا توجد تغييرات'); cancel restores the entry snapshot. | [Observed] `src/components/EditSession.tsx:28-38; src/lib/configEdits.ts:29` |
+| BR-CFG-26 | Committing a configuration edit requires an evidence document; it is uploaded to attachments/config/<entity_type>/<entity_id|catalog>/<timestamp>-<sanitized name>, and a config_edit_history row stores before/after snapshots, note and actor. If the history insert fails the uploaded file is removed. | [Observed] `src/lib/configEdits.ts:11-26` |
+| BR-CFG-27 | An edit session with no differences between the entry snapshot and the current state is closed without saving ('لا توجد تغييرات'); cancel restores the entry snapshot. | [Observed] `src/components/EditSession.tsx:28-38; src/lib/configEdits.ts:28` |
 | BR-CFG-28 | Configuration history is append-only (only SELECT and INSERT policies). | [Observed] `supabase/migrations/20261006140739_*.sql:13-16` |
 | BR-CFG-29 | The colour palette (clay default, teal, lavender) is a per-device preference in localStorage, applied before render. | [Observed] `src/components/PalettePicker.tsx; src/routes/__root.tsx:125` |
-| BR-CFG-30 | Staff KPIs: decisions in last 30 days = application_status_history rows changed_by the person + payment_approvals by the person; completed tasks = manual tasks done; average completion = mean(updated_at − created_at) of done manual tasks in days; open tasks = manual tasks not done; overdue due dates shown in red. | [Observed] `src/routes/staff.$id.tsx:20-38,46-47` |
+| BR-CFG-30 | Staff KPIs: decisions in last 30 days = application_status_history rows changed_by the person + payment_approvals by the person; completed tasks = manual tasks done; average completion = mean(updated_at − created_at) of done manual tasks in days; open tasks = manual tasks not done; overdue due dates shown in red. | [Observed] `src/routes/staff.$id.tsx:25-52,60` |
 | BR-CFG-31 | Partner-entity memberships: one person may represent many entities with different roles (primary_delegate, project_manager, finance, member); each entity has one primary delegate; the primary cannot be deactivated before delegation is transferred; deactivation sets active=false and end_at. | [Observed] `src/lib/memberships.ts:1-49` |
 | BR-CFG-32 | Adding an entity team member reuses an existing persona with the same email, otherwise creates an applicant persona; the membership is upserted on (persona_id, beneficiary_id). | [Observed] `src/lib/memberships.ts:61-78` |
 | BR-CFG-33 | Transferring primary delegation demotes the previous primary to 'member', promotes the target (active), records delegate_transfers (reason, method self|donor) and a beneficiary_events 'delegate_transfer' entry. | [Observed] `src/lib/memberships.ts:86-101` |
@@ -1054,7 +1054,7 @@ localStorage `palette` (clay|teal|lavender). [Observed]
 - **Statement:** The system shall show a staff member's name, role, email and four KPIs (decisions last 30 days, completed tasks, average completion days, open tasks).
 - **Description:** 
 - **Type:** Reporting
-- **Source/Prototype reference:** `src/routes/staff.$id.tsx:20-55`
+- **Source/Prototype reference:** `src/routes/staff.$id.tsx:25-56`
 - **Related Feature:** FT-CFG-05
 - **Related Story:** US-CFG-012
 - **Priority:** Should
@@ -1072,7 +1072,7 @@ localStorage `palette` (clay|teal|lavender). [Observed]
 - **Statement:** The system shall list the staff member's open manual tasks (overdue in red) and projects they manage with links.
 - **Description:** 
 - **Type:** UI
-- **Source/Prototype reference:** `src/routes/staff.$id.tsx:57-66`
+- **Source/Prototype reference:** `src/routes/staff.$id.tsx:59-66`
 - **Related Feature:** FT-CFG-05
 - **Related Story:** US-CFG-012
 - **Priority:** Should
@@ -1090,7 +1090,7 @@ localStorage `palette` (clay|teal|lavender). [Observed]
 - **Statement:** The system shall show a loading skeleton while loading and «الموظف غير موجود.» for unknown ids.
 - **Description:** 
 - **Type:** UI
-- **Source/Prototype reference:** `src/routes/staff.$id.tsx:36-37`
+- **Source/Prototype reference:** `src/routes/staff.$id.tsx:38-39`
 - **Related Feature:** FT-CFG-05
 - **Related Story:** US-CFG-012
 - **Priority:** Should
@@ -1162,7 +1162,7 @@ localStorage `palette` (clay|teal|lavender). [Observed]
 - **Statement:** The system shall allow adding a field with label, type, required flag and (for select) comma-separated options.
 - **Description:** 
 - **Type:** Functional
-- **Source/Prototype reference:** `src/components/FormBuilder.tsx:16-24,53-61`
+- **Source/Prototype reference:** `src/components/FormBuilder.tsx:16-24,39-48`
 - **Related Feature:** FT-CFG-06
 - **Related Story:** US-CFG-014
 - **Priority:** Must
@@ -1180,7 +1180,7 @@ localStorage `palette` (clay|teal|lavender). [Observed]
 - **Statement:** The system shall allow toggling a field's required flag and deleting a field.
 - **Description:** 
 - **Type:** Functional
-- **Source/Prototype reference:** `src/components/FormBuilder.tsx:25-26,44-50`
+- **Source/Prototype reference:** `src/components/FormBuilder.tsx:25-26,29-37`
 - **Related Feature:** FT-CFG-06
 - **Related Story:** US-CFG-014
 - **Priority:** Must
@@ -1324,7 +1324,7 @@ localStorage `palette` (clay|teal|lavender). [Observed]
 - **Statement:** The system shall show a switch per portal applicant type with its identifier label, excluding government.
 - **Description:** 
 - **Type:** UI
-- **Source/Prototype reference:** `src/routes/settings.tsx:73-83; src/lib/applicantTypes.ts:4-12`
+- **Source/Prototype reference:** `src/routes/settings.tsx:73-83; src/lib/applicantTypes.ts:7-15`
 - **Related Feature:** FT-CFG-10
 - **Related Story:** US-CFG-020
 - **Priority:** Should
@@ -1342,7 +1342,7 @@ localStorage `palette` (clay|teal|lavender). [Observed]
 - **Statement:** The system shall persist a closed applicant type per organization and hide it on the registration page.
 - **Description:** 
 - **Type:** Functional
-- **Source/Prototype reference:** `src/lib/applicantTypes.ts:16-32; src/routes/register-tenant.tsx:33-34`
+- **Source/Prototype reference:** `src/lib/applicantTypes.ts:17-33; src/routes/register-tenant.tsx:33-34`
 - **Related Feature:** FT-CFG-10
 - **Related Story:** US-CFG-020
 - **Priority:** Should
@@ -1612,7 +1612,7 @@ localStorage `palette` (clay|teal|lavender). [Observed]
 - **Statement:** The system shall upload the evidence and append a history record with before/after snapshots, removing the file if the record fails.
 - **Description:** 
 - **Type:** Data
-- **Source/Prototype reference:** `src/lib/configEdits.ts:12-27`
+- **Source/Prototype reference:** `src/lib/configEdits.ts:11-26`
 - **Related Feature:** FT-CFG-14
 - **Related Story:** US-CFG-028
 - **Priority:** Must
@@ -2971,7 +2971,7 @@ localStorage `palette` (clay|teal|lavender). [Observed]
 | ISS-CFG-12 | Applicant type toggle shows success toast regardless of write result; closed marker stored in a generic taxonomies table using the type key as label. | `src/routes/settings.tsx:80; src/lib/applicantTypes.ts:27-31` | Low | Check errors; consider a dedicated settings table. |
 | ISS-CFG-13 | Template save with an empty name silently does nothing (no message). | `src/routes/settings.tsx:426` | Low | Show validation message. |
 | ISS-CFG-14 | Saving a custom role without changes writes an empty 'update' audit entry. | `src/routes/settings.tsx:263-270` | Low | Skip save/log when diff is empty. |
-| ISS-CFG-15 | Staff profile is not tenant-scoped and shows personas.role, not membership role. | `src/routes/staff.$id.tsx:20-29,52` | Low | Scope by tenant; use membership role. |
+| ISS-CFG-15 | Staff profile is not tenant-scoped and shows personas.role, not membership role. | `src/routes/staff.$id.tsx:25-35,54` | Low | Scope by tenant; use membership role. |
 | ISS-CFG-16 | Most settings tabs lack loading, error and empty states (Team, Departments, Templates, Endowments, Taxonomies). | `src/routes/settings.tsx` | Low | Add standard states. |
 | ISS-CFG-17 | /admin uses its own layout and non-URL Tabs (defaultValue), unlike Page/PageHeader and URL tabs elsewhere. | `src/routes/admin.tsx:136-160` | Low | Align with shared layout and URL-synced tabs. |
 | ISS-CFG-18 | Duplicate taxonomy values, department names and template names are allowed; taxonomies.sort_order is unused. | `src/routes/settings.tsx:395,460` | Low | Add uniqueness per tenant/kind and ordering. |

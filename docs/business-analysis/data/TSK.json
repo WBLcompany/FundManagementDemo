@@ -1,0 +1,2041 @@
+{
+  "module": {
+    "code": "TSK",
+    "name": "Tasks"
+  },
+  "screens": [
+    {
+      "id": "SCR-TSK-01",
+      "name": "My Tasks – list view (مهامي – قائمة)",
+      "route": "/tasks (view=list) — TasksPage, TaskRow",
+      "roles": [
+        "reviewer",
+        "committee_secretary",
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-TSK-02",
+      "name": "My Tasks – calendar view (مهامي – تقويم)",
+      "route": "/tasks (view=calendar) — TaskCalendar, CalChip, TaskCard",
+      "roles": [
+        "reviewer",
+        "committee_secretary",
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-TSK-03",
+      "name": "Task / meeting editor dialog (مهمة أو موعد جديد / تعديل المهمة)",
+      "route": "/tasks — TaskEditor",
+      "roles": [
+        "reviewer",
+        "committee_secretary",
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-TSK-04",
+      "name": "Return / reject reason dialog (إرجاع للتعديل / رفض)",
+      "route": "/tasks — decision Dialog",
+      "roles": [
+        "reviewer",
+        "committee_secretary",
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-TSK-05",
+      "name": "Approval confirmation sheet (اعتماد — …)",
+      "route": "/tasks — approve Sheet",
+      "roles": [
+        "reviewer",
+        "committee_secretary",
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-TSK-06",
+      "name": "Bulk minute selection bar (قرار بمحضر)",
+      "route": "/tasks — selection bar + MinuteDialog (REV)",
+      "roles": [
+        "committee_secretary"
+      ]
+    },
+    {
+      "id": "SCR-TSK-07",
+      "name": "Focus mode (وضع التركيز)",
+      "route": "/tasks — FocusMode overlay",
+      "roles": [
+        "reviewer",
+        "committee_secretary",
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-TSK-08",
+      "name": "Focus pill (وضع التركيز يعمل)",
+      "route": "Global — FocusPill in AppShell",
+      "roles": [
+        "reviewer",
+        "committee_secretary",
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-TSK-09",
+      "name": "Sidebar task count badges",
+      "route": "Global — AppShell + useNavTaskCounts",
+      "roles": [
+        "reviewer",
+        "committee_secretary",
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    }
+  ],
+  "epics": [
+    {
+      "id": "EP-TSK-01",
+      "name": "Unified Task Inbox",
+      "description": "One inbox combining system-derived application and payment tasks with manual tasks, with list/calendar views, filters and sidebar counts."
+    },
+    {
+      "id": "EP-TSK-02",
+      "name": "Manual Tasks & Meetings",
+      "description": "Creation, assignment, meetings and status lifecycle of user-created tasks."
+    },
+    {
+      "id": "EP-TSK-03",
+      "name": "Decisions from Tasks",
+      "description": "Taking workflow and payment decisions directly from the inbox, individually or in bulk by committee minute."
+    },
+    {
+      "id": "EP-TSK-04",
+      "name": "Focus Mode",
+      "description": "Distraction-free, one-task-at-a-time processing with a persistent timer."
+    }
+  ],
+  "features": [
+    {
+      "id": "FT-TSK-01",
+      "epic": "EP-TSK-01",
+      "name": "Derived application stage tasks",
+      "description": "Compute a task for each pending application at a stage the user supervises/secretaries (or all for admin/GM), with SLA due date.",
+      "roles": [
+        "reviewer",
+        "committee_secretary",
+        "grants_manager",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-TSK-01",
+        "SCR-TSK-02"
+      ],
+      "requirements": [
+        "FR-TSK-001",
+        "FR-TSK-002",
+        "FR-TSK-003",
+        "FR-TSK-004"
+      ],
+      "stories": [
+        "US-TSK-001",
+        "US-TSK-002"
+      ],
+      "rules": [
+        "BR-TSK-01",
+        "BR-TSK-02",
+        "BR-TSK-03",
+        "BR-TSK-04",
+        "BR-TSK-05",
+        "BR-TSK-07"
+      ],
+      "dependencies": [
+        "REV workflow",
+        "PRG workflow_stages"
+      ],
+      "acceptance_criteria": [
+        "Supervisor sees only their stage tasks",
+        "Due = entered + SLA",
+        "Task disappears after decision"
+      ],
+      "open_questions": [
+        "OQ-TSK-03",
+        "OQ-TSK-05"
+      ]
+    },
+    {
+      "id": "FT-TSK-02",
+      "epic": "EP-TSK-01",
+      "name": "Derived payment approval tasks",
+      "description": "Compute a task for each payment awaiting the user's step in the approval chain.",
+      "roles": [
+        "project_manager",
+        "grants_manager",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-TSK-01",
+        "SCR-TSK-02"
+      ],
+      "requirements": [
+        "FR-TSK-005",
+        "FR-TSK-006",
+        "FR-TSK-007"
+      ],
+      "stories": [
+        "US-TSK-003",
+        "US-TSK-004"
+      ],
+      "rules": [
+        "BR-TSK-06",
+        "BR-TSK-07"
+      ],
+      "dependencies": [
+        "FIN payments.ts"
+      ],
+      "acceptance_criteria": [
+        "PM sees step-0 tasks only for own projects",
+        "CEO sees step-2 tasks"
+      ],
+      "open_questions": [
+        "OQ-TSK-08"
+      ]
+    },
+    {
+      "id": "FT-TSK-03",
+      "epic": "EP-TSK-01",
+      "name": "Task inbox views & filters",
+      "description": "List and calendar views with search, scope, kind tabs, sort, saved view, counts and empty/error states.",
+      "roles": [
+        "all staff"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-TSK-01",
+        "SCR-TSK-02"
+      ],
+      "requirements": [
+        "FR-TSK-008",
+        "FR-TSK-009",
+        "FR-TSK-010",
+        "FR-TSK-011",
+        "FR-TSK-012",
+        "FR-TSK-013",
+        "FR-TSK-014",
+        "FR-TSK-015"
+      ],
+      "stories": [
+        "US-TSK-005",
+        "US-TSK-006",
+        "US-TSK-007",
+        "US-TSK-008"
+      ],
+      "rules": [
+        "BR-TSK-11",
+        "BR-TSK-13",
+        "BR-TSK-14",
+        "BR-TSK-15",
+        "BR-TSK-25"
+      ],
+      "dependencies": [
+        "PLT saved views"
+      ],
+      "acceptance_criteria": [
+        "Filters combine correctly",
+        "Overdue highlighted",
+        "Saved view restored"
+      ],
+      "open_questions": [
+        "OQ-TSK-11"
+      ]
+    },
+    {
+      "id": "FT-TSK-04",
+      "epic": "EP-TSK-01",
+      "name": "Sidebar open-task counts",
+      "description": "Badges on sidebar destinations computed from the same derivation as «مهامي».",
+      "roles": [
+        "all staff"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-TSK-09"
+      ],
+      "requirements": [
+        "FR-TSK-016"
+      ],
+      "stories": [
+        "US-TSK-009"
+      ],
+      "rules": [
+        "BR-TSK-24"
+      ],
+      "dependencies": [
+        "PLT AppShell"
+      ],
+      "acceptance_criteria": [
+        "Badge equals open tasks in scope 'mine'"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-TSK-05",
+      "epic": "EP-TSK-02",
+      "name": "Manual task creation & assignment",
+      "description": "Create and edit manual tasks, assign to an active colleague, set due date and status, with AI prefill.",
+      "roles": [
+        "all staff"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-TSK-03"
+      ],
+      "requirements": [
+        "FR-TSK-017",
+        "FR-TSK-018",
+        "FR-TSK-019",
+        "FR-TSK-020"
+      ],
+      "stories": [
+        "US-TSK-010",
+        "US-TSK-011",
+        "US-TSK-012"
+      ],
+      "rules": [
+        "BR-TSK-08",
+        "BR-TSK-09",
+        "BR-TSK-10"
+      ],
+      "dependencies": [
+        "CFG persona_memberships"
+      ],
+      "acceptance_criteria": [
+        "Title 1–200 required",
+        "Assignee must be active member"
+      ],
+      "open_questions": [
+        "OQ-TSK-02"
+      ]
+    },
+    {
+      "id": "FT-TSK-06",
+      "epic": "EP-TSK-02",
+      "name": "Meetings (appointments)",
+      "description": "Manual task of kind meeting with time, location/link and attendees visible to attendees.",
+      "roles": [
+        "all staff"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-TSK-03",
+        "SCR-TSK-01",
+        "SCR-TSK-02"
+      ],
+      "requirements": [
+        "FR-TSK-021",
+        "FR-TSK-022"
+      ],
+      "stories": [
+        "US-TSK-013"
+      ],
+      "rules": [
+        "BR-TSK-12",
+        "BR-TSK-13"
+      ],
+      "dependencies": [],
+      "acceptance_criteria": [
+        "Attendees see meeting in their tasks",
+        "Meeting shows time"
+      ],
+      "open_questions": [
+        "OQ-TSK-09"
+      ]
+    },
+    {
+      "id": "FT-TSK-07",
+      "epic": "EP-TSK-02",
+      "name": "Manual task status lifecycle",
+      "description": "Move manual tasks between todo, in progress and done; done tasks feed staff KPIs.",
+      "roles": [
+        "all staff"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-TSK-02",
+        "SCR-TSK-03"
+      ],
+      "requirements": [
+        "FR-TSK-023",
+        "FR-TSK-024",
+        "FR-TSK-025"
+      ],
+      "stories": [
+        "US-TSK-014",
+        "US-TSK-015"
+      ],
+      "rules": [
+        "BR-TSK-08",
+        "BR-TSK-26"
+      ],
+      "dependencies": [
+        "CFG staff profile"
+      ],
+      "acceptance_criteria": [
+        "Status persists",
+        "Done tasks counted in staff KPIs"
+      ],
+      "open_questions": [
+        "OQ-TSK-01",
+        "OQ-TSK-02"
+      ]
+    },
+    {
+      "id": "FT-TSK-08",
+      "epic": "EP-TSK-03",
+      "name": "Quick decisions from inbox",
+      "description": "Approve / return / reject applications and approve / reject payments from a task, with reason capture and AI-risk guard.",
+      "roles": [
+        "reviewer",
+        "committee_secretary",
+        "grants_manager",
+        "project_manager",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-TSK-01",
+        "SCR-TSK-04",
+        "SCR-TSK-05"
+      ],
+      "requirements": [
+        "FR-TSK-026",
+        "FR-TSK-027",
+        "FR-TSK-028",
+        "FR-TSK-029"
+      ],
+      "stories": [
+        "US-TSK-016",
+        "US-TSK-017"
+      ],
+      "rules": [
+        "BR-TSK-16",
+        "BR-TSK-17"
+      ],
+      "dependencies": [
+        "REV workflow.ts",
+        "FIN payments.ts"
+      ],
+      "acceptance_criteria": [
+        "Reason required for return/reject",
+        "Risky approvals need justification"
+      ],
+      "open_questions": [
+        "OQ-TSK-04"
+      ]
+    },
+    {
+      "id": "FT-TSK-09",
+      "epic": "EP-TSK-03",
+      "name": "Bulk committee decision by minute",
+      "description": "Committee secretary selects same-stage tasks and records one minute decision for all.",
+      "roles": [
+        "committee_secretary"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-TSK-06"
+      ],
+      "requirements": [
+        "FR-TSK-030",
+        "FR-TSK-031",
+        "FR-TSK-032"
+      ],
+      "stories": [
+        "US-TSK-018"
+      ],
+      "rules": [
+        "BR-TSK-18"
+      ],
+      "dependencies": [
+        "REV minutes.ts, MinuteDialog"
+      ],
+      "acceptance_criteria": [
+        "Only same committee/stage items selectable"
+      ],
+      "open_questions": [
+        "OQ-TSK-10"
+      ]
+    },
+    {
+      "id": "FT-TSK-10",
+      "epic": "EP-TSK-04",
+      "name": "Focus mode processing",
+      "description": "Full-screen one-task-at-a-time queue with timer, done-today counter, kind filter, skip, complete/approve/return.",
+      "roles": [
+        "all staff"
+      ],
+      "priority": "Could",
+      "screens": [
+        "SCR-TSK-07"
+      ],
+      "requirements": [
+        "FR-TSK-033",
+        "FR-TSK-034",
+        "FR-TSK-035",
+        "FR-TSK-036",
+        "FR-TSK-037"
+      ],
+      "stories": [
+        "US-TSK-019",
+        "US-TSK-020",
+        "US-TSK-021"
+      ],
+      "rules": [
+        "BR-TSK-19",
+        "BR-TSK-20",
+        "BR-TSK-23"
+      ],
+      "dependencies": [
+        "FT-TSK-08 decide()"
+      ],
+      "acceptance_criteria": [
+        "Queue sorted by due",
+        "Skip moves to end",
+        "Return requires note"
+      ],
+      "open_questions": [
+        "OQ-TSK-06"
+      ]
+    },
+    {
+      "id": "FT-TSK-11",
+      "epic": "EP-TSK-04",
+      "name": "Focus session persistence & pill",
+      "description": "Persist focus session across navigation/reload; floating pill with timer and return button.",
+      "roles": [
+        "all staff"
+      ],
+      "priority": "Could",
+      "screens": [
+        "SCR-TSK-07",
+        "SCR-TSK-08"
+      ],
+      "requirements": [
+        "FR-TSK-038",
+        "FR-TSK-039",
+        "FR-TSK-040"
+      ],
+      "stories": [
+        "US-TSK-022"
+      ],
+      "rules": [
+        "BR-TSK-21",
+        "BR-TSK-22"
+      ],
+      "dependencies": [
+        "PLT AppShell"
+      ],
+      "acceptance_criteria": [
+        "Session survives reload",
+        "End clears"
+      ],
+      "open_questions": [
+        "OQ-TSK-12"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "FR-TSK-001",
+      "feature": "FT-TSK-01",
+      "stories": [
+        "US-TSK-001",
+        "US-TSK-002"
+      ],
+      "statement": "The system shall derive an application task for each pending application at an active (not needs_edit) stage for users who are stage supervisors, the stage committee secretary, or admin/grants manager, within the same tenant.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:98-108",
+      "acceptance_criteria": [
+        "Given an application at stage 2 with supervisor U When U opens tasks Then one application task is shown",
+        "Given stage_status needs_edit Then no task is shown",
+        "Given another tenant's application Then no task is shown"
+      ]
+    },
+    {
+      "id": "FR-TSK-002",
+      "feature": "FT-TSK-01",
+      "stories": [
+        "US-TSK-001"
+      ],
+      "statement": "The system shall set the application task due date to stage entry date plus the stage SLA days (default 3).",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:103-104",
+      "acceptance_criteria": [
+        "Given entered 2026-10-01 and sla_days 5 Then due 2026-10-06",
+        "Given sla_days null Then due = entry + 3 days"
+      ]
+    },
+    {
+      "id": "FR-TSK-003",
+      "feature": "FT-TSK-01",
+      "stories": [
+        "US-TSK-001"
+      ],
+      "statement": "The system shall present application tasks with project title, committee/stage/beneficiary description, reference, requested amount, agent score, «تلقائية» chip and a link to the application.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:105-107; src/routes/tasks.tsx:130,150-152",
+      "acceptance_criteria": [
+        "Given committee stage Then description starts with committee name",
+        "Given click on title Then /reviewer/$id opens"
+      ]
+    },
+    {
+      "id": "FR-TSK-004",
+      "feature": "FT-TSK-01",
+      "stories": [
+        "US-TSK-001"
+      ],
+      "statement": "The system shall remove an application task automatically once the application leaves the stage or status changes.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:100; src/routes/tasks.tsx:344",
+      "acceptance_criteria": [
+        "Given approval of stage 2 When data refreshes Then the stage-2 task disappears",
+        "Given the next stage supervisor Then a new task for stage 3 appears"
+      ]
+    },
+    {
+      "id": "FR-TSK-005",
+      "feature": "FT-TSK-02",
+      "stories": [
+        "US-TSK-003"
+      ],
+      "statement": "The system shall derive a payment task for payments awaiting approval at the user's chain step (project manager of the project, grants manager, CEO; admin for any step) within the tenant.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:109-118; src/lib/data.ts:371-375",
+      "acceptance_criteria": [
+        "Given approval_step 0 and I manage the project Then I see the task",
+        "Given approval_step 1 and I am CEO Then I do not see it"
+      ]
+    },
+    {
+      "id": "FR-TSK-006",
+      "feature": "FT-TSK-02",
+      "stories": [
+        "US-TSK-003"
+      ],
+      "statement": "The system shall show payment tasks with payment title, project title and step label, reference, due date and a link to the project.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:115-117; src/routes/tasks.tsx:131",
+      "acceptance_criteria": [
+        "Given step 2 Then description ends «اعتماد الرئيس التنفيذي»",
+        "Given click Then /projects/$id opens"
+      ]
+    },
+    {
+      "id": "FR-TSK-007",
+      "feature": "FT-TSK-02",
+      "stories": [
+        "US-TSK-004"
+      ],
+      "statement": "The system shall derive finance tasks for payments awaiting transfer and partner-receipt follow-up.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Recommended",
+      "source": "n/a (absent)",
+      "acceptance_criteria": [
+        "Given payment awaiting_transfer When finance opens tasks Then a transfer task is shown",
+        "Given transfer recorded Then the task disappears"
+      ]
+    },
+    {
+      "id": "FR-TSK-008",
+      "feature": "FT-TSK-03",
+      "stories": [
+        "US-TSK-005"
+      ],
+      "statement": "The system shall show tasks in a list with kind icon, assignee avatar, title, auto chip, kind, amount/score, due or late indicator and actions.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:118-160",
+      "acceptance_criteria": [
+        "Given an overdue task Then «متأخرة N أيام» shows in red",
+        "Given no due date Then '—'"
+      ]
+    },
+    {
+      "id": "FR-TSK-009",
+      "feature": "FT-TSK-03",
+      "stories": [
+        "US-TSK-006"
+      ],
+      "statement": "The system shall show tasks in a month calendar by due date with navigation, up to 3 chips per day, a mobile day list and an undated section.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:217-269",
+      "acceptance_criteria": [
+        "Given 5 tasks on a day Then 3 chips and «+2 أخرى»",
+        "Given undated tasks Then section «مهام بلا موعد» lists them"
+      ]
+    },
+    {
+      "id": "FR-TSK-010",
+      "feature": "FT-TSK-03",
+      "stories": [
+        "US-TSK-005"
+      ],
+      "statement": "The system shall filter tasks by free-text search over title, description and reference.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:297",
+      "acceptance_criteria": [
+        "Given search 'REQ-12' Then only tasks with that reference show",
+        "Given no match Then the user can still clear the search (currently not — ISS-TSK-06)"
+      ]
+    },
+    {
+      "id": "FR-TSK-011",
+      "feature": "FT-TSK-03",
+      "stories": [
+        "US-TSK-007"
+      ],
+      "statement": "The system shall provide scopes «مهامي» and «أسندتُها لغيري».",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:297,372-375",
+      "acceptance_criteria": [
+        "Given a task I created for a colleague Then it appears only in delegated scope",
+        "Given I am an attendee Then the meeting appears in mine"
+      ]
+    },
+    {
+      "id": "FR-TSK-012",
+      "feature": "FT-TSK-03",
+      "stories": [
+        "US-TSK-005"
+      ],
+      "statement": "The system shall provide mutually exclusive kind tabs with counts, hiding zero-count tabs except «الكل» and the active one.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/KindFilterTabs.tsx; src/routes/tasks.tsx:300,376",
+      "acceptance_criteria": [
+        "Given 2 meetings and 3 manual tasks Then «المواعيد» 2 and «يدوية» 3",
+        "Given no payment tasks Then «الدفعات» tab hidden"
+      ]
+    },
+    {
+      "id": "FR-TSK-013",
+      "feature": "FT-TSK-03",
+      "stories": [
+        "US-TSK-005"
+      ],
+      "statement": "The system shall sort by nearest due date (undated last) or newest added.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:301,377",
+      "acceptance_criteria": [
+        "Given sort due Then earliest due first",
+        "Given sort new Then latest createdAt first"
+      ]
+    },
+    {
+      "id": "FR-TSK-014",
+      "feature": "FT-TSK-03",
+      "stories": [
+        "US-TSK-008"
+      ],
+      "statement": "The system shall let the user save the current view, kind filter, scope and sort as their default.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:279-284,382",
+      "acceptance_criteria": [
+        "Given saved calendar view When reopening /tasks Then calendar shows",
+        "Given search text Then it is not saved"
+      ]
+    },
+    {
+      "id": "FR-TSK-015",
+      "feature": "FT-TSK-03",
+      "stories": [
+        "US-TSK-005"
+      ],
+      "statement": "The system shall show open/done counts, an empty state with a delegated-scope shortcut, a no-match message and a manual-task load error.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:362-369,391",
+      "acceptance_criteria": [
+        "Given no tasks Then «لا توجد مهام لديك الآن»",
+        "Given manual query error Then alert shown"
+      ]
+    },
+    {
+      "id": "FR-TSK-016",
+      "feature": "FT-TSK-04",
+      "stories": [
+        "US-TSK-009"
+      ],
+      "statement": "The system shall display open-task counts on sidebar items: tasks (all), applications (application tasks), projects/finance (payment tasks).",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/lib/navCounts.ts; src/components/AppShell.tsx:88,146",
+      "acceptance_criteria": [
+        "Given 3 application and 1 payment open tasks Then «مهامي» 4, «طلبات المنح» 3, «المشاريع» 1",
+        "Given a delegated task Then it is not counted"
+      ]
+    },
+    {
+      "id": "FR-TSK-017",
+      "feature": "FT-TSK-05",
+      "stories": [
+        "US-TSK-010"
+      ],
+      "statement": "The system shall allow creating a manual task with title, description, assignee (default me), due date and status.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:163-215",
+      "acceptance_criteria": [
+        "Given valid input When «حفظ المهمة» Then task saved and toast «تم إنشاء المهمة»",
+        "Given empty title Then save disabled"
+      ]
+    },
+    {
+      "id": "FR-TSK-018",
+      "feature": "FT-TSK-05",
+      "stories": [
+        "US-TSK-010"
+      ],
+      "statement": "The system shall validate title length 1–200 and that the assignee is an active member of the tenant.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:72-82",
+      "acceptance_criteria": [
+        "Given 201 chars Then error «عنوان المهمة مطلوب ويجب ألا يتجاوز 200 حرف»",
+        "Given non-member assignee Then «اختر مستخدماً مرتبطاً بالجهة الحالية»"
+      ]
+    },
+    {
+      "id": "FR-TSK-019",
+      "feature": "FT-TSK-05",
+      "stories": [
+        "US-TSK-011"
+      ],
+      "statement": "The system shall allow editing a manual task's fields while preserving the original creator.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:179; src/lib/tasks.ts:78",
+      "acceptance_criteria": [
+        "Given edit Then created_by unchanged",
+        "Given reassignment Then new assignee sees it"
+      ]
+    },
+    {
+      "id": "FR-TSK-020",
+      "feature": "FT-TSK-05",
+      "stories": [
+        "US-TSK-012"
+      ],
+      "statement": "The system shall propose task fields from free text using AI assist without saving automatically.",
+      "type": "AI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:187-193",
+      "acceptance_criteria": [
+        "Given text mentioning a colleague and date Then assignee and date are pre-filled",
+        "Given unknown name Then assignee unchanged"
+      ]
+    },
+    {
+      "id": "FR-TSK-021",
+      "feature": "FT-TSK-06",
+      "stories": [
+        "US-TSK-013"
+      ],
+      "statement": "The system shall support meetings with time, location/link and attendees (excluding the assignee), saved only for kind meeting.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:171-179,204-210",
+      "acceptance_criteria": [
+        "Given kind task Then time/location/attendees saved empty",
+        "Given attendees Then they see the meeting in «مهامي»"
+      ]
+    },
+    {
+      "id": "FR-TSK-022",
+      "feature": "FT-TSK-06",
+      "stories": [
+        "US-TSK-013"
+      ],
+      "statement": "The system shall label meetings «موعد · HH:MM», show location, group them under «المواعيد», and exclude them from focus mode.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:67,102; src/components/KindFilterTabs.tsx:14-16; src/routes/tasks.tsx:359",
+      "acceptance_criteria": [
+        "Given meeting at 10:00 Then «موعد · 10:00»",
+        "Given focus mode Then meetings are not queued"
+      ]
+    },
+    {
+      "id": "FR-TSK-023",
+      "feature": "FT-TSK-07",
+      "stories": [
+        "US-TSK-014"
+      ],
+      "statement": "The system shall allow changing a manual task's status among todo, in progress and done.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:106-107,211,302-305; src/lib/tasks.ts:84-87",
+      "acceptance_criteria": [
+        "Given todo When «جارٍ العمل» Then status in_progress",
+        "Given done task Then header done count increments"
+      ]
+    },
+    {
+      "id": "FR-TSK-024",
+      "feature": "FT-TSK-07",
+      "stories": [
+        "US-TSK-014"
+      ],
+      "statement": "The system shall maintain created_at/updated_at so completion time can be measured.",
+      "type": "Data",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "migration 20261004124427 (touch trigger)",
+      "acceptance_criteria": [
+        "Given status change Then updated_at = now",
+        "Given staff profile Then average completion uses these timestamps"
+      ]
+    },
+    {
+      "id": "FR-TSK-025",
+      "feature": "FT-TSK-07",
+      "stories": [
+        "US-TSK-015"
+      ],
+      "statement": "The system shall allow the creator to cancel or delete a manual task/meeting and restrict edits to creator/assignee.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Recommended",
+      "source": "n/a (absent)",
+      "acceptance_criteria": [
+        "Given creator When delete Then task removed for all",
+        "Given attendee Then edit controls hidden"
+      ]
+    },
+    {
+      "id": "FR-TSK-026",
+      "feature": "FT-TSK-08",
+      "stories": [
+        "US-TSK-016",
+        "US-TSK-017"
+      ],
+      "statement": "The system shall offer quick actions on derived tasks: approve/return/reject for applications, approve/reject for payments.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:82-88",
+      "acceptance_criteria": [
+        "Given payment task Then no return action",
+        "Given application task Then three actions"
+      ]
+    },
+    {
+      "id": "FR-TSK-027",
+      "feature": "FT-TSK-08",
+      "stories": [
+        "US-TSK-017"
+      ],
+      "statement": "The system shall require a reason (≤1000) before confirming return or reject.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:332,394-398",
+      "acceptance_criteria": [
+        "Given empty reason Then confirm disabled",
+        "Given reason When confirmed Then returnStage/closeApplication executes"
+      ]
+    },
+    {
+      "id": "FR-TSK-028",
+      "feature": "FT-TSK-08",
+      "stories": [
+        "US-TSK-016"
+      ],
+      "statement": "The system shall show an approval sheet with entity, amount, agent score, recommendation and summary, warn when risky and then require a justification.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:399-420",
+      "acceptance_criteria": [
+        "Given score 70 and pass 80 Then warning and mandatory note",
+        "Given payment Then entity and amount shown"
+      ]
+    },
+    {
+      "id": "FR-TSK-029",
+      "feature": "FT-TSK-08",
+      "stories": [
+        "US-TSK-016",
+        "US-TSK-017"
+      ],
+      "statement": "The system shall execute decisions through the workflow/payment services, show success/error toasts, and refresh so the task disappears.",
+      "type": "Integration",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:331-353",
+      "acceptance_criteria": [
+        "Given success Then toast «تم اعتماد: …» and refresh",
+        "Given missing record Then «الطلب غير موجود»"
+      ]
+    },
+    {
+      "id": "FR-TSK-030",
+      "feature": "FT-TSK-09",
+      "stories": [
+        "US-TSK-018"
+      ],
+      "statement": "The system shall show selection checkboxes only on committee-stage tasks where the user is secretary and allow only items with the same stageKey.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:308-316",
+      "acceptance_criteria": [
+        "Given first selected from committee A Then items of committee B are disabled",
+        "Given non-secretary Then no checkbox"
+      ]
+    },
+    {
+      "id": "FR-TSK-031",
+      "feature": "FT-TSK-09",
+      "stories": [
+        "US-TSK-018"
+      ],
+      "statement": "The system shall show a sticky bar with the selection count, «قرار بمحضر» and clear selection.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:384-389",
+      "acceptance_criteria": [
+        "Given 3 selected Then «تم اختيار 3 طلب»",
+        "Given clear Then selection empty"
+      ]
+    },
+    {
+      "id": "FR-TSK-032",
+      "feature": "FT-TSK-09",
+      "stories": [
+        "US-TSK-018"
+      ],
+      "statement": "The system shall submit the minute decision for all selected items via the bulk minute service and refresh.",
+      "type": "Integration",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:319-327,390",
+      "acceptance_criteria": [
+        "Given minute submitted Then all selected items move per decision",
+        "Given submit Then selection cleared"
+      ]
+    },
+    {
+      "id": "FR-TSK-033",
+      "feature": "FT-TSK-10",
+      "stories": [
+        "US-TSK-019"
+      ],
+      "statement": "The system shall open a full-screen focus mode presenting one open task at a time from a due-sorted queue (non-meetings; manual only if assigned to me).",
+      "type": "UI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:359-363; src/components/FocusMode.tsx:33-58",
+      "acceptance_criteria": [
+        "Given 3 tasks Then the earliest due is shown first",
+        "Given meeting Then excluded"
+      ]
+    },
+    {
+      "id": "FR-TSK-034",
+      "feature": "FT-TSK-10",
+      "stories": [
+        "US-TSK-019"
+      ],
+      "statement": "The system shall show Riyadh time with Hijri and Gregorian dates, done-today count, time on current task with pause/resume, and remaining count.",
+      "type": "UI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/components/FocusMode.tsx:81-98",
+      "acceptance_criteria": [
+        "Given pause Then timer stops and «متوقف» shows",
+        "Given completion Then «أنجزت اليوم» increments"
+      ]
+    },
+    {
+      "id": "FR-TSK-035",
+      "feature": "FT-TSK-10",
+      "stories": [
+        "US-TSK-020"
+      ],
+      "statement": "The system shall filter the focus queue by kind (excluding meetings) and show specific empty messages.",
+      "type": "UI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/components/FocusMode.tsx:51-58,104-111",
+      "acceptance_criteria": [
+        "Given filter payments with none Then «لا مهام في هذا التصنيف»",
+        "Given no tasks Then «لا مهام متبقية»"
+      ]
+    },
+    {
+      "id": "FR-TSK-036",
+      "feature": "FT-TSK-10",
+      "stories": [
+        "US-TSK-019",
+        "US-TSK-020"
+      ],
+      "statement": "The system shall let the user skip (to end of queue), complete manual tasks, approve derived tasks, return with mandatory note, and open full details.",
+      "type": "Functional",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/components/FocusMode.tsx:70-76,118-130",
+      "acceptance_criteria": [
+        "Given skip Then the next task shows and skipped one is last with «(تخطيتها سابقاً)»",
+        "Given return without note Then button disabled"
+      ]
+    },
+    {
+      "id": "FR-TSK-037",
+      "feature": "FT-TSK-10",
+      "stories": [
+        "US-TSK-021"
+      ],
+      "statement": "The system shall apply the same decision rules in focus mode as in the inbox: reject available, AI-risk justification enforced, payment actions labelled approve/reject.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Recommended",
+      "source": "src/components/FocusMode.tsx:128-129",
+      "acceptance_criteria": [
+        "Given risky application When approving in focus Then a justification note is required",
+        "Given payment task Then the secondary action is labelled «رفض»"
+      ]
+    },
+    {
+      "id": "FR-TSK-038",
+      "feature": "FT-TSK-11",
+      "stories": [
+        "US-TSK-022"
+      ],
+      "statement": "The system shall persist the focus session (task, timer, pauses, skipped) on the device so it survives navigation and reload.",
+      "type": "Data",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/lib/focusStore.ts",
+      "acceptance_criteria": [
+        "Given reload Then timer continues from start time",
+        "Given task unchanged on remount Then timer not reset"
+      ]
+    },
+    {
+      "id": "FR-TSK-039",
+      "feature": "FT-TSK-11",
+      "stories": [
+        "US-TSK-022"
+      ],
+      "statement": "The system shall distinguish exit (hide overlay, keep session; also Escape and opening details) from end (clear session).",
+      "type": "Functional",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/components/FocusMode.tsx:49,100-101,121",
+      "acceptance_criteria": [
+        "Given exit Then pill appears",
+        "Given end Then pill disappears and timer resets"
+      ]
+    },
+    {
+      "id": "FR-TSK-040",
+      "feature": "FT-TSK-11",
+      "stories": [
+        "US-TSK-022"
+      ],
+      "statement": "The system shall show a floating pill with task title, timer, pause/resume and «العودة للتركيز» while a session runs with the overlay closed.",
+      "type": "UI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/components/FocusPill.tsx",
+      "acceptance_criteria": [
+        "Given running session on /projects Then pill visible",
+        "Given «العودة للتركيز» Then /tasks with focus open"
+      ]
+    }
+  ],
+  "stories": [
+    {
+      "id": "US-TSK-001",
+      "epic": "EP-TSK-01",
+      "feature": "FT-TSK-01",
+      "role": "Reviewer / committee secretary",
+      "story": "As a stage reviewer I want applications waiting at my stage to appear automatically in my tasks with an SLA due date so that I act on them in time.",
+      "priority": "Must",
+      "requirements": [
+        "FR-TSK-001",
+        "FR-TSK-002",
+        "FR-TSK-003",
+        "FR-TSK-004"
+      ],
+      "acceptance_criteria": [
+        "Given an application entering my stage When I open tasks Then a task with due = entry + SLA appears",
+        "Given the application is returned for edits Then the task disappears",
+        "Given another tenant's application Then I do not see it"
+      ],
+      "dependencies": [
+        "PRG stage supervisors",
+        "REV workflow"
+      ],
+      "open_questions": [
+        "OQ-TSK-05"
+      ]
+    },
+    {
+      "id": "US-TSK-002",
+      "epic": "EP-TSK-01",
+      "feature": "FT-TSK-01",
+      "role": "Grants manager / admin",
+      "story": "As a grants manager I want to see all pending stage tasks of my organization so that I can oversee and unblock the pipeline.",
+      "priority": "Must",
+      "requirements": [
+        "FR-TSK-001"
+      ],
+      "acceptance_criteria": [
+        "Given pending applications at any stage Then each appears in my tasks",
+        "Given I take a decision Then the task disappears for all"
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-TSK-03"
+      ]
+    },
+    {
+      "id": "US-TSK-003",
+      "epic": "EP-TSK-01",
+      "feature": "FT-TSK-02",
+      "role": "Project manager / grants manager / CEO",
+      "story": "As a payment approver I want payments awaiting my approval step to appear in my tasks so that disbursements are not delayed.",
+      "priority": "Must",
+      "requirements": [
+        "FR-TSK-005",
+        "FR-TSK-006"
+      ],
+      "acceptance_criteria": [
+        "Given step 0 and I manage the project Then I see the task",
+        "Given step 1 Then only grants managers (and admin) see it",
+        "Given approval Then task moves to the next approver"
+      ],
+      "dependencies": [
+        "FIN"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-TSK-004",
+      "epic": "EP-TSK-01",
+      "feature": "FT-TSK-02",
+      "role": "Finance officer",
+      "story": "As a finance officer I want tasks for payments awaiting transfer so that I know what to pay.",
+      "priority": "Should",
+      "requirements": [
+        "FR-TSK-007"
+      ],
+      "acceptance_criteria": [
+        "Given awaiting_transfer payment Then a task appears for finance",
+        "Given transfer recorded Then task disappears"
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-TSK-08"
+      ]
+    },
+    {
+      "id": "US-TSK-005",
+      "epic": "EP-TSK-01",
+      "feature": "FT-TSK-03",
+      "role": "Any staff user",
+      "story": "As a staff user I want to search, filter by kind and sort my task list so that I focus on the most urgent work.",
+      "priority": "Must",
+      "requirements": [
+        "FR-TSK-008",
+        "FR-TSK-010",
+        "FR-TSK-012",
+        "FR-TSK-013",
+        "FR-TSK-015"
+      ],
+      "acceptance_criteria": [
+        "Given kind «الدفعات» Then only payment tasks show",
+        "Given sort due Then earliest first, undated last",
+        "Given overdue Then late text in red"
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-TSK-006",
+      "epic": "EP-TSK-01",
+      "feature": "FT-TSK-03",
+      "role": "Any staff user",
+      "story": "As a staff user I want a calendar of my tasks so that I can plan my month.",
+      "priority": "Should",
+      "requirements": [
+        "FR-TSK-009"
+      ],
+      "acceptance_criteria": [
+        "Given tasks due this month Then they appear on their days",
+        "Given >3 on a day Then «+N أخرى»",
+        "Given undated tasks Then they show under «مهام بلا موعد»"
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-TSK-007",
+      "epic": "EP-TSK-01",
+      "feature": "FT-TSK-03",
+      "role": "Any staff user",
+      "story": "As a staff user I want to see tasks I assigned to others so that I can follow up on delegated work.",
+      "priority": "Must",
+      "requirements": [
+        "FR-TSK-011"
+      ],
+      "acceptance_criteria": [
+        "Given a task I assigned to Sara Then it shows in delegated with her avatar",
+        "Given derived tasks Then they never show in delegated"
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-TSK-008",
+      "epic": "EP-TSK-01",
+      "feature": "FT-TSK-03",
+      "role": "Any staff user",
+      "story": "As a staff user I want to save my preferred task view so that it opens the way I like.",
+      "priority": "Should",
+      "requirements": [
+        "FR-TSK-014"
+      ],
+      "acceptance_criteria": [
+        "Given saved calendar + payments Then reopening restores them",
+        "Given search text Then it is not restored"
+      ],
+      "dependencies": [
+        "PLT viewPrefs"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-TSK-009",
+      "epic": "EP-TSK-01",
+      "feature": "FT-TSK-04",
+      "role": "Any staff user",
+      "story": "As a staff user I want sidebar badges with my open task counts so that I notice pending work from any page.",
+      "priority": "Should",
+      "requirements": [
+        "FR-TSK-016"
+      ],
+      "acceptance_criteria": [
+        "Given 2 application tasks Then «طلبات المنح» shows 2",
+        "Given a decision Then counts update after refresh"
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-TSK-010",
+      "epic": "EP-TSK-02",
+      "feature": "FT-TSK-05",
+      "role": "Any staff user",
+      "story": "As a staff user I want to create a task and assign it to a colleague with a due date so that ad-hoc work is tracked.",
+      "priority": "Must",
+      "requirements": [
+        "FR-TSK-017",
+        "FR-TSK-018"
+      ],
+      "acceptance_criteria": [
+        "Given valid input Then task saved and visible to assignee",
+        "Given title over 200 chars Then error shown",
+        "Given assignee not active member Then «اختر مستخدماً مرتبطاً بالجهة الحالية»"
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-TSK-011",
+      "epic": "EP-TSK-02",
+      "feature": "FT-TSK-05",
+      "role": "Task creator / assignee",
+      "story": "As a task owner I want to edit a manual task so that details stay current.",
+      "priority": "Must",
+      "requirements": [
+        "FR-TSK-019"
+      ],
+      "acceptance_criteria": [
+        "Given edit Then «تم تحديث المهمة» and creator unchanged",
+        "Given reassignment Then new assignee sees it"
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-TSK-02"
+      ]
+    },
+    {
+      "id": "US-TSK-012",
+      "epic": "EP-TSK-02",
+      "feature": "FT-TSK-05",
+      "role": "Any staff user",
+      "story": "As a staff user I want to describe a task in free text and have fields proposed so that I create tasks faster.",
+      "priority": "Could",
+      "requirements": [
+        "FR-TSK-020"
+      ],
+      "acceptance_criteria": [
+        "Given 'اجتماع مع جمعية أثر الأحد 10 مع خالد' Then kind meeting, time 10:00 and attendee proposed",
+        "Given proposal Then nothing is saved until I click save"
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-TSK-013",
+      "epic": "EP-TSK-02",
+      "feature": "FT-TSK-06",
+      "role": "Any staff user",
+      "story": "As a staff user I want to schedule a meeting with time, place and attendees so that invitees see it in their tasks.",
+      "priority": "Should",
+      "requirements": [
+        "FR-TSK-021",
+        "FR-TSK-022"
+      ],
+      "acceptance_criteria": [
+        "Given attendees Then each sees the meeting under «المواعيد»",
+        "Given kind switched back to task Then meeting fields are cleared on save"
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-TSK-09"
+      ]
+    },
+    {
+      "id": "US-TSK-014",
+      "epic": "EP-TSK-02",
+      "feature": "FT-TSK-07",
+      "role": "Assignee",
+      "story": "As an assignee I want to update my task's status so that others see progress.",
+      "priority": "Must",
+      "requirements": [
+        "FR-TSK-023",
+        "FR-TSK-024"
+      ],
+      "acceptance_criteria": [
+        "Given «منجزة» Then the task counts as done and staff KPIs update",
+        "Given reopen Then status todo"
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-TSK-015",
+      "epic": "EP-TSK-02",
+      "feature": "FT-TSK-07",
+      "role": "Task creator",
+      "story": "As a task creator I want to cancel or delete a task or meeting so that obsolete items do not clutter anyone's list.",
+      "priority": "Should",
+      "requirements": [
+        "FR-TSK-025"
+      ],
+      "acceptance_criteria": [
+        "Given delete confirmed Then task removed for assignee and attendees",
+        "Given I am only an attendee Then no delete option"
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-TSK-01"
+      ]
+    },
+    {
+      "id": "US-TSK-016",
+      "epic": "EP-TSK-03",
+      "feature": "FT-TSK-08",
+      "role": "Stage reviewer / payment approver",
+      "story": "As an approver I want to approve directly from my task with a summary and risk warning so that I decide quickly but safely.",
+      "priority": "Must",
+      "requirements": [
+        "FR-TSK-026",
+        "FR-TSK-028",
+        "FR-TSK-029"
+      ],
+      "acceptance_criteria": [
+        "Given AI score below pass score Then warning shows and note is mandatory",
+        "Given confirm Then approveStage/approvePayment runs and the task disappears"
+      ],
+      "dependencies": [
+        "REV",
+        "FIN"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-TSK-017",
+      "epic": "EP-TSK-03",
+      "feature": "FT-TSK-08",
+      "role": "Stage reviewer / payment approver",
+      "story": "As an approver I want to return or reject from my task with a reason so that the applicant or project knows why.",
+      "priority": "Must",
+      "requirements": [
+        "FR-TSK-026",
+        "FR-TSK-027",
+        "FR-TSK-029"
+      ],
+      "acceptance_criteria": [
+        "Given no reason Then confirm disabled",
+        "Given payment reject Then payment returns to 'due' at step 0",
+        "Given application return Then returnStage records the note"
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-TSK-04"
+      ]
+    },
+    {
+      "id": "US-TSK-018",
+      "epic": "EP-TSK-03",
+      "feature": "FT-TSK-09",
+      "role": "Committee secretary",
+      "story": "As a committee secretary I want to select several applications of the same committee stage and record one minute decision so that committee outcomes are documented once.",
+      "priority": "Should",
+      "requirements": [
+        "FR-TSK-030",
+        "FR-TSK-031",
+        "FR-TSK-032"
+      ],
+      "acceptance_criteria": [
+        "Given items from a different committee Then their checkboxes are disabled",
+        "Given submit Then all selected are decided and selection cleared"
+      ],
+      "dependencies": [
+        "REV MinuteDialog"
+      ],
+      "open_questions": [
+        "OQ-TSK-10"
+      ]
+    },
+    {
+      "id": "US-TSK-019",
+      "epic": "EP-TSK-04",
+      "feature": "FT-TSK-10",
+      "role": "Any staff user",
+      "story": "As a staff user I want a focus mode that shows one task at a time with a timer so that I can clear my queue without distraction.",
+      "priority": "Could",
+      "requirements": [
+        "FR-TSK-033",
+        "FR-TSK-034",
+        "FR-TSK-036"
+      ],
+      "acceptance_criteria": [
+        "Given manual task When «إنجاز المهمة» Then it becomes done and «أنجزت اليوم» increments",
+        "Given derived task When «اعتماد» Then the decision executes and next task shows",
+        "Given no tasks Then «لا مهام متبقية»"
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-TSK-020",
+      "epic": "EP-TSK-04",
+      "feature": "FT-TSK-10",
+      "role": "Any staff user",
+      "story": "As a staff user I want to skip a task or filter the focus queue by kind so that I handle similar items together.",
+      "priority": "Could",
+      "requirements": [
+        "FR-TSK-035",
+        "FR-TSK-036"
+      ],
+      "acceptance_criteria": [
+        "Given skip Then the task moves to the end marked «(تخطيتها سابقاً)»",
+        "Given only one task Then skip disabled",
+        "Given empty kind Then «لا مهام في هذا التصنيف»"
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-TSK-021",
+      "epic": "EP-TSK-04",
+      "feature": "FT-TSK-10",
+      "role": "Any staff user",
+      "story": "As an approver I want focus mode to follow the same decision rules as the inbox so that shortcuts never bypass controls.",
+      "priority": "Should",
+      "requirements": [
+        "FR-TSK-037"
+      ],
+      "acceptance_criteria": [
+        "Given risky application When approving Then note required",
+        "Given payment task Then the second action is «رفض» not «إعادة»"
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-TSK-06"
+      ]
+    },
+    {
+      "id": "US-TSK-022",
+      "epic": "EP-TSK-04",
+      "feature": "FT-TSK-11",
+      "role": "Any staff user",
+      "story": "As a staff user I want my focus session to keep running while I open details elsewhere so that I can return without losing time tracking.",
+      "priority": "Could",
+      "requirements": [
+        "FR-TSK-038",
+        "FR-TSK-039",
+        "FR-TSK-040"
+      ],
+      "acceptance_criteria": [
+        "Given exit Then pill shows title and timer on every page",
+        "Given reload Then session persists",
+        "Given «إنهاء وضع التركيز» Then pill disappears"
+      ],
+      "dependencies": [],
+      "open_questions": []
+    }
+  ],
+  "rules": [
+    {
+      "id": "BR-TSK-01",
+      "rule": "Only manual tasks are stored (manual_tasks); application and payment tasks are derived on the fly from live workflow/payment state and are never persisted — no duplicated task status.",
+      "evidence": "Observed",
+      "source": "AGENTS.md; src/lib/tasks.ts:89-120"
+    },
+    {
+      "id": "BR-TSK-02",
+      "rule": "An application task exists for an application when status='pending', current_stage is set, stage_status ≠ 'needs_edit', and the application belongs to the user's tenant.",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:100"
+    },
+    {
+      "id": "BR-TSK-03",
+      "rule": "The application task is assigned to the user if they are in the current stage's supervisor_ids, are the stage's committee secretary, or have role admin or grants_manager (elevated: sees all pending stage tasks of the tenant).",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:98-102"
+    },
+    {
+      "id": "BR-TSK-04",
+      "rule": "Application task due date = stage_entered_at + stage.sla_days (default 3 calendar days).",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:103-104"
+    },
+    {
+      "id": "BR-TSK-05",
+      "rule": "Application task identity is application + stage number (a new task per stage); its stageKey groups committee stages by committee name, other stages by program:stage.",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:105-107"
+    },
+    {
+      "id": "BR-TSK-06",
+      "rule": "A payment task exists when payment.status='awaiting_approval' and the project belongs to the user's tenant; it is assigned per PAYMENT_APPROVAL_CHAIN[approval_step]: step 0 project manager (only the project's manager_id), step 1 grants_manager role, step 2 ceo role; admin sees every step.",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:109-114; src/lib/data.ts:371-375"
+    },
+    {
+      "id": "BR-TSK-07",
+      "rule": "Payment task due date = payment.due_date; derived tasks always have status 'todo' and disappear once the underlying item moves on.",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:107,115-117"
+    },
+    {
+      "id": "BR-TSK-08",
+      "rule": "Manual task title is required, 1–200 characters (client and DB CHECK); status ∈ todo, in_progress, done (DB CHECK, default todo).",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:73-74; supabase/migrations/20261004124427_*.sql:6,8"
+    },
+    {
+      "id": "BR-TSK-09",
+      "rule": "A manual task's assignee must have an active persona_membership in the same tenant.",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:75-76"
+    },
+    {
+      "id": "BR-TSK-10",
+      "rule": "A user loads manual tasks of their tenant where they are assignee, creator or meeting attendee.",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:53"
+    },
+    {
+      "id": "BR-TSK-11",
+      "rule": "Scope 'mine' = all derived tasks + manual tasks assigned to me or where I am an attendee; scope 'delegated' = manual tasks I created and assigned to someone else.",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:297"
+    },
+    {
+      "id": "BR-TSK-12",
+      "rule": "Meeting fields (start time, location/link, attendees) are saved only when kind='meeting'; attendees exclude the assignee; the creator is preserved on edit.",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:179,209"
+    },
+    {
+      "id": "BR-TSK-13",
+      "rule": "Kind filter tabs are mutually exclusive: meetings count only under «المواعيد», plain manual tasks under «يدوية»; tabs with zero items are hidden except «الكل» and the active tab.",
+      "evidence": "Observed",
+      "source": "src/components/KindFilterTabs.tsx:14-16; src/routes/tasks.tsx:376"
+    },
+    {
+      "id": "BR-TSK-14",
+      "rule": "A task is overdue when not done and due date < today (UTC date); late text shows days late (minimum 1).",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:76-77,92,129"
+    },
+    {
+      "id": "BR-TSK-15",
+      "rule": "Sort 'due' orders by due date ascending with undated last; 'new' orders by creation date descending (payment tasks use due date as creation date).",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:301; src/lib/tasks.ts:117"
+    },
+    {
+      "id": "BR-TSK-16",
+      "rule": "Return and reject decisions require a reason (≤1000 chars); approval note is optional unless the application is 'risky' — AI recommendation contains «لا يوصى» or AI score < program pass_score (default 80) — then a justification note is mandatory.",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:332,394-418"
+    },
+    {
+      "id": "BR-TSK-17",
+      "rule": "Application tasks offer approve / return / reject (approveStage, returnStage, closeApplication); payment tasks offer approve / reject only, where reject sends the payment back to 'due' at step 0.",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:83,331-347; src/lib/payments.ts:20-34"
+    },
+    {
+      "id": "BR-TSK-18",
+      "rule": "Bulk selection is available only on committee-stage application tasks where the user is the stage's secretary; all selected tasks must share the same stageKey (same committee/stage).",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:308-316"
+    },
+    {
+      "id": "BR-TSK-19",
+      "rule": "Focus queue = all non-meeting tasks, manual ones only when assigned to me, open only, sorted by due date; skipped tasks go to the end; skip is disabled when fewer than 2 tasks remain.",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:359; src/components/FocusMode.tsx:55-58,124"
+    },
+    {
+      "id": "BR-TSK-20",
+      "rule": "In focus mode manual tasks can only be completed (→ done); derived tasks can be approved or returned with a note (note mandatory for return); no reject action.",
+      "evidence": "Observed",
+      "source": "src/components/FocusMode.tsx:122-130"
+    },
+    {
+      "id": "BR-TSK-21",
+      "rule": "The focus timer resets only when the current task changes; paused time is excluded; the session (active, open, task, timer, skipped) persists in localStorage 'focus:session' across navigation and reload.",
+      "evidence": "Observed",
+      "source": "src/lib/focusStore.ts; src/components/FocusMode.tsx:61-67"
+    },
+    {
+      "id": "BR-TSK-22",
+      "rule": "Exit (or Escape) hides the overlay and keeps the session running with a floating pill; «إنهاء وضع التركيز» clears the session.",
+      "evidence": "Observed",
+      "source": "src/components/FocusMode.tsx:49,100-101; src/components/FocusPill.tsx:15"
+    },
+    {
+      "id": "BR-TSK-23",
+      "rule": "Focus mode counts tasks done today per persona per device (localStorage key focus:done:<persona>:<date>) and shows a Riyadh-time clock (fixed UTC+3) with Hijri (Umm al-Qura) and Gregorian dates.",
+      "evidence": "Observed",
+      "source": "src/components/FocusMode.tsx:41,48,81-83"
+    },
+    {
+      "id": "BR-TSK-24",
+      "rule": "Sidebar counts use the same derivation: /tasks = all open tasks in scope 'mine'; /reviewer = open application tasks; /projects and /finance = open payment tasks.",
+      "evidence": "Observed",
+      "source": "src/lib/navCounts.ts:7-20"
+    },
+    {
+      "id": "BR-TSK-25",
+      "rule": "Saved view stores view, kind filter, scope and sort per user (never the search text).",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:279; AGENTS.md"
+    },
+    {
+      "id": "BR-TSK-26",
+      "rule": "Manual status changes are not restricted to the assignee: the update matches on the task's own assigned_to, so any user who sees the task (creator, attendee) can change it or edit it.",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:84-87; src/routes/tasks.tsx:99,141"
+    }
+  ],
+  "issues": [
+    {
+      "id": "ISS-TSK-01",
+      "description": "Focus mode offers «إعادة بملاحظة» on payment tasks, but decide() maps any non-approve decision on payments to approvePayment(false) — a rejection that resets the payment to 'due', step 0. Label misrepresents the action.",
+      "severity": "High",
+      "location": "src/components/FocusMode.tsx:128; src/routes/tasks.tsx:334-336",
+      "recommendation": "Label as «رفض» for payments or implement distinct return semantics."
+    },
+    {
+      "id": "ISS-TSK-02",
+      "description": "Focus-mode approval bypasses the AI-risk mandatory-justification guard enforced in the inbox approval sheet.",
+      "severity": "High",
+      "location": "src/components/FocusMode.tsx:129 vs src/routes/tasks.tsx:408-418",
+      "recommendation": "Move the guard into the shared decide() or service layer (FR-TSK-037)."
+    },
+    {
+      "id": "ISS-TSK-03",
+      "description": "Focus mode has no reject action for applications, unlike the inbox.",
+      "severity": "Low",
+      "location": "src/components/FocusMode.tsx:126-130",
+      "recommendation": "Add reject with mandatory reason or document intentional omission."
+    },
+    {
+      "id": "ISS-TSK-04",
+      "description": "Anyone who can see a manual task (creator, attendee) can edit it and change its status; changeManualTaskStatus does not check the acting user; RLS open.",
+      "severity": "Medium",
+      "location": "src/lib/tasks.ts:84-87; src/routes/tasks.tsx:99,141",
+      "recommendation": "Define edit rights (OQ-TSK-02) and enforce server-side."
+    },
+    {
+      "id": "ISS-TSK-05",
+      "description": "No delete/cancel for manual tasks or meetings.",
+      "severity": "Medium",
+      "location": "src/routes/tasks.tsx:163-215",
+      "recommendation": "Add cancel/delete (FR-TSK-025)."
+    },
+    {
+      "id": "ISS-TSK-06",
+      "description": "When a search matches nothing, the 'no tasks' empty state replaces the whole toolbar including the search box, so the user cannot clear the search (state not saved; only reload helps).",
+      "severity": "Medium",
+      "location": "src/routes/tasks.tsx:297-299,365-369",
+      "recommendation": "Apply empty state only before search/filter; keep toolbar visible."
+    },
+    {
+      "id": "ISS-TSK-07",
+      "description": "Applications, stages and payments are fetched for all tenants and filtered client-side; derivation runs on every page via navCounts — performance and data-exposure risk.",
+      "severity": "Medium",
+      "location": "src/lib/queries.ts:4-90; src/lib/navCounts.ts",
+      "recommendation": "Server-side task query/view scoped by tenant and user."
+    },
+    {
+      "id": "ISS-TSK-08",
+      "description": "Bulk payment decision (bulkDecidePayments) is wired but unreachable because isSecretaryTask returns false for payment tasks; hint text says payments can be selected.",
+      "severity": "Low",
+      "location": "src/routes/tasks.tsx:308-322,388",
+      "recommendation": "Decide whether payment minutes are needed; remove or enable."
+    },
+    {
+      "id": "ISS-TSK-09",
+      "description": "Page meta mentions Kanban and saved view defaults include 'board' and 'source' options that do not exist in the UI.",
+      "severity": "Low",
+      "location": "src/routes/tasks.tsx:54,279",
+      "recommendation": "Remove stale options or implement board/source filter."
+    },
+    {
+      "id": "ISS-TSK-10",
+      "description": "Payment tasks use due_date (or empty) as createdAt, making «الأحدث إضافة» sorting meaningless for payments.",
+      "severity": "Low",
+      "location": "src/lib/tasks.ts:117",
+      "recommendation": "Use the time the payment entered the current step."
+    },
+    {
+      "id": "ISS-TSK-11",
+      "description": "Overdue and calendar 'today' use UTC date (toISOString) while focus clock uses fixed UTC+3; tasks may show wrong overdue state around midnight Riyadh time.",
+      "severity": "Low",
+      "location": "src/routes/tasks.tsx:92,129,234; src/components/FocusMode.tsx:81",
+      "recommendation": "Use Asia/Riyadh consistently."
+    },
+    {
+      "id": "ISS-TSK-12",
+      "description": "For admin/grants manager, derived tasks for stages they do not own are shown with themselves as assignee, hiding the actual responsible supervisors; inflates their counts.",
+      "severity": "Low",
+      "location": "src/lib/tasks.ts:98-107",
+      "recommendation": "Show actual stage owners; separate oversight view."
+    },
+    {
+      "id": "ISS-TSK-13",
+      "description": "No derived tasks for finance (awaiting_transfer) or partner receipts, and reviewers/finance only see what stages assign; finance's «مهامي» may be empty although it owns payment execution.",
+      "severity": "Medium",
+      "location": "src/lib/tasks.ts:109-118",
+      "recommendation": "Add finance tasks (FR-TSK-007)."
+    },
+    {
+      "id": "ISS-TSK-14",
+      "description": "Nav count key '/finance' is computed but no role's sidebar has a /finance item.",
+      "severity": "Low",
+      "location": "src/lib/navCounts.ts:19; src/components/AppShell.tsx:53-62",
+      "recommendation": "Remove or map to an existing item."
+    },
+    {
+      "id": "ISS-TSK-15",
+      "description": "Editor falls back to all tenant personas as colleagues when the memberships query is empty, but saving then fails the active-membership check.",
+      "severity": "Low",
+      "location": "src/routes/tasks.tsx:421; src/lib/tasks.ts:75-76",
+      "recommendation": "Use one source for assignable users."
+    },
+    {
+      "id": "ISS-TSK-16",
+      "description": "Done-today counter and focus time are device-local (localStorage) and not attributable or reportable.",
+      "severity": "Low",
+      "location": "src/components/FocusMode.tsx:41,48,70-75",
+      "recommendation": "Persist server-side if used for performance (OQ-TSK-12)."
+    },
+    {
+      "id": "ISS-TSK-17",
+      "description": "No notifications/reminders for new, overdue or SLA-breaching tasks.",
+      "severity": "Medium",
+      "location": "src/lib/tasks.ts",
+      "recommendation": "Confirm notification requirements (OQ-TSK-07)."
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "OQ-TSK-01",
+      "question": "Should manual tasks/meetings support delete or cancel, comments and attachments?",
+      "related": [
+        "FT-TSK-07",
+        "ISS-TSK-05"
+      ]
+    },
+    {
+      "id": "OQ-TSK-02",
+      "question": "Who may edit a manual task or change its status: creator, assignee, attendees?",
+      "related": [
+        "FT-TSK-05",
+        "ISS-TSK-04"
+      ]
+    },
+    {
+      "id": "OQ-TSK-03",
+      "question": "Should grants managers/admins see all stage tasks as their own, or in a separate oversight view?",
+      "related": [
+        "FT-TSK-01",
+        "ISS-TSK-12"
+      ]
+    },
+    {
+      "id": "OQ-TSK-04",
+      "question": "For payments, are 'return for correction' and 'reject' different outcomes?",
+      "related": [
+        "FT-TSK-08",
+        "ISS-TSK-01"
+      ]
+    },
+    {
+      "id": "OQ-TSK-05",
+      "question": "Is the 3-day default SLA correct, and should SLA be in business days (Saudi weekend/holidays)?",
+      "related": [
+        "FT-TSK-01"
+      ]
+    },
+    {
+      "id": "OQ-TSK-06",
+      "question": "Should focus mode support reject and enforce the AI-risk justification rule?",
+      "related": [
+        "FT-TSK-10",
+        "ISS-TSK-02"
+      ]
+    },
+    {
+      "id": "OQ-TSK-07",
+      "question": "Are email/push notifications or reminders required for new and overdue tasks?",
+      "related": [
+        "ISS-TSK-17"
+      ]
+    },
+    {
+      "id": "OQ-TSK-08",
+      "question": "Which payment steps after approval (transfer, receipt) should create tasks and for whom?",
+      "related": [
+        "FT-TSK-02",
+        "ISS-TSK-13"
+      ]
+    },
+    {
+      "id": "OQ-TSK-09",
+      "question": "Should meetings integrate with external calendars and allow external (partner) attendees?",
+      "related": [
+        "FT-TSK-06"
+      ]
+    },
+    {
+      "id": "OQ-TSK-10",
+      "question": "Should committee minutes also be possible for payment approvals from tasks?",
+      "related": [
+        "FT-TSK-09",
+        "ISS-TSK-08"
+      ]
+    },
+    {
+      "id": "OQ-TSK-11",
+      "question": "Is a Kanban board view required (mentioned in page metadata)?",
+      "related": [
+        "FT-TSK-03",
+        "ISS-TSK-09"
+      ]
+    },
+    {
+      "id": "OQ-TSK-12",
+      "question": "Should focus-mode time and completions be stored for productivity reporting?",
+      "related": [
+        "FT-TSK-11",
+        "ISS-TSK-16"
+      ]
+    }
+  ]
+}

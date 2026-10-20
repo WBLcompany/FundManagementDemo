@@ -995,7 +995,7 @@
       "type": "Reporting",
       "priority": "Should",
       "evidence": "Observed",
-      "source": "src/routes/staff.$id.tsx:20-55",
+      "source": "src/routes/staff.$id.tsx:25-56",
       "acceptance_criteria": [
         "Given 3 status changes and 1 payment approval in last 30 days Then decisions = 4",
         "Given no done tasks Then average shows «—»"
@@ -1011,7 +1011,7 @@
       "type": "UI",
       "priority": "Should",
       "evidence": "Observed",
-      "source": "src/routes/staff.$id.tsx:57-66",
+      "source": "src/routes/staff.$id.tsx:59-66",
       "acceptance_criteria": [
         "Given an open task due yesterday Then its date is red",
         "Given no managed projects Then «لا يشرف على مشاريع.»"
@@ -1027,7 +1027,7 @@
       "type": "UI",
       "priority": "Should",
       "evidence": "Observed",
-      "source": "src/routes/staff.$id.tsx:36-37",
+      "source": "src/routes/staff.$id.tsx:38-39",
       "acceptance_criteria": [
         "Given an invalid id Then the not-found message shows",
         "Given slow load Then skeleton shows"
@@ -1091,7 +1091,7 @@
       "type": "Functional",
       "priority": "Must",
       "evidence": "Observed",
-      "source": "src/components/FormBuilder.tsx:16-24,53-61",
+      "source": "src/components/FormBuilder.tsx:16-24,39-48",
       "acceptance_criteria": [
         "Given type select and options 'أ، ب,ج' When added Then options = [أ,ب,ج]",
         "Given empty label Then nothing is added"
@@ -1107,7 +1107,7 @@
       "type": "Functional",
       "priority": "Must",
       "evidence": "Observed",
-      "source": "src/components/FormBuilder.tsx:25-26,44-50",
+      "source": "src/components/FormBuilder.tsx:25-26,29-37",
       "acceptance_criteria": [
         "Given optional field When switch on Then it shows *",
         "Given field When deleted Then it disappears"
@@ -1235,7 +1235,7 @@
       "type": "UI",
       "priority": "Should",
       "evidence": "Observed",
-      "source": "src/routes/settings.tsx:73-83; src/lib/applicantTypes.ts:4-12",
+      "source": "src/routes/settings.tsx:73-83; src/lib/applicantTypes.ts:7-15",
       "acceptance_criteria": [
         "Given the taxonomies tab Then 6 switches show and no 'جهة حكومية'",
         "Given 'company' Then label «رقم السجل التجاري» shows"
@@ -1251,7 +1251,7 @@
       "type": "Functional",
       "priority": "Should",
       "evidence": "Observed",
-      "source": "src/lib/applicantTypes.ts:16-32; src/routes/register-tenant.tsx:33-34",
+      "source": "src/lib/applicantTypes.ts:17-33; src/routes/register-tenant.tsx:33-34",
       "acceptance_criteria": [
         "Given 'individual' switched off Then registration does not offer 'فرد'",
         "Given switched on again Then it reappears"
@@ -1491,7 +1491,7 @@
       "type": "Data",
       "priority": "Must",
       "evidence": "Observed",
-      "source": "src/lib/configEdits.ts:12-27",
+      "source": "src/lib/configEdits.ts:11-26",
       "acceptance_criteria": [
         "Given commit Then file stored under config/<type>/<id>/ and history row inserted",
         "Given insert failure Then uploaded file removed and error shown"
@@ -2378,7 +2378,7 @@
       "id": "BR-CFG-17",
       "rule": "Applicant types are a fixed list (association, nonprofit, company, individual, endowment, government, other). Government is internal-only (portal=false) and is not switchable; others are open by default and closed per tenant by a taxonomies row of kind 'closed_applicant_type' whose label is the type key.",
       "evidence": "Observed",
-      "source": "src/lib/applicantTypes.ts:4-33"
+      "source": "src/lib/applicantTypes.ts:5-33"
     },
     {
       "id": "BR-CFG-18",
@@ -2432,13 +2432,13 @@
       "id": "BR-CFG-26",
       "rule": "Committing a configuration edit requires an evidence document; it is uploaded to attachments/config/<entity_type>/<entity_id|catalog>/<timestamp>-<sanitized name>, and a config_edit_history row stores before/after snapshots, note and actor. If the history insert fails the uploaded file is removed.",
       "evidence": "Observed",
-      "source": "src/lib/configEdits.ts:12-27"
+      "source": "src/lib/configEdits.ts:11-26"
     },
     {
       "id": "BR-CFG-27",
       "rule": "An edit session with no differences between the entry snapshot and the current state is closed without saving ('لا توجد تغييرات'); cancel restores the entry snapshot.",
       "evidence": "Observed",
-      "source": "src/components/EditSession.tsx:28-38; src/lib/configEdits.ts:29"
+      "source": "src/components/EditSession.tsx:28-38; src/lib/configEdits.ts:28"
     },
     {
       "id": "BR-CFG-28",
@@ -2456,7 +2456,7 @@
       "id": "BR-CFG-30",
       "rule": "Staff KPIs: decisions in last 30 days = application_status_history rows changed_by the person + payment_approvals by the person; completed tasks = manual tasks done; average completion = mean(updated_at − created_at) of done manual tasks in days; open tasks = manual tasks not done; overdue due dates shown in red.",
       "evidence": "Observed",
-      "source": "src/routes/staff.$id.tsx:20-38,46-47"
+      "source": "src/routes/staff.$id.tsx:25-52,60"
     },
     {
       "id": "BR-CFG-31",
@@ -2586,7 +2586,7 @@
       "id": "ISS-CFG-15",
       "description": "Staff profile is not tenant-scoped and shows personas.role, not membership role.",
       "severity": "Low",
-      "location": "src/routes/staff.$id.tsx:20-29,52",
+      "location": "src/routes/staff.$id.tsx:25-35,54",
       "recommendation": "Scope by tenant; use membership role."
     },
     {
