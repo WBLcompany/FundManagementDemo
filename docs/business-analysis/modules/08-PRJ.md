@@ -1827,7 +1827,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 
 ## 12. User Stories
 
-### US-PRJ-001 — US-PRJ-001
+### US-PRJ-001 — The AI agent to propose a bill of quantities and payment schedule for an application
 - **Parent Epic:** EP-PRJ-01 · **Parent Feature:** FT-PRJ-01
 - **User Role:** Grants manager
 - **Story:** As a grants manager I want the AI agent to propose a bill of quantities and payment schedule for an application so that I start from a costed breakdown instead of a blank table.
@@ -1859,7 +1859,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** —
 
-### US-PRJ-002 — edit and save the BOQ and payment schedule with automatic consistency checks
+### US-PRJ-002 — Edit and save the BOQ and payment schedule with automatic consistency checks
 - **Parent Epic:** EP-PRJ-01 · **Parent Feature:** FT-PRJ-01
 - **User Role:** Grants manager
 - **Story:** As a grants manager I want to edit and save the BOQ and payment schedule with automatic consistency checks so that the approved budget and payment percentages are correct before contracting.
@@ -1892,7 +1892,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** —
 
-### US-PRJ-003 — approve the contract and transfer an approved application into a project
+### US-PRJ-003 — Approve the contract and transfer an approved application into a project
 - **Parent Epic:** EP-PRJ-01 · **Parent Feature:** FT-PRJ-02
 - **User Role:** Grants manager
 - **Story:** As a grants manager I want to approve the contract and transfer an approved application into a project so that execution and payments can be managed.
@@ -1926,7 +1926,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PRJ-04, OQ-PRJ-10
 
-### US-PRJ-004 — split an application's BOQ items into several projects under one contract
+### US-PRJ-004 — Split an application's BOQ items into several projects under one contract
 - **Parent Epic:** EP-PRJ-01 · **Parent Feature:** FT-PRJ-02
 - **User Role:** Grants manager
 - **Story:** As a grants manager I want to split an application's BOQ items into several projects under one contract so that distinct deliverables are planned, executed and paid separately.
@@ -1959,7 +1959,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PRJ-03
 
-### US-PRJ-005 — US-PRJ-005
+### US-PRJ-005 — Indicator links, initiative allocations and co-funding agreed at application stage to carry over to the project, atomically,
 - **Parent Epic:** EP-PRJ-01 · **Parent Feature:** FT-PRJ-02
 - **User Role:** Grants manager
 - **Story:** As a grants manager I want indicator links, initiative allocations and co-funding agreed at application stage to carry over to the project, atomically, so that commitments are not lost or duplicated.
@@ -1990,7 +1990,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PRJ-03
 
-### US-PRJ-006 — advance a contract through its preparation and signature steps
+### US-PRJ-006 — Advance a contract through its preparation and signature steps
 - **Parent Epic:** EP-PRJ-01 · **Parent Feature:** FT-PRJ-03
 - **User Role:** Grants manager
 - **Story:** As a grants manager I want to advance a contract through its preparation and signature steps so that the project can start only once the contract is signed.
@@ -2022,7 +2022,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PRJ-05, OQ-PRJ-01
 
-### US-PRJ-007 — US-PRJ-007
+### US-PRJ-007 — A contracts register and a contract card on the application
 - **Parent Epic:** EP-PRJ-01 · **Parent Feature:** FT-PRJ-03
 - **User Role:** Grants manager
 - **Story:** As a grants manager I want a contracts register and a contract card on the application so that I can see every contract's status and the projects split from it.
@@ -2054,7 +2054,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Should
 - **Open Questions:** —
 
-### US-PRJ-008 — view and print the grant contract generated from current data
+### US-PRJ-008 — View and print the grant contract generated from current data
 - **Parent Epic:** EP-PRJ-01 · **Parent Feature:** FT-PRJ-04
 - **User Role:** Grants manager / Partner
 - **Story:** As a grants manager or partner I want to view and print the grant contract generated from current data so that both parties have a contract document without manual drafting.
@@ -2086,7 +2086,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Should
 - **Open Questions:** OQ-PRJ-05
 
-### US-PRJ-009 — browse, filter and export the project portfolio
+### US-PRJ-009 — Browse, filter and export the project portfolio
 - **Parent Epic:** EP-PRJ-02 · **Parent Feature:** FT-PRJ-05
 - **User Role:** Grants manager / CEO
 - **Story:** As a grants manager I want to browse, filter and export the project portfolio so that I can monitor execution across grants and initiatives.
@@ -2119,7 +2119,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PRJ-07
 
-### US-PRJ-010 — create an internal initiative linked to a plan item
+### US-PRJ-010 — Create an internal initiative linked to a plan item
 - **Parent Epic:** EP-PRJ-02 · **Parent Feature:** FT-PRJ-06
 - **User Role:** Grants manager
 - **Story:** As a grants manager I want to create an internal initiative linked to a plan item so that grantor-run work is tracked like grant projects.
@@ -2151,7 +2151,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Should
 - **Open Questions:** OQ-PRJ-11
 
-### US-PRJ-011 — US-PRJ-011
+### US-PRJ-011 — AI to prefill the initiative form from a short description
 - **Parent Epic:** EP-PRJ-02 · **Parent Feature:** FT-PRJ-06
 - **User Role:** Grants manager
 - **Story:** As a grants manager I want AI to prefill the initiative form from a short description so that I create initiatives faster while keeping control of the values.
@@ -2183,7 +2183,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Could
 - **Open Questions:** —
 
-### US-PRJ-012 — US-PRJ-012
+### US-PRJ-012 — A project overview showing status, contract, partner, progress and finance
 - **Parent Epic:** EP-PRJ-02 · **Parent Feature:** FT-PRJ-07
 - **User Role:** Project manager
 - **Story:** As a project manager I want a project overview showing status, contract, partner, progress and finance so that I understand the project at a glance.
@@ -2214,7 +2214,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** —
 
-### US-PRJ-013 — open my project from the portal in a partner view
+### US-PRJ-013 — Open my project from the portal in a partner view
 - **Parent Epic:** EP-PRJ-02 · **Parent Feature:** FT-PRJ-07
 - **User Role:** Partner (applicant)
 - **Story:** As a partner I want to open my project from the portal in a partner view so that I can execute my tasks without seeing grantor controls.
@@ -2245,7 +2245,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PRJ-01
 
-### US-PRJ-014 — US-PRJ-014
+### US-PRJ-014 — AI to build the project plan from the application and grantor policies
 - **Parent Epic:** EP-PRJ-03 · **Parent Feature:** FT-PRJ-08
 - **User Role:** Project manager
 - **Story:** As a project manager I want AI to build the project plan from the application and grantor policies so that a sequenced, evidence-based plan with payments is ready quickly.
@@ -2278,7 +2278,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PRJ-04, OQ-PRJ-08
 
-### US-PRJ-015 — US-PRJ-015
+### US-PRJ-015 — A sequential timeline with locked future phases, dependency hints and item filters
 - **Parent Epic:** EP-PRJ-03 · **Parent Feature:** FT-PRJ-08
 - **User Role:** Project manager / Partner
 - **Story:** As a project manager or partner I want a sequential timeline with locked future phases, dependency hints and item filters so that everyone knows what is current and what comes next.
@@ -2309,7 +2309,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Should
 - **Open Questions:** —
 
-### US-PRJ-016 — distribute each quantitative indicator over plan activities during planning
+### US-PRJ-016 — Distribute each quantitative indicator over plan activities during planning
 - **Parent Epic:** EP-PRJ-03 · **Parent Feature:** FT-PRJ-09
 - **User Role:** Project manager
 - **Story:** As a project manager I want to distribute each quantitative indicator over plan activities during planning so that achievement is measured by accepted evidence.
@@ -2341,7 +2341,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PRJ-03
 
-### US-PRJ-017 — approve the plan and start execution only when the plan, signed contract and full indicator spread are in place
+### US-PRJ-017 — Approve the plan and start execution only when the plan, signed contract and full indicator spread are in place
 - **Parent Epic:** EP-PRJ-03 · **Parent Feature:** FT-PRJ-10
 - **User Role:** Project manager
 - **Story:** As a project manager I want to approve the plan and start execution only when the plan, signed contract and full indicator spread are in place so that partners do not execute or get paid prematurely.
@@ -2373,7 +2373,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PRJ-01, OQ-PRJ-10
 
-### US-PRJ-018 — upload evidence for each required document and mark my task complete
+### US-PRJ-018 — Upload evidence for each required document and mark my task complete
 - **Parent Epic:** EP-PRJ-04 · **Parent Feature:** FT-PRJ-11
 - **User Role:** Partner (applicant)
 - **Story:** As a partner I want to upload evidence for each required document and mark my task complete so that the grantor can verify and approve my work.
@@ -2406,7 +2406,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PRJ-09
 
-### US-PRJ-019 — US-PRJ-019
+### US-PRJ-019 — An AI pre-check of submitted evidence with ready-to-send notes
 - **Parent Epic:** EP-PRJ-04 · **Parent Feature:** FT-PRJ-11
 - **User Role:** Project manager
 - **Story:** As a project manager I want an AI pre-check of submitted evidence with ready-to-send notes so that I review documents faster while keeping the final decision.
@@ -2437,7 +2437,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Should
 - **Open Questions:** —
 
-### US-PRJ-020 — approve, return with notes or revoke approval of partner tasks
+### US-PRJ-020 — Approve, return with notes or revoke approval of partner tasks
 - **Parent Epic:** EP-PRJ-04 · **Parent Feature:** FT-PRJ-11
 - **User Role:** Project manager
 - **Story:** As a project manager I want to approve, return with notes or revoke approval of partner tasks so that only verified work counts toward progress and payments.
@@ -2467,7 +2467,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PRJ-01
 
-### US-PRJ-021 — submit a report for each phase
+### US-PRJ-021 — Submit a report for each phase
 - **Parent Epic:** EP-PRJ-04 · **Parent Feature:** FT-PRJ-12
 - **User Role:** Partner (applicant)
 - **Story:** As a partner I want to submit a report for each phase so that the grantor can approve the milestone and release the payment.
@@ -2499,7 +2499,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** —
 
-### US-PRJ-022 — approve or return phase reports
+### US-PRJ-022 — Approve or return phase reports
 - **Parent Epic:** EP-PRJ-04 · **Parent Feature:** FT-PRJ-12
 - **User Role:** Project manager
 - **Story:** As a project manager I want to approve or return phase reports so that each payment is backed by an approved progress report.
@@ -2529,7 +2529,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** —
 
-### US-PRJ-023 — approve a whole milestone in one click
+### US-PRJ-023 — Approve a whole milestone in one click
 - **Parent Epic:** EP-PRJ-04 · **Parent Feature:** FT-PRJ-12
 - **User Role:** Project manager
 - **Story:** As a project manager I want to approve a whole milestone in one click so that the phase is closed and its payment becomes due for the finance chain.
@@ -2561,7 +2561,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PRJ-08
 
-### US-PRJ-024 — US-PRJ-024
+### US-PRJ-024 — Projects with overdue unapproved tasks shown as stalled
 - **Parent Epic:** EP-PRJ-04 · **Parent Feature:** FT-PRJ-13
 - **User Role:** Grants manager
 - **Story:** As a grants manager I want projects with overdue unapproved tasks shown as stalled so that I can intervene early.
@@ -2592,7 +2592,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Should
 - **Open Questions:** OQ-PRJ-07
 
-### US-PRJ-025 — request an AI-assisted re-plan of the remaining work with a reason and supporting document
+### US-PRJ-025 — Request an AI-assisted re-plan of the remaining work with a reason and supporting document
 - **Parent Epic:** EP-PRJ-05 · **Parent Feature:** FT-PRJ-14
 - **User Role:** Project manager
 - **Story:** As a project manager I want to request an AI-assisted re-plan of the remaining work with a reason and supporting document so that the plan reflects reality without altering completed or paid items.
@@ -2626,7 +2626,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PRJ-12
 
-### US-PRJ-026 — approve or reject a pending re-plan with a note
+### US-PRJ-026 — Approve or reject a pending re-plan with a note
 - **Parent Epic:** EP-PRJ-05 · **Parent Feature:** FT-PRJ-14
 - **User Role:** Grants manager (approver)
 - **Story:** As an approver different from the requester I want to approve or reject a pending re-plan with a note so that plan changes follow four-eyes control.
@@ -2658,7 +2658,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PRJ-02
 
-### US-PRJ-027 — see the history of plan revisions with their diffs
+### US-PRJ-027 — See the history of plan revisions with their diffs
 - **Parent Epic:** EP-PRJ-05 · **Parent Feature:** FT-PRJ-14
 - **User Role:** Grants manager
 - **Story:** As a grants manager I want to see the history of plan revisions with their diffs so that plan changes are auditable.
@@ -2689,7 +2689,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Should
 - **Open Questions:** —
 
-### US-PRJ-028 — record a final evaluation and approve the project closure once all milestones are approved
+### US-PRJ-028 — Record a final evaluation and approve the project closure once all milestones are approved
 - **Parent Epic:** EP-PRJ-06 · **Parent Feature:** FT-PRJ-15
 - **User Role:** Project manager
 - **Story:** As a project manager I want to record a final evaluation and approve the project closure once all milestones are approved so that the project is formally completed.
@@ -2721,7 +2721,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PRJ-06
 
-### US-PRJ-029 — confirm milestone (كلي) indicators at closure
+### US-PRJ-029 — Confirm milestone (كلي) indicators at closure
 - **Parent Epic:** EP-PRJ-06 · **Parent Feature:** FT-PRJ-15
 - **User Role:** Project manager
 - **Story:** As a project manager I want to confirm milestone (كلي) indicators at closure so that non-quantitative outcomes are recorded.
@@ -2751,7 +2751,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Should
 - **Open Questions:** OQ-PRJ-06
 
-### US-PRJ-030 — US-PRJ-030
+### US-PRJ-030 — Indicator achievement to update automatically from accepted evidence and roll up to plan items
 - **Parent Epic:** EP-PRJ-06 · **Parent Feature:** FT-PRJ-16
 - **User Role:** CEO / Grants manager
 - **Story:** As a CEO I want indicator achievement to update automatically from accepted evidence and roll up to plan items so that I can report outcomes against targets.
@@ -2782,7 +2782,7 @@ Relationships / notes: See module FIN for statuses beyond 'due'.
 - **Suggested Priority:** Should
 - **Open Questions:** OQ-PRJ-09
 
-### US-PRJ-031 — US-PRJ-031
+### US-PRJ-031 — Project items awaiting my action to appear in my task inbox
 - **Parent Epic:** EP-PRJ-04 · **Parent Feature:** FT-PRJ-11
 - **User Role:** Project manager / Partner
 - **Story:** As a project manager or partner I want project items awaiting my action to appear in my task inbox so that nothing waits unnoticed.

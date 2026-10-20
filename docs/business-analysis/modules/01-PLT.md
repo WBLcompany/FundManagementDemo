@@ -2071,7 +2071,7 @@ Non-database state. [Observed] (migrations / types.ts).
 
 ## 12. User Stories
 
-### US-PLT-001 — US-PLT-001
+### US-PLT-001 — The platform to establish my authenticated session before showing data
 
 - **Parent Epic:** EP-PLT-01 · **Parent Feature:** FT-PLT-01 · **User Role:** Any user
 - **Story:** As any user, I want the platform to establish my authenticated session before showing data so that records are never readable anonymously.
@@ -2105,7 +2105,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PLT-01
 
-### US-PLT-002 — sign in from a login page
+### US-PLT-002 — Sign in from a login page
 
 - **Parent Epic:** EP-PLT-01 · **Parent Feature:** FT-PLT-01 · **User Role:** Staff user / partner user
 - **Story:** As a returning user, I want to sign in from a login page so that I reach my workspace.
@@ -2138,7 +2138,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PLT-01
 
-### US-PLT-003 — US-PLT-003
+### US-PLT-003 — Each person to sign in with individual credentials and no demo shortcuts in production
 
 - **Parent Epic:** EP-PLT-01 · **Parent Feature:** FT-PLT-17 · **User Role:** Platform administrator
 - **Story:** As a platform administrator, I want each person to sign in with individual credentials and no demo shortcuts in production so that every action is attributable.
@@ -2171,7 +2171,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PLT-01, OQ-PLT-02, OQ-PLT-03
 
-### US-PLT-004 — US-PLT-004
+### US-PLT-004 — Data access enforced by tenant and role on the server
 
 - **Parent Epic:** EP-PLT-01 · **Parent Feature:** FT-PLT-17 · **User Role:** Tenant administrator
 - **Story:** As a tenant administrator, I want data access enforced by tenant and role on the server so that users cannot see or change data outside their remit.
@@ -2204,7 +2204,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PLT-04
 
-### US-PLT-005 — switch between personas
+### US-PLT-005 — Switch between personas
 
 - **Parent Epic:** EP-PLT-01 · **Parent Feature:** FT-PLT-02 · **User Role:** Demo presenter
 - **Story:** As a demo presenter, I want to switch between personas so that I can show each role's experience from one browser.
@@ -2237,7 +2237,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PLT-03
 
-### US-PLT-006 — US-PLT-006
+### US-PLT-006 — A sidebar showing only my role's sections with pending-work badges
 
 - **Parent Epic:** EP-PLT-03 · **Parent Feature:** FT-PLT-03 · **User Role:** Staff user (any staff role)
 - **Story:** As a staff user, I want a sidebar showing only my role's sections with pending-work badges so that I can go straight to my work.
@@ -2270,7 +2270,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PLT-13
 
-### US-PLT-007 — US-PLT-007
+### US-PLT-007 — A layout suited to my context (header-only portal layout; navigation drawer on phones)
 
 - **Parent Epic:** EP-PLT-03 · **Parent Feature:** FT-PLT-03 · **User Role:** Applicant / mobile user
 - **Story:** As an applicant or mobile user, I want a layout suited to my context (header-only portal layout; navigation drawer on phones) so that the interface stays usable.
@@ -2302,7 +2302,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Should
 - **Open Questions:** —
 
-### US-PLT-008 — US-PLT-008
+### US-PLT-008 — Platform-level pages and settings tabs hidden from tenant users
 
 - **Parent Epic:** EP-PLT-03 · **Parent Feature:** FT-PLT-03 · **User Role:** Platform administrator
 - **Story:** As a platform administrator, I want platform-level pages and settings tabs hidden from tenant users so that tenant staff only manage their own organization.
@@ -2334,7 +2334,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PLT-04
 
-### US-PLT-009 — see the platform's purpose and currently active grant programs
+### US-PLT-009 — See the platform's purpose and currently active grant programs
 
 - **Parent Epic:** EP-PLT-02 · **Parent Feature:** FT-PLT-04 · **User Role:** Public visitor
 - **Story:** As a prospective applicant, I want to see the platform's purpose and currently active grant programs so that I can decide to apply or register.
@@ -2367,7 +2367,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Should
 - **Open Questions:** OQ-PLT-07
 
-### US-PLT-010 — choose my entity type and check my license/ID
+### US-PLT-010 — Choose my entity type and check my license/ID
 
 - **Parent Epic:** EP-PLT-02 · **Parent Feature:** FT-PLT-05 · **User Role:** Partner representative
 - **Story:** As a partner representative, I want to choose my entity type and check my license/ID so that I know whether my entity is already registered.
@@ -2400,7 +2400,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PLT-08
 
-### US-PLT-011 — US-PLT-011
+### US-PLT-011 — The form prefilled from the official registry and to submit it for review
 
 - **Parent Epic:** EP-PLT-02 · **Parent Feature:** FT-PLT-05 · **User Role:** Partner representative
 - **Story:** As a representative of a new entity, I want the form prefilled from the official registry and to submit it for review so that registration is fast and accurate.
@@ -2433,7 +2433,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PLT-08, OQ-PLT-12
 
-### US-PLT-012 — confirm my email and mobile numbers with a one-time code
+### US-PLT-012 — Confirm my email and mobile numbers with a one-time code
 
 - **Parent Epic:** EP-PLT-02 · **Parent Feature:** FT-PLT-05 · **User Role:** Partner representative
 - **Story:** As a partner representative, I want to confirm my email and mobile numbers with a one-time code so that the platform can trust the contact channels.
@@ -2466,7 +2466,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PLT-08
 
-### US-PLT-013 — prove my affiliation through the current delegate
+### US-PLT-013 — Prove my affiliation through the current delegate
 
 - **Parent Epic:** EP-PLT-02 · **Parent Feature:** FT-PLT-06 · **User Role:** Staff member of a registered partner
 - **Story:** As an employee of an already-registered entity, I want to prove my affiliation through the current delegate so that I can join my organization's team.
@@ -2499,7 +2499,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Should
 - **Open Questions:** OQ-PLT-08
 
-### US-PLT-014 — request a change of delegate
+### US-PLT-014 — Request a change of delegate
 
 - **Parent Epic:** EP-PLT-02 · **Parent Feature:** FT-PLT-06 · **User Role:** Staff member of a registered partner
 - **Story:** As a member of a registered entity, I want to request a change of delegate so that the organization's authorised contact stays current.
@@ -2532,7 +2532,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Should
 - **Open Questions:** OQ-PLT-08
 
-### US-PLT-015 — open my invitation link and go straight to the application
+### US-PLT-015 — Open my invitation link and go straight to the application
 
 - **Parent Epic:** EP-PLT-02 · **Parent Feature:** FT-PLT-07 · **User Role:** Invited partner
 - **Story:** As an invited partner, I want to open my invitation link and go straight to the application so that I can respond to the opportunity quickly.
@@ -2565,7 +2565,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Should
 - **Open Questions:** OQ-PLT-09
 
-### US-PLT-016 — activate it from the invitation
+### US-PLT-016 — Activate it from the invitation
 
 - **Parent Epic:** EP-PLT-02 · **Parent Feature:** FT-PLT-07 · **User Role:** Invited partner (inactive account)
 - **Story:** As an invited partner whose account is not yet active, I want to activate it from the invitation so that I can apply without a separate registration.
@@ -2598,7 +2598,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Should
 - **Open Questions:** OQ-PLT-09
 
-### US-PLT-017 — decline an invitation
+### US-PLT-017 — Decline an invitation
 
 - **Parent Epic:** EP-PLT-02 · **Parent Feature:** FT-PLT-07 · **User Role:** Invited partner
 - **Story:** As an invited partner, I want to decline an invitation so that the donor knows we will not apply.
@@ -2630,7 +2630,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Should
 - **Open Questions:** —
 
-### US-PLT-018 — search across partners, applications, projects, payments, programs, plans and colleagues f
+### US-PLT-018 — Search across partners, applications, projects, payments, programs, plans and colleagues from anywhe
 
 - **Parent Epic:** EP-PLT-03 · **Parent Feature:** FT-PLT-08 · **User Role:** Staff user
 - **Story:** As a staff user, I want to search across partners, applications, projects, payments, programs, plans and colleagues from anywhere so that I can open any record quickly.
@@ -2664,7 +2664,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Should
 - **Open Questions:** OQ-PLT-05
 
-### US-PLT-019 — US-PLT-019
+### US-PLT-019 — Search to return only records and pages the user is entitled to
 
 - **Parent Epic:** EP-PLT-03 · **Parent Feature:** FT-PLT-08 · **User Role:** Applicant / staff user
 - **Story:** As a data owner, I want search to return only records and pages the user is entitled to so that confidential partner data is not exposed.
@@ -2696,7 +2696,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PLT-05
 
-### US-PLT-020 — choose light/dark mode and a colour palette
+### US-PLT-020 — Choose light/dark mode and a colour palette
 
 - **Parent Epic:** EP-PLT-03 · **Parent Feature:** FT-PLT-09 · **User Role:** Any user
 - **Story:** As a user, I want to choose light/dark mode and a colour palette so that the interface is comfortable for me.
@@ -2729,7 +2729,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Could
 - **Open Questions:** OQ-PLT-10
 
-### US-PLT-021 — US-PLT-021
+### US-PLT-021 — A right-to-left interface with Western digits everywhere
 
 - **Parent Epic:** EP-PLT-03 · **Parent Feature:** FT-PLT-09 · **User Role:** Any user
 - **Story:** As an Arabic-speaking user, I want a right-to-left interface with Western digits everywhere so that reading figures is consistent.
@@ -2762,7 +2762,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Must
 - **Open Questions:** —
 
-### US-PLT-022 — ask the Copilot questions about programs, applications, partners, projects, payments, plan
+### US-PLT-022 — Ask the Copilot questions about programs, applications, partners, projects, payments, plans and task
 
 - **Parent Epic:** EP-PLT-04 · **Parent Feature:** FT-PLT-10 · **User Role:** Grants staff (admin, grants manager, reviewer, secretary, PM, finance, CEO)
 - **Story:** As a grants staff member, I want to ask the Copilot questions about programs, applications, partners, projects, payments, plans and tasks in Arabic so that I get answers from live data without building reports.
@@ -2797,7 +2797,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Should
 - **Open Questions:** OQ-PLT-06
 
-### US-PLT-023 — US-PLT-023
+### US-PLT-023 — The Copilot to propose actions as links I confirm on the real page
 
 - **Parent Epic:** EP-PLT-04 · **Parent Feature:** FT-PLT-10 · **User Role:** Grants staff
 - **Story:** As a grants staff member, I want the Copilot to propose actions as links I confirm on the real page so that no change happens without my explicit approval and evidence.
@@ -2830,7 +2830,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Should
 - **Open Questions:** OQ-PLT-06
 
-### US-PLT-024 — US-PLT-024
+### US-PLT-024 — A contextual guide that tells me who holds the pending action and lets me switch to that persona
 
 - **Parent Epic:** EP-PLT-05 · **Parent Feature:** FT-PLT-11 · **User Role:** Demo presenter
 - **Story:** As a demo presenter, I want a contextual guide that tells me who holds the pending action and lets me switch to that persona so that I can narrate the end-to-end flow.
@@ -2863,7 +2863,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Could
 - **Open Questions:** OQ-PLT-11
 
-### US-PLT-025 — advance, undo or reset a scripted scenario on the demo project
+### US-PLT-025 — Advance, undo or reset a scripted scenario on the demo project
 
 - **Parent Epic:** EP-PLT-05 · **Parent Feature:** FT-PLT-12 · **User Role:** Demo presenter
 - **Story:** As a demo presenter, I want to advance, undo or reset a scripted scenario on the demo project so that I can replay the milestone-to-receipt flow reliably.
@@ -2896,7 +2896,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Won't
 - **Open Questions:** OQ-PLT-11
 
-### US-PLT-026 — present the agenda and sessions from inside the platform
+### US-PLT-026 — Present the agenda and sessions from inside the platform
 
 - **Parent Epic:** EP-PLT-05 · **Parent Feature:** FT-PLT-13 · **User Role:** Platform admin (workshop facilitator)
 - **Story:** As a workshop facilitator, I want to present the agenda and sessions from inside the platform so that I can switch between slides and live screens.
@@ -2929,7 +2929,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Could
 - **Open Questions:** OQ-PLT-11
 
-### US-PLT-027 — capture notes per session and see them consolidated
+### US-PLT-027 — Capture notes per session and see them consolidated
 
 - **Parent Epic:** EP-PLT-05 · **Parent Feature:** FT-PLT-13 · **User Role:** Platform admin (workshop facilitator)
 - **Story:** As a workshop facilitator, I want to capture notes per session and see them consolidated so that workshop outcomes are not lost.
@@ -2962,7 +2962,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Could
 - **Open Questions:** OQ-PLT-11
 
-### US-PLT-028 — US-PLT-028
+### US-PLT-028 — Lists with search, secondary filters, KPI-card filters, column selection, paging and Excel/CSV expor
 
 - **Parent Epic:** EP-PLT-06 · **Parent Feature:** FT-PLT-14 · **User Role:** Staff user
 - **Story:** As a staff user, I want lists with search, secondary filters, KPI-card filters, column selection, paging and Excel/CSV export so that I can analyse and share data consistently across modules.
@@ -2996,7 +2996,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Must
 - **Open Questions:** OQ-PLT-14
 
-### US-PLT-029 — pin my preferred columns, page size and filters as my default view
+### US-PLT-029 — Pin my preferred columns, page size and filters as my default view
 
 - **Parent Epic:** EP-PLT-06 · **Parent Feature:** FT-PLT-14 · **User Role:** Staff user
 - **Story:** As a staff user, I want to pin my preferred columns, page size and filters as my default view so that lists open the way I work.
@@ -3029,7 +3029,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Should
 - **Open Questions:** —
 
-### US-PLT-030 — US-PLT-030
+### US-PLT-030 — Clear loading, not-found and error states with retry
 
 - **Parent Epic:** EP-PLT-06 · **Parent Feature:** FT-PLT-15 · **User Role:** Any user
 - **Story:** As a user, I want clear loading, not-found and error states with retry so that I always know what is happening.
@@ -3062,7 +3062,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Must
 - **Open Questions:** —
 
-### US-PLT-031 — US-PLT-031
+### US-PLT-031 — Complex actions and long forms broken into short guided steps
 
 - **Parent Epic:** EP-PLT-06 · **Parent Feature:** FT-PLT-16 · **User Role:** Staff user
 - **Story:** As a staff user, I want complex actions and long forms broken into short guided steps so that I can complete them without errors.
@@ -3095,7 +3095,7 @@ Non-database state. [Observed] (migrations / types.ts).
 - **Suggested Priority:** Should
 - **Open Questions:** —
 
-### US-PLT-032 — US-PLT-032
+### US-PLT-032 — Inline explanations of domain concepts and grouped section tabs
 
 - **Parent Epic:** EP-PLT-06 · **Parent Feature:** FT-PLT-16 · **User Role:** New staff user
 - **Story:** As a new staff user, I want inline explanations of domain concepts and grouped section tabs so that I understand where I am and what terms mean.

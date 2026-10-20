@@ -1,0 +1,2511 @@
+{
+  "module": {
+    "code": "FIN",
+    "name": "Finance, Payments, Reporting & Analytics"
+  },
+  "screens": [
+    {
+      "id": "SCR-FIN-01",
+      "name": "Project Payments register (دفعات المشاريع / الإدارة المالية)",
+      "route": "/finance (src/routes/finance.tsx)",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-FIN-02",
+      "name": "Payment Actions panel (إجراء الدفعة) — embedded",
+      "route": "components/PaymentActions.tsx (in /finance, /projects/$id ProjectTree)",
+      "roles": [
+        "project_manager",
+        "grants_manager",
+        "ceo",
+        "finance",
+        "admin",
+        "applicant"
+      ]
+    },
+    {
+      "id": "SCR-FIN-03",
+      "name": "Payment approval dialog (اعتماد صرف دفعة)",
+      "route": "SmartFlow dialog in components/PaymentActions.tsx",
+      "roles": [
+        "project_manager",
+        "grants_manager",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-FIN-04",
+      "name": "Disbursement Order dialog (إقرار / إذن صرف دفعة) incl. Payee editor",
+      "route": "components/DisbursementOrder.tsx",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-FIN-05",
+      "name": "Indicators dashboard (البيانات والتقارير — المؤشرات)",
+      "route": "/analytics (src/routes/analytics.tsx)",
+      "roles": [
+        "reviewer",
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin",
+        "committee_secretary"
+      ]
+    },
+    {
+      "id": "SCR-FIN-06",
+      "name": "Detailed reports center (التقارير التفصيلية)",
+      "route": "/reports (src/routes/reports.tsx)",
+      "roles": [
+        "reviewer",
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-FIN-07",
+      "name": "Monthly commitments widget (الالتزامات الشهرية: المخطط مقابل المصروف) — embedded",
+      "route": "components/CommitmentsChart.tsx (in /beneficiaries/$id)",
+      "roles": [
+        "reviewer",
+        "grants_manager",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-FIN-08",
+      "name": "Money split widget (FinanceBreakdown / FinanceLegend) — embedded",
+      "route": "components/FinanceBreakdown.tsx (in /plans/$id, /plans/$id/summary, /projects/$id)",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "project_manager",
+        "admin",
+        "applicant"
+      ]
+    }
+  ],
+  "epics": [
+    {
+      "id": "EP-FIN-01",
+      "name": "Payment Lifecycle & Approval",
+      "description": "Preparing project payments and taking them through the three-level approval chain (project manager, grants manager, CEO) with an auditable decision trail."
+    },
+    {
+      "id": "EP-FIN-02",
+      "name": "Disbursement & Settlement",
+      "description": "Issuing the disbursement order after final approval, choosing the payee (partner or third party), recording the bank transfer with its notice file and closing the payment with the partner's receipt voucher."
+    },
+    {
+      "id": "EP-FIN-03",
+      "name": "Financial Monitoring",
+      "description": "Operational follow-up of payments (register, status cards, overdue tracking) and consistent money splits (available / pending / approved / due / paid) and commitments per partner."
+    },
+    {
+      "id": "EP-FIN-04",
+      "name": "Reporting & Analytics",
+      "description": "Executive indicators dashboard and ready-made, exportable/printable reports on plan execution, applications, tasks, projects/payments and partners."
+    }
+  ],
+  "features": [
+    {
+      "id": "FT-FIN-01",
+      "epic": "EP-FIN-03",
+      "name": "Payment register & status tracking",
+      "description": "Single list of all project payments with status cards (amount sums), card/status filtering, due-date band, 'waiting on' actor, row-level next action and CSV export.",
+      "roles": [
+        "finance",
+        "grants_manager",
+        "project_manager",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-FIN-01",
+        "SCR-FIN-02"
+      ],
+      "requirements": [
+        "FR-FIN-001",
+        "FR-FIN-002",
+        "FR-FIN-003",
+        "FR-FIN-004",
+        "FR-FIN-005",
+        "FR-FIN-006",
+        "FR-FIN-007"
+      ],
+      "stories": [
+        "US-FIN-001",
+        "US-FIN-002"
+      ],
+      "rules": [
+        "BR-FIN-01",
+        "BR-FIN-20",
+        "BR-FIN-21"
+      ],
+      "dependencies": [
+        "PRJ (payments are created by project/contract flows)",
+        "PLT (saved views, SectionTabs, navigation counts)"
+      ],
+      "acceptance_criteria": [
+        "Register lists every payment ordered by due date with ref, project, partner, title, amount, due date + band, status, waiting-on and action.",
+        "Clicking a status card filters the list to that card's statuses; clicking again clears it.",
+        "Export produces a CSV of exactly the rows currently shown with 11 columns."
+      ],
+      "open_questions": [
+        "OQ-FIN-06",
+        "OQ-FIN-11"
+      ]
+    },
+    {
+      "id": "FT-FIN-02",
+      "epic": "EP-FIN-01",
+      "name": "Payment preparation (new → due → submitted for approval)",
+      "description": "Payments are generated from the contract payment schedule (or project plan phases) as 'new'; they become 'due' manually or automatically when the linked milestone is approved, then are submitted into the approval chain.",
+      "roles": [
+        "project_manager",
+        "grants_manager",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-FIN-01",
+        "SCR-FIN-02"
+      ],
+      "requirements": [
+        "FR-FIN-008",
+        "FR-FIN-009",
+        "FR-FIN-010",
+        "FR-FIN-011",
+        "FR-FIN-012"
+      ],
+      "stories": [
+        "US-FIN-003",
+        "US-FIN-004"
+      ],
+      "rules": [
+        "BR-FIN-16",
+        "BR-FIN-17",
+        "BR-FIN-18"
+      ],
+      "dependencies": [
+        "PRJ (transferApplication, ProjectTree milestones, projectPlan replanning)"
+      ],
+      "acceptance_criteria": [
+        "A 'new' payment shows 'تعيين كمستحقة' to staff and moves to 'due' when clicked.",
+        "A 'due' payment shows 'رفع للاعتماد' and moves to 'awaiting_approval' with approval_step 0.",
+        "A phase-linked payment in the project tree stays locked until phase tasks are approved, evidence accepted and the phase report approved."
+      ],
+      "open_questions": [
+        "OQ-FIN-01",
+        "OQ-FIN-02"
+      ]
+    },
+    {
+      "id": "FT-FIN-03",
+      "epic": "EP-FIN-01",
+      "name": "Multi-level payment approval chain",
+      "description": "Sequential approval by project manager (of that project), grants manager and CEO. Approve advances the step; final approval moves to awaiting transfer and issues the disbursement order; reject returns the payment to 'due' and restarts the chain. Decisions are logged and surfaced as derived tasks.",
+      "roles": [
+        "project_manager",
+        "grants_manager",
+        "ceo",
+        "admin",
+        "committee_secretary"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-FIN-02",
+        "SCR-FIN-03"
+      ],
+      "requirements": [
+        "FR-FIN-013",
+        "FR-FIN-014",
+        "FR-FIN-015",
+        "FR-FIN-016",
+        "FR-FIN-017",
+        "FR-FIN-018",
+        "FR-FIN-019",
+        "FR-FIN-020",
+        "FR-FIN-021",
+        "FR-FIN-022"
+      ],
+      "stories": [
+        "US-FIN-005",
+        "US-FIN-006",
+        "US-FIN-007",
+        "US-FIN-008",
+        "US-FIN-009"
+      ],
+      "rules": [
+        "BR-FIN-02",
+        "BR-FIN-03",
+        "BR-FIN-04",
+        "BR-FIN-05",
+        "BR-FIN-06",
+        "BR-FIN-07",
+        "BR-FIN-12",
+        "BR-FIN-19",
+        "BR-FIN-25",
+        "BR-FIN-26",
+        "BR-FIN-29"
+      ],
+      "dependencies": [
+        "TSK (derived payment tasks, My Tasks decision sheet)",
+        "REV (committee minutes infrastructure)",
+        "PLT (personas)"
+      ],
+      "acceptance_criteria": [
+        "Only the persona matching the current step (or admin) sees the approve button; others see 'بانتظار اعتماد <role>'.",
+        "Approving step 3 of 3 sets status awaiting_transfer and generates a disbursement number DSB-….",
+        "Rejecting at any step sets status 'due' and approval_step 0 and logs a 'rejected' decision."
+      ],
+      "open_questions": [
+        "OQ-FIN-03",
+        "OQ-FIN-04",
+        "OQ-FIN-05"
+      ]
+    },
+    {
+      "id": "FT-FIN-04",
+      "epic": "EP-FIN-02",
+      "name": "Disbursement order (إذن الصرف)",
+      "description": "Printable disbursement order addressed to finance, generated at final approval, combining beneficiary, project, payment/bank data and the three approvals.",
+      "roles": [
+        "finance",
+        "grants_manager",
+        "project_manager",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-FIN-04"
+      ],
+      "requirements": [
+        "FR-FIN-023",
+        "FR-FIN-024",
+        "FR-FIN-025",
+        "FR-FIN-026",
+        "FR-FIN-027"
+      ],
+      "stories": [
+        "US-FIN-010"
+      ],
+      "rules": [
+        "BR-FIN-07",
+        "BR-FIN-15"
+      ],
+      "dependencies": [
+        "BEN (beneficiary bank/licence data, memberships)",
+        "PLN (plan level code/name)",
+        "PRJ (project manager, executor)"
+      ],
+      "acceptance_criteria": [
+        "'إذن الصرف' button is visible only in awaiting_transfer, awaiting_receipt and paid.",
+        "Order shows number, date, beneficiary, project and payment sections and one approval box per chain step with approver name and date.",
+        "Print opens the browser print dialog with the order only."
+      ],
+      "open_questions": [
+        "OQ-FIN-07",
+        "OQ-FIN-08"
+      ]
+    },
+    {
+      "id": "FT-FIN-05",
+      "epic": "EP-FIN-02",
+      "name": "Third-party payee",
+      "description": "On the disbursement order, the payee can be switched from the partner to a third party (supplier/operator), capturing account name, bank, IBAN and justification; the order then prints those bank details.",
+      "roles": [
+        "finance",
+        "grants_manager",
+        "admin"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-FIN-04"
+      ],
+      "requirements": [
+        "FR-FIN-028",
+        "FR-FIN-029",
+        "FR-FIN-030",
+        "FR-FIN-031"
+      ],
+      "stories": [
+        "US-FIN-011"
+      ],
+      "rules": [
+        "BR-FIN-13",
+        "BR-FIN-14",
+        "BR-FIN-15"
+      ],
+      "dependencies": [
+        "FT-FIN-04"
+      ],
+      "acceptance_criteria": [
+        "Saving a third-party payee without name, IBAN or reason shows 'أكمل اسم المستفيد والآيبان والسبب' and saves nothing.",
+        "After saving a third-party payee, the order shows 'المستفيد من الصرف: طرف ثالث', the reason, and the third party's bank, account name and IBAN.",
+        "The payee editor is hidden once the payment is awaiting_receipt, paid or cancelled."
+      ],
+      "open_questions": [
+        "OQ-FIN-09",
+        "OQ-FIN-10"
+      ]
+    },
+    {
+      "id": "FT-FIN-06",
+      "epic": "EP-FIN-02",
+      "name": "Bank transfer recording",
+      "description": "Finance uploads the bank transfer notice (إشعار الحوالة البنكية) into a dedicated file slot, optionally enters the transfer reference and confirms the transfer, handing the payment to the partner for the receipt voucher.",
+      "roles": [
+        "finance",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-FIN-02"
+      ],
+      "requirements": [
+        "FR-FIN-032",
+        "FR-FIN-033",
+        "FR-FIN-034"
+      ],
+      "stories": [
+        "US-FIN-012"
+      ],
+      "rules": [
+        "BR-FIN-08",
+        "BR-FIN-09",
+        "BR-FIN-12"
+      ],
+      "dependencies": [
+        "PLT/PRJ shared FileSlots + attachments (attachment_files)",
+        "AI attachment check (attachmentAi.functions.ts)"
+      ],
+      "acceptance_criteria": [
+        "Confirming the transfer without a file in the transfer slot fails with 'أرفق «إشعار الحوالة البنكية» أولاً'.",
+        "With a file attached, confirming sets status awaiting_receipt, transfer_ref (or null) and transferred_at.",
+        "Non-finance staff see the transfer slot read-only and the text 'لدى الإدارة المالية للتحويل'."
+      ],
+      "open_questions": [
+        "OQ-FIN-08",
+        "OQ-FIN-12"
+      ]
+    },
+    {
+      "id": "FT-FIN-07",
+      "epic": "EP-FIN-02",
+      "name": "Partner receipt & payment closure",
+      "description": "The partner (applicant persona) sees the transfer notice, uploads the receipt voucher (سند القبض), optionally enters its number and confirms receipt, which closes the payment as paid.",
+      "roles": [
+        "applicant",
+        "finance",
+        "grants_manager"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-FIN-02"
+      ],
+      "requirements": [
+        "FR-FIN-035",
+        "FR-FIN-036",
+        "FR-FIN-037"
+      ],
+      "stories": [
+        "US-FIN-013",
+        "US-FIN-014"
+      ],
+      "rules": [
+        "BR-FIN-10",
+        "BR-FIN-11",
+        "BR-FIN-12"
+      ],
+      "dependencies": [
+        "PTL (portal → project detail)",
+        "PRJ (ProjectTree hosts PaymentActions)"
+      ],
+      "acceptance_criteria": [
+        "Partner sees no payment actions before awaiting_receipt.",
+        "Confirming receipt without a receipt file fails with 'أرفق «سند القبض» أولاً'.",
+        "With a receipt file, confirming sets status paid, receipt_ref and received_at and shows 'أُغلقت الدفعة'."
+      ],
+      "open_questions": [
+        "OQ-FIN-13"
+      ]
+    },
+    {
+      "id": "FT-FIN-08",
+      "epic": "EP-FIN-03",
+      "name": "Money split breakdown (consumer of PLN rules)",
+      "description": "Shared five-way money split (available / pending / approved / due / paid) for plans, plan levels and projects, rendered by FinanceBreakdown, plus the two spend-rate indicators.",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "project_manager",
+        "admin",
+        "applicant"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-FIN-08"
+      ],
+      "requirements": [
+        "FR-FIN-038",
+        "FR-FIN-039",
+        "FR-FIN-040",
+        "FR-FIN-041"
+      ],
+      "stories": [
+        "US-FIN-015",
+        "US-FIN-016"
+      ],
+      "rules": [
+        "BR-FIN-21",
+        "BR-FIN-22",
+        "BR-FIN-23"
+      ],
+      "dependencies": [
+        "PLN (plans.ts budget math, plan screens)",
+        "PRJ (project detail, project_plan_allocations)"
+      ],
+      "acceptance_criteria": [
+        "For a project, paid = Σ awaiting_receipt+paid, due = Σ due+awaiting_approval+awaiting_transfer, approved = max(0, budget − paid − due).",
+        "Negative available is shown in red.",
+        "Pending appears separately as 'محجوز مؤقتاً' and never reduces available."
+      ],
+      "open_questions": [
+        "OQ-FIN-14"
+      ]
+    },
+    {
+      "id": "FT-FIN-09",
+      "epic": "EP-FIN-03",
+      "name": "Partner monthly commitments",
+      "description": "Per-partner monthly bar chart of planned (by due month) versus paid (by payment month) amounts with four KPI tiles, shown on the partner profile.",
+      "roles": [
+        "reviewer",
+        "grants_manager",
+        "admin"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-FIN-07"
+      ],
+      "requirements": [
+        "FR-FIN-042",
+        "FR-FIN-043"
+      ],
+      "stories": [
+        "US-FIN-017"
+      ],
+      "rules": [
+        "BR-FIN-24"
+      ],
+      "dependencies": [
+        "BEN (/beneficiaries/$id host page)"
+      ],
+      "acceptance_criteria": [
+        "Planned bars group payments by due-date month; paid bars group paid payments by received_at, else transferred_at, else due date, else created date.",
+        "Tiles show total commitments, paid, remaining (= total − paid) and overdue (unpaid with due date before today).",
+        "With no payments, the message 'لا توجد دفعات مجدولة' is shown."
+      ],
+      "open_questions": [
+        "OQ-FIN-14"
+      ]
+    },
+    {
+      "id": "FT-FIN-10",
+      "epic": "EP-FIN-04",
+      "name": "Indicators dashboard",
+      "description": "Executive dashboard with 4 KPI tiles, application status donut, in-progress applications by stage, project status donut, payment status donut, applications by region and the grant-opportunities table with CSV export.",
+      "roles": [
+        "ceo",
+        "grants_manager",
+        "finance",
+        "reviewer",
+        "admin"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-FIN-05"
+      ],
+      "requirements": [
+        "FR-FIN-044",
+        "FR-FIN-045",
+        "FR-FIN-046",
+        "FR-FIN-047",
+        "FR-FIN-048",
+        "FR-FIN-049"
+      ],
+      "stories": [
+        "US-FIN-018",
+        "US-FIN-019"
+      ],
+      "rules": [
+        "BR-FIN-23",
+        "BR-FIN-27"
+      ],
+      "dependencies": [
+        "REV/PRG (applications, programs, stages)",
+        "PRJ (projects)",
+        "PLN (plan breakdown)"
+      ],
+      "acceptance_criteria": [
+        "KPI 'المصروف فعلياً' equals Σ amount of payments with status paid.",
+        "Opportunity row 'نسبة الاعتماد' = approved applications ÷ total applications of the program, rounded.",
+        "'تقرير الفرص (Excel)' downloads periods-report.csv with 6 columns."
+      ],
+      "open_questions": [
+        "OQ-FIN-11",
+        "OQ-FIN-14",
+        "OQ-FIN-15"
+      ]
+    },
+    {
+      "id": "FT-FIN-11",
+      "epic": "EP-FIN-04",
+      "name": "Reports center",
+      "description": "Five ready-made tabular reports (plan & budget execution, applications by stage, overdue tasks, projects & payments, partners) with search, column chooser, saved view, pagination, XLSX/CSV export and print.",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "reviewer",
+        "admin"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-FIN-06"
+      ],
+      "requirements": [
+        "FR-FIN-050",
+        "FR-FIN-051",
+        "FR-FIN-052",
+        "FR-FIN-053",
+        "FR-FIN-054",
+        "FR-FIN-055",
+        "FR-FIN-056"
+      ],
+      "stories": [
+        "US-FIN-020",
+        "US-FIN-021",
+        "US-FIN-022"
+      ],
+      "rules": [
+        "BR-FIN-21",
+        "BR-FIN-23",
+        "BR-FIN-28"
+      ],
+      "dependencies": [
+        "PLT (DataTable, saved views)",
+        "PLN (buildPlanIndex)",
+        "TSK (manual_tasks)",
+        "BEN (beneficiaries)"
+      ],
+      "acceptance_criteria": [
+        "Plan report lists every level of the selected plan with approved, used, available, paid and the two spend percentages.",
+        "Clicking a row in the applications/projects/partners report opens the corresponding detail page.",
+        "Each report can be exported to XLSX and CSV with the visible columns and filtered rows."
+      ],
+      "open_questions": [
+        "OQ-FIN-11",
+        "OQ-FIN-14"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "FR-FIN-001",
+      "feature": "FT-FIN-01",
+      "stories": [
+        "US-FIN-001"
+      ],
+      "statement": "The system shall list all project payments ordered by due date with reference, project (link), partner, payment title, amount, due date with due band, status, waiting-on actor and next action.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/finance.tsx:114-145; src/lib/queries.ts:80-92",
+      "acceptance_criteria": [
+        "Given payments exist When the user opens /finance Then each payment is listed once sorted by due_date ascending",
+        "Given a row When the project title is clicked Then the project detail opens"
+      ]
+    },
+    {
+      "id": "FR-FIN-002",
+      "feature": "FT-FIN-01",
+      "stories": [
+        "US-FIN-001"
+      ],
+      "statement": "The system shall show five clickable status cards with the total amount per group: Overdue (with count), New/Due, Awaiting approval, Awaiting transfer/receipt, Paid.",
+      "type": "Reporting",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/finance.tsx:35-40, 72-101",
+      "acceptance_criteria": [
+        "Given 2 payments in 'due' of 10,000 and 5,000 When the page loads Then card 'جديدة / مستحقة' shows 15,000 SAR",
+        "Given the 'paid' card is active When it is clicked again Then all payments are shown"
+      ]
+    },
+    {
+      "id": "FR-FIN-003",
+      "feature": "FT-FIN-01",
+      "stories": [
+        "US-FIN-001"
+      ],
+      "statement": "The system shall filter the register by payment status and allow the user to save the selected status as a personal view.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/finance.tsx:63-71, 102-112; src/lib/viewPrefs.tsx",
+      "acceptance_criteria": [
+        "Given status 'awaiting_transfer' is selected When the list renders Then only awaiting_transfer payments are shown",
+        "Given a saved view When the user returns Then the saved status is pre-selected"
+      ]
+    },
+    {
+      "id": "FR-FIN-004",
+      "feature": "FT-FIN-01",
+      "stories": [
+        "US-FIN-001"
+      ],
+      "statement": "The system shall compute a due band for each unpaid payment: 'متأخرة N يوم' (overdue), 'اليوم', 'خلال N أيام' (≤7), 'خلال N يوم' (≤30) or 'أكثر من شهر'.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/finance.tsx:42-49",
+      "acceptance_criteria": [
+        "Given an unpaid payment due 3 days ago When listed Then the band shows 'متأخرة 3 يوم' in destructive color and it counts in the Overdue card",
+        "Given a paid payment When listed Then no band is shown"
+      ]
+    },
+    {
+      "id": "FR-FIN-005",
+      "feature": "FT-FIN-01",
+      "stories": [
+        "US-FIN-001"
+      ],
+      "statement": "The system shall display who the payment is waiting on, derived from its status and approval step.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/finance.tsx:51-59",
+      "acceptance_criteria": [
+        "Given a payment awaiting approval at step 1 When listed Then 'بانتظار' shows 'مدير المنح'",
+        "Given a payment awaiting_receipt When listed Then 'بانتظار' shows 'الجهة الشريكة (سند القبض)'"
+      ]
+    },
+    {
+      "id": "FR-FIN-006",
+      "feature": "FT-FIN-01",
+      "stories": [
+        "US-FIN-002"
+      ],
+      "statement": "The system shall export the currently filtered payment list to a UTF-8 CSV file named payments.csv.",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/finance.tsx:88-91; src/lib/data.ts:411-423",
+      "acceptance_criteria": [
+        "Given a card filter is active When 'تصدير Excel' is clicked Then payments.csv contains only the filtered rows",
+        "Given any export When opened in Excel Then Arabic text renders correctly"
+      ]
+    },
+    {
+      "id": "FR-FIN-007",
+      "feature": "FT-FIN-01",
+      "stories": [
+        "US-FIN-001"
+      ],
+      "statement": "The system shall restrict the payment register and its totals to the signed-in user's organization and to roles authorized to view finance data.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "src/lib/queries.ts:80-92; src/routes/finance.tsx:62",
+      "acceptance_criteria": [
+        "Given payments of two organizations When a user of org A opens /finance Then only org A payments and sums appear",
+        "Given an applicant persona When navigating to /finance Then access is denied"
+      ]
+    },
+    {
+      "id": "FR-FIN-008",
+      "feature": "FT-FIN-02",
+      "stories": [
+        "US-FIN-003"
+      ],
+      "statement": "The system shall generate payments in status 'new' when an approved application is transferred to a project, one per payment-schedule line, with amount = round(project budget × percent / 100) and due date = transfer date + due_days.",
+      "type": "Integration",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:187-190; src/components/ProjectTree.tsx:91-105; src/lib/projectPlan.ts:117-121",
+      "acceptance_criteria": [
+        "Given a schedule of 30%/70% and budget 100,000 When transferred Then two 'new' payments of 30,000 and 70,000 are created",
+        "Given an RFP program When transferred Then schedule-based payments are not created"
+      ]
+    },
+    {
+      "id": "FR-FIN-009",
+      "feature": "FT-FIN-02",
+      "stories": [
+        "US-FIN-003"
+      ],
+      "statement": "The system shall allow staff to mark a 'new' payment as due.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/PaymentActions.tsx:55-56",
+      "acceptance_criteria": [
+        "Given a 'new' payment When staff click 'تعيين كمستحقة' Then status becomes 'due' and toast 'أصبحت الدفعة مستحقة' is shown",
+        "Given an applicant persona When viewing a 'new' payment Then no action is shown"
+      ]
+    },
+    {
+      "id": "FR-FIN-010",
+      "feature": "FT-FIN-02",
+      "stories": [
+        "US-FIN-003"
+      ],
+      "statement": "The system shall make a milestone-linked payment due automatically when its project phase is approved, and lock the payment's actions in the project tree until phase tasks, evidence and phase report are approved.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/ProjectTree.tsx:250, 446-463",
+      "acceptance_criteria": [
+        "Given a phase with an unapproved report When viewing its payment Then the payment shows locked with 'بانتظار اعتماد تقرير المرحلة'",
+        "Given all phase items approved When the phase is approved Then the linked payment becomes 'due'"
+      ]
+    },
+    {
+      "id": "FR-FIN-011",
+      "feature": "FT-FIN-02",
+      "stories": [
+        "US-FIN-004"
+      ],
+      "statement": "The system shall allow staff to submit a due payment for approval, setting status awaiting_approval and approval step 0.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/PaymentActions.tsx:57-58",
+      "acceptance_criteria": [
+        "Given a 'due' payment When 'رفع للاعتماد' is clicked Then status = awaiting_approval, approval_step = 0",
+        "Given the submission succeeds Then the project manager of the project receives a derived approval task"
+      ]
+    },
+    {
+      "id": "FR-FIN-012",
+      "feature": "FT-FIN-02",
+      "stories": [
+        "US-FIN-003",
+        "US-FIN-004"
+      ],
+      "statement": "The system shall restrict marking payments due and submitting them for approval to authorized roles and shall apply the same milestone gating on every screen.",
+      "type": "Security",
+      "priority": "Should",
+      "evidence": "Recommended",
+      "source": "Analyst proposal",
+      "acceptance_criteria": [
+        "Given a reviewer persona When viewing a 'new' payment Then no state-changing action is offered",
+        "Given a phase-linked payment whose phase is not approved When viewed on /finance Then 'تعيين كمستحقة' is not available"
+      ]
+    },
+    {
+      "id": "FR-FIN-013",
+      "feature": "FT-FIN-03",
+      "stories": [
+        "US-FIN-005",
+        "US-FIN-006"
+      ],
+      "statement": "The system shall apply a fixed three-step payment approval chain: 1 Project manager, 2 Grants manager, 3 CEO.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/data.ts:371-375",
+      "acceptance_criteria": [
+        "Given a payment at approval_step 0 When listed Then waiting-on shows 'مدير المشروع'",
+        "Given approval_step 2 When the dialog opens Then it shows 'مستوى الاعتماد 3 من 3 (الرئيس التنفيذي)'"
+      ]
+    },
+    {
+      "id": "FR-FIN-014",
+      "feature": "FT-FIN-03",
+      "stories": [
+        "US-FIN-005",
+        "US-FIN-006"
+      ],
+      "statement": "The system shall allow a persona to act on an awaiting-approval payment only if it is admin, or it is the project's manager at step 1, or its role equals the step role at steps 2-3.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/payments.ts:6-13; src/components/PaymentActions.tsx:59-62",
+      "acceptance_criteria": [
+        "Given step 1 and a project_manager who is not the project's manager When viewing Then no approve button is shown",
+        "Given an admin When viewing at any step Then the approve button is shown"
+      ]
+    },
+    {
+      "id": "FR-FIN-015",
+      "feature": "FT-FIN-03",
+      "stories": [
+        "US-FIN-005",
+        "US-FIN-006"
+      ],
+      "statement": "The system shall present an approval dialog showing payment title, amount, due date, approval level 'n of 3 (role)', the AI evidence opinion marked advisory, and—at the final step—a note that the disbursement order will be issued to finance.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/PaymentActions.tsx:63-79",
+      "acceptance_criteria": [
+        "Given the final step When the dialog opens Then the finish label is 'اعتماد وإصدار إذن الصرف' and the finance hand-off note is shown",
+        "Given no AI check When the dialog opens Then it shows 'لا يوجد فحص للشواهد (استشاري)'"
+      ]
+    },
+    {
+      "id": "FR-FIN-016",
+      "feature": "FT-FIN-03",
+      "stories": [
+        "US-FIN-005",
+        "US-FIN-006"
+      ],
+      "statement": "The system shall, on approval, increment the approval step; if the chain is complete it shall set status awaiting_transfer and issue the disbursement order (number and timestamp), otherwise keep status awaiting_approval.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/payments.ts:20-34",
+      "acceptance_criteria": [
+        "Given step 0 When the project manager approves Then approval_step = 1 and status stays awaiting_approval",
+        "Given step 2 and ref PAY-000123 When the CEO approves Then status = awaiting_transfer, disbursement_no = 'DSB-000123', disbursement_at = now"
+      ]
+    },
+    {
+      "id": "FR-FIN-017",
+      "feature": "FT-FIN-03",
+      "stories": [
+        "US-FIN-007"
+      ],
+      "statement": "The system shall, on rejection at any step, return the payment to status 'due' with approval step 0 so the full chain restarts on resubmission.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/payments.ts:25; src/routes/tasks.tsx:83, 396",
+      "acceptance_criteria": [
+        "Given step 2 When the CEO rejects Then status = due and approval_step = 0",
+        "Given rejection from My Tasks When the reason is empty Then 'تأكيد' is disabled"
+      ]
+    },
+    {
+      "id": "FR-FIN-018",
+      "feature": "FT-FIN-03",
+      "stories": [
+        "US-FIN-005",
+        "US-FIN-006",
+        "US-FIN-007"
+      ],
+      "statement": "The system shall record every approval decision in payment_approvals with payment, 1-based step, approver, decision (approved/rejected), note and optional committee minute.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/payments.ts:21-24; supabase/migrations/20261004093306_*.sql:147-153; 20261004132647_*.sql:37",
+      "acceptance_criteria": [
+        "Given an approval When saved Then a payment_approvals row exists with decision 'approved' and step = previous approval_step + 1",
+        "Given a rejection When saved Then a row with decision 'rejected' exists"
+      ]
+    },
+    {
+      "id": "FR-FIN-019",
+      "feature": "FT-FIN-03",
+      "stories": [
+        "US-FIN-008"
+      ],
+      "statement": "The system shall derive a 'payment approval' task for each awaiting-approval payment of the user's organization for which the user is the eligible approver, count them in navigation badges, and allow approve/reject from My Tasks.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:109-117; src/lib/navCounts.ts:19; src/routes/tasks.tsx:83, 334-336, 396-416",
+      "acceptance_criteria": [
+        "Given a payment at step 1 When the grants manager opens My Tasks Then an 'اعتماد دفعة' task with description '<project> · اعتماد مدير المنح' appears",
+        "Given the task is approved Then the task disappears and the next approver gets a task"
+      ]
+    },
+    {
+      "id": "FR-FIN-020",
+      "feature": "FT-FIN-03",
+      "stories": [
+        "US-FIN-005"
+      ],
+      "statement": "The system shall warn (without blocking) before approving, transferring or confirming receipt when any related payment file or linked milestone evidence was flagged 'fail' by the AI pre-check.",
+      "type": "AI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/PaymentActions.tsx:29-32; src/components/FileSlots.tsx:46-53",
+      "acceptance_criteria": [
+        "Given a flagged transfer notice When finance confirms transfer Then a confirmation listing the flagged file appears",
+        "Given the user cancels the confirmation Then no state change occurs"
+      ]
+    },
+    {
+      "id": "FR-FIN-021",
+      "feature": "FT-FIN-03",
+      "stories": [
+        "US-FIN-009"
+      ],
+      "statement": "The system shall allow a committee secretary to approve or reject several payments at once through one committee minute, recording the minute on each decision and a minute item per payment (success or error).",
+      "type": "Functional",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/lib/minutes.ts:54-70; src/routes/tasks.tsx:308-322",
+      "acceptance_criteria": [
+        "Given several payment tasks When submitted in one minute with decision approve Then each payment advances one step and minute_items rows are created",
+        "Given decision 'return' When submitted Then an error 'الدفعات تقبل الاعتماد أو الرفض فقط' is raised"
+      ]
+    },
+    {
+      "id": "FR-FIN-022",
+      "feature": "FT-FIN-03",
+      "stories": [
+        "US-FIN-005",
+        "US-FIN-006"
+      ],
+      "statement": "The system shall enforce approval authority and segregation of duties on the server: the approver must be eligible for the current step and must not have approved an earlier step of the same payment cycle.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "Analyst proposal",
+      "acceptance_criteria": [
+        "Given a direct API call by a non-eligible user When approving Then the request is rejected",
+        "Given the same person approved step 1 When attempting step 2 Then the request is rejected"
+      ]
+    },
+    {
+      "id": "FR-FIN-023",
+      "feature": "FT-FIN-04",
+      "stories": [
+        "US-FIN-010"
+      ],
+      "statement": "The system shall make the disbursement order available only after final approval (statuses awaiting_transfer, awaiting_receipt, paid).",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/PaymentActions.tsx:36-37, 85, 99",
+      "acceptance_criteria": [
+        "Given status awaiting_approval When viewing actions Then no 'إذن الصرف' button is shown",
+        "Given status paid When viewing actions Then 'إذن الصرف' is shown"
+      ]
+    },
+    {
+      "id": "FR-FIN-024",
+      "feature": "FT-FIN-04",
+      "stories": [
+        "US-FIN-010"
+      ],
+      "statement": "The system shall render the disbursement order with title 'إقرار صرف دفعة', order number, order date, 'موجّه إلى الإدارة المالية', and three sections: beneficiary data, project data and payment data.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/DisbursementOrder.tsx:12-26, 46-78",
+      "acceptance_criteria": [
+        "Given a payment awaiting transfer When the order opens Then all three sections are shown with '—' for missing values",
+        "Given the project has an executor beneficiary When the order opens Then the executor's data and bank are shown"
+      ]
+    },
+    {
+      "id": "FR-FIN-025",
+      "feature": "FT-FIN-04",
+      "stories": [
+        "US-FIN-010"
+      ],
+      "statement": "The system shall show on the order one box per approval-chain step with the approver name and approval date, or 'لم يعتمد'.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/DisbursementOrder.tsx:20, 79-93",
+      "acceptance_criteria": [
+        "Given three approvals When the order opens Then the three boxes show names and dates",
+        "Given a step without approval Then the box shows 'لم يعتمد'"
+      ]
+    },
+    {
+      "id": "FR-FIN-026",
+      "feature": "FT-FIN-04",
+      "stories": [
+        "US-FIN-010"
+      ],
+      "statement": "The system shall allow printing the disbursement order, hiding the payee editor and print button in print output.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/DisbursementOrder.tsx:34, 95-97, 115",
+      "acceptance_criteria": [
+        "Given the order is open When 'طباعة' is clicked Then the browser print dialog opens",
+        "Given print preview Then the payee editor is not printed"
+      ]
+    },
+    {
+      "id": "FR-FIN-027",
+      "feature": "FT-FIN-04",
+      "stories": [
+        "US-FIN-010"
+      ],
+      "statement": "The system shall generate a unique, sequential disbursement order number at final approval.",
+      "type": "Data",
+      "priority": "Should",
+      "evidence": "Recommended",
+      "source": "src/lib/payments.ts:32",
+      "acceptance_criteria": [
+        "Given two payments approved When orders are issued Then their numbers differ",
+        "Given a payment rejected and re-approved Then the order number is stable or re-issued per policy [To Confirm]"
+      ]
+    },
+    {
+      "id": "FR-FIN-028",
+      "feature": "FT-FIN-05",
+      "stories": [
+        "US-FIN-011"
+      ],
+      "statement": "The system shall allow choosing the payee of a payment as the partner (default) or a third party, capturing for a third party the account name, bank, IBAN and reason.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/DisbursementOrder.tsx:102-130",
+      "acceptance_criteria": [
+        "Given third party selected with empty IBAN When 'حفظ' is clicked Then error 'أكمل اسم المستفيد والآيبان والسبب' is shown",
+        "Given complete data When saved Then 'حُفظ المستفيد من الصرف' is shown and the order refreshes"
+      ]
+    },
+    {
+      "id": "FR-FIN-029",
+      "feature": "FT-FIN-05",
+      "stories": [
+        "US-FIN-011"
+      ],
+      "statement": "The system shall print the third party's bank, account name and IBAN plus 'المستفيد من الصرف: طرف ثالث' and the reason on the order when payee type is third party; otherwise the partner's bank data.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/DisbursementOrder.tsx:46, 56-60",
+      "acceptance_criteria": [
+        "Given payee_type third_party When the order renders Then the IBAN row shows payee_iban",
+        "Given payee_type partner Then the IBAN row shows the beneficiary IBAN"
+      ]
+    },
+    {
+      "id": "FR-FIN-030",
+      "feature": "FT-FIN-05",
+      "stories": [
+        "US-FIN-011"
+      ],
+      "statement": "The system shall allow editing the payee only while the payment is not awaiting receipt, paid or cancelled.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/DisbursementOrder.tsx:94",
+      "acceptance_criteria": [
+        "Given awaiting_transfer When the order opens Then the payee editor is visible",
+        "Given awaiting_receipt When the order opens Then the editor is hidden"
+      ]
+    },
+    {
+      "id": "FR-FIN-031",
+      "feature": "FT-FIN-05",
+      "stories": [
+        "US-FIN-011"
+      ],
+      "statement": "The system shall capture the payee before approval, validate IBAN format (SA + 22 digits), log every payee change with user and time, and require re-approval if the payee changes after any approval.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "Analyst proposal",
+      "acceptance_criteria": [
+        "Given an approved payment When the payee changes Then the payment returns to the approval chain",
+        "Given IBAN 'SA12' When saved Then a format error is shown"
+      ]
+    },
+    {
+      "id": "FR-FIN-032",
+      "feature": "FT-FIN-06",
+      "stories": [
+        "US-FIN-012"
+      ],
+      "statement": "The system shall provide, for awaiting-transfer payments, a 'إشعار الحوالة البنكية' file slot that finance and admin can upload to, while other staff see it read-only.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/PaymentActions.tsx:82-95; src/lib/payments.ts:48",
+      "acceptance_criteria": [
+        "Given a finance persona When viewing an awaiting-transfer payment Then the transfer slot allows upload and 'نفّذ التحويل ثم أرفق الحوالة' is shown",
+        "Given a grants manager When viewing Then the slot is read-only and 'لدى الإدارة المالية للتحويل' is shown"
+      ]
+    },
+    {
+      "id": "FR-FIN-033",
+      "feature": "FT-FIN-06",
+      "stories": [
+        "US-FIN-012"
+      ],
+      "statement": "The system shall confirm a transfer only when at least one transfer-notice file exists, saving the optional transfer reference and transfer timestamp and setting status awaiting_receipt.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/payments.ts:37-40; src/lib/attachments.ts:9-12",
+      "acceptance_criteria": [
+        "Given no transfer file When 'تأكيد التحويل' is clicked Then error 'أرفق «إشعار الحوالة البنكية» أولاً' is shown",
+        "Given a file and ref 'TRX-1' When confirmed Then status = awaiting_receipt, transfer_ref = 'TRX-1', transferred_at = now"
+      ]
+    },
+    {
+      "id": "FR-FIN-034",
+      "feature": "FT-FIN-06",
+      "stories": [
+        "US-FIN-012"
+      ],
+      "statement": "The system shall allow an advisory AI check of the files in the transfer and receipt slots and store the result per slot on the payment (evidence_ai).",
+      "type": "AI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/lib/attachmentAi.functions.ts:15-16, 60-84",
+      "acceptance_criteria": [
+        "Given files in the transfer slot When the check runs Then evidence_ai[slot] holds the verdict and summary",
+        "Given verdict 'fail' Then transfer confirmation still proceeds after the user confirms"
+      ]
+    },
+    {
+      "id": "FR-FIN-035",
+      "feature": "FT-FIN-07",
+      "stories": [
+        "US-FIN-013"
+      ],
+      "statement": "The system shall show the partner persona, only for payments awaiting receipt or paid, the transfer notice (read-only) and a receipt-voucher slot that is uploadable while awaiting receipt.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/PaymentActions.tsx:39-46",
+      "acceptance_criteria": [
+        "Given an awaiting_transfer payment When the partner views the project Then no payment actions are shown",
+        "Given awaiting_receipt Then the partner can download the transfer notice and upload the receipt"
+      ]
+    },
+    {
+      "id": "FR-FIN-036",
+      "feature": "FT-FIN-07",
+      "stories": [
+        "US-FIN-013"
+      ],
+      "statement": "The system shall close the payment as paid when the partner confirms receipt with at least one receipt-voucher file, saving the optional receipt number and receipt timestamp.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/payments.ts:43-46; src/components/PaymentActions.tsx:45-50",
+      "acceptance_criteria": [
+        "Given no receipt file When 'تأكيد الاستلام وإغلاق الدفعة' is clicked Then error 'أرفق «سند القبض» أولاً'",
+        "Given a receipt file When confirmed Then status = paid, received_at = now, toast 'أُغلقت الدفعة'"
+      ]
+    },
+    {
+      "id": "FR-FIN-037",
+      "feature": "FT-FIN-07",
+      "stories": [
+        "US-FIN-014"
+      ],
+      "statement": "The system shall show staff, for awaiting-receipt and paid payments, the disbursement order button and both transfer and receipt files read-only.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/PaymentActions.tsx:96-103",
+      "acceptance_criteria": [
+        "Given a paid payment When staff view actions Then both files are listed read-only",
+        "Given awaiting_receipt Then the text 'بانتظار سند القبض من الجهة الشريكة' is shown"
+      ]
+    },
+    {
+      "id": "FR-FIN-038",
+      "feature": "FT-FIN-08",
+      "stories": [
+        "US-FIN-015"
+      ],
+      "statement": "The system shall compute a project's money split from its payments: paid = Σ(awaiting_receipt, paid), due = Σ(due, awaiting_approval, awaiting_transfer), approved = max(0, budget − paid − due); available and pending are 0.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:379-389; src/routes/projects.$id.tsx:159",
+      "acceptance_criteria": [
+        "Given budget 300,000, one paid 100,000 and one awaiting_approval 50,000 When viewing Then paid 100,000, due 50,000, approved 150,000",
+        "Given payments exceeding budget Then approved is 0 (not negative)"
+      ]
+    },
+    {
+      "id": "FR-FIN-039",
+      "feature": "FT-FIN-08",
+      "stories": [
+        "US-FIN-016"
+      ],
+      "statement": "The system shall compute plan and plan-level money splits: for each project under the level (split per initiative allocation share) add paid/due × share and approved = max(0, budget − (paid+due) × share); add approved-but-not-transferred applications to approved; pending = Σ requested of applications under review (informational); available = total − approved − due − paid.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:184-191, 376-382, 425-443",
+      "acceptance_criteria": [
+        "Given a level of 1,000,000 with one project budget 400,000 (100,000 paid) Then paid 100,000, approved 300,000, available 600,000",
+        "Given a project with two allocations 60/40 Then each level receives 60% / 40% of the project's paid and due"
+      ]
+    },
+    {
+      "id": "FR-FIN-040",
+      "feature": "FT-FIN-08",
+      "stories": [
+        "US-FIN-015",
+        "US-FIN-016"
+      ],
+      "statement": "The system shall render a money split as a stacked bar (paid green, due amber, approved blue, available grey) with labelled amounts, negative available in red, pending shown aside with a dashed violet marker, and a shared legend for list views.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/FinanceBreakdown.tsx:5-64",
+      "acceptance_criteria": [
+        "Given available < 0 When rendered Then the available amount is red",
+        "Given pending > 0 and not hidePending Then 'محجوز مؤقتاً' with the amount is shown"
+      ]
+    },
+    {
+      "id": "FR-FIN-041",
+      "feature": "FT-FIN-08",
+      "stories": [
+        "US-FIN-016"
+      ],
+      "statement": "The system shall compute spend rates: 'الصرف من الموازنة' = paid ÷ plan budget × 100 (capped at 100) and 'الصرف من المعتمد' = paid ÷ (approved + due + paid) × 100 (capped at 100).",
+      "type": "Reporting",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:448-459",
+      "acceptance_criteria": [
+        "Given paid 250,000 and plan budget 1,000,000 Then spend from budget = 25%",
+        "Given approved 500,000, due 250,000, paid 250,000 Then spend from approved = 25%"
+      ]
+    },
+    {
+      "id": "FR-FIN-042",
+      "feature": "FT-FIN-09",
+      "stories": [
+        "US-FIN-017"
+      ],
+      "statement": "The system shall chart, per partner, monthly planned amounts (by due-date month) against paid amounts (by received date, else transfer date, else due date, else creation date), excluding cancelled payments, sorted by month.",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/CommitmentsChart.tsx:12-22, 39-53",
+      "acceptance_criteria": [
+        "Given a payment due 2026-09-15 paid with received_at 2026-10-02 Then it is planned in Sep and paid in Oct",
+        "Given no payments Then 'لا توجد دفعات مجدولة' is shown"
+      ]
+    },
+    {
+      "id": "FR-FIN-043",
+      "feature": "FT-FIN-09",
+      "stories": [
+        "US-FIN-017"
+      ],
+      "statement": "The system shall show four commitment tiles: total commitments (Σ non-cancelled), paid (Σ paid), remaining (total − paid) and due & overdue (Σ unpaid with due date before today).",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/CommitmentsChart.tsx:23-37",
+      "acceptance_criteria": [
+        "Given total 300,000 and paid 100,000 Then remaining shows 200,000",
+        "Given overdue > 0 Then the overdue tile uses the 'bad' tone"
+      ]
+    },
+    {
+      "id": "FR-FIN-044",
+      "feature": "FT-FIN-10",
+      "stories": [
+        "US-FIN-018"
+      ],
+      "statement": "The system shall show four KPI tiles: total applications (hint: number pending), approved amounts (Σ requested of approved applications; hint: Σ program budgets), active projects (planning + in_progress) and actual spend (Σ paid payments; hint: spend-from-approved across all plans).",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/analytics.tsx:42-51, 91-96",
+      "acceptance_criteria": [
+        "Given 3 paid payments of 10,000 Then 'المصروف فعلياً' shows 30,000 SAR",
+        "Given plans with paid 100 and base 400 Then hint shows 'الصرف من المعتمد — كل الخطط: 25%'"
+      ]
+    },
+    {
+      "id": "FR-FIN-045",
+      "feature": "FT-FIN-10",
+      "stories": [
+        "US-FIN-018"
+      ],
+      "statement": "The system shall chart applications by status (donut, non-zero statuses only, total in centre) and pending applications by stage 1-3 (bar).",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/analytics.tsx:53-62, 99-110, 178-206",
+      "acceptance_criteria": [
+        "Given no applications Then the donut shows a grey ring 'لا توجد بيانات' with total 0",
+        "Given 2 pending apps at stage 2 Then the stage-2 bar equals 2"
+      ]
+    },
+    {
+      "id": "FR-FIN-046",
+      "feature": "FT-FIN-10",
+      "stories": [
+        "US-FIN-018"
+      ],
+      "statement": "The system shall chart projects by status and payments by status as donuts.",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/analytics.tsx:63-64, 111-112",
+      "acceptance_criteria": [
+        "Given payments in 3 statuses Then the payment donut has 3 segments with counts",
+        "Given hover Then a tooltip shows status and count"
+      ]
+    },
+    {
+      "id": "FR-FIN-047",
+      "feature": "FT-FIN-10",
+      "stories": [
+        "US-FIN-018"
+      ],
+      "statement": "The system shall chart applications by normalized execution region (bar).",
+      "type": "Reporting",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/routes/analytics.tsx:76-78, 113-123; src/lib/data.ts:426-429",
+      "acceptance_criteria": [
+        "Given regions 'منطقة الرياض' and 'الرياض' Then both count under 'الرياض'",
+        "Given an application without region Then it is excluded"
+      ]
+    },
+    {
+      "id": "FR-FIN-048",
+      "feature": "FT-FIN-10",
+      "stories": [
+        "US-FIN-019"
+      ],
+      "statement": "The system shall list grant opportunities with budget, applications, approved count (approval rate %), approved value and budget consumption % (approved value ÷ budget), and export them to periods-report.csv.",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/analytics.tsx:66-74, 80-84, 126-145",
+      "acceptance_criteria": [
+        "Given a program with 10 applications and 4 approved Then the row shows '4 (40%)'",
+        "Given export Then the CSV has columns الفرصة, الميزانية, عدد الطلبات, المعتمدة, قيمة المعتمد, نسبة الاعتماد %"
+      ]
+    },
+    {
+      "id": "FR-FIN-049",
+      "feature": "FT-FIN-10",
+      "stories": [
+        "US-FIN-018"
+      ],
+      "statement": "The system shall scope all dashboard indicators to the user's organization and use the same 'paid' definition as the money split.",
+      "type": "Reporting",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "Analyst proposal",
+      "acceptance_criteria": [
+        "Given two organizations When org A's CEO views the dashboard Then only org A data is counted",
+        "Given a payment awaiting_receipt Then it is counted consistently in 'paid' across dashboard and plan summary [To Confirm definition]"
+      ]
+    },
+    {
+      "id": "FR-FIN-050",
+      "feature": "FT-FIN-11",
+      "stories": [
+        "US-FIN-020",
+        "US-FIN-021",
+        "US-FIN-022"
+      ],
+      "statement": "The system shall offer five report types selectable by buttons and allow printing the current report (with its title shown in print).",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/reports.tsx:27-33, 58-62",
+      "acceptance_criteria": [
+        "Given the reports page When opened Then 'تنفيذ الخطة والموازنة' is selected by default",
+        "Given print Then the report title is printed and selector buttons are hidden"
+      ]
+    },
+    {
+      "id": "FR-FIN-051",
+      "feature": "FT-FIN-11",
+      "stories": [
+        "US-FIN-020"
+      ],
+      "statement": "The system shall produce a plan & budget execution report for a selected plan (default: active plan of the organization) listing each level's code, name, approved amount, used, available (red if negative), paid, spend from budget % and spend from approved %.",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/reports.tsx:40-43, 52-56, 64-75",
+      "acceptance_criteria": [
+        "Given a level of 500,000 with paid 50,000 Then 'الصرف من الموازنة' shows 10%",
+        "Given no active plan Then the first plan of the organization is used"
+      ]
+    },
+    {
+      "id": "FR-FIN-052",
+      "feature": "FT-FIN-11",
+      "stories": [
+        "US-FIN-021"
+      ],
+      "statement": "The system shall produce an applications-by-stage report of the organization's applications with ref, project, partner, stage, days in stage (pending only), status and requested value; row click opens the review page.",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/reports.tsx:77-85",
+      "acceptance_criteria": [
+        "Given a pending application entered stage 5 days ago Then 'أيام في المرحلة' = 5",
+        "Given an approved application Then days show '—'"
+      ]
+    },
+    {
+      "id": "FR-FIN-053",
+      "feature": "FT-FIN-11",
+      "stories": [
+        "US-FIN-021"
+      ],
+      "statement": "The system shall produce an overdue manual tasks report (not done, due date before today) with task, assignee, due date and days late.",
+      "type": "Reporting",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/routes/reports.tsx:48, 87-92",
+      "acceptance_criteria": [
+        "Given a manual task due yesterday and open Then it appears with 1 day late",
+        "Given none Then 'لا توجد مهام متأخرة' is shown"
+      ]
+    },
+    {
+      "id": "FR-FIN-054",
+      "feature": "FT-FIN-11",
+      "stories": [
+        "US-FIN-022"
+      ],
+      "statement": "The system shall produce a projects & payments report of the organization's projects with ref, title, budget, paid (Σ status paid) and number of payments awaiting approval; row click opens the project.",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/reports.tsx:94-100",
+      "acceptance_criteria": [
+        "Given a project with one paid payment 50,000 Then 'المدفوع' = 50,000",
+        "Given two payments awaiting approval Then 'دفعات قيد الاعتماد' = 2"
+      ]
+    },
+    {
+      "id": "FR-FIN-055",
+      "feature": "FT-FIN-11",
+      "stories": [
+        "US-FIN-022"
+      ],
+      "statement": "The system shall produce a partners report with name, type, region, number of the organization's applications and approved value (Σ requested of approved applications); row click opens the partner.",
+      "type": "Reporting",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/routes/reports.tsx:102-108",
+      "acceptance_criteria": [
+        "Given a partner with 3 applications, 1 approved of 80,000 Then apps = 3, approved = 80,000",
+        "Given row click Then /beneficiaries/$id opens"
+      ]
+    },
+    {
+      "id": "FR-FIN-056",
+      "feature": "FT-FIN-11",
+      "stories": [
+        "US-FIN-020",
+        "US-FIN-021",
+        "US-FIN-022"
+      ],
+      "statement": "The system shall provide on every report free-text search across column values, column show/hide, page size and saved view, pagination, and export of visible columns and filtered rows to XLSX (RTL sheet) and CSV.",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/DataTable.tsx:40-150",
+      "acceptance_criteria": [
+        "Given search 'الرياض' Then only rows with a column containing it are shown",
+        "Given a hidden column When exporting Then it is excluded from the file"
+      ]
+    }
+  ],
+  "stories": [
+    {
+      "id": "US-FIN-001",
+      "epic": "EP-FIN-03",
+      "feature": "FT-FIN-01",
+      "role": "Finance officer",
+      "story": "As a finance officer I want to see all payments with their status, due band and who they are waiting on, and filter them by status card or status, so that I can follow up on delays and my own queue.",
+      "priority": "Must",
+      "requirements": [
+        "FR-FIN-001",
+        "FR-FIN-002",
+        "FR-FIN-003",
+        "FR-FIN-004",
+        "FR-FIN-005",
+        "FR-FIN-007"
+      ],
+      "acceptance_criteria": [
+        "Given payments in several statuses When the page loads Then each card shows the sum of its group",
+        "Given the 'متأخرة' card is clicked When the list renders Then only unpaid payments past due are shown and the count matches the card label",
+        "Given a payment awaiting approval at step 2 When listed Then 'بانتظار' shows 'الرئيس التنفيذي'"
+      ],
+      "dependencies": [
+        "PRJ payments"
+      ],
+      "open_questions": [
+        "OQ-FIN-06",
+        "OQ-FIN-11"
+      ]
+    },
+    {
+      "id": "US-FIN-002",
+      "epic": "EP-FIN-03",
+      "feature": "FT-FIN-01",
+      "role": "Finance officer",
+      "story": "As a finance officer I want to export the filtered payment list so that I can share it or reconcile it in Excel.",
+      "priority": "Should",
+      "requirements": [
+        "FR-FIN-006"
+      ],
+      "acceptance_criteria": [
+        "Given a status filter 'paid' When exporting Then the file contains only paid payments",
+        "Given Arabic text When the CSV is opened in Excel Then it is readable (UTF-8 BOM)"
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-FIN-003",
+      "epic": "EP-FIN-01",
+      "feature": "FT-FIN-02",
+      "role": "Project manager",
+      "story": "As a project manager I want a payment to become due when its milestone is delivered (or mark it due myself) so that only earned payments enter approval.",
+      "priority": "Must",
+      "requirements": [
+        "FR-FIN-008",
+        "FR-FIN-009",
+        "FR-FIN-010",
+        "FR-FIN-012"
+      ],
+      "acceptance_criteria": [
+        "Given an approved phase When the approval is saved Then its new/pending payment becomes 'due'",
+        "Given a phase with open tasks When viewing its payment Then it shows 'معلقة' and lists 'اعتماد N مهام'",
+        "Given a 'new' unlinked payment When 'تعيين كمستحقة' is clicked Then status becomes 'due'"
+      ],
+      "dependencies": [
+        "PRJ ProjectTree"
+      ],
+      "open_questions": [
+        "OQ-FIN-01",
+        "OQ-FIN-02"
+      ]
+    },
+    {
+      "id": "US-FIN-004",
+      "epic": "EP-FIN-01",
+      "feature": "FT-FIN-02",
+      "role": "Project manager",
+      "story": "As a project manager I want to submit a due payment for approval so that the approval chain starts.",
+      "priority": "Must",
+      "requirements": [
+        "FR-FIN-011",
+        "FR-FIN-012"
+      ],
+      "acceptance_criteria": [
+        "Given a due payment When submitted Then status = awaiting_approval and approval_step = 0",
+        "Given submission When the project's manager opens My Tasks Then an 'اعتماد دفعة' task exists"
+      ],
+      "dependencies": [
+        "TSK"
+      ],
+      "open_questions": [
+        "OQ-FIN-01"
+      ]
+    },
+    {
+      "id": "US-FIN-005",
+      "epic": "EP-FIN-01",
+      "feature": "FT-FIN-03",
+      "role": "Project manager (approver step 1)",
+      "story": "As the project's manager I want to review and approve a payment as the first approver so that it moves to the grants manager.",
+      "priority": "Must",
+      "requirements": [
+        "FR-FIN-013",
+        "FR-FIN-014",
+        "FR-FIN-015",
+        "FR-FIN-016",
+        "FR-FIN-018",
+        "FR-FIN-020",
+        "FR-FIN-022"
+      ],
+      "acceptance_criteria": [
+        "Given I am the project manager and step 0 When I approve Then approval_step = 1 and a payment_approvals row (step 1, approved) is created",
+        "Given I am another project manager When viewing Then no approve button is shown",
+        "Given flagged files When approving Then a confirm lists them and cancel aborts"
+      ],
+      "dependencies": [
+        "PLT personas"
+      ],
+      "open_questions": [
+        "OQ-FIN-04"
+      ]
+    },
+    {
+      "id": "US-FIN-006",
+      "epic": "EP-FIN-01",
+      "feature": "FT-FIN-03",
+      "role": "Grants manager / CEO",
+      "story": "As the grants manager (step 2) or CEO (step 3) I want to approve payments in turn, with the final approval issuing the disbursement order to finance, so that authorized payments reach finance.",
+      "priority": "Must",
+      "requirements": [
+        "FR-FIN-013",
+        "FR-FIN-014",
+        "FR-FIN-015",
+        "FR-FIN-016",
+        "FR-FIN-018",
+        "FR-FIN-022"
+      ],
+      "acceptance_criteria": [
+        "Given step 1 and grants_manager persona When approving Then step = 2, status awaiting_approval",
+        "Given step 2 and CEO When approving Then status = awaiting_transfer and disbursement_no starts with 'DSB-'",
+        "Given the CEO approval Then the order shows three approver names and dates"
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-FIN-03",
+        "OQ-FIN-04"
+      ]
+    },
+    {
+      "id": "US-FIN-007",
+      "epic": "EP-FIN-01",
+      "feature": "FT-FIN-03",
+      "role": "Approver (PM / GM / CEO)",
+      "story": "As an approver I want to reject a payment with a reason so that it returns to the project team for correction.",
+      "priority": "Must",
+      "requirements": [
+        "FR-FIN-017",
+        "FR-FIN-018"
+      ],
+      "acceptance_criteria": [
+        "Given step 2 When the CEO rejects Then status = due and approval_step = 0",
+        "Given rejection in My Tasks with empty reason Then confirm is disabled",
+        "Given a rejection Then payment_approvals has a 'rejected' row with the approver"
+      ],
+      "dependencies": [
+        "TSK"
+      ],
+      "open_questions": [
+        "OQ-FIN-05"
+      ]
+    },
+    {
+      "id": "US-FIN-008",
+      "epic": "EP-FIN-01",
+      "feature": "FT-FIN-03",
+      "role": "Approver (PM / GM / CEO)",
+      "story": "As an approver I want payment approvals to appear in My Tasks with a badge count so that I can act without searching for payments.",
+      "priority": "Must",
+      "requirements": [
+        "FR-FIN-019"
+      ],
+      "acceptance_criteria": [
+        "Given a payment at step 0 of my project When I open My Tasks Then one payment task with due date = payment due date appears",
+        "Given I approve it Then the nav badge count decreases by one"
+      ],
+      "dependencies": [
+        "TSK"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-FIN-009",
+      "epic": "EP-FIN-01",
+      "feature": "FT-FIN-03",
+      "role": "Committee secretary",
+      "story": "As a committee secretary I want to approve or reject several payments with a single committee minute so that committee decisions are recorded once.",
+      "priority": "Could",
+      "requirements": [
+        "FR-FIN-021"
+      ],
+      "acceptance_criteria": [
+        "Given 3 selected payments When approved by minute Then each advances one step and has payment_approvals.minute_id set",
+        "Given one payment fails Then a minute_items row with ok=false and the error is stored"
+      ],
+      "dependencies": [
+        "REV minutes"
+      ],
+      "open_questions": [
+        "OQ-FIN-03"
+      ]
+    },
+    {
+      "id": "US-FIN-010",
+      "epic": "EP-FIN-02",
+      "feature": "FT-FIN-04",
+      "role": "Finance officer",
+      "story": "As a finance officer I want to open and print the disbursement order of an approved payment so that I have an authorized instruction with complete bank details to execute the transfer.",
+      "priority": "Must",
+      "requirements": [
+        "FR-FIN-023",
+        "FR-FIN-024",
+        "FR-FIN-025",
+        "FR-FIN-026",
+        "FR-FIN-027"
+      ],
+      "acceptance_criteria": [
+        "Given an approved payment When the order opens Then number, date and 'موجّه إلى الإدارة المالية' are shown",
+        "Given the project has an executor beneficiary Then bank and IBAN are the executor's",
+        "Given print Then the editor and print button are hidden"
+      ],
+      "dependencies": [
+        "BEN",
+        "PLN"
+      ],
+      "open_questions": [
+        "OQ-FIN-07",
+        "OQ-FIN-08"
+      ]
+    },
+    {
+      "id": "US-FIN-011",
+      "epic": "EP-FIN-02",
+      "feature": "FT-FIN-05",
+      "role": "Finance officer / Grants manager",
+      "story": "As a finance officer I want to direct a payment to a third party (operator or supplier) with its bank details and justification so that the transfer goes to the correct account.",
+      "priority": "Should",
+      "requirements": [
+        "FR-FIN-028",
+        "FR-FIN-029",
+        "FR-FIN-030",
+        "FR-FIN-031"
+      ],
+      "acceptance_criteria": [
+        "Given missing IBAN When saving Then an error is shown and nothing is saved",
+        "Given valid data When saved Then the order shows 'طرف ثالث' and the third party's IBAN",
+        "Given awaiting_receipt Then the editor is hidden"
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-FIN-09",
+        "OQ-FIN-10"
+      ]
+    },
+    {
+      "id": "US-FIN-012",
+      "epic": "EP-FIN-02",
+      "feature": "FT-FIN-06",
+      "role": "Finance officer",
+      "story": "As a finance officer I want to attach the bank transfer notice and confirm the transfer so that the partner is asked for the receipt voucher.",
+      "priority": "Must",
+      "requirements": [
+        "FR-FIN-032",
+        "FR-FIN-033",
+        "FR-FIN-034"
+      ],
+      "acceptance_criteria": [
+        "Given no file When confirming Then the error is shown and status unchanged",
+        "Given a file When confirming with ref 'TRX-9' Then status = awaiting_receipt, transfer_ref = 'TRX-9', transferred_at set",
+        "Given a grants manager persona Then the slot is read-only and no confirm button is shown"
+      ],
+      "dependencies": [
+        "FileSlots",
+        "AI check"
+      ],
+      "open_questions": [
+        "OQ-FIN-12"
+      ]
+    },
+    {
+      "id": "US-FIN-013",
+      "epic": "EP-FIN-02",
+      "feature": "FT-FIN-07",
+      "role": "Partner (applicant)",
+      "story": "As a partner I want to see the transfer notice and upload my receipt voucher so that the payment is closed.",
+      "priority": "Must",
+      "requirements": [
+        "FR-FIN-035",
+        "FR-FIN-036"
+      ],
+      "acceptance_criteria": [
+        "Given awaiting_transfer When the partner views the project Then no payment controls are shown",
+        "Given a receipt file When confirming Then status = paid and received_at set",
+        "Given paid Then the partner sees both files read-only"
+      ],
+      "dependencies": [
+        "PTL portal → project"
+      ],
+      "open_questions": [
+        "OQ-FIN-13"
+      ]
+    },
+    {
+      "id": "US-FIN-014",
+      "epic": "EP-FIN-02",
+      "feature": "FT-FIN-07",
+      "role": "Finance officer / Auditor",
+      "story": "As a finance officer I want to view the order, transfer notice and receipt of settled payments so that I can evidence each disbursement.",
+      "priority": "Should",
+      "requirements": [
+        "FR-FIN-037"
+      ],
+      "acceptance_criteria": [
+        "Given a paid payment When viewing actions Then order button and both files (read-only) are shown",
+        "Given awaiting_receipt Then 'بانتظار سند القبض من الجهة الشريكة' is shown"
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-FIN-015",
+      "epic": "EP-FIN-03",
+      "feature": "FT-FIN-08",
+      "role": "Project manager",
+      "story": "As a project manager I want to see my project's value split into paid, due and approved-not-due so that I know how much of the contract remains to be disbursed.",
+      "priority": "Must",
+      "requirements": [
+        "FR-FIN-038",
+        "FR-FIN-040"
+      ],
+      "acceptance_criteria": [
+        "Given budget 300,000, paid 100,000, awaiting_transfer 50,000 Then bar shows paid 100,000, due 50,000, approved 150,000",
+        "Given hidePending on project view Then 'المتاح' and pending are not shown"
+      ],
+      "dependencies": [
+        "PRJ"
+      ],
+      "open_questions": [
+        "OQ-FIN-14"
+      ]
+    },
+    {
+      "id": "US-FIN-016",
+      "epic": "EP-FIN-03",
+      "feature": "FT-FIN-08",
+      "role": "Finance officer / CEO",
+      "story": "As a finance officer I want plan and plan-level money splits and spend rates so that I can monitor budget consumption against approved commitments.",
+      "priority": "Must",
+      "requirements": [
+        "FR-FIN-039",
+        "FR-FIN-040",
+        "FR-FIN-041"
+      ],
+      "acceptance_criteria": [
+        "Given a level with total 1,000,000, approved 300,000, due 100,000, paid 100,000 Then available = 500,000",
+        "Given spend-from-approved Then value = paid ÷ (approved+due+paid) = 20%"
+      ],
+      "dependencies": [
+        "PLN"
+      ],
+      "open_questions": [
+        "OQ-FIN-14"
+      ]
+    },
+    {
+      "id": "US-FIN-017",
+      "epic": "EP-FIN-03",
+      "feature": "FT-FIN-09",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to see a partner's monthly planned versus paid amounts and arrears so that I can assess the financial relationship with the partner.",
+      "priority": "Should",
+      "requirements": [
+        "FR-FIN-042",
+        "FR-FIN-043"
+      ],
+      "acceptance_criteria": [
+        "Given a partner with payments of 100,000 (paid) and 50,000 (due last month, unpaid) Then total 150,000, paid 100,000, remaining 50,000, overdue 50,000",
+        "Given a cancelled payment Then it is excluded from all tiles and bars"
+      ],
+      "dependencies": [
+        "BEN"
+      ],
+      "open_questions": [
+        "OQ-FIN-14"
+      ]
+    },
+    {
+      "id": "US-FIN-018",
+      "epic": "EP-FIN-04",
+      "feature": "FT-FIN-10",
+      "role": "CEO",
+      "story": "As the CEO I want a dashboard of KPIs and status charts across applications, projects and payments so that I can monitor the grant cycle from application to disbursement.",
+      "priority": "Should",
+      "requirements": [
+        "FR-FIN-044",
+        "FR-FIN-045",
+        "FR-FIN-046",
+        "FR-FIN-047",
+        "FR-FIN-049"
+      ],
+      "acceptance_criteria": [
+        "Given paid payments total 500,000 Then 'المصروف فعلياً' = 500,000 SAR",
+        "Given projects in planning and in_progress Then 'المشاريع القائمة' counts both",
+        "Given no applications Then the status donut shows total 0"
+      ],
+      "dependencies": [
+        "REV",
+        "PRJ",
+        "PLN"
+      ],
+      "open_questions": [
+        "OQ-FIN-11",
+        "OQ-FIN-15"
+      ]
+    },
+    {
+      "id": "US-FIN-019",
+      "epic": "EP-FIN-04",
+      "feature": "FT-FIN-10",
+      "role": "Grants manager",
+      "story": "As a grants manager I want a per-opportunity table of applications, approvals and budget consumption with export so that I can compare opportunities.",
+      "priority": "Should",
+      "requirements": [
+        "FR-FIN-048"
+      ],
+      "acceptance_criteria": [
+        "Given a program budget 1,000,000 and approved value 250,000 Then consumption = 25%",
+        "Given export Then periods-report.csv has one row per program"
+      ],
+      "dependencies": [
+        "PRG"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-FIN-020",
+      "epic": "EP-FIN-04",
+      "feature": "FT-FIN-11",
+      "role": "Finance officer",
+      "story": "As a finance officer I want a plan and budget execution report per plan level so that I can export and present budget utilization.",
+      "priority": "Should",
+      "requirements": [
+        "FR-FIN-050",
+        "FR-FIN-051",
+        "FR-FIN-056"
+      ],
+      "acceptance_criteria": [
+        "Given a level with amount 500,000, used 300,000, paid 50,000 Then available 200,000, spend-from-budget 10%",
+        "Given XLSX export Then the sheet is RTL and contains visible columns only"
+      ],
+      "dependencies": [
+        "PLN",
+        "PLT DataTable"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-FIN-021",
+      "epic": "EP-FIN-04",
+      "feature": "FT-FIN-11",
+      "role": "Grants manager",
+      "story": "As a grants manager I want operational reports of applications by stage and overdue tasks so that I can chase bottlenecks.",
+      "priority": "Should",
+      "requirements": [
+        "FR-FIN-050",
+        "FR-FIN-052",
+        "FR-FIN-053",
+        "FR-FIN-056"
+      ],
+      "acceptance_criteria": [
+        "Given a pending application 7 days in stage Then 'أيام في المرحلة' = 7",
+        "Given an open manual task due 3 days ago Then 'أيام التأخير' = 3"
+      ],
+      "dependencies": [
+        "REV",
+        "TSK"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-FIN-022",
+      "epic": "EP-FIN-04",
+      "feature": "FT-FIN-11",
+      "role": "Finance officer",
+      "story": "As a finance officer I want projects-and-payments and partners reports so that I can see paid amounts and pending approvals per project and approved value per partner.",
+      "priority": "Should",
+      "requirements": [
+        "FR-FIN-050",
+        "FR-FIN-054",
+        "FR-FIN-055",
+        "FR-FIN-056"
+      ],
+      "acceptance_criteria": [
+        "Given a project with a paid payment of 50,000 and one awaiting_receipt of 20,000 Then 'المدفوع' shows 50,000 (status paid only)",
+        "Given a partner with one approved application of 80,000 Then 'المعتمد' = 80,000"
+      ],
+      "dependencies": [
+        "PRJ",
+        "BEN"
+      ],
+      "open_questions": [
+        "OQ-FIN-14"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "BR-FIN-01",
+      "rule": "Payment status values: new, due, awaiting_approval, awaiting_transfer, awaiting_receipt, paid, cancelled (status is free text; default 'new'). Demo data also uses an undocumented 'pending' treated like 'new'.",
+      "evidence": "Observed",
+      "source": "src/lib/data.ts:351-359; migration 20261004093306:141; src/lib/demoScript.ts:84-86; src/components/ProjectTree.tsx:250"
+    },
+    {
+      "id": "BR-FIN-02",
+      "rule": "Approval chain is fixed and sequential: step 1 Project manager → step 2 Grants manager → step 3 CEO. approval_step holds the index of the next step (0-3).",
+      "evidence": "Observed",
+      "source": "src/lib/data.ts:371-375"
+    },
+    {
+      "id": "BR-FIN-03",
+      "rule": "Step 1 may be approved only by the persona who is the project's manager (projects.manager_id); steps 2-3 by any persona with the step role.",
+      "evidence": "Observed",
+      "source": "src/lib/payments.ts:9-12"
+    },
+    {
+      "id": "BR-FIN-04",
+      "rule": "Admin may approve or reject at any step (bypass).",
+      "evidence": "Observed",
+      "source": "src/lib/payments.ts:8; src/lib/tasks.ts:113"
+    },
+    {
+      "id": "BR-FIN-05",
+      "rule": "Rejection at any step returns the payment to 'due' with approval_step 0; resubmission restarts the full chain.",
+      "evidence": "Observed",
+      "source": "src/lib/payments.ts:25"
+    },
+    {
+      "id": "BR-FIN-06",
+      "rule": "Every approve/reject decision is recorded in payment_approvals (step = approval_step + 1, approver, decision, note, minute_id).",
+      "evidence": "Observed",
+      "source": "src/lib/payments.ts:21-24"
+    },
+    {
+      "id": "BR-FIN-07",
+      "rule": "Final approval sets status awaiting_transfer and issues the disbursement order: disbursement_no = 'DSB-' + ref_no without 'PAY-' (fallback id prefix), disbursement_at = now.",
+      "evidence": "Observed",
+      "source": "src/lib/payments.ts:26-33"
+    },
+    {
+      "id": "BR-FIN-08",
+      "rule": "A transfer can be confirmed only if at least one file exists in slot 'إشعار الحوالة البنكية'; transfer_ref is optional.",
+      "evidence": "Observed",
+      "source": "src/lib/payments.ts:37-40; src/lib/attachments.ts:9-12"
+    },
+    {
+      "id": "BR-FIN-09",
+      "rule": "Only finance or admin personas can upload the transfer notice and confirm the transfer (UI-level).",
+      "evidence": "Observed",
+      "source": "src/components/PaymentActions.tsx:35, 86-91"
+    },
+    {
+      "id": "BR-FIN-10",
+      "rule": "Receipt can be confirmed only if at least one file exists in slot 'سند القبض'; confirming closes the payment (paid, received_at).",
+      "evidence": "Observed",
+      "source": "src/lib/payments.ts:43-46"
+    },
+    {
+      "id": "BR-FIN-11",
+      "rule": "The partner (applicant persona) sees payment controls only when status is awaiting_receipt (upload + confirm) or paid (read-only).",
+      "evidence": "Observed",
+      "source": "src/components/PaymentActions.tsx:39-53"
+    },
+    {
+      "id": "BR-FIN-12",
+      "rule": "AI pre-checks of payment files and milestone evidence are advisory: a flagged 'fail' triggers a confirmation but never blocks.",
+      "evidence": "Observed",
+      "source": "src/components/PaymentActions.tsx:28-32; src/components/FileSlots.tsx:45-53; AGENTS.md"
+    },
+    {
+      "id": "BR-FIN-13",
+      "rule": "A third-party payee requires account name, IBAN and reason; bank name optional.",
+      "evidence": "Observed",
+      "source": "src/components/DisbursementOrder.tsx:108"
+    },
+    {
+      "id": "BR-FIN-14",
+      "rule": "The payee can be changed only while the payment is not awaiting_receipt, paid or cancelled (effectively during awaiting_transfer).",
+      "evidence": "Observed",
+      "source": "src/components/DisbursementOrder.tsx:94"
+    },
+    {
+      "id": "BR-FIN-15",
+      "rule": "The disbursement order's bank data is the third party's when payee_type = third_party, otherwise the paid entity's (project executor beneficiary if set, else contracting beneficiary).",
+      "evidence": "Observed",
+      "source": "src/components/DisbursementOrder.tsx:15, 46-58"
+    },
+    {
+      "id": "BR-FIN-16",
+      "rule": "On transfer of an approved application to a project, one 'new' payment per payment-schedule line is created: amount = round(budget × percent/100), due = today + due_days; not for RFP programs (RFP payments are seeded per plan phase).",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:187-190; src/components/ProjectTree.tsx:105"
+    },
+    {
+      "id": "BR-FIN-17",
+      "rule": "A phase-linked payment becomes 'due' when the phase is approved; its actions are locked until all phase tasks are approved, evidence accepted and the phase report approved.",
+      "evidence": "Observed",
+      "source": "src/components/ProjectTree.tsx:250, 446-463"
+    },
+    {
+      "id": "BR-FIN-18",
+      "rule": "Payments past 'new'/'pending' are locked and cannot be changed by project replanning.",
+      "evidence": "Observed",
+      "source": "src/lib/projectPlan.ts:25, 118-121"
+    },
+    {
+      "id": "BR-FIN-19",
+      "rule": "A payment approval task is derived (not stored) for each awaiting_approval payment of the user's tenant where the user is the eligible approver; due date = payment due date.",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:109-117"
+    },
+    {
+      "id": "BR-FIN-20",
+      "rule": "Overdue = status ≠ paid and due date before now; due bands: today, ≤7 days, ≤30 days, > 1 month.",
+      "evidence": "Observed",
+      "source": "src/routes/finance.tsx:42-49"
+    },
+    {
+      "id": "BR-FIN-21",
+      "rule": "Money split: paid = awaiting_receipt + paid; due = due + awaiting_approval + awaiting_transfer; approved = max(0, budget − paid − due) (+ approved, not-yet-transferred applications at plan level); available = total − approved − due − paid; pending (applications under review) is informational and never reduces the ceiling.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:376-389, 425-437; AGENTS.md"
+    },
+    {
+      "id": "BR-FIN-22",
+      "rule": "Projects funded by several initiatives are split per project_plan_allocations; payments are attributed by allocation share (single-counted).",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:184-191, 427-433"
+    },
+    {
+      "id": "BR-FIN-23",
+      "rule": "Spend from budget = paid ÷ plan budget (cap 100%); spend from approved = paid ÷ (approved + due + paid) (cap 100%).",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:448-459"
+    },
+    {
+      "id": "BR-FIN-24",
+      "rule": "Commitments: cancelled payments excluded; planned by due month; paid by received_at → transferred_at → due_date → created_at month; overdue = unpaid with due date < today.",
+      "evidence": "Observed",
+      "source": "src/components/CommitmentsChart.tsx:13-26"
+    },
+    {
+      "id": "BR-FIN-25",
+      "rule": "Payment decisions in My Tasks are approve or reject only (no 'return'); rejection requires a reason.",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:83, 396"
+    },
+    {
+      "id": "BR-FIN-26",
+      "rule": "Committee-minute bulk decisions on payments allow approve/reject only and record minute_id and minute_items per payment.",
+      "evidence": "Observed",
+      "source": "src/lib/minutes.ts:54-70"
+    },
+    {
+      "id": "BR-FIN-27",
+      "rule": "Dashboard 'approved amounts' and opportunity 'approved value' use applications.requested_amount of approved applications; approval rate = approved ÷ total applications per program.",
+      "evidence": "Observed",
+      "source": "src/routes/analytics.tsx:42-43, 66-74"
+    },
+    {
+      "id": "BR-FIN-28",
+      "rule": "Reports 'projects & payments' and partner 'paid' use status = 'paid' only, whereas the money split counts awaiting_receipt as paid.",
+      "evidence": "Observed",
+      "source": "src/routes/reports.tsx:98; src/routes/beneficiaries.$id.tsx:80; src/lib/plans.ts:380"
+    },
+    {
+      "id": "BR-FIN-29",
+      "rule": "Approval authority, payee changes and state transitions must be enforced server-side with per-user identity; an approver cannot approve two steps of the same payment.",
+      "evidence": "Recommended",
+      "source": "Analyst proposal (see ISS-FIN-01, ISS-FIN-03)"
+    }
+  ],
+  "issues": [
+    {
+      "id": "ISS-FIN-01",
+      "description": "Approval authority is enforced only in the UI (canApprovePayment). approvePayment/recordTransfer/recordReceipt/setPayment perform no role or state checks, RLS is 'poc_open' for payments and payment_approvals, and all personas share one demo account.",
+      "severity": "High",
+      "location": "src/lib/payments.ts; migration 20261004093306:164-168; AGENTS.md",
+      "recommendation": "Move transitions to server functions / DB RPC with per-user auth, state guards and role checks (FR-FIN-022)."
+    },
+    {
+      "id": "ISS-FIN-02",
+      "description": "Payee (incl. third-party IBAN) can be changed after all three approvals, by any staff persona that opens the order, with no audit log, no re-approval and no IBAN format check.",
+      "severity": "High",
+      "location": "src/components/DisbursementOrder.tsx:94, 102-113",
+      "recommendation": "Capture payee before approval; changes after any approval reset the chain; log changes; validate IBAN (FR-FIN-031)."
+    },
+    {
+      "id": "ISS-FIN-03",
+      "description": "No segregation of duties: admin can approve all steps; nothing prevents the same person approving several steps (e.g., a persona who is both project manager and grants manager).",
+      "severity": "Medium",
+      "location": "src/lib/payments.ts:6-13",
+      "recommendation": "Block an approver from approving more than one step per cycle; restrict admin bypass [To Confirm]."
+    },
+    {
+      "id": "ISS-FIN-04",
+      "description": "Rejection from the payment dialog (finance page / project tree) records no reason (note ''), while My Tasks requires a reason.",
+      "severity": "Medium",
+      "location": "src/components/PaymentActions.tsx:65, 70; src/routes/tasks.tsx:396",
+      "recommendation": "Require a rejection reason in every channel."
+    },
+    {
+      "id": "ISS-FIN-05",
+      "description": "Inconsistent definition of 'paid': money split counts awaiting_receipt as paid, while finance cards, dashboard 'المصروف فعلياً', projects report, partner profile and commitments use status = 'paid' only. The same payment shows as paid in one place and unpaid in another.",
+      "severity": "Medium",
+      "location": "src/lib/plans.ts:380; src/routes/finance.tsx:39; src/routes/analytics.tsx:44; src/routes/reports.tsx:98; src/components/CommitmentsChart.tsx:20",
+      "recommendation": "Agree one definition (transferred vs receipted) and apply it everywhere; label the other explicitly."
+    },
+    {
+      "id": "ISS-FIN-06",
+      "description": "Status grouping differs between screens: finance 'open' card = new+due and 'transfer' = awaiting_transfer+awaiting_receipt, whereas the money split 'due' = due+awaiting_approval+awaiting_transfer and 'new' payments fall into 'approved'.",
+      "severity": "Low",
+      "location": "src/routes/finance.tsx:35-40; src/lib/plans.ts:380-381",
+      "recommendation": "Document the mapping or align the card groups with the split vocabulary."
+    },
+    {
+      "id": "ISS-FIN-07",
+      "description": "'Pending / محجوز مؤقتاً' is never non-zero: PENDING_APP uses 'submitted'/'under_review', but applications.status was converted to text with values pending/approved/closed/cancelled/awaiting_apology.",
+      "severity": "Medium",
+      "location": "src/lib/plans.ts:382, 435; migration 20261004093306:4-6; src/lib/data.ts:230-236",
+      "recommendation": "Use status 'pending' (or the agreed under-review set) for PENDING_APP (owner: PLN)."
+    },
+    {
+      "id": "ISS-FIN-08",
+      "description": "No tenant scoping: /finance lists and sums all payments of all organizations; /analytics counts all applications, projects, payments, programs and plans; reports' partners list is unfiltered while other reports filter by tenant.",
+      "severity": "Medium",
+      "location": "src/lib/queries.ts:80-92; src/routes/finance.tsx:62; src/routes/analytics.tsx:36-51; src/routes/reports.tsx:47, 102",
+      "recommendation": "Filter by tenant in queries and enforce via RLS (FR-FIN-007, FR-FIN-049)."
+    },
+    {
+      "id": "ISS-FIN-09",
+      "description": "Approval dialog reads evidence_ai.summary, but evidence_ai is stored as a map {slot: result}; the AI opinion therefore always shows 'لا يوجد فحص للشواهد'. Also, payment slots are only filled after approval, so there is nothing to check at approval time.",
+      "severity": "Low",
+      "location": "src/components/PaymentActions.tsx:64, 76; src/lib/attachmentAi.functions.ts:81-83",
+      "recommendation": "Show milestone evidence AI results (activity) at approval, and read the per-slot map correctly."
+    },
+    {
+      "id": "ISS-FIN-10",
+      "description": "Bulk payment decisions by committee minute (bulkDecidePayments) are unreachable: isSecretaryTask returns false for payment tasks.",
+      "severity": "Low",
+      "location": "src/lib/minutes.ts:54; src/routes/tasks.tsx:308-314",
+      "recommendation": "Confirm whether payments go to committee; remove or enable the path."
+    },
+    {
+      "id": "ISS-FIN-11",
+      "description": "Status 'cancelled' has a label/color and is excluded by some calculations but no transition sets it; status 'pending' is used by demo script and ProjectTree but has no label.",
+      "severity": "Low",
+      "location": "src/lib/data.ts:358; src/lib/demoScript.ts:84-86; src/components/ProjectTree.tsx:91, 250",
+      "recommendation": "Define a cancel transition (who/when) and remove or document 'pending'."
+    },
+    {
+      "id": "ISS-FIN-12",
+      "description": "Schema drift: columns payee_*, has_tax, disbursement_no/at, transferred_at, received_at, evidence_ai exist in generated types but are not created by any repository migration.",
+      "severity": "Low",
+      "location": "src/integrations/supabase/types.ts:1941-1966; supabase/migrations/",
+      "recommendation": "Add the missing migration so environments can be rebuilt."
+    },
+    {
+      "id": "ISS-FIN-13",
+      "description": "Order shows 'هل يوجد ضريبة؟' (has_tax) but no screen sets it; VAT handling is undefined.",
+      "severity": "Low",
+      "location": "src/components/DisbursementOrder.tsx:59",
+      "recommendation": "Define tax rules and capture has_tax (and VAT amount) [To Confirm]."
+    },
+    {
+      "id": "ISS-FIN-14",
+      "description": "Finance and dashboard export buttons are labelled 'Excel' but produce CSV.",
+      "severity": "Low",
+      "location": "src/routes/finance.tsx:91; src/routes/analytics.tsx:90",
+      "recommendation": "Rename to CSV or reuse DataTable XLSX export."
+    },
+    {
+      "id": "ISS-FIN-15",
+      "description": "Milestone gating is applied only in the project tree; on /finance any staff persona can mark a phase-linked 'new' payment due and submit it, bypassing evidence/report approval.",
+      "severity": "Medium",
+      "location": "src/components/PaymentActions.tsx:55-58; src/components/ProjectTree.tsx:446-463",
+      "recommendation": "Apply the gating in PaymentActions / lib (FR-FIN-012)."
+    },
+    {
+      "id": "ISS-FIN-16",
+      "description": "Payment approval history (payment_approvals) is loaded on project detail but not displayed; rejected decisions are not visible anywhere in the UI.",
+      "severity": "Low",
+      "location": "src/routes/projects.$id.tsx:76, 99",
+      "recommendation": "Show an approval history timeline per payment."
+    },
+    {
+      "id": "ISS-FIN-17",
+      "description": "Disbursement order matches approvals by step only; after a rejection and re-approval cycle, the earliest (stale) approval for a step is shown.",
+      "severity": "Low",
+      "location": "src/components/DisbursementOrder.tsx:20, 83",
+      "recommendation": "Show approvals of the latest cycle only (after the last rejection)."
+    },
+    {
+      "id": "ISS-FIN-18",
+      "description": "Overdue logic differs: /finance uses ceil of time difference incl. time of day and treats cancelled as unpaid; CommitmentsChart compares date strings and excludes cancelled.",
+      "severity": "Low",
+      "location": "src/routes/finance.tsx:42-49; src/components/CommitmentsChart.tsx:25-26",
+      "recommendation": "One shared overdue helper (date-only, exclude cancelled)."
+    },
+    {
+      "id": "ISS-FIN-19",
+      "description": "Dashboard 'استهلاك الميزانية' per opportunity is approved requested amount ÷ budget (commitment, not spend); 'المبالغ المعتمدة' uses requested_amount, not contract/project budget; stage chart is hard-coded to stages 1-3.",
+      "severity": "Low",
+      "location": "src/routes/analytics.tsx:42-43, 59-62, 139",
+      "recommendation": "Rename/clarify KPIs and derive stages from workflow configuration [To Confirm]."
+    },
+    {
+      "id": "ISS-FIN-20",
+      "description": "No route-level access control on /finance, /reports, /analytics; nav items ALL.finance and ALL.reports are defined but not assigned to any role; finance persona reaches payments only via Projects › الدفعات.",
+      "severity": "Low",
+      "location": "src/components/AppShell.tsx:41-62",
+      "recommendation": "Add route guards and a direct 'Finance' entry for the finance role [To Confirm]."
+    },
+    {
+      "id": "ISS-FIN-21",
+      "description": "Partner bank verification status (beneficiaries.bank_status) is not checked before approval or transfer.",
+      "severity": "Medium",
+      "location": "src/components/DisbursementOrder.tsx; src/lib/payments.ts",
+      "recommendation": "Block or warn on transfer when the bank account is not verified [To Confirm] (BEN owns bank decisions)."
+    },
+    {
+      "id": "ISS-FIN-22",
+      "description": "payment_approvals insert errors are ignored before updating the payment, so a status can advance without an audit row.",
+      "severity": "Medium",
+      "location": "src/lib/payments.ts:21-28",
+      "recommendation": "Check the insert result / perform both writes in one transaction."
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "OQ-FIN-01",
+      "question": "Who is authorized to mark a payment due and submit it for approval (project manager only, finance, partner request)?",
+      "related": [
+        "FT-FIN-02",
+        "FR-FIN-009",
+        "FR-FIN-011"
+      ]
+    },
+    {
+      "id": "OQ-FIN-02",
+      "question": "Must every payment be linked to a milestone/phase, or are advance and retention payments due by date only?",
+      "related": [
+        "FT-FIN-02",
+        "FR-FIN-010"
+      ]
+    },
+    {
+      "id": "OQ-FIN-03",
+      "question": "Is the approval chain fixed for all amounts, or should thresholds/committee approval apply for large payments?",
+      "related": [
+        "FT-FIN-03",
+        "FR-FIN-013",
+        "FR-FIN-021"
+      ]
+    },
+    {
+      "id": "OQ-FIN-04",
+      "question": "Should admin be allowed to approve on behalf of any step, and should one person be barred from approving more than one step?",
+      "related": [
+        "FR-FIN-014",
+        "FR-FIN-022"
+      ]
+    },
+    {
+      "id": "OQ-FIN-05",
+      "question": "After rejection, should the chain restart from step 1 or resume at the rejecting step? Is a reason mandatory?",
+      "related": [
+        "FR-FIN-017"
+      ]
+    },
+    {
+      "id": "OQ-FIN-06",
+      "question": "Should cancelled payments appear in the register totals / overdue card, and who may cancel a payment?",
+      "related": [
+        "FT-FIN-01",
+        "ISS-FIN-11"
+      ]
+    },
+    {
+      "id": "OQ-FIN-07",
+      "question": "Required format and numbering sequence of the disbursement order; should the order be archived as a PDF with signatures?",
+      "related": [
+        "FT-FIN-04",
+        "FR-FIN-027"
+      ]
+    },
+    {
+      "id": "OQ-FIN-08",
+      "question": "Is a bank payment file (e.g., SARIE/bulk upload) or ERP integration required instead of manual transfer recording?",
+      "related": [
+        "FT-FIN-04",
+        "FT-FIN-06"
+      ]
+    },
+    {
+      "id": "OQ-FIN-09",
+      "question": "Which cases allow a third-party payee, who approves it, and what documents justify it (e.g., government agreement)?",
+      "related": [
+        "FT-FIN-05"
+      ]
+    },
+    {
+      "id": "OQ-FIN-10",
+      "question": "Should the payee be fixed before the approval chain starts so approvers see the actual recipient?",
+      "related": [
+        "FR-FIN-030",
+        "FR-FIN-031"
+      ]
+    },
+    {
+      "id": "OQ-FIN-11",
+      "question": "Which roles may view the finance register, dashboard and reports, and must data be restricted per organization / per project manager?",
+      "related": [
+        "FR-FIN-007",
+        "FR-FIN-049"
+      ]
+    },
+    {
+      "id": "OQ-FIN-12",
+      "question": "Must the transfer reference be mandatory and must the transferred amount/date be captured separately (partial transfers)?",
+      "related": [
+        "FR-FIN-033"
+      ]
+    },
+    {
+      "id": "OQ-FIN-13",
+      "question": "When a third party is paid, who uploads the receipt voucher — the partner or the third party?",
+      "related": [
+        "FT-FIN-07",
+        "FR-FIN-036"
+      ]
+    },
+    {
+      "id": "OQ-FIN-14",
+      "question": "Official definition of 'paid / المصروف': at transfer (awaiting_receipt) or at receipt (paid)?",
+      "related": [
+        "FT-FIN-08",
+        "ISS-FIN-05"
+      ]
+    },
+    {
+      "id": "OQ-FIN-15",
+      "question": "Are dashboard KPIs expected per plan year / date range, and should 'approved amounts' be contract values rather than requested amounts?",
+      "related": [
+        "FT-FIN-10",
+        "ISS-FIN-19"
+      ]
+    }
+  ]
+}

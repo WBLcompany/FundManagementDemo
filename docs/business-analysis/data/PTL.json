@@ -1,0 +1,2793 @@
+{
+  "module": {
+    "code": "PTL",
+    "name": "Partner Portal (Applicant Side)"
+  },
+  "screens": [
+    {
+      "id": "SCR-PTL-01",
+      "name": "Partner Registration (تسجيل جهة شريكة / سجّل جهتك)",
+      "route": "/register-tenant (routes/register-tenant.tsx RegisterPage)",
+      "roles": [
+        "anonymous visitor"
+      ]
+    },
+    {
+      "id": "SCR-PTL-02",
+      "name": "Existing Entity Panel — Join / Delegate Change («…» مسجلة مسبقاً)",
+      "route": "/register-tenant (RegisteredCard)",
+      "roles": [
+        "anonymous visitor"
+      ]
+    },
+    {
+      "id": "SCR-PTL-03",
+      "name": "Applicant Portal Home — Applications & Projects (بوابة المتقدم — الطلبات والمشاريع)",
+      "route": "/portal (routes/portal.tsx Portal, tab 'work')",
+      "roles": [
+        "applicant"
+      ]
+    },
+    {
+      "id": "SCR-PTL-04",
+      "name": "Application Submission Dialog (طلب منحة — <opportunity>)",
+      "route": "/portal ApplyDialog (portal.tsx:244-440)",
+      "roles": [
+        "applicant"
+      ]
+    },
+    {
+      "id": "SCR-PTL-05",
+      "name": "AI Form Assist Panel (تعبئة بالذكاء الاصطناعي)",
+      "route": "components/AiAssist.tsx embedded in SCR-PTL-04",
+      "roles": [
+        "applicant"
+      ]
+    },
+    {
+      "id": "SCR-PTL-06",
+      "name": "Application Action Panels — Edit Request & Proposed Changes (مطلوب تعديل / اقترح مسؤول المنح تعديلاً)",
+      "route": "/portal application card (portal.tsx:139-147, ProposalBanner 442-469)",
+      "roles": [
+        "applicant"
+      ]
+    },
+    {
+      "id": "SCR-PTL-07",
+      "name": "Entity Profile Tab (ملف الجهة)",
+      "route": "/portal tab 'profile' → components/EntityProfile.tsx",
+      "roles": [
+        "applicant (primary delegate for edits)"
+      ]
+    },
+    {
+      "id": "SCR-PTL-08",
+      "name": "Bank Account Dialog (الحساب البنكي للجمعية)",
+      "route": "/portal bank Dialog (portal.tsx:214-237)",
+      "roles": [
+        "applicant (primary delegate)"
+      ]
+    },
+    {
+      "id": "SCR-PTL-09",
+      "name": "License Update Dialog (تحديث الترخيص والبيانات الرسمية)",
+      "route": "components/LicenseUpdate.tsx LicenseUpdateDialog",
+      "roles": [
+        "applicant (primary delegate)"
+      ]
+    },
+    {
+      "id": "SCR-PTL-10",
+      "name": "Opportunity Invitation Landing (دعوة خاصة لـ …)",
+      "route": "/invite/$token (routes/invite.$token.tsx)",
+      "roles": [
+        "invited partner (anonymous/any persona)"
+      ]
+    },
+    {
+      "id": "SCR-PTL-11",
+      "name": "Partner Project View (applicant mode of project detail)",
+      "route": "/projects/$id with role=applicant (routes/projects.$id.tsx, ProjectTree.tsx)",
+      "roles": [
+        "applicant"
+      ]
+    },
+    {
+      "id": "SCR-PTL-12",
+      "name": "Partner Payment Receipt Panel (تأكيد الاستلام وإغلاق الدفعة)",
+      "route": "components/PaymentActions.tsx partner branch inside SCR-PTL-11",
+      "roles": [
+        "applicant"
+      ]
+    }
+  ],
+  "epics": [
+    {
+      "id": "EP-PTL-01",
+      "name": "Partner Onboarding & Identity",
+      "description": "Self-registration of partner entities with registry prefill, detection of existing entities, delegate verification / change, OTP-verified contact fields."
+    },
+    {
+      "id": "EP-PTL-02",
+      "name": "Opportunity Discovery & Eligibility",
+      "description": "Applicant home context, open opportunity listing with eligibility and per-entity quota, and invitation responses."
+    },
+    {
+      "id": "EP-PTL-03",
+      "name": "Application Submission",
+      "description": "Dynamic application forms for project grants, product requests and RFP offers, attachments, and AI form assist."
+    },
+    {
+      "id": "EP-PTL-04",
+      "name": "Application Tracking & Change Responses",
+      "description": "Tracking status/stage/expected response and responding to edit requests and staff-proposed numeric changes."
+    },
+    {
+      "id": "EP-PTL-05",
+      "name": "Entity Profile Self-Service",
+      "description": "Partner maintenance of contact data, bank account and license/official data."
+    },
+    {
+      "id": "EP-PTL-06",
+      "name": "Post-Award Partner Participation",
+      "description": "Partner-side participation in project execution (evidence, reports) and payment receipt confirmation."
+    },
+    {
+      "id": "EP-PTL-07",
+      "name": "External Integrations (Applicant Data)",
+      "description": "Inbound API for the client's external AI grant-evaluation agent."
+    }
+  ],
+  "features": [
+    {
+      "id": "FT-PTL-01",
+      "epic": "EP-PTL-01",
+      "name": "Partner self-registration with registry prefill",
+      "description": "A visitor selects the beneficiary type, enters the identifier, and if it is new submits a registration request whose fields are prefilled from the official (NCNP) registry and tagged by source for admin field-by-field verification.",
+      "roles": [
+        "anonymous visitor"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PTL-01"
+      ],
+      "requirements": [
+        "FR-PTL-001",
+        "FR-PTL-002",
+        "FR-PTL-003",
+        "FR-PTL-004",
+        "FR-PTL-005"
+      ],
+      "stories": [
+        "US-PTL-001",
+        "US-PTL-002"
+      ],
+      "rules": [
+        "BR-PTL-20",
+        "BR-PTL-21",
+        "BR-PTL-22",
+        "BR-PTL-23",
+        "BR-PTL-24"
+      ],
+      "dependencies": [
+        "CFG applicant types open/closed switch (applicantTypes.ts)",
+        "BEN registration review (RegistrationReview.tsx)",
+        "FT-PTL-03"
+      ],
+      "acceptance_criteria": [
+        "Only portal-enabled, tenant-open entity types are offered.",
+        "A new identifier found in the registry pre-populates fields and labels them 'من السجل'; edited values are labelled 'معدّل عن السجل'.",
+        "Submission is blocked until every non-empty mobile/email field is OTP-verified.",
+        "On submit a pending entity_registrations row is created with per-field source and decision=pending and a confirmation card is shown."
+      ],
+      "open_questions": [
+        "OQ-PTL-01",
+        "OQ-PTL-02"
+      ]
+    },
+    {
+      "id": "FT-PTL-02",
+      "epic": "EP-PTL-01",
+      "name": "Existing-entity detection, delegate verification and delegate-change request",
+      "description": "If the identifier is already registered, the visitor sees the masked delegates and can verify a relation via an OTP to the delegate, or file a delegate-change request; if a registration is pending, the masked requester is shown.",
+      "roles": [
+        "anonymous visitor"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PTL-02",
+        "SCR-PTL-01"
+      ],
+      "requirements": [
+        "FR-PTL-006",
+        "FR-PTL-007",
+        "FR-PTL-008"
+      ],
+      "stories": [
+        "US-PTL-003",
+        "US-PTL-004"
+      ],
+      "rules": [
+        "BR-PTL-21",
+        "BR-PTL-25"
+      ],
+      "dependencies": [
+        "BEN registration review",
+        "beneficiary_memberships"
+      ],
+      "acceptance_criteria": [
+        "A registered identifier shows the entity name and delegates with masked name and mobile.",
+        "A pending identifier shows the masked requester name and mobile and offers no form.",
+        "A delegate-change request requires name, national ID, mobile and reason and is stored as a pending entity_registrations row with a note."
+      ],
+      "open_questions": [
+        "OQ-PTL-03"
+      ]
+    },
+    {
+      "id": "FT-PTL-03",
+      "epic": "EP-PTL-01",
+      "name": "OTP verification of mobile and email fields",
+      "description": "Reusable input requiring a one-time code before a mobile or email value is accepted; used in registration and contact edits.",
+      "roles": [
+        "anonymous visitor",
+        "applicant"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PTL-01",
+        "SCR-PTL-07"
+      ],
+      "requirements": [
+        "FR-PTL-009"
+      ],
+      "stories": [
+        "US-PTL-001",
+        "US-PTL-017"
+      ],
+      "rules": [
+        "BR-PTL-23"
+      ],
+      "dependencies": [
+        "SMS/email provider [Recommended]"
+      ],
+      "acceptance_criteria": [
+        "A code can only be requested when the field has a value.",
+        "An incorrect code shows 'الرمز غير صحيح'; a correct code shows the verified badge.",
+        "Changing the value after verification resets verification."
+      ],
+      "open_questions": [
+        "OQ-PTL-04"
+      ]
+    },
+    {
+      "id": "FT-PTL-04",
+      "epic": "EP-PTL-02",
+      "name": "Applicant context and represented-entity switching",
+      "description": "The portal resolves which entity the user represents (selected membership, else first active membership, else persona.beneficiary_id), shows the user's role in it, and lets multi-entity users switch.",
+      "roles": [
+        "applicant"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PTL-03"
+      ],
+      "requirements": [
+        "FR-PTL-010",
+        "FR-PTL-011"
+      ],
+      "stories": [
+        "US-PTL-005"
+      ],
+      "rules": [
+        "BR-PTL-01",
+        "BR-PTL-02"
+      ],
+      "dependencies": [
+        "memberships.ts",
+        "persona.tsx"
+      ],
+      "acceptance_criteria": [
+        "Non-applicant personas see 'هذه البوابة للمتقدمين' instead of portal content.",
+        "A user with more than one active membership sees switch buttons and data refreshes for the chosen entity."
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-PTL-05",
+      "epic": "EP-PTL-02",
+      "name": "Open opportunity listing with eligibility and quota",
+      "description": "Lists opportunities whose period is open, evaluates eligibility for the represented entity and the per-entity application quota, and separates available from unavailable opportunities with reasons.",
+      "roles": [
+        "applicant"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PTL-03"
+      ],
+      "requirements": [
+        "FR-PTL-012",
+        "FR-PTL-013",
+        "FR-PTL-014"
+      ],
+      "stories": [
+        "US-PTL-006"
+      ],
+      "rules": [
+        "BR-PTL-03",
+        "BR-PTL-04",
+        "BR-PTL-05",
+        "BR-PTL-06"
+      ],
+      "dependencies": [
+        "eligibility.ts",
+        "PRG programs"
+      ],
+      "acceptance_criteria": [
+        "Only active, published programs inside open_at..close_at are listed.",
+        "Ineligible cards are dimmed and show the joined reasons; quota-exhausted cards show 'استنفدت عدد الطلبات المسموحة'.",
+        "Unavailable opportunities are grouped in a collapsible 'فرص غير متاحة لك (n)' section."
+      ],
+      "open_questions": [
+        "OQ-PTL-05"
+      ]
+    },
+    {
+      "id": "FT-PTL-06",
+      "epic": "EP-PTL-02",
+      "name": "Opportunity invitation response",
+      "description": "An invited partner opens a tokenised link, sees the opportunity details, activates the entity account if not active, then proceeds to apply or declines; invitation status is tracked (opened/applied/declined).",
+      "roles": [
+        "invited partner"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PTL-10",
+        "SCR-PTL-03"
+      ],
+      "requirements": [
+        "FR-PTL-015",
+        "FR-PTL-016"
+      ],
+      "stories": [
+        "US-PTL-007"
+      ],
+      "rules": [
+        "BR-PTL-13"
+      ],
+      "dependencies": [
+        "program_invitations",
+        "rfp.ts markInvitation"
+      ],
+      "acceptance_criteria": [
+        "Opening a 'sent' invitation marks it 'opened' with opened_at.",
+        "Proceed navigates to /portal?apply=<programId> and opens the application dialog.",
+        "Decline marks the invitation 'declined' with responded_at and shows a thank-you."
+      ],
+      "open_questions": [
+        "OQ-PTL-06"
+      ]
+    },
+    {
+      "id": "FT-PTL-07",
+      "epic": "EP-PTL-03",
+      "name": "Project grant application with dynamic form",
+      "description": "Applicant fills core project data (title, description, amount, duration, region, target groups) plus opportunity-specific fields from the form library and submits; system creates the application at stage 1 with a frozen snapshot and history.",
+      "roles": [
+        "applicant"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PTL-04"
+      ],
+      "requirements": [
+        "FR-PTL-017",
+        "FR-PTL-018",
+        "FR-PTL-019",
+        "FR-PTL-020",
+        "FR-PTL-021"
+      ],
+      "stories": [
+        "US-PTL-008",
+        "US-PTL-009"
+      ],
+      "rules": [
+        "BR-PTL-07",
+        "BR-PTL-10",
+        "BR-PTL-11",
+        "BR-PTL-12"
+      ],
+      "dependencies": [
+        "application_forms / form_fields",
+        "PlanLevelPicker InitiativeSelect",
+        "workflow.buildSnapshot"
+      ],
+      "acceptance_criteria": [
+        "Missing title or amount shows 'أكمل الحقول الإلزامية'.",
+        "Missing required dynamic field shows 'الحقل «…» إلزامي'.",
+        "Open-track opportunities require an initiative.",
+        "Successful submission shows 'تم تقديم الطلب برقم REQ…' and the application appears under 'طلباتي' with status pending, stage 1."
+      ],
+      "open_questions": [
+        "OQ-PTL-07",
+        "OQ-PTL-08"
+      ]
+    },
+    {
+      "id": "FT-PTL-08",
+      "epic": "EP-PTL-03",
+      "name": "Product request application",
+      "description": "For product-kind opportunities the applicant selects quantities of linked grant products (bounded by available stock); total is computed from unit prices and stored with application_items.",
+      "roles": [
+        "applicant"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PTL-04"
+      ],
+      "requirements": [
+        "FR-PTL-022",
+        "FR-PTL-023"
+      ],
+      "stories": [
+        "US-PTL-010"
+      ],
+      "rules": [
+        "BR-PTL-08"
+      ],
+      "dependencies": [
+        "program_products / grant_products"
+      ],
+      "acceptance_criteria": [
+        "Submitting with no quantities shows 'اختر منتجاً واحداً على الأقل وحدد الكمية'.",
+        "Quantity above quantity_available is rejected naming the product and available amount.",
+        "requested_amount equals Σ quantity × unit_price and one application_items row is created per chosen product."
+      ],
+      "open_questions": [
+        "OQ-PTL-09"
+      ]
+    },
+    {
+      "id": "FT-PTL-09",
+      "epic": "EP-PTL-03",
+      "name": "RFP offer submission",
+      "description": "For RFP opportunities the applicant sees scope, deliverables, ceiling, duration, activities and payment split, and submits a technical and a financial offer.",
+      "roles": [
+        "applicant"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PTL-04"
+      ],
+      "requirements": [
+        "FR-PTL-024",
+        "FR-PTL-025"
+      ],
+      "stories": [
+        "US-PTL-011"
+      ],
+      "rules": [
+        "BR-PTL-09"
+      ],
+      "dependencies": [
+        "rfp.ts"
+      ],
+      "acceptance_criteria": [
+        "Missing technical or financial offer shows 'أكمل العرض الفني والعرض المالي'.",
+        "A financial offer above program budget is rejected with the ceiling shown.",
+        "The application title equals the program title and duration equals rfp_duration_days."
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-PTL-10",
+      "epic": "EP-PTL-03",
+      "name": "Application attachments at submission",
+      "description": "File-type form fields are uploaded to the private attachments bucket and recorded as stage-1 attachments; file names are kept in answers.",
+      "roles": [
+        "applicant"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PTL-04"
+      ],
+      "requirements": [
+        "FR-PTL-026",
+        "FR-PTL-027"
+      ],
+      "stories": [
+        "US-PTL-012"
+      ],
+      "rules": [
+        "BR-PTL-07",
+        "BR-PTL-32"
+      ],
+      "dependencies": [
+        "storage bucket 'attachments'"
+      ],
+      "acceptance_criteria": [
+        "A required file field without a file blocks submission.",
+        "Each uploaded file has an attachments row with application_id, stage=1, uploaded_by."
+      ],
+      "open_questions": [
+        "OQ-PTL-10"
+      ]
+    },
+    {
+      "id": "FT-PTL-11",
+      "epic": "EP-PTL-03",
+      "name": "AI form assist (describe or attach to prefill)",
+      "description": "Applicant describes the project or attaches a proposal (PDF, text, image); an LLM proposes values for core and dynamic fields and asks up to 4 questions about missing important fields; values are proposals only.",
+      "roles": [
+        "applicant"
+      ],
+      "priority": "Could",
+      "screens": [
+        "SCR-PTL-05",
+        "SCR-PTL-04"
+      ],
+      "requirements": [
+        "FR-PTL-028",
+        "FR-PTL-029",
+        "FR-PTL-030"
+      ],
+      "stories": [
+        "US-PTL-013"
+      ],
+      "rules": [
+        "BR-PTL-19"
+      ],
+      "dependencies": [
+        "Lovable AI gateway (LOVABLE_API_KEY)",
+        "prefill.server.ts"
+      ],
+      "acceptance_criteria": [
+        "With neither text nor file, 'اكتب وصفاً أو أرفق مستنداً' is shown.",
+        "Returned values for option fields that are not in the option list are discarded.",
+        "The toast reports the number of filled fields and reminds the user to review them.",
+        "If questions are returned, they are displayed and answers can be sent for another pass or skipped."
+      ],
+      "open_questions": [
+        "OQ-PTL-11"
+      ]
+    },
+    {
+      "id": "FT-PTL-12",
+      "epic": "EP-PTL-04",
+      "name": "Application status tracking and required action",
+      "description": "Each own application card shows title, reference, opportunity, amount, stage label, status pill, 'what is required from you', expected response date and closing reason.",
+      "roles": [
+        "applicant"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PTL-03"
+      ],
+      "requirements": [
+        "FR-PTL-031",
+        "FR-PTL-032",
+        "FR-PTL-033"
+      ],
+      "stories": [
+        "US-PTL-014"
+      ],
+      "rules": [
+        "BR-PTL-14",
+        "BR-PTL-15",
+        "BR-PTL-18"
+      ],
+      "dependencies": [
+        "workflow stages (useStages)"
+      ],
+      "acceptance_criteria": [
+        "Pending application with no action shows 'لا شيء — طلبك قيد الدراسة' and an expected reply date = stage_entered_at + stage SLA (default 3 days).",
+        "If ETA is past, 'قريباً' is shown.",
+        "Closed/cancelled/awaiting-apology applications show 'السبب: <close_reason>'.",
+        "Empty list shows 'لم تقدّم أي طلب بعد'."
+      ],
+      "open_questions": [
+        "OQ-PTL-12"
+      ]
+    },
+    {
+      "id": "FT-PTL-13",
+      "epic": "EP-PTL-04",
+      "name": "Respond to edit request (resubmit)",
+      "description": "When staff request an edit, the card shows the reviewer note and a 'تم التعديل — إعادة الإرسال' button that returns the stage status to received and logs a resubmit.",
+      "roles": [
+        "applicant"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PTL-06"
+      ],
+      "requirements": [
+        "FR-PTL-034",
+        "FR-PTL-035"
+      ],
+      "stories": [
+        "US-PTL-015"
+      ],
+      "rules": [
+        "BR-PTL-16"
+      ],
+      "dependencies": [
+        "REV requestEdit"
+      ],
+      "acceptance_criteria": [
+        "Banner appears only when stage_status=needs_edit and status=pending.",
+        "Resubmit sets stage_status=received and adds a 'resubmit' history row."
+      ],
+      "open_questions": [
+        "OQ-PTL-13"
+      ]
+    },
+    {
+      "id": "FT-PTL-14",
+      "epic": "EP-PTL-04",
+      "name": "Accept or object to staff-proposed numeric changes",
+      "description": "Grants staff may propose new amount, duration or product quantities; the partner sees before/after and accepts (values applied) or objects with a mandatory note (proposal cleared).",
+      "roles": [
+        "applicant"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PTL-06"
+      ],
+      "requirements": [
+        "FR-PTL-036",
+        "FR-PTL-037"
+      ],
+      "stories": [
+        "US-PTL-016"
+      ],
+      "rules": [
+        "BR-PTL-17"
+      ],
+      "dependencies": [
+        "ApplicationEdits ProposeNumbersButton (REV)"
+      ],
+      "acceptance_criteria": [
+        "Banner lists old (struck) and new amount/duration, count of changed products and staff note.",
+        "Accept applies the values, updates application_items quantities, clears proposed_changes and logs accept_changes.",
+        "Object without a note shows 'اكتب سبب الاعتراض'; with a note it clears the proposal and logs reject_changes with the note."
+      ],
+      "open_questions": [
+        "OQ-PTL-14"
+      ]
+    },
+    {
+      "id": "FT-PTL-15",
+      "epic": "EP-PTL-05",
+      "name": "Contact data self-edit",
+      "description": "Primary delegate edits phone, email, region, governorate and city directly; changed phone/email must be OTP-verified; change is logged in beneficiary_events.",
+      "roles": [
+        "applicant (primary delegate)"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PTL-07"
+      ],
+      "requirements": [
+        "FR-PTL-038",
+        "FR-PTL-039"
+      ],
+      "stories": [
+        "US-PTL-017"
+      ],
+      "rules": [
+        "BR-PTL-26",
+        "BR-PTL-27"
+      ],
+      "dependencies": [
+        "FT-PTL-03",
+        "beneficiaryActions.logEvent"
+      ],
+      "acceptance_criteria": [
+        "Only primary delegates see 'تعديل'.",
+        "Saving with an unverified changed phone/email shows 'وثّق الجوال والبريد برمز التحقق قبل الحفظ'.",
+        "Saved changes create a contact_updated event with before/after values."
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-PTL-16",
+      "epic": "EP-PTL-05",
+      "name": "Bank account update",
+      "description": "Primary delegate updates bank name, IBAN (SA + 22 digits) and optionally an IBAN certificate; any change resets bank verification to pending.",
+      "roles": [
+        "applicant (primary delegate)"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PTL-08",
+        "SCR-PTL-07"
+      ],
+      "requirements": [
+        "FR-PTL-040",
+        "FR-PTL-041"
+      ],
+      "stories": [
+        "US-PTL-018"
+      ],
+      "rules": [
+        "BR-PTL-26",
+        "BR-PTL-28"
+      ],
+      "dependencies": [
+        "beneficiaryActions.updateBankDetails"
+      ],
+      "acceptance_criteria": [
+        "IBAN not matching SA[0-9]{22} cannot be submitted.",
+        "Any IBAN/bank change or new certificate sets bank_status=pending and clears verified_at/by.",
+        "iban_changed and/or iban_doc events are logged; toast 'حُفظ — بانتظار توثيق المانح'."
+      ],
+      "open_questions": [
+        "OQ-PTL-15"
+      ]
+    },
+    {
+      "id": "FT-PTL-17",
+      "epic": "EP-PTL-05",
+      "name": "License update with AI auto-verification",
+      "description": "Primary delegate submits official name, license number, expiry and document; AI checks four criteria (number, name, validity, issuer); 100% match auto-applies, otherwise a manual review task is created for the tenant admin.",
+      "roles": [
+        "applicant (primary delegate)"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PTL-09",
+        "SCR-PTL-07"
+      ],
+      "requirements": [
+        "FR-PTL-042",
+        "FR-PTL-043",
+        "FR-PTL-044"
+      ],
+      "stories": [
+        "US-PTL-019"
+      ],
+      "rules": [
+        "BR-PTL-26",
+        "BR-PTL-29"
+      ],
+      "dependencies": [
+        "entityUpdates.functions.ts",
+        "projectAi.server.checkLicenseDoc",
+        "manual_tasks"
+      ],
+      "acceptance_criteria": [
+        "Last request date, status and reviewer note are displayed.",
+        "With score 100 the beneficiary record is updated, a license_auto event is logged and status=auto_approved.",
+        "With score <100 status=review and a 'تدقيق تحديث ترخيص' task due in 2 days is assigned to a tenant admin.",
+        "Unsupported file type or AI failure yields score 0 and manual review."
+      ],
+      "open_questions": [
+        "OQ-PTL-16"
+      ]
+    },
+    {
+      "id": "FT-PTL-18",
+      "epic": "EP-PTL-06",
+      "name": "Partner project execution participation",
+      "description": "Partner opens own projects, sees contract, progress, finance breakdown, allocations, co-funding and indicators read-only, and performs partner actions: submit task completion, upload evidence per required-document slot, submit or revise phase reports, read grantor feedback.",
+      "roles": [
+        "applicant"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PTL-11"
+      ],
+      "requirements": [
+        "FR-PTL-045",
+        "FR-PTL-046",
+        "FR-PTL-047",
+        "FR-PTL-048"
+      ],
+      "stories": [
+        "US-PTL-020",
+        "US-PTL-021"
+      ],
+      "rules": [
+        "BR-PTL-30",
+        "BR-PTL-32",
+        "BR-PTL-34"
+      ],
+      "dependencies": [
+        "PRJ ProjectTree, Indicators, CoFunding",
+        "FileSlots"
+      ],
+      "acceptance_criteria": [
+        "Only projects whose beneficiary_id equals the represented entity appear under 'مشاريعي'.",
+        "Evidence upload is available only for unlocked tasks whose dependencies are approved and that are not yet approved.",
+        "Partner can submit a phase report when the phase is unlocked and the report is missing or returned.",
+        "Grantor feedback on returned tasks is shown as 'ملاحظات المانح'."
+      ],
+      "open_questions": [
+        "OQ-PTL-17"
+      ]
+    },
+    {
+      "id": "FT-PTL-19",
+      "epic": "EP-PTL-06",
+      "name": "Payment receipt confirmation",
+      "description": "When a payment is awaiting receipt the partner views the transfer notice, uploads the receipt voucher and confirms receipt with an optional voucher number, closing the payment.",
+      "roles": [
+        "applicant"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PTL-12"
+      ],
+      "requirements": [
+        "FR-PTL-049",
+        "FR-PTL-050"
+      ],
+      "stories": [
+        "US-PTL-022"
+      ],
+      "rules": [
+        "BR-PTL-31",
+        "BR-PTL-32"
+      ],
+      "dependencies": [
+        "payments.ts recordReceipt",
+        "FileSlots"
+      ],
+      "acceptance_criteria": [
+        "Panel is shown only for payments in awaiting_receipt or paid.",
+        "Receipt upload allowed only in awaiting_receipt.",
+        "Confirm without a receipt file fails (requireSlot); with file, status=paid, receipt_ref and received_at are set."
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-PTL-20",
+      "epic": "EP-PTL-07",
+      "name": "External AI evaluation report intake API",
+      "description": "Public POST endpoint /api/public/ai-report authenticated by a bearer token through which the client's external grant-evaluation agent writes score, color, label, summary, report, recommendation, per-criterion scores and details onto an application.",
+      "roles": [
+        "external system (AI agent)"
+      ],
+      "priority": "Should",
+      "screens": [],
+      "requirements": [
+        "FR-PTL-051",
+        "FR-PTL-052",
+        "FR-PTL-053",
+        "FR-PTL-054"
+      ],
+      "stories": [
+        "US-PTL-023"
+      ],
+      "rules": [
+        "BR-PTL-33"
+      ],
+      "dependencies": [
+        "AI_AGENT_TOKEN secret",
+        "supabaseAdmin service client"
+      ],
+      "acceptance_criteria": [
+        "Without configured token → 503; wrong/missing token → 401 (constant-time compare).",
+        "Invalid body → 400 with flattened zod errors; neither application_id nor ref_no → 400.",
+        "Unknown application → 404; success → 200 {ok:true} and external_ai_at set to now."
+      ],
+      "open_questions": [
+        "OQ-PTL-18",
+        "OQ-PTL-19"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "FR-PTL-001",
+      "feature": "FT-PTL-01",
+      "stories": [
+        "US-PTL-001"
+      ],
+      "statement": "The system shall let a visitor choose a beneficiary type from types that are portal-enabled and not closed for the tenant.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "register-tenant.tsx:33-36,87-94; applicantTypes.ts:7-14",
+      "acceptance_criteria": [
+        "Given government is portal=false When the page loads Then it is not offered.",
+        "Given the tenant closed 'company' When the page loads Then 'شركة' is not offered."
+      ]
+    },
+    {
+      "id": "FR-PTL-002",
+      "feature": "FT-PTL-01",
+      "stories": [
+        "US-PTL-001"
+      ],
+      "statement": "The system shall look up the entered identifier and classify it as registered, pending registration, or new.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "registrations.ts:48-67; register-tenant.tsx:46-55",
+      "acceptance_criteria": [
+        "Given license 1234 exists When 'تحقق' is pressed Then the registered panel is shown.",
+        "Given no beneficiary and no pending request When checked Then the registration form is shown."
+      ]
+    },
+    {
+      "id": "FR-PTL-003",
+      "feature": "FT-PTL-01",
+      "stories": [
+        "US-PTL-001"
+      ],
+      "statement": "The system shall prefill registration fields from the official registry when the identifier is found there and label each field as from-registry or edited.",
+      "type": "Integration",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "registrations.ts:27-32; register-tenant.tsx:53,111,116-131",
+      "acceptance_criteria": [
+        "Given license 7781 When checked Then name/type/entity number/region/city/class/phone/delegate are prefilled and labelled 'من السجل'.",
+        "Given a prefilled value is changed When displayed Then the label becomes 'معدّل عن السجل'."
+      ]
+    },
+    {
+      "id": "FR-PTL-004",
+      "feature": "FT-PTL-01",
+      "stories": [
+        "US-PTL-001",
+        "US-PTL-002"
+      ],
+      "statement": "The system shall capture registration fields (entity name, type, unified number, region, city, classification, official email, phone, delegate name/ID/mobile, bank, IBAN), hiding organisation-only fields for individuals.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "registrations.ts:11-25; register-tenant.tsx:56-57",
+      "acceptance_criteria": [
+        "Given type individual When the form shows Then labels are 'الاسم الكامل', 'الجوال', 'البريد الإلكتروني' and organisation fields are hidden.",
+        "Given a required field is empty When submitting Then the browser blocks submission."
+      ]
+    },
+    {
+      "id": "FR-PTL-005",
+      "feature": "FT-PTL-01",
+      "stories": [
+        "US-PTL-002"
+      ],
+      "statement": "The system shall submit a registration request storing each non-empty field with its value, registry value, source and decision=pending, and show a confirmation.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "registrations.ts:69-77; register-tenant.tsx:58-76",
+      "acceptance_criteria": [
+        "Given all OTP fields verified When submitting Then an entity_registrations row is created and 'أُرسل الطلب للتدقيق' is shown.",
+        "Given an insert error When submitting Then the error is shown in a toast."
+      ]
+    },
+    {
+      "id": "FR-PTL-006",
+      "feature": "FT-PTL-02",
+      "stories": [
+        "US-PTL-003"
+      ],
+      "statement": "The system shall show, for a registered identifier, the entity name and its active delegates with masked names and mobiles.",
+      "type": "Security",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "registrations.ts:34-58; register-tenant.tsx:174-177",
+      "acceptance_criteria": [
+        "Given entity with primary delegate When looked up Then the delegate appears masked with '(المفوض الرئيسي)'.",
+        "Given no delegate When looked up Then 'لا يوجد مفوض مسجل' is shown and the OTP button is disabled."
+      ]
+    },
+    {
+      "id": "FR-PTL-007",
+      "feature": "FT-PTL-02",
+      "stories": [
+        "US-PTL-003"
+      ],
+      "statement": "The system shall allow a visitor to prove relation to a registered entity by entering a one-time code sent to the delegate's mobile.",
+      "type": "Security",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "registrations.ts:79-82; register-tenant.tsx:155-163,186-204",
+      "acceptance_criteria": [
+        "Given the code is entered correctly When 'تحقق' Then 'تم التحقق من صلتك بالجهة' with a login link is shown.",
+        "Given a wrong code Then 'الرمز غير صحيح — تأكد وأعد المحاولة'."
+      ]
+    },
+    {
+      "id": "FR-PTL-008",
+      "feature": "FT-PTL-02",
+      "stories": [
+        "US-PTL-004"
+      ],
+      "statement": "The system shall accept a delegate-change request (new delegate name, national ID, mobile, reason) for a registered entity and queue it for admin review.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "registrations.ts:84-97; register-tenant.tsx:164-171,206-227",
+      "acceptance_criteria": [
+        "Given all four fields When 'إرسال الطلب' Then a pending request is stored and 'أُرسل طلب تغيير المفوض' is shown.",
+        "Given a missing field Then the browser blocks submission."
+      ]
+    },
+    {
+      "id": "FR-PTL-009",
+      "feature": "FT-PTL-03",
+      "stories": [
+        "US-PTL-001",
+        "US-PTL-017"
+      ],
+      "statement": "The system shall require a one-time code to verify mobile and email inputs, show a verified badge on success, and reset verification when the value changes.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "OtpVerifiedInput.tsx:7-39",
+      "acceptance_criteria": [
+        "Given a value When the shield icon is pressed Then a code entry box appears.",
+        "Given verified When the value is edited Then the badge disappears and verification is required again."
+      ]
+    },
+    {
+      "id": "FR-PTL-010",
+      "feature": "FT-PTL-04",
+      "stories": [
+        "US-PTL-005"
+      ],
+      "statement": "The system shall restrict the portal to the applicant role and show other roles a message to switch persona.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:81-83; AppShell.tsx:54,86",
+      "acceptance_criteria": [
+        "Given role reviewer When opening /portal Then 'هذه البوابة للمتقدمين — بدّل الشخصية من الأعلى.' is shown.",
+        "Given role applicant Then the portal with no sidebar is shown."
+      ]
+    },
+    {
+      "id": "FR-PTL-011",
+      "feature": "FT-PTL-04",
+      "stories": [
+        "US-PTL-005"
+      ],
+      "statement": "The system shall resolve the represented entity from the selected membership, else the first active membership (primary first), else the persona's beneficiary, and allow switching when the user has several memberships.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:65-74,91-105; memberships.ts:40-45",
+      "acceptance_criteria": [
+        "Given 2 active memberships When the portal loads Then two chips are shown and the primary one is selected.",
+        "Given the user picks another chip Then applications, opportunities' eligibility and projects reflect that entity."
+      ]
+    },
+    {
+      "id": "FR-PTL-012",
+      "feature": "FT-PTL-05",
+      "stories": [
+        "US-PTL-006"
+      ],
+      "statement": "The system shall list only opportunities that are active, published and within their open/close window.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "data.ts:403-409; portal.tsx:87",
+      "acceptance_criteria": [
+        "Given a program with close_at in the past Then it is not listed.",
+        "Given an unpublished active program Then it is not listed."
+      ]
+    },
+    {
+      "id": "FR-PTL-013",
+      "feature": "FT-PTL-05",
+      "stories": [
+        "US-PTL-006"
+      ],
+      "statement": "The system shall evaluate each opportunity's eligibility for the represented entity and show the reasons when ineligible.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "eligibility.ts:38-58; portal.tsx:162,173",
+      "acceptance_criteria": [
+        "Given program target_types excludes the entity type Then the card shows 'مخصصة لـ: …'.",
+        "Given entity is a named target Then it is eligible regardless of other rules."
+      ]
+    },
+    {
+      "id": "FR-PTL-014",
+      "feature": "FT-PTL-05",
+      "stories": [
+        "US-PTL-006"
+      ],
+      "statement": "The system shall show the number of applications already made versus the per-entity maximum and disable applying when the quota is reached.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:161-175",
+      "acceptance_criteria": [
+        "Given max_per_beneficiary=1 and one pending application Then 'استنفدت عدد الطلبات المسموحة' replaces the button.",
+        "Given a cancelled application Then it is not counted."
+      ]
+    },
+    {
+      "id": "FR-PTL-015",
+      "feature": "FT-PTL-06",
+      "stories": [
+        "US-PTL-007"
+      ],
+      "statement": "The system shall display a tokenised invitation with opportunity kind, ceiling, deadline, duration, description, scope and deliverables and mark it opened on first view.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "invite.$token.tsx:30-80; rfp.ts:43-51",
+      "acceptance_criteria": [
+        "Given status sent When opened Then status=opened and opened_at set.",
+        "Given an unknown token Then 'رابط الدعوة غير صالح'."
+      ]
+    },
+    {
+      "id": "FR-PTL-016",
+      "feature": "FT-PTL-06",
+      "stories": [
+        "US-PTL-007"
+      ],
+      "statement": "The system shall let the invited partner activate an inactive entity account, proceed to the application dialog, or decline the invitation.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "invite.$token.tsx:46-60,81-100; portal.tsx:50,63-64",
+      "acceptance_criteria": [
+        "Given active entity When 'الانتقال للتقديم' Then the portal opens with the apply dialog for that program.",
+        "Given 'اعتذار' Then status=declined and responded_at set."
+      ]
+    },
+    {
+      "id": "FR-PTL-017",
+      "feature": "FT-PTL-07",
+      "stories": [
+        "US-PTL-008"
+      ],
+      "statement": "The system shall render the application form for the opportunity using its form-library form (form_id) or, as fallback, legacy program-level fields, ordered by sort_order.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:250-253,417-431",
+      "acceptance_criteria": [
+        "Given program.form_id set Then fields of that form are shown under 'البيانات الإضافية'.",
+        "Given no form_id Then fields with program_id are shown."
+      ]
+    },
+    {
+      "id": "FR-PTL-018",
+      "feature": "FT-PTL-07",
+      "stories": [
+        "US-PTL-008"
+      ],
+      "statement": "The system shall capture project title (required), description, requested amount in SAR (required), duration in days, implementation region (list) and target groups with beneficiary counts (repeatable rows).",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:260-261,390-414",
+      "acceptance_criteria": [
+        "Given title or amount empty When 'إرسال الطلب' Then 'أكمل الحقول الإلزامية'.",
+        "Given multiple target group rows Then only rows with a group name are saved with numeric counts."
+      ]
+    },
+    {
+      "id": "FR-PTL-019",
+      "feature": "FT-PTL-07",
+      "stories": [
+        "US-PTL-008"
+      ],
+      "statement": "The system shall require the applicant to choose an annual-plan initiative for open-track opportunities, otherwise use the opportunity's default plan level.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:265,300,307,343",
+      "acceptance_criteria": [
+        "Given open_track When submitting without initiative Then 'اختر المبادرة التي يندرج تحتها الطلب'.",
+        "Given not open_track Then plan_level_id = default_plan_level_id."
+      ]
+    },
+    {
+      "id": "FR-PTL-020",
+      "feature": "FT-PTL-07",
+      "stories": [
+        "US-PTL-008",
+        "US-PTL-009"
+      ],
+      "statement": "The system shall validate required dynamic fields before submission.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:297-299",
+      "acceptance_criteria": [
+        "Given required select empty Then 'الحقل «label» إلزامي'.",
+        "Given all required fields filled Then submission proceeds."
+      ]
+    },
+    {
+      "id": "FR-PTL-021",
+      "feature": "FT-PTL-07",
+      "stories": [
+        "US-PTL-009"
+      ],
+      "statement": "The system shall create the application with status pending, stage 1, stage status received, a submission snapshot, an auto reference number and a 'submit' history entry, and confirm with the reference number.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:301-335; workflow.ts:4-10; migration 20261004093306 set_ref_no",
+      "acceptance_criteria": [
+        "Given valid data When submitted Then toast 'تم تقديم الطلب برقم REQyymm#####' and the list refreshes.",
+        "Given an insert error Then the message is shown and the dialog stays open."
+      ]
+    },
+    {
+      "id": "FR-PTL-022",
+      "feature": "FT-PTL-08",
+      "stories": [
+        "US-PTL-010"
+      ],
+      "statement": "The system shall list the opportunity's linked products with unit price, unit and available quantity and allow entering quantities with live line and grand totals.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "portal.tsx:254-258,362-389",
+      "acceptance_criteria": [
+        "Given quantity 3 at 100 SAR Then the line shows 300 SAR and total updates.",
+        "Given no products linked Then 'لا توجد منتجات معرفة في هذه الفرصة بعد.'"
+      ]
+    },
+    {
+      "id": "FR-PTL-023",
+      "feature": "FT-PTL-08",
+      "stories": [
+        "US-PTL-010"
+      ],
+      "statement": "The system shall validate at least one product and quantities not exceeding available stock, set the requested amount to the computed total and store one application item per chosen product.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "portal.tsx:267-268,290-292,308,311,318-323",
+      "acceptance_criteria": [
+        "Given quantity > available Then the error names the product and available stock.",
+        "Given valid selection Then application_items rows are inserted with quantities."
+      ]
+    },
+    {
+      "id": "FR-PTL-024",
+      "feature": "FT-PTL-09",
+      "stories": [
+        "US-PTL-011"
+      ],
+      "statement": "The system shall display RFP details (scope, deliverables, ceiling, duration, weighted activities, payment percentages) in the offer dialog.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "portal.tsx:344-353",
+      "acceptance_criteria": [
+        "Given rfp_activities Then they show as 'title (weight%)'.",
+        "Given rfp_payments Then they show as 'title percent%'."
+      ]
+    },
+    {
+      "id": "FR-PTL-025",
+      "feature": "FT-PTL-09",
+      "stories": [
+        "US-PTL-011"
+      ],
+      "statement": "The system shall require a technical offer and a financial offer not exceeding the opportunity budget and save them as technical_offer and requested_amount.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "portal.tsx:293-295,308-312,357-358",
+      "acceptance_criteria": [
+        "Given offer > budget Then 'العرض المالي يتجاوز السقف …'.",
+        "Given valid offer Then technical_offer saved and duration_days = rfp_duration_days."
+      ]
+    },
+    {
+      "id": "FR-PTL-026",
+      "feature": "FT-PTL-10",
+      "stories": [
+        "US-PTL-012"
+      ],
+      "statement": "The system shall upload each file selected in a file-type form field to the private attachments storage and register it as a stage-1 attachment of the application.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:303,324-328",
+      "acceptance_criteria": [
+        "Given a file field with a file When submitted Then an attachments row exists with stage=1 and uploaded_by.",
+        "Given the upload fails Then (current behaviour) the row is skipped silently."
+      ]
+    },
+    {
+      "id": "FR-PTL-027",
+      "feature": "FT-PTL-10",
+      "stories": [
+        "US-PTL-012"
+      ],
+      "statement": "The system should collect application attachments through per-requirement multi-file slots with an advisory AI pre-check, consistent with other evidence in the platform.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Recommended",
+      "source": "AGENTS.md; FileSlots.tsx:121-238",
+      "acceptance_criteria": [
+        "Given a required document slot When files are added Then each file is AI-checked and the result is advisory.",
+        "Given an AI 'fail' verdict Then submission is not blocked."
+      ]
+    },
+    {
+      "id": "FR-PTL-028",
+      "feature": "FT-PTL-11",
+      "stories": [
+        "US-PTL-013"
+      ],
+      "statement": "The system shall let the applicant open an AI assist panel, enter a free-text description and/or attach one document (pdf, txt, csv, md, image) to prefill the form.",
+      "type": "AI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "AiAssist.tsx:34-121; prefill.functions.ts:5-10",
+      "acceptance_criteria": [
+        "Given neither text nor file Then 'اكتب وصفاً أو أرفق مستنداً'.",
+        "Given a 12 MB file Then 'حجم الملف يتجاوز 10 ميجابايت'."
+      ]
+    },
+    {
+      "id": "FR-PTL-029",
+      "feature": "FT-PTL-11",
+      "stories": [
+        "US-PTL-013"
+      ],
+      "statement": "The system shall send the field specification and inputs to the LLM and apply only returned values that are non-empty and, for option fields, exactly match an option.",
+      "type": "AI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "prefill.server.ts:13-55; AiAssist.tsx:57-66; portal.tsx:270-287",
+      "acceptance_criteria": [
+        "Given AI returns region not in REGIONS Then region is unchanged.",
+        "Given AI returns target_groups Then the groups rows are replaced."
+      ]
+    },
+    {
+      "id": "FR-PTL-030",
+      "feature": "FT-PTL-11",
+      "stories": [
+        "US-PTL-013"
+      ],
+      "statement": "The system shall display up to four AI follow-up questions about missing important fields and re-run prefill with the applicant's answers or allow skipping.",
+      "type": "AI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "AiAssist.tsx:76-81,95-109; prefill.server.ts:30,53",
+      "acceptance_criteria": [
+        "Given questions returned Then they are shown with inputs and 'إرسال الإجابات'.",
+        "Given no answer entered Then 'أجب على سؤال واحد على الأقل'."
+      ]
+    },
+    {
+      "id": "FR-PTL-031",
+      "feature": "FT-PTL-12",
+      "stories": [
+        "US-PTL-014"
+      ],
+      "statement": "The system shall list the applicant's applications (by represented entity, or by applicant when no entity) with title, reference, opportunity, amount, stage label and status pill.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:85,117-155; data.ts:397-401",
+      "acceptance_criteria": [
+        "Given a pending stage-2 application Then 'المرحلة 2 — دراسة الطلبات' is shown.",
+        "Given none Then 'لم تقدّم أي طلب بعد'."
+      ]
+    },
+    {
+      "id": "FR-PTL-032",
+      "feature": "FT-PTL-12",
+      "stories": [
+        "US-PTL-014"
+      ],
+      "statement": "The system shall derive and show the action required from the applicant and, when none, an expected response date based on the current stage SLA.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:128-138",
+      "acceptance_criteria": [
+        "Given proposed_changes Then 'مراجعة التعديل المقترح والموافقة عليه'.",
+        "Given pending with no action and stage SLA 5 days Then expected date = stage_entered_at + 5 days."
+      ]
+    },
+    {
+      "id": "FR-PTL-033",
+      "feature": "FT-PTL-12",
+      "stories": [
+        "US-PTL-014"
+      ],
+      "statement": "The system shall show the closing reason for applications that are not pending or approved.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:148-150",
+      "acceptance_criteria": [
+        "Given status closed with close_reason Then 'السبب: …' is shown.",
+        "Given status approved Then no reason is shown."
+      ]
+    },
+    {
+      "id": "FR-PTL-034",
+      "feature": "FT-PTL-13",
+      "stories": [
+        "US-PTL-015"
+      ],
+      "statement": "The system shall display the reviewer's edit-request note on applications awaiting applicant edits.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:140-142",
+      "acceptance_criteria": [
+        "Given stage_status needs_edit and status pending Then 'مطلوب تعديل: <reviewer_note>' is shown.",
+        "Given status not pending Then the banner is hidden."
+      ]
+    },
+    {
+      "id": "FR-PTL-035",
+      "feature": "FT-PTL-13",
+      "stories": [
+        "US-PTL-015"
+      ],
+      "statement": "The system shall let the applicant resubmit an application after an edit request, returning it to 'received' in the current stage and logging the resubmission.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:143-145; workflow.ts:130-133",
+      "acceptance_criteria": [
+        "Given needs_edit When 'تم التعديل — إعادة الإرسال' Then stage_status=received and history action=resubmit.",
+        "Given success Then toast 'تمت إعادة الإرسال'."
+      ]
+    },
+    {
+      "id": "FR-PTL-036",
+      "feature": "FT-PTL-14",
+      "stories": [
+        "US-PTL-016"
+      ],
+      "statement": "The system shall show pending staff-proposed changes with before/after amount and duration, the number of changed product quantities and the staff note.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:442-461",
+      "acceptance_criteria": [
+        "Given proposed amount Then old amount is struck through and new amount bold.",
+        "Given items changed Then 'تعديل كميات n من المنتجات'."
+      ]
+    },
+    {
+      "id": "FR-PTL-037",
+      "feature": "FT-PTL-14",
+      "stories": [
+        "US-PTL-016"
+      ],
+      "statement": "The system shall apply proposed changes on acceptance (amount, duration, item quantities) or discard them on objection with a mandatory note, clearing the proposal and logging the response in either case.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:446-451; workflow.ts:254-268",
+      "acceptance_criteria": [
+        "Given accept Then requested_amount/duration/items updated, proposed_changes=null, history accept_changes.",
+        "Given object with empty note Then 'اكتب سبب الاعتراض'; with note Then proposed_changes=null and history reject_changes includes the note."
+      ]
+    },
+    {
+      "id": "FR-PTL-038",
+      "feature": "FT-PTL-15",
+      "stories": [
+        "US-PTL-017"
+      ],
+      "statement": "The system shall display the entity's official data (name, type, license no., license expiry, entity number, classification, status, governance) read-only with an explanation that changes go through an update request.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "EntityProfile.tsx:42-58",
+      "acceptance_criteria": [
+        "Given the profile tab Then the official data card is shown.",
+        "Given primary delegate Then 'تحديث الترخيص' is available."
+      ]
+    },
+    {
+      "id": "FR-PTL-039",
+      "feature": "FT-PTL-15",
+      "stories": [
+        "US-PTL-017"
+      ],
+      "statement": "The system shall let the primary delegate edit phone, email, region, governorate and city, requiring OTP verification for changed phone/email, save directly and log a contact_updated event with before/after.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "EntityProfile.tsx:16-38,60-94",
+      "acceptance_criteria": [
+        "Given changed email not verified When 'حفظ' Then 'وثّق الجوال والبريد برمز التحقق قبل الحفظ'.",
+        "Given no field changed Then edit mode closes without writing."
+      ]
+    },
+    {
+      "id": "FR-PTL-040",
+      "feature": "FT-PTL-16",
+      "stories": [
+        "US-PTL-018"
+      ],
+      "statement": "The system shall display the bank name, IBAN, bank verification status and IBAN certificate name on the profile.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "EntityProfile.tsx:96-107",
+      "acceptance_criteria": [
+        "Given bank_status pending Then pill 'قيد التحقق'.",
+        "Given no certificate Then 'لم تُرفع'."
+      ]
+    },
+    {
+      "id": "FR-PTL-041",
+      "feature": "FT-PTL-16",
+      "stories": [
+        "US-PTL-018"
+      ],
+      "statement": "The system shall let the primary delegate update bank name, IBAN (pattern SA + 22 digits) and IBAN certificate (PDF/image), resetting verification to pending on any change and logging events.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "portal.tsx:214-237; beneficiaryActions.ts:56-71",
+      "acceptance_criteria": [
+        "Given IBAN changed Then bank_status=pending, verified fields cleared, iban_changed event logged.",
+        "Given only a new certificate Then status=pending and iban_doc event logged."
+      ]
+    },
+    {
+      "id": "FR-PTL-042",
+      "feature": "FT-PTL-17",
+      "stories": [
+        "US-PTL-019"
+      ],
+      "statement": "The system shall let the primary delegate submit a license update (official name, license number, expiry date, license document) and show the status and reviewer note of the latest request.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "LicenseUpdate.tsx:20-61; entityUpdates.ts:21-38",
+      "acceptance_criteria": [
+        "Given no document Then 'أرفق وثيقة الترخيص'.",
+        "Given a previous rejected request Then its status 'رُفض' and note are shown."
+      ]
+    },
+    {
+      "id": "FR-PTL-043",
+      "feature": "FT-PTL-17",
+      "stories": [
+        "US-PTL-019"
+      ],
+      "statement": "The system shall AI-check the license document against the entered values on four equally-weighted criteria (license number, name, validity, issuer) and auto-apply the update only on a 100% match.",
+      "type": "AI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "entityUpdates.functions.ts:9-33; projectAi.server.ts:140-164",
+      "acceptance_criteria": [
+        "Given all four criteria ok Then status auto_approved and toast 'طابق المستند 100% — اعتُمد التحديث مباشرة'.",
+        "Given 3 of 4 Then score 75 and manual review."
+      ]
+    },
+    {
+      "id": "FR-PTL-044",
+      "feature": "FT-PTL-17",
+      "stories": [
+        "US-PTL-019"
+      ],
+      "statement": "The system shall route non-100% license checks to manual review by creating a review task for a tenant admin due in two days.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "entityUpdates.functions.ts:34-43",
+      "acceptance_criteria": [
+        "Given score <100 Then status review and manual_tasks row titled 'تدقيق تحديث ترخيص: …'.",
+        "Given unsupported file type Then score 0 with summary 'تعذر الفحص الآلي: …'."
+      ]
+    },
+    {
+      "id": "FR-PTL-045",
+      "feature": "FT-PTL-18",
+      "stories": [
+        "US-PTL-020"
+      ],
+      "statement": "The system shall list the represented entity's projects with reference, status and progress and open the project in partner mode.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "portal.tsx:86,191-210",
+      "acceptance_criteria": [
+        "Given a project for the entity Then it appears under 'مشاريعي' with 'إنجاز n%'.",
+        "Given no projects Then the section is hidden."
+      ]
+    },
+    {
+      "id": "FR-PTL-046",
+      "feature": "FT-PTL-18",
+      "stories": [
+        "US-PTL-020"
+      ],
+      "statement": "The system shall present project contract, finance breakdown, allocations, co-funding and indicators to the partner read-only.",
+      "type": "Security",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "projects.$id.tsx:102,128-160,172; Indicators.tsx:144-245",
+      "acceptance_criteria": [
+        "Given role applicant Then 'StartExecution' and 'ContractAdvance' are not shown.",
+        "Given role applicant Then CoFundingPanel canEdit=false."
+      ]
+    },
+    {
+      "id": "FR-PTL-047",
+      "feature": "FT-PTL-18",
+      "stories": [
+        "US-PTL-020"
+      ],
+      "statement": "The system shall let the partner submit a task as completed and upload evidence files per required-document slot when the task is unlocked, its dependencies are approved and it is not yet approved.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "ProjectTree.tsx:288-405",
+      "acceptance_criteria": [
+        "Given a blocked task Then 'بعد: …' shows and upload is disabled.",
+        "Given a returned task Then 'ملاحظات المانح: …' is shown and re-upload is allowed."
+      ]
+    },
+    {
+      "id": "FR-PTL-048",
+      "feature": "FT-PTL-18",
+      "stories": [
+        "US-PTL-021"
+      ],
+      "statement": "The system shall let the partner submit or revise a phase report when the phase is unlocked and the report is missing or returned.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "ProjectTree.tsx:409-444",
+      "acceptance_criteria": [
+        "Given no report When 'رفع تقرير المرحلة' and body entered Then project_reports row created pending.",
+        "Given returned report When edited Then status reset to pending."
+      ]
+    },
+    {
+      "id": "FR-PTL-049",
+      "feature": "FT-PTL-19",
+      "stories": [
+        "US-PTL-022"
+      ],
+      "statement": "The system shall show the partner the bank transfer notice and a receipt-voucher slot for payments awaiting receipt or paid.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "PaymentActions.tsx:34-44",
+      "acceptance_criteria": [
+        "Given status awaiting_receipt Then receipt upload is enabled.",
+        "Given status paid Then both files are view-only."
+      ]
+    },
+    {
+      "id": "FR-PTL-050",
+      "feature": "FT-PTL-19",
+      "stories": [
+        "US-PTL-022"
+      ],
+      "statement": "The system shall close a payment as paid when the partner confirms receipt with an uploaded receipt voucher and optional voucher number.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "PaymentActions.tsx:45-50; payments.ts:43-46",
+      "acceptance_criteria": [
+        "Given no receipt file Then the action fails with the slot-required error.",
+        "Given file uploaded Then status=paid, receipt_ref, received_at set."
+      ]
+    },
+    {
+      "id": "FR-PTL-051",
+      "feature": "FT-PTL-20",
+      "stories": [
+        "US-PTL-023"
+      ],
+      "statement": "The system shall expose POST /api/public/ai-report authenticated by a bearer token compared in constant time against the AI_AGENT_TOKEN secret.",
+      "type": "Integration",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "ai-report.ts:24-30",
+      "acceptance_criteria": [
+        "Given no secret configured Then 503 'Agent integration not configured'.",
+        "Given a wrong token Then 401."
+      ]
+    },
+    {
+      "id": "FR-PTL-052",
+      "feature": "FT-PTL-20",
+      "stories": [
+        "US-PTL-023"
+      ],
+      "statement": "The system shall validate the report payload: application_id (uuid) or ref_no (≤40) required; score 0–100; color #RRGGBB; label ≤80; summary ≤2000; report ≤100,000; recommendation ≤200; criteria ≤50 items each with optional criterion_id/name, score 0–10, note ≤500; details object.",
+      "type": "Integration",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "ai-report.ts:5-21,31-32",
+      "acceptance_criteria": [
+        "Given score 120 Then 400 with flattened errors.",
+        "Given neither id nor ref_no Then 400."
+      ]
+    },
+    {
+      "id": "FR-PTL-053",
+      "feature": "FT-PTL-20",
+      "stories": [
+        "US-PTL-023"
+      ],
+      "statement": "The system shall store the agent results on the matched application (external_ai_score, color, label, summary, report, recommendation, criteria, details, external_ai_at=now) overwriting previous values.",
+      "type": "Integration",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "ai-report.ts:33-44; AGENTS.md",
+      "acceptance_criteria": [
+        "Given valid payload for existing ref_no Then 200 {ok:true} and fields updated.",
+        "Given unknown application Then 404 'application not found'."
+      ]
+    },
+    {
+      "id": "FR-PTL-054",
+      "feature": "FT-PTL-20",
+      "stories": [
+        "US-PTL-023"
+      ],
+      "statement": "The system should scope agent updates to the caller's tenant, keep a history of each received report and log an application history entry.",
+      "type": "Integration",
+      "priority": "Should",
+      "evidence": "Recommended",
+      "source": "ai-report.ts (absent)",
+      "acceptance_criteria": [
+        "Given two tenants with the same ref_no pattern Then only the token's tenant application is updated.",
+        "Given a second report Then the earlier one remains retrievable."
+      ]
+    }
+  ],
+  "stories": [
+    {
+      "id": "US-PTL-001",
+      "epic": "EP-PTL-01",
+      "feature": "FT-PTL-01",
+      "role": "Anonymous visitor (prospective partner)",
+      "story": "As a prospective partner I want to check my identifier and get my registration form prefilled from the official registry so that I can register my entity quickly and accurately.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PTL-001",
+        "FR-PTL-002",
+        "FR-PTL-003",
+        "FR-PTL-004",
+        "FR-PTL-009"
+      ],
+      "acceptance_criteria": [
+        "Given license 7781 is new and in the registry When I press 'تحقق' Then the form is prefilled and each prefilled field is labelled 'من السجل'.",
+        "Given I change a prefilled value When I look at its label Then it reads 'معدّل عن السجل'.",
+        "Given my email is not verified When I submit Then I see 'تحقق أولاً من: البريد الرسمي'."
+      ],
+      "dependencies": [
+        "FT-PTL-03"
+      ],
+      "open_questions": [
+        "OQ-PTL-01"
+      ]
+    },
+    {
+      "id": "US-PTL-002",
+      "epic": "EP-PTL-01",
+      "feature": "FT-PTL-01",
+      "role": "Anonymous visitor (prospective partner)",
+      "story": "As a prospective partner I want to submit my registration for platform review so that my entity can be activated and apply for grants.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PTL-004",
+        "FR-PTL-005"
+      ],
+      "acceptance_criteria": [
+        "Given all required fields are filled and verified When I submit Then an entity_registrations row with status pending is created.",
+        "Given submission succeeds Then I see 'أُرسل الطلب للتدقيق' and that activation follows admin approval."
+      ],
+      "dependencies": [
+        "BEN registration review"
+      ],
+      "open_questions": [
+        "OQ-PTL-02"
+      ]
+    },
+    {
+      "id": "US-PTL-003",
+      "epic": "EP-PTL-01",
+      "feature": "FT-PTL-02",
+      "role": "Anonymous visitor (staff member of an existing partner)",
+      "story": "As a person working for an already-registered entity I want to verify my relation via a code sent to the entity's delegate so that I can be added to the entity's team.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PTL-006",
+        "FR-PTL-007"
+      ],
+      "acceptance_criteria": [
+        "Given a registered license When looked up Then delegates are listed with masked names and last-4 mobile digits.",
+        "Given I enter the correct code When I press 'تحقق' Then I see 'تم التحقق من صلتك بالجهة' and a login button."
+      ],
+      "dependencies": [
+        "BEN team management"
+      ],
+      "open_questions": [
+        "OQ-PTL-03"
+      ]
+    },
+    {
+      "id": "US-PTL-004",
+      "epic": "EP-PTL-01",
+      "feature": "FT-PTL-02",
+      "role": "Anonymous visitor (new delegate)",
+      "story": "As a new authorised delegate I want to request a delegate change for my registered entity so that platform administration can transfer delegation to me.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PTL-008"
+      ],
+      "acceptance_criteria": [
+        "Given all four fields When I press 'إرسال الطلب' Then a pending request with note 'طلب تغيير مفوض — السبب: …' is stored.",
+        "Given success Then 'أُرسل طلب تغيير المفوض' is shown."
+      ],
+      "dependencies": [
+        "BEN registration review"
+      ],
+      "open_questions": [
+        "OQ-PTL-03"
+      ]
+    },
+    {
+      "id": "US-PTL-005",
+      "epic": "EP-PTL-02",
+      "feature": "FT-PTL-04",
+      "role": "Applicant",
+      "story": "As an applicant who represents more than one entity I want to choose which entity I am acting for so that my applications and eligibility are evaluated for the right entity.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PTL-010",
+        "FR-PTL-011"
+      ],
+      "acceptance_criteria": [
+        "Given two active memberships When the portal loads Then I see 'تمثّل حالياً' with both entities and the primary selected.",
+        "Given I pick the second entity Then 'طلباتي' shows only that entity's applications."
+      ],
+      "dependencies": [
+        "memberships.ts"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PTL-006",
+      "epic": "EP-PTL-02",
+      "feature": "FT-PTL-05",
+      "role": "Applicant",
+      "story": "As an applicant I want to see open opportunities with clear eligibility and remaining quota so that I apply only where I qualify.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PTL-012",
+        "FR-PTL-013",
+        "FR-PTL-014"
+      ],
+      "acceptance_criteria": [
+        "Given a program targeting only 'وقف' and my entity is 'جمعية أهلية' When listed Then the card is dimmed with 'مخصصة لـ: وقف'.",
+        "Given I already have 2 of 2 applications When listed Then 'استنفدت عدد الطلبات المسموحة' replaces the button.",
+        "Given a closed period When listed Then the program is not shown."
+      ],
+      "dependencies": [
+        "PRG targeting"
+      ],
+      "open_questions": [
+        "OQ-PTL-05"
+      ]
+    },
+    {
+      "id": "US-PTL-007",
+      "epic": "EP-PTL-02",
+      "feature": "FT-PTL-06",
+      "role": "Invited partner",
+      "story": "As an invited partner I want to open my invitation, activate my entity account if needed and go straight to applying (or decline) so that I can respond quickly.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PTL-015",
+        "FR-PTL-016"
+      ],
+      "acceptance_criteria": [
+        "Given a sent invitation When I open it Then its status becomes opened.",
+        "Given my entity is active When I press 'الانتقال للتقديم' Then /portal opens with the application dialog for that opportunity.",
+        "Given I press 'اعتذار' Then the invitation is declined."
+      ],
+      "dependencies": [
+        "PRG invitations"
+      ],
+      "open_questions": [
+        "OQ-PTL-06"
+      ]
+    },
+    {
+      "id": "US-PTL-008",
+      "epic": "EP-PTL-03",
+      "feature": "FT-PTL-07",
+      "role": "Applicant",
+      "story": "As an applicant I want to fill the opportunity's application form (core project data plus opportunity-specific questions) so that my request is complete.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PTL-017",
+        "FR-PTL-018",
+        "FR-PTL-019",
+        "FR-PTL-020"
+      ],
+      "acceptance_criteria": [
+        "Given the opportunity uses library form X When I open the dialog Then X's fields appear under 'البيانات الإضافية' in sort order.",
+        "Given an open-track opportunity When I submit without initiative Then I see 'اختر المبادرة التي يندرج تحتها الطلب'."
+      ],
+      "dependencies": [
+        "CFG form library"
+      ],
+      "open_questions": [
+        "OQ-PTL-07"
+      ]
+    },
+    {
+      "id": "US-PTL-009",
+      "epic": "EP-PTL-03",
+      "feature": "FT-PTL-07",
+      "role": "Applicant",
+      "story": "As an applicant I want to submit my application and receive a reference number so that I can track it.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PTL-020",
+        "FR-PTL-021"
+      ],
+      "acceptance_criteria": [
+        "Given valid data When I submit Then I see 'تم تقديم الطلب برقم REQ…' and the application appears in 'طلباتي' as 'قيد الانتظار'.",
+        "Given I was invited When I submit Then my invitation is marked applied."
+      ],
+      "dependencies": [
+        "workflow.buildSnapshot"
+      ],
+      "open_questions": [
+        "OQ-PTL-08"
+      ]
+    },
+    {
+      "id": "US-PTL-010",
+      "epic": "EP-PTL-03",
+      "feature": "FT-PTL-08",
+      "role": "Applicant",
+      "story": "As an applicant I want to request quantities of in-kind products within available stock so that I receive the goods I need.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PTL-022",
+        "FR-PTL-023"
+      ],
+      "acceptance_criteria": [
+        "Given quantity above available When I submit Then I see 'الكمية المطلوبة من «…» تتجاوز المتاح (n)'.",
+        "Given valid quantities When I submit Then requested_amount equals the computed total and items are stored."
+      ],
+      "dependencies": [
+        "PRG products"
+      ],
+      "open_questions": [
+        "OQ-PTL-09"
+      ]
+    },
+    {
+      "id": "US-PTL-011",
+      "epic": "EP-PTL-03",
+      "feature": "FT-PTL-09",
+      "role": "Applicant (bidder)",
+      "story": "As a bidder I want to review the RFP terms and submit technical and financial offers so that I can compete for the project.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PTL-024",
+        "FR-PTL-025"
+      ],
+      "acceptance_criteria": [
+        "Given financial offer above the ceiling When I submit Then I see 'العرض المالي يتجاوز السقف …'.",
+        "Given both offers When I submit Then technical_offer and requested_amount are saved and the title equals the RFP title."
+      ],
+      "dependencies": [
+        "PRG RFP"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PTL-012",
+      "epic": "EP-PTL-03",
+      "feature": "FT-PTL-10",
+      "role": "Applicant",
+      "story": "As an applicant I want to attach required documents to my application so that reviewers have the supporting evidence.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PTL-026",
+        "FR-PTL-027"
+      ],
+      "acceptance_criteria": [
+        "Given a required file field without a file When I submit Then I see 'الحقل «…» إلزامي'.",
+        "Given a file When I submit Then an attachments row with stage 1 exists for my application."
+      ],
+      "dependencies": [
+        "Storage"
+      ],
+      "open_questions": [
+        "OQ-PTL-10"
+      ]
+    },
+    {
+      "id": "US-PTL-013",
+      "epic": "EP-PTL-03",
+      "feature": "FT-PTL-11",
+      "role": "Applicant",
+      "story": "As an applicant I want to describe my project in my own words or attach my proposal and have the form prefilled so that I spend less time on data entry.",
+      "priority": "Could",
+      "requirements": [
+        "FR-PTL-028",
+        "FR-PTL-029",
+        "FR-PTL-030"
+      ],
+      "acceptance_criteria": [
+        "Given a description mentioning amount and region When I run assist Then amount and region fields are filled and the toast says 'عُبّئ n حقل — راجعها قبل الحفظ'.",
+        "Given the AI returns a region not in the list When applied Then region stays unchanged.",
+        "Given I attach a 12 MB file When I run assist Then I see 'حجم الملف يتجاوز 10 ميجابايت'."
+      ],
+      "dependencies": [
+        "Lovable AI gateway"
+      ],
+      "open_questions": [
+        "OQ-PTL-11"
+      ]
+    },
+    {
+      "id": "US-PTL-014",
+      "epic": "EP-PTL-04",
+      "feature": "FT-PTL-12",
+      "role": "Applicant",
+      "story": "As an applicant I want to see each application's stage, status, what is required from me and when to expect a reply so that I know where I stand.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PTL-031",
+        "FR-PTL-032",
+        "FR-PTL-033"
+      ],
+      "acceptance_criteria": [
+        "Given a pending application with no required action When displayed Then 'لا شيء — طلبك قيد الدراسة' and 'الرد المتوقع: <date>' are shown.",
+        "Given a closed application with a reason Then 'السبب: …' is shown.",
+        "Given the ETA has passed Then 'قريباً' is shown."
+      ],
+      "dependencies": [
+        "REV workflow"
+      ],
+      "open_questions": [
+        "OQ-PTL-12"
+      ]
+    },
+    {
+      "id": "US-PTL-015",
+      "epic": "EP-PTL-04",
+      "feature": "FT-PTL-13",
+      "role": "Applicant",
+      "story": "As an applicant I want to see what the reviewer asked me to change and resubmit my application so that review continues.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PTL-034",
+        "FR-PTL-035"
+      ],
+      "acceptance_criteria": [
+        "Given needs_edit When I press resubmit Then stage_status becomes received and a 'resubmit' history entry is logged.",
+        "Given success Then toast 'تمت إعادة الإرسال' and the banner disappears."
+      ],
+      "dependencies": [
+        "REV requestEdit"
+      ],
+      "open_questions": [
+        "OQ-PTL-13"
+      ]
+    },
+    {
+      "id": "US-PTL-016",
+      "epic": "EP-PTL-04",
+      "feature": "FT-PTL-14",
+      "role": "Applicant",
+      "story": "As an applicant I want to review numeric changes proposed by grants staff and accept or object with a reason so that no change to my request happens without my consent.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PTL-036",
+        "FR-PTL-037"
+      ],
+      "acceptance_criteria": [
+        "Given a proposal lowering the amount When I accept Then requested_amount is updated and the banner disappears.",
+        "Given I press 'اعتراض' with no note Then I see 'اكتب سبب الاعتراض'.",
+        "Given I object with a note Then the proposal is cleared and history shows 'اعترضت الجهة على التعديل المقترح: <note>'."
+      ],
+      "dependencies": [
+        "REV ProposeNumbersButton"
+      ],
+      "open_questions": [
+        "OQ-PTL-14"
+      ]
+    },
+    {
+      "id": "US-PTL-017",
+      "epic": "EP-PTL-05",
+      "feature": "FT-PTL-15",
+      "role": "Applicant (primary delegate)",
+      "story": "As the entity's primary delegate I want to update our contact and location data directly, verifying any new phone or email, so that the grantor can reach us.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PTL-038",
+        "FR-PTL-039",
+        "FR-PTL-009"
+      ],
+      "acceptance_criteria": [
+        "Given I changed the email and did not verify When I save Then I see 'وثّق الجوال والبريد برمز التحقق قبل الحفظ'.",
+        "Given verified changes When I save Then the profile updates and a contact_updated event is logged."
+      ],
+      "dependencies": [
+        "FT-PTL-03"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PTL-018",
+      "epic": "EP-PTL-05",
+      "feature": "FT-PTL-16",
+      "role": "Applicant (primary delegate)",
+      "story": "As the primary delegate I want to update our bank account and IBAN certificate so that grant payments go to the correct verified account.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PTL-040",
+        "FR-PTL-041"
+      ],
+      "acceptance_criteria": [
+        "Given IBAN 'SA03…' with 22 digits When I save Then bank_status becomes 'قيد التحقق' and an iban_changed event is logged.",
+        "Given an IBAN without the SA prefix When I save Then the form does not submit."
+      ],
+      "dependencies": [
+        "BEN bank verification"
+      ],
+      "open_questions": [
+        "OQ-PTL-15"
+      ]
+    },
+    {
+      "id": "US-PTL-019",
+      "epic": "EP-PTL-05",
+      "feature": "FT-PTL-17",
+      "role": "Applicant (primary delegate)",
+      "story": "As the primary delegate I want to submit our renewed license with its document and have it verified automatically so that our official data is updated without delay when it matches.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PTL-042",
+        "FR-PTL-043",
+        "FR-PTL-044"
+      ],
+      "acceptance_criteria": [
+        "Given the document matches all four criteria When I submit Then the official data updates and I see 'طابق المستند 100% — اعتُمد التحديث مباشرة'.",
+        "Given a partial match When I submit Then I see 'نسبة المطابقة n% — أُحيل لموظف المانح للتدقيق' and a task is created for an admin."
+      ],
+      "dependencies": [
+        "BEN LicenseReviewCard"
+      ],
+      "open_questions": [
+        "OQ-PTL-16"
+      ]
+    },
+    {
+      "id": "US-PTL-020",
+      "epic": "EP-PTL-06",
+      "feature": "FT-PTL-18",
+      "role": "Applicant",
+      "story": "As a partner executing a project I want to mark tasks complete and upload the required evidence so that the grantor can approve progress.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PTL-045",
+        "FR-PTL-046",
+        "FR-PTL-047"
+      ],
+      "acceptance_criteria": [
+        "Given an unlocked open task When I upload evidence Then evidence_status becomes submitted.",
+        "Given a task returned with feedback Then I see 'ملاحظات المانح: …' and can upload again.",
+        "Given a task depending on an unapproved task Then upload is disabled and 'بعد: …' is shown."
+      ],
+      "dependencies": [
+        "PRJ ProjectTree"
+      ],
+      "open_questions": [
+        "OQ-PTL-17"
+      ]
+    },
+    {
+      "id": "US-PTL-021",
+      "epic": "EP-PTL-06",
+      "feature": "FT-PTL-18",
+      "role": "Applicant",
+      "story": "As a partner I want to submit a phase report and revise it if returned so that the phase can be approved and paid.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PTL-048"
+      ],
+      "acceptance_criteria": [
+        "Given no report When I send a summary Then a pending project_reports row is created.",
+        "Given a returned report When I edit and send Then its status returns to pending."
+      ],
+      "dependencies": [
+        "PRJ"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PTL-022",
+      "epic": "EP-PTL-06",
+      "feature": "FT-PTL-19",
+      "role": "Applicant",
+      "story": "As a partner I want to upload the receipt voucher and confirm receipt of a transferred payment so that the payment is closed.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PTL-049",
+        "FR-PTL-050"
+      ],
+      "acceptance_criteria": [
+        "Given no receipt uploaded When I confirm Then the action fails.",
+        "Given a receipt uploaded When I confirm Then the payment becomes paid with received_at set."
+      ],
+      "dependencies": [
+        "FIN payments"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PTL-023",
+      "epic": "EP-PTL-07",
+      "feature": "FT-PTL-20",
+      "role": "External AI evaluation agent (system)",
+      "story": "As the client's external evaluation agent I want to post my evaluation for an application so that reviewers see my score, label and report in the platform.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PTL-051",
+        "FR-PTL-052",
+        "FR-PTL-053",
+        "FR-PTL-054"
+      ],
+      "acceptance_criteria": [
+        "Given a valid token and payload When posted Then 200 {ok:true} and external_ai_at is now.",
+        "Given a wrong token When posted Then 401.",
+        "Given score 150 When posted Then 400."
+      ],
+      "dependencies": [
+        "REV AI score display"
+      ],
+      "open_questions": [
+        "OQ-PTL-18",
+        "OQ-PTL-19"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "BR-PTL-01",
+      "rule": "The applicant portal is shown only to the 'applicant' role; other roles see a switch-persona message. Applicants have no sidebar.",
+      "evidence": "Observed",
+      "source": "portal.tsx:81-83; AppShell.tsx:54,86"
+    },
+    {
+      "id": "BR-PTL-02",
+      "rule": "Represented entity = explicitly picked membership, else first active membership (primary first), else persona.beneficiary_id. Applications are recorded under both the person (applicant_id) and the entity (beneficiary_id).",
+      "evidence": "Observed",
+      "source": "portal.tsx:73,104,305-306; memberships.ts:40-45"
+    },
+    {
+      "id": "BR-PTL-03",
+      "rule": "An opportunity is open only if status='active', published=true and now is within open_at..close_at (when set).",
+      "evidence": "Observed",
+      "source": "data.ts:403-409"
+    },
+    {
+      "id": "BR-PTL-04",
+      "rule": "Eligibility: an entity named directly or via a targeted partner group is always eligible; a program targeting only named entities/groups excludes everyone else; otherwise all configured criteria must match (types, classification group, sub-classification, minimum governance score, regions, governorates with city fallback).",
+      "evidence": "Observed",
+      "source": "eligibility.ts:38-58"
+    },
+    {
+      "id": "BR-PTL-05",
+      "rule": "If no entity is resolved for the applicant, every open opportunity is treated as eligible.",
+      "evidence": "Observed",
+      "source": "eligibility.ts:39"
+    },
+    {
+      "id": "BR-PTL-06",
+      "rule": "Per-entity quota: number of own non-cancelled applications to the program must be below max_per_beneficiary (DB default 1).",
+      "evidence": "Observed",
+      "source": "portal.tsx:161-163; migration 20261004093306 line 27"
+    },
+    {
+      "id": "BR-PTL-07",
+      "rule": "Project applications require title and requested amount; any form field flagged required must be answered (file fields need a file).",
+      "evidence": "Observed",
+      "source": "portal.tsx:296-299"
+    },
+    {
+      "id": "BR-PTL-08",
+      "rule": "Product requests need ≥1 product with quantity >0, each ≤ quantity_available; requested amount = Σ quantity × unit price.",
+      "evidence": "Observed",
+      "source": "portal.tsx:267-268,290-292,311"
+    },
+    {
+      "id": "BR-PTL-09",
+      "rule": "RFP offers require technical and financial offers; financial offer ≤ program budget; title = program title; duration = rfp_duration_days.",
+      "evidence": "Observed",
+      "source": "portal.tsx:293-295,308,312"
+    },
+    {
+      "id": "BR-PTL-10",
+      "rule": "Open-track opportunities require the applicant to choose an initiative (plan level); otherwise the program default plan level is used.",
+      "evidence": "Observed",
+      "source": "portal.tsx:300,307"
+    },
+    {
+      "id": "BR-PTL-11",
+      "rule": "A new application starts as status=pending, current_stage=1, stage_status=received with a 'submit' history row and a frozen submission snapshot.",
+      "evidence": "Observed",
+      "source": "portal.tsx:314-315,329; workflow.ts:4-10"
+    },
+    {
+      "id": "BR-PTL-12",
+      "rule": "Application reference numbers are generated by DB trigger as REQ + YYMM + 5-digit sequence.",
+      "evidence": "Observed",
+      "source": "migration 20261004093306 set_ref_no / applications_ref"
+    },
+    {
+      "id": "BR-PTL-13",
+      "rule": "Submitting an application marks the entity's invitation to that program as 'applied'; viewing a 'sent' invitation marks it 'opened'; declining marks 'declined'.",
+      "evidence": "Observed",
+      "source": "rfp.ts:43-51; portal.tsx:330; invite.$token.tsx:39,58"
+    },
+    {
+      "id": "BR-PTL-14",
+      "rule": "Required applicant action: proposal pending → review proposed change; needs_edit & pending → edit and resubmit; otherwise none.",
+      "evidence": "Observed",
+      "source": "portal.tsx:129-135"
+    },
+    {
+      "id": "BR-PTL-15",
+      "rule": "Expected response = stage_entered_at + current stage SLA days (default 3), shown only for pending applications with no required action; shows 'soon' when overdue.",
+      "evidence": "Observed",
+      "source": "portal.tsx:131-136"
+    },
+    {
+      "id": "BR-PTL-16",
+      "rule": "Resubmitting after an edit request sets stage_status=received in the same stage and logs action 'resubmit'.",
+      "evidence": "Observed",
+      "source": "workflow.ts:130-133"
+    },
+    {
+      "id": "BR-PTL-17",
+      "rule": "Staff numeric changes (amount, duration, product quantities) wait in proposed_changes and apply only after partner acceptance; objection requires a note; both responses clear the proposal and are logged.",
+      "evidence": "Observed",
+      "source": "workflow.ts:238-268; portal.tsx:447"
+    },
+    {
+      "id": "BR-PTL-18",
+      "rule": "The closing reason is shown to the applicant for applications that are neither pending nor approved.",
+      "evidence": "Observed",
+      "source": "portal.tsx:148"
+    },
+    {
+      "id": "BR-PTL-19",
+      "rule": "AI form assist only proposes values: option fields must match an option exactly; up to 4 follow-up questions; file ≤10 MB; text ≤20,000 chars; values must be reviewed by the user.",
+      "evidence": "Observed",
+      "source": "AiAssist.tsx:33,47-48,59-64,118; prefill.server.ts:30,53; prefill.functions.ts:6-7"
+    },
+    {
+      "id": "BR-PTL-20",
+      "rule": "Registration offers only beneficiary types that are portal-enabled and not closed by the tenant; government entities are internal-only.",
+      "evidence": "Observed",
+      "source": "register-tenant.tsx:33-34; applicantTypes.ts:7-14"
+    },
+    {
+      "id": "BR-PTL-21",
+      "rule": "Identifier lookup: existing beneficiary → registered; pending entity_registrations → pending; else new (with registry data if found).",
+      "evidence": "Observed",
+      "source": "registrations.ts:48-67"
+    },
+    {
+      "id": "BR-PTL-22",
+      "rule": "Each registration field records value, registry value, source (registry / registry_edited / manual) and decision=pending; empty fields are not stored.",
+      "evidence": "Observed",
+      "source": "registrations.ts:69-77"
+    },
+    {
+      "id": "BR-PTL-23",
+      "rule": "Filled mobile/email fields must be OTP-verified before submission; editing a value resets its verification.",
+      "evidence": "Observed",
+      "source": "register-tenant.tsx:30,61-62; OtpVerifiedInput.tsx:20"
+    },
+    {
+      "id": "BR-PTL-24",
+      "rule": "A partner (beneficiary) record is created only when an admin accepts all registration fields; any rejected field returns the request.",
+      "evidence": "Observed",
+      "source": "registrations.ts:104-122 (see module BEN)"
+    },
+    {
+      "id": "BR-PTL-25",
+      "rule": "Lookup results expose delegate and requester identity only masked (initials + 3 letters; last 4 mobile digits).",
+      "evidence": "Observed",
+      "source": "registrations.ts:34-46,56,64"
+    },
+    {
+      "id": "BR-PTL-26",
+      "rule": "Only the primary delegate can edit contact data, bank account and request license updates (UI-level).",
+      "evidence": "Observed",
+      "source": "EntityProfile.tsx:45,63,99"
+    },
+    {
+      "id": "BR-PTL-27",
+      "rule": "Contact data changes are saved without approval but logged as beneficiary_events (contact_updated) attributed to the actor; changed phone/email need OTP.",
+      "evidence": "Observed",
+      "source": "EntityProfile.tsx:27-38,89"
+    },
+    {
+      "id": "BR-PTL-28",
+      "rule": "Any bank name/IBAN change or new IBAN certificate resets bank_status to pending and clears verification; IBAN must match SA + 22 digits.",
+      "evidence": "Observed",
+      "source": "beneficiaryActions.ts:56-71; portal.tsx:230"
+    },
+    {
+      "id": "BR-PTL-29",
+      "rule": "License updates: document mandatory; AI scores four equal criteria (license number, name, validity, issuer); only 100% auto-applies; otherwise a manual-review task is assigned to a tenant admin with a 2-day due date; unsupported files or AI errors score 0.",
+      "evidence": "Observed",
+      "source": "entityUpdates.ts:26-38; entityUpdates.functions.ts:9-43; projectAi.server.ts:140-164"
+    },
+    {
+      "id": "BR-PTL-30",
+      "rule": "Partners can upload task evidence / submit completion only when the task is unlocked, dependencies are approved and the task/evidence is not approved.",
+      "evidence": "Observed",
+      "source": "ProjectTree.tsx:316,337,362"
+    },
+    {
+      "id": "BR-PTL-31",
+      "rule": "Partners can upload a receipt and confirm receipt only for payments in awaiting_receipt; the receipt-voucher slot must contain a file.",
+      "evidence": "Observed",
+      "source": "PaymentActions.tsx:39-50; payments.ts:43-46"
+    },
+    {
+      "id": "BR-PTL-32",
+      "rule": "AI checks on uploaded files are advisory and never block upload or workflow.",
+      "evidence": "Observed",
+      "source": "FileSlots.tsx:176,196; AGENTS.md"
+    },
+    {
+      "id": "BR-PTL-33",
+      "rule": "External AI reports require a bearer token equal to AI_AGENT_TOKEN; identify the application by id or ref_no; score 0–100, criteria 0–10; results overwrite external_ai_* fields; colour/label come from the agent.",
+      "evidence": "Observed",
+      "source": "ai-report.ts:5-44; AGENTS.md"
+    },
+    {
+      "id": "BR-PTL-34",
+      "rule": "Partners can submit a phase report when the phase is unlocked and no report exists or it was returned; resubmission resets status to pending.",
+      "evidence": "Observed",
+      "source": "ProjectTree.tsx:427-441"
+    }
+  ],
+  "issues": [
+    {
+      "id": "ISS-PTL-01",
+      "description": "No per-user authentication: personas are switched on one shared demo account and RLS policies allow anon/authenticated full access; all portal permission checks are UI-only.",
+      "severity": "High",
+      "location": "AGENTS.md; supabase/migrations (poc_open_* policies); portal.tsx:82",
+      "recommendation": "Implement real partner identity (Nafath/OTP login), tenant- and entity-scoped RLS, and server-side authorisation for every write."
+    },
+    {
+      "id": "ISS-PTL-02",
+      "description": "Portal loads all applications (select *, including external_ai_* evaluation data and other partners' applications) and all projects, then filters client-side.",
+      "severity": "High",
+      "location": "queries.ts:4-18,66-75; portal.tsx:85-86",
+      "recommendation": "Query only the represented entity's records server-side; exclude internal evaluation fields from partner queries."
+    },
+    {
+      "id": "ISS-PTL-03",
+      "description": "Open-period, eligibility, quota and product-stock rules are enforced only in the browser; the application insert is a direct client write.",
+      "severity": "High",
+      "location": "portal.tsx:160-163,289-300",
+      "recommendation": "Move submission to a server function / DB constraint that re-validates period, eligibility, quota and stock."
+    },
+    {
+      "id": "ISS-PTL-04",
+      "description": "Submission is a non-transactional multi-step client sequence (application, items, uploads, attachments, history, invitation); upload failures are silently skipped even for required files.",
+      "severity": "High",
+      "location": "portal.tsx:304-330 (if (!up.error))",
+      "recommendation": "Wrap in a server transaction; upload files first (or to a draft) and fail the submission if a required file upload fails."
+    },
+    {
+      "id": "ISS-PTL-05",
+      "description": "Edit-request flow lets the applicant only click 'edited — resubmit'; there is no way to change application data or attachments.",
+      "severity": "High",
+      "location": "portal.tsx:140-146",
+      "recommendation": "Provide an edit form (scoped to fields the reviewer flagged) and attachment replacement before resubmission."
+    },
+    {
+      "id": "ISS-PTL-06",
+      "description": "Delegate-change requests are stored as entity_registrations rows; approving them via finalizeRegistration would insert a new duplicate beneficiary with the same license instead of changing the delegate.",
+      "severity": "High",
+      "location": "registrations.ts:84-97,104-122; RegistrationReview.tsx:41",
+      "recommendation": "Add a request type and a dedicated approval path that updates beneficiary_memberships (see module BEN)."
+    },
+    {
+      "id": "ISS-PTL-07",
+      "description": "OTP codes are generated in the browser, shown on screen and verified client-side only; no expiry, retry limit or server record.",
+      "severity": "Medium",
+      "location": "OtpVerifiedInput.tsx:14-15; registrations.ts:80-82",
+      "recommendation": "Server-generated codes via SMS/email gateway with expiry, throttling and audit."
+    },
+    {
+      "id": "ISS-PTL-08",
+      "description": "Successful delegate OTP verification is not persisted; no join request is created — the user is told the delegate will add them.",
+      "severity": "Medium",
+      "location": "register-tenant.tsx:198-204",
+      "recommendation": "Create a join request linked to the verified identity for the delegate to approve."
+    },
+    {
+      "id": "ISS-PTL-09",
+      "description": "The official registry is simulated with two hard-coded licenses.",
+      "severity": "Medium",
+      "location": "registrations.ts:27-32",
+      "recommendation": "Integrate NCNP / Ministry of Commerce / Absher registries per entity type."
+    },
+    {
+      "id": "ISS-PTL-10",
+      "description": "Submission attachments use the legacy attachments table with one file per field and no AI pre-check or size limit, unlike FileSlots/attachment_files used elsewhere.",
+      "severity": "Medium",
+      "location": "portal.tsx:324-328; FileSlots.tsx",
+      "recommendation": "Use FileSlots (slot per required doc + other, 10 MB limit, advisory AI check)."
+    },
+    {
+      "id": "ISS-PTL-11",
+      "description": "Applicants cannot save drafts, view a submitted application's details/attachments/history, or withdraw an application; closing the dialog discards input.",
+      "severity": "Medium",
+      "location": "portal.tsx:244-440",
+      "recommendation": "Add draft status, application detail page for partners, and withdraw/cancel action."
+    },
+    {
+      "id": "ISS-PTL-12",
+      "description": "prefillFromDocument server function has no auth middleware (unlike processEntityUpdate), so the LLM endpoint is callable without a session.",
+      "severity": "Medium",
+      "location": "prefill.functions.ts:12-17 vs entityUpdates.functions.ts:10",
+      "recommendation": "Add requireSupabaseAuth and rate limiting."
+    },
+    {
+      "id": "ISS-PTL-13",
+      "description": "Eligibility ignores entity status (pending/blocked/rejected), license expiry and bank verification.",
+      "severity": "Medium",
+      "location": "eligibility.ts:38-58; data.ts:290-296",
+      "recommendation": "Confirm and add status/licence/bank prerequisites to eligibility."
+    },
+    {
+      "id": "ISS-PTL-14",
+      "description": "Region vocabularies differ: registry demo uses 'الرياض' while REGIONS uses 'منطقة الرياض'; registration region is free text — region-targeted eligibility may fail.",
+      "severity": "Medium",
+      "location": "registrations.ts:29-30; data.ts:274-288; register-tenant.tsx:130",
+      "recommendation": "Use controlled region/governorate lists in registration and map registry values."
+    },
+    {
+      "id": "ISS-PTL-15",
+      "description": "License update is client-orchestrated in two calls; if the AI server call fails after insert, the request stays in 'checking' with no task.",
+      "severity": "Medium",
+      "location": "LicenseUpdate.tsx:41-42; entityUpdates.ts:31-37",
+      "recommendation": "Run insert + check in one server function or a background job with retry."
+    },
+    {
+      "id": "ISS-PTL-16",
+      "description": "Expected-response date uses a 3-day default when stage SLA is missing and calendar days rather than working days.",
+      "severity": "Low",
+      "location": "portal.tsx:131-132",
+      "recommendation": "Confirm SLA calendar (working days, holidays)."
+    },
+    {
+      "id": "ISS-PTL-17",
+      "description": "External AI report endpoint is not tenant-scoped, matches by ref_no globally, overwrites prior results and writes no history/audit row.",
+      "severity": "Medium",
+      "location": "ai-report.ts:35-43",
+      "recommendation": "Bind tokens to tenants, keep report history, log application_status_history entry."
+    },
+    {
+      "id": "ISS-PTL-18",
+      "description": "Applicants can reach staff route /reviewer/$id via the project page link; the page relies on isStaff flags only.",
+      "severity": "Low",
+      "location": "projects.$id.tsx:136-145; reviewer.$id.tsx:124",
+      "recommendation": "Provide a partner-specific application view and guard staff routes."
+    },
+    {
+      "id": "ISS-PTL-19",
+      "description": "Objection to proposed changes just clears the proposal; there is no negotiation state, staff notification or task.",
+      "severity": "Low",
+      "location": "workflow.ts:254-268",
+      "recommendation": "Create a staff task/notification on objection; define next step."
+    },
+    {
+      "id": "ISS-PTL-20",
+      "description": "Applications from personas without a resolved entity are saved with beneficiary_id=null and pass all eligibility checks.",
+      "severity": "Low",
+      "location": "eligibility.ts:39; portal.tsx:85,306",
+      "recommendation": "Require an active entity membership to apply (or define individual-applicant rules)."
+    },
+    {
+      "id": "ISS-PTL-21",
+      "description": "Registrations returned by admin have no applicant-facing follow-up (no notification, no resume); a new lookup treats the identifier as new.",
+      "severity": "Low",
+      "location": "registrations.ts:59,108-111",
+      "recommendation": "Notify registrant and allow correcting rejected fields on the same request."
+    },
+    {
+      "id": "ISS-PTL-22",
+      "description": "Invitation activation form is pre-filled with demo values (name, ID, password 'demo1234') and does not create credentials.",
+      "severity": "Low",
+      "location": "invite.$token.tsx:88-91",
+      "recommendation": "Replace with real account activation."
+    },
+    {
+      "id": "ISS-PTL-23",
+      "description": "AI-filled amount/duration are normalised by stripping non-digits, so values like '1.5 مليون' become 1.5.",
+      "severity": "Low",
+      "location": "portal.tsx:280-281",
+      "recommendation": "Parse magnitude words or let the model return numbers only and validate ranges."
+    },
+    {
+      "id": "ISS-PTL-24",
+      "description": "Resubmit action has no error handling (no try/catch) and no busy state.",
+      "severity": "Low",
+      "location": "portal.tsx:143",
+      "recommendation": "Add error handling and disable during request."
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "OQ-PTL-01",
+      "question": "Which official registries (NCNP, Ministry of Commerce CR, Absher for individuals, endowments authority) must be integrated per entity type, and which fields may the registrant override?",
+      "related": [
+        "FT-PTL-01",
+        "FR-PTL-003"
+      ]
+    },
+    {
+      "id": "OQ-PTL-02",
+      "question": "How should the registrant be notified of approval/return, and how are login credentials created after approval?",
+      "related": [
+        "FT-PTL-01",
+        "ISS-PTL-21"
+      ]
+    },
+    {
+      "id": "OQ-PTL-03",
+      "question": "After OTP verification with the delegate, should a pending team-join request be created automatically, and what proof is required for delegate change (e.g., board authorisation letter)?",
+      "related": [
+        "FT-PTL-02",
+        "ISS-PTL-06",
+        "ISS-PTL-08"
+      ]
+    },
+    {
+      "id": "OQ-PTL-04",
+      "question": "Required OTP channel(s), code length, expiry and retry limits?",
+      "related": [
+        "FT-PTL-03"
+      ]
+    },
+    {
+      "id": "OQ-PTL-05",
+      "question": "Should entity status, license validity and verified bank account be eligibility prerequisites?",
+      "related": [
+        "FT-PTL-05",
+        "ISS-PTL-13"
+      ]
+    },
+    {
+      "id": "OQ-PTL-06",
+      "question": "What should account activation from an invitation involve (identity verification, password/Nafath)?",
+      "related": [
+        "FT-PTL-06",
+        "ISS-PTL-22"
+      ]
+    },
+    {
+      "id": "OQ-PTL-07",
+      "question": "Are draft applications and partial save required? Can applicants withdraw a submitted application?",
+      "related": [
+        "FT-PTL-07",
+        "ISS-PTL-11"
+      ]
+    },
+    {
+      "id": "OQ-PTL-08",
+      "question": "Should partners see a full detail/history view of their submitted applications, and which internal fields must be hidden?",
+      "related": [
+        "FT-PTL-07",
+        "ISS-PTL-02"
+      ]
+    },
+    {
+      "id": "OQ-PTL-09",
+      "question": "Are product quantities reserved at submission or only deducted at final approval?",
+      "related": [
+        "FT-PTL-08"
+      ]
+    },
+    {
+      "id": "OQ-PTL-10",
+      "question": "Which documents are mandatory per opportunity/entity type, accepted formats and size limits, and should AI pre-check run at submission?",
+      "related": [
+        "FT-PTL-10",
+        "FR-PTL-027"
+      ]
+    },
+    {
+      "id": "OQ-PTL-11",
+      "question": "Is sending applicant documents to the external LLM gateway acceptable under the client's data-residency/PDPL policy?",
+      "related": [
+        "FT-PTL-11"
+      ]
+    },
+    {
+      "id": "OQ-PTL-12",
+      "question": "Are SLA-based expected-response dates to be shown to partners, and in working days?",
+      "related": [
+        "FT-PTL-12",
+        "ISS-PTL-16"
+      ]
+    },
+    {
+      "id": "OQ-PTL-13",
+      "question": "During 'needs edit', which fields/attachments may the partner change, and is there a response deadline after which the application closes?",
+      "related": [
+        "FT-PTL-13",
+        "ISS-PTL-05"
+      ]
+    },
+    {
+      "id": "OQ-PTL-14",
+      "question": "What happens after a partner objects to proposed changes (negotiation, staff decision, closure)?",
+      "related": [
+        "FT-PTL-14",
+        "ISS-PTL-19"
+      ]
+    },
+    {
+      "id": "OQ-PTL-15",
+      "question": "Can payments be scheduled while bank status is pending after a partner bank change?",
+      "related": [
+        "FT-PTL-16"
+      ]
+    },
+    {
+      "id": "OQ-PTL-16",
+      "question": "Is auto-approval at 100% AI match acceptable to compliance, and who reviews (admin vs. grants manager)?",
+      "related": [
+        "FT-PTL-17"
+      ]
+    },
+    {
+      "id": "OQ-PTL-17",
+      "question": "Which partner member roles (project manager, finance) may upload evidence, reports and receipts versus only the primary delegate?",
+      "related": [
+        "FT-PTL-18",
+        "FT-PTL-19"
+      ]
+    },
+    {
+      "id": "OQ-PTL-18",
+      "question": "What is the external agent's trigger (on submission, on stage entry) — should the platform push applications to the agent (outbound webhook) in addition to the inbound report endpoint?",
+      "related": [
+        "FT-PTL-20"
+      ]
+    },
+    {
+      "id": "OQ-PTL-19",
+      "question": "Should multiple agent reports per application be retained (versioning) and should partners ever see the agent's result?",
+      "related": [
+        "FT-PTL-20",
+        "FR-PTL-054"
+      ]
+    }
+  ]
+}
