@@ -1,0 +1,3229 @@
+{
+  "module": {
+    "code": "REV",
+    "name": "Application Review & Decision"
+  },
+  "screens": [
+    {
+      "id": "SCR-REV-01",
+      "name": "Grant Applications List",
+      "route": "/reviewer (routes/reviewer.index.tsx)",
+      "roles": [
+        "reviewer",
+        "committee_secretary",
+        "grants_manager",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-REV-02",
+      "name": "Application Detail & Decision Workspace",
+      "route": "/reviewer/$id (routes/reviewer.$id.tsx)",
+      "roles": [
+        "reviewer",
+        "committee_secretary",
+        "grants_manager",
+        "ceo",
+        "admin",
+        "finance*",
+        "project_manager*"
+      ]
+    },
+    {
+      "id": "SCR-REV-03",
+      "name": "Decision Dialog (Reject / Return for Edit / Note / AI Feedback)",
+      "route": "Dialog in reviewer.$id.tsx",
+      "roles": [
+        "staff (non-applicant)"
+      ]
+    },
+    {
+      "id": "SCR-REV-04",
+      "name": "AI Agent Report Dialog",
+      "route": "AiReportCard dialog (components/AiScore.tsx)",
+      "roles": [
+        "staff (non-applicant)"
+      ]
+    },
+    {
+      "id": "SCR-REV-05",
+      "name": "Compare Applications Dialog",
+      "route": "components/CompareApplications.tsx",
+      "roles": [
+        "staff (non-applicant)"
+      ]
+    },
+    {
+      "id": "SCR-REV-06",
+      "name": "Merge Applications Dialog",
+      "route": "MergeButton (components/MergeApplications.tsx)",
+      "roles": [
+        "staff (non-applicant)"
+      ]
+    },
+    {
+      "id": "SCR-REV-07",
+      "name": "Unmerge Dialog",
+      "route": "UnmergeButton (components/MergeApplications.tsx)",
+      "roles": [
+        "staff (non-applicant)"
+      ]
+    },
+    {
+      "id": "SCR-REV-08",
+      "name": "Propose Numeric Changes Dialog",
+      "route": "ProposeNumbersButton (components/ApplicationEdits.tsx)",
+      "roles": [
+        "staff (non-applicant)"
+      ]
+    },
+    {
+      "id": "SCR-REV-09",
+      "name": "Initiative Relocation Dialog",
+      "route": "InitiativeField (components/ApplicationEdits.tsx)",
+      "roles": [
+        "staff (non-applicant)"
+      ]
+    },
+    {
+      "id": "SCR-REV-10",
+      "name": "Transfer to Contract & Projects Dialog",
+      "route": "TransferDialog (components/BoqSchedule.tsx)",
+      "roles": [
+        "staff (non-applicant)"
+      ]
+    },
+    {
+      "id": "SCR-REV-11",
+      "name": "Add Co-funder / Funding Condition Dialog",
+      "route": "AddDialog (components/CoFunding.tsx)",
+      "roles": [
+        "staff (non-applicant)"
+      ]
+    },
+    {
+      "id": "SCR-REV-12",
+      "name": "Committee Minute Bulk Decision Dialog",
+      "route": "components/MinuteDialog.tsx (opened from /tasks)",
+      "roles": [
+        "committee_secretary"
+      ]
+    }
+  ],
+  "epics": [
+    {
+      "id": "EP-REV-01",
+      "name": "Review Queue & Application Dossier",
+      "description": "List, detail workspace, attachments, approval chain and audit history for grant applications."
+    },
+    {
+      "id": "EP-REV-02",
+      "name": "Stage Workflow & Decisions",
+      "description": "Application status state machine: approve, skip, return, request edit, reject/close, reopen, evaluations and pass-score gate."
+    },
+    {
+      "id": "EP-REV-03",
+      "name": "AI-Assisted Evaluation",
+      "description": "External AI agent report, eligibility flag, comparison and advisory AI checks of documents."
+    },
+    {
+      "id": "EP-REV-04",
+      "name": "Committee Bulk Decisions",
+      "description": "One committee minute applied to many same-stage applications with full traceability."
+    },
+    {
+      "id": "EP-REV-05",
+      "name": "Application Adjustments",
+      "description": "Staff-proposed numeric changes with partner acceptance, initiative relocation, merge and unmerge."
+    },
+    {
+      "id": "EP-REV-06",
+      "name": "Funding Conditions & Indicators at Application Stage",
+      "description": "Co-funders/conditional approval and plan-indicator linking before transfer."
+    },
+    {
+      "id": "EP-REV-07",
+      "name": "Post-Approval Handover",
+      "description": "Transfer to contract/projects, product-grant delivery and decision snapshots."
+    }
+  ],
+  "features": [
+    {
+      "id": "FT-REV-01",
+      "epic": "EP-REV-01",
+      "name": "Applications List & Filtering",
+      "description": "Tabular list of all applications in the tenant with configurable columns, stat cards, search, stage/status filters, extra filters (opportunity, kind, region, account type), saved view and CSV export.",
+      "roles": [
+        "reviewer",
+        "committee_secretary",
+        "grants_manager",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-REV-01"
+      ],
+      "requirements": [
+        "FR-REV-001",
+        "FR-REV-002",
+        "FR-REV-003",
+        "FR-REV-004",
+        "FR-REV-005"
+      ],
+      "stories": [
+        "US-REV-001",
+        "US-REV-002"
+      ],
+      "rules": [
+        "BR-REV-13"
+      ],
+      "dependencies": [
+        "PLT saved views (useSavedView)",
+        "lib/queries.useApplications",
+        "FilterBar"
+      ],
+      "acceptance_criteria": [
+        "List shows every tenant application with project/ref, partner, stage, status, AI score, amount (opportunity and date columns hidden by default).",
+        "Clicking a stat card filters by that status; «مغلقة» covers closed, awaiting_apology and cancelled.",
+        "Export produces a CSV of the currently filtered rows with 8 columns."
+      ],
+      "open_questions": [
+        "OQ-REV-13"
+      ]
+    },
+    {
+      "id": "FT-REV-02",
+      "epic": "EP-REV-01",
+      "name": "Application Detail Workspace",
+      "description": "Single page combining header (status, stage tracker, SLA), project data incl. dynamic form answers and product lines, partner card, sticky decision bar.",
+      "roles": [
+        "reviewer",
+        "committee_secretary",
+        "grants_manager",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-REV-02"
+      ],
+      "requirements": [
+        "FR-REV-006",
+        "FR-REV-007",
+        "FR-REV-008",
+        "FR-REV-009"
+      ],
+      "stories": [
+        "US-REV-003"
+      ],
+      "rules": [
+        "BR-REV-13"
+      ],
+      "dependencies": [
+        "PRG (workflow_stages, form library)",
+        "BEN (beneficiary data)",
+        "PLN (initiative labels)"
+      ],
+      "acceptance_criteria": [
+        "Header shows SLA as «x من y أيام» or «متأخر n أيام» based on the current stage's sla_days.",
+        "Dynamic answers use the opportunity's form (form_id) and fall back to legacy program fields."
+      ],
+      "open_questions": [
+        "OQ-REV-13"
+      ]
+    },
+    {
+      "id": "FT-REV-03",
+      "epic": "EP-REV-01",
+      "name": "Application Attachments",
+      "description": "List and upload of application files (legacy attachments table) tagged with the stage at upload; files open through 5-minute signed URLs.",
+      "roles": [
+        "staff (non-applicant)"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-REV-02"
+      ],
+      "requirements": [
+        "FR-REV-010",
+        "FR-REV-011"
+      ],
+      "stories": [
+        "US-REV-004"
+      ],
+      "rules": [],
+      "dependencies": [
+        "Supabase storage bucket «attachments»"
+      ],
+      "acceptance_criteria": [
+        "Uploaded file appears with stage tag «م<stage>».",
+        "Only staff see the «إرفاق ملف» control."
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-REV-04",
+      "epic": "EP-REV-01",
+      "name": "Approval Chain & Audit History",
+      "description": "Every workflow action is appended to application_status_history; the page shows a per-stage approval chain with durations vs SLA and a full operations log.",
+      "roles": [
+        "staff (non-applicant)"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-REV-02"
+      ],
+      "requirements": [
+        "FR-REV-012",
+        "FR-REV-013",
+        "FR-REV-014"
+      ],
+      "stories": [
+        "US-REV-005"
+      ],
+      "rules": [
+        "BR-REV-12"
+      ],
+      "dependencies": [
+        "lib/stageStats.ts (analytics, see FIN/PLT dashboards)"
+      ],
+      "acceptance_criteria": [
+        "Each workflow function inserts exactly one history row per affected application with changed_by.",
+        "Chain step shows «استغرقت … · متأخرة n يوم» when the stage exceeded its SLA."
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-REV-05",
+      "epic": "EP-REV-02",
+      "name": "Stage Transitions (Approve, Skip, Return)",
+      "description": "Advance an application through its 3-stage workflow, skip a stage when allowed, or return it to the previous stage, honouring per-stage flags.",
+      "roles": [
+        "reviewer",
+        "committee_secretary",
+        "grants_manager",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-REV-02"
+      ],
+      "requirements": [
+        "FR-REV-015",
+        "FR-REV-016",
+        "FR-REV-017",
+        "FR-REV-018",
+        "FR-REV-019",
+        "FR-REV-020",
+        "FR-REV-071",
+        "FR-REV-072"
+      ],
+      "stories": [
+        "US-REV-006",
+        "US-REV-007"
+      ],
+      "rules": [
+        "BR-REV-01",
+        "BR-REV-02",
+        "BR-REV-03",
+        "BR-REV-12",
+        "BR-REV-04",
+        "BR-REV-05",
+        "BR-REV-36",
+        "BR-REV-37"
+      ],
+      "dependencies": [
+        "PRG workflow_stages (allow_* flags, sla_days)"
+      ],
+      "acceptance_criteria": [
+        "Approving stage 1 or 2 moves the application to the next stage with stage_status «received».",
+        "Approving stage 3 sets status «approved» and current_stage null.",
+        "«إرجاع للسابقة» is hidden at stage 1 and when allow_return=false."
+      ],
+      "open_questions": [
+        "OQ-REV-01",
+        "OQ-REV-04",
+        "OQ-REV-05"
+      ]
+    },
+    {
+      "id": "FT-REV-06",
+      "epic": "EP-REV-02",
+      "name": "Request Edit & Resubmission",
+      "description": "Return an application to the partner for edits with a mandatory note; the partner resubmits from the portal.",
+      "roles": [
+        "reviewer",
+        "grants_manager",
+        "applicant"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-REV-02",
+        "SCR-REV-03"
+      ],
+      "requirements": [
+        "FR-REV-021",
+        "FR-REV-022",
+        "FR-REV-023"
+      ],
+      "stories": [
+        "US-REV-008"
+      ],
+      "rules": [
+        "BR-REV-07"
+      ],
+      "dependencies": [
+        "PTL portal banner"
+      ],
+      "acceptance_criteria": [
+        "Confirm is disabled until the note is non-empty.",
+        "After resubmission stage_status returns to «received» and the task reappears."
+      ],
+      "open_questions": [
+        "OQ-REV-04"
+      ]
+    },
+    {
+      "id": "FT-REV-07",
+      "epic": "EP-REV-02",
+      "name": "Reject / Close & Reopen",
+      "description": "Reject with a reason from a fixed list and an optional apology message; reopen closed requests back to their stage.",
+      "roles": [
+        "reviewer",
+        "grants_manager",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-REV-02",
+        "SCR-REV-03"
+      ],
+      "requirements": [
+        "FR-REV-024",
+        "FR-REV-025"
+      ],
+      "stories": [
+        "US-REV-009",
+        "US-REV-010"
+      ],
+      "rules": [
+        "BR-REV-06",
+        "BR-REV-08"
+      ],
+      "dependencies": [
+        "data.CLOSE_REASONS"
+      ],
+      "acceptance_criteria": [
+        "Reject with apology text → status «awaiting_apology»; without → «closed».",
+        "Reopen sets status pending and clears close_reason."
+      ],
+      "open_questions": [
+        "OQ-REV-03",
+        "OQ-REV-15"
+      ]
+    },
+    {
+      "id": "FT-REV-08",
+      "epic": "EP-REV-02",
+      "name": "Reviewer Evaluations & Pass-Score Gate",
+      "description": "On criteria-type stages each staff persona records accept/reject with a note (mandatory when contradicting the AI); approval of stage 2 is blocked when the AI score is missing or below the pass score.",
+      "roles": [
+        "reviewer",
+        "grants_manager"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-REV-02"
+      ],
+      "requirements": [
+        "FR-REV-026",
+        "FR-REV-027",
+        "FR-REV-028",
+        "FR-REV-029"
+      ],
+      "stories": [
+        "US-REV-011",
+        "US-REV-012"
+      ],
+      "rules": [
+        "BR-REV-10",
+        "BR-REV-11",
+        "BR-REV-09"
+      ],
+      "dependencies": [
+        "PRG pass_score, evaluation_criteria",
+        "FT-REV-09"
+      ],
+      "acceptance_criteria": [
+        "A reviewer saving «رفض» while the AI score ≥ pass score without a note gets an error.",
+        "Approve at stage 2 (criteria) with AI score 70 and pass score 80 shows «متوسط التقييم 70.0% أقل من نسبة الاجتياز 80%»."
+      ],
+      "open_questions": [
+        "OQ-REV-02"
+      ]
+    },
+    {
+      "id": "FT-REV-09",
+      "epic": "EP-REV-03",
+      "name": "External AI Evaluation Report",
+      "description": "Results posted by the client's external grants agent are stored on applications.external_ai_* and shown as a coloured score badge, a «not eligible» flag, a detailed report dialog and a feedback note.",
+      "roles": [
+        "reviewer",
+        "grants_manager",
+        "ceo"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-REV-02",
+        "SCR-REV-04"
+      ],
+      "requirements": [
+        "FR-REV-030",
+        "FR-REV-031",
+        "FR-REV-032",
+        "FR-REV-033",
+        "FR-REV-034",
+        "FR-REV-035"
+      ],
+      "stories": [
+        "US-REV-013",
+        "US-REV-014"
+      ],
+      "rules": [
+        "BR-REV-14"
+      ],
+      "dependencies": [
+        "AI_AGENT_TOKEN",
+        "evaluation_criteria (PRG)"
+      ],
+      "acceptance_criteria": [
+        "POST with valid bearer and ref_no updates the application and returns {ok:true}.",
+        "Any mandatory condition with status unmet shows «غير مؤهل» without altering the score."
+      ],
+      "open_questions": [
+        "OQ-REV-10",
+        "OQ-REV-12"
+      ]
+    },
+    {
+      "id": "FT-REV-10",
+      "epic": "EP-REV-03",
+      "name": "Compare Applications",
+      "description": "Side-by-side comparison of the current application with another one from the same opportunity, with highlighted gaps and a «نقاط الخلاف للمدير» list.",
+      "roles": [
+        "staff (non-applicant)"
+      ],
+      "priority": "Could",
+      "screens": [
+        "SCR-REV-05"
+      ],
+      "requirements": [
+        "FR-REV-036",
+        "FR-REV-037"
+      ],
+      "stories": [
+        "US-REV-015"
+      ],
+      "rules": [],
+      "dependencies": [
+        "FT-REV-09 data"
+      ],
+      "acceptance_criteria": [
+        "Only applications with the same program_id are listed.",
+        "Score gap ≥15 points is listed as a disagreement."
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-REV-11",
+      "epic": "EP-REV-03",
+      "name": "Advisory AI Document Checks",
+      "description": "Shared advisory checks: DocAiCheck for official documents (e.g. committee minutes) and FileSlots per-file/per-slot checks stored on attachment_files; never block.",
+      "roles": [
+        "committee_secretary",
+        "finance",
+        "project_manager"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-REV-12"
+      ],
+      "requirements": [
+        "FR-REV-038",
+        "FR-REV-039",
+        "FR-REV-040"
+      ],
+      "stories": [
+        "US-REV-016"
+      ],
+      "rules": [
+        "BR-REV-15"
+      ],
+      "dependencies": [
+        "projectAi.server checkSlotFile/checkSlotFiles (AI provider)",
+        "PRJ/FIN usages"
+      ],
+      "acceptance_criteria": [
+        "A «fail» verdict shows «غير مطابق» but the save/approve button stays enabled.",
+        "Unsupported types show «نوع الملف غير مدعوم للفحص الذكي»."
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-REV-12",
+      "epic": "EP-REV-04",
+      "name": "Committee Minute Bulk Decision",
+      "description": "Committee secretary selects same-committee/same-stage application tasks, uploads one minute and applies approve/reject/return to all, with per-item results.",
+      "roles": [
+        "committee_secretary"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-REV-12"
+      ],
+      "requirements": [
+        "FR-REV-041",
+        "FR-REV-042",
+        "FR-REV-043",
+        "FR-REV-044"
+      ],
+      "stories": [
+        "US-REV-017",
+        "US-REV-018"
+      ],
+      "rules": [
+        "BR-REV-16",
+        "BR-REV-17",
+        "BR-REV-18"
+      ],
+      "dependencies": [
+        "TSK selection UI",
+        "workflow approve/return/close"
+      ],
+      "acceptance_criteria": [
+        "Apply is disabled until a minute number and file are provided.",
+        "Every successfully decided application gets a history row with minute_id and a minute_items row ok=true."
+      ],
+      "open_questions": [
+        "OQ-REV-06"
+      ]
+    },
+    {
+      "id": "FT-REV-13",
+      "epic": "EP-REV-05",
+      "name": "Staff-Proposed Numeric Changes",
+      "description": "Staff propose new amount/duration (or product quantities); values apply only after the partner accepts in the portal.",
+      "roles": [
+        "reviewer",
+        "grants_manager",
+        "applicant"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-REV-08"
+      ],
+      "requirements": [
+        "FR-REV-045",
+        "FR-REV-046",
+        "FR-REV-047",
+        "FR-REV-048"
+      ],
+      "stories": [
+        "US-REV-019",
+        "US-REV-020"
+      ],
+      "rules": [
+        "BR-REV-19",
+        "BR-REV-20"
+      ],
+      "dependencies": [
+        "PTL ProposalBanner"
+      ],
+      "acceptance_criteria": [
+        "Submitting with no changed number shows «لم تغيّر أي رقم».",
+        "While a proposal is pending the button is replaced by «تعديل أرقام بانتظار موافقة الجهة»."
+      ],
+      "open_questions": [
+        "OQ-REV-04"
+      ]
+    },
+    {
+      "id": "FT-REV-14",
+      "epic": "EP-REV-05",
+      "name": "Initiative Relocation",
+      "description": "Staff move an application to a different initiative (plan level) with a mandatory reason recorded in history.",
+      "roles": [
+        "grants_manager",
+        "reviewer"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-REV-09"
+      ],
+      "requirements": [
+        "FR-REV-049"
+      ],
+      "stories": [
+        "US-REV-021"
+      ],
+      "rules": [
+        "BR-REV-21"
+      ],
+      "dependencies": [
+        "PLN plan levels"
+      ],
+      "acceptance_criteria": [
+        "Saving with the same initiative shows «اختر مبادرة مختلفة».",
+        "A «relocate» history row contains the reason."
+      ],
+      "open_questions": [
+        "OQ-REV-09"
+      ]
+    },
+    {
+      "id": "FT-REV-15",
+      "epic": "EP-REV-05",
+      "name": "Merge & Unmerge Applications",
+      "description": "Merge pending/approved requests of the same partner and grant kind into one request (one future contract) restarting at the lowest prior approved stage; unmerge restores originals while the contract is still «preparing».",
+      "roles": [
+        "grants_manager",
+        "reviewer"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-REV-06",
+        "SCR-REV-07"
+      ],
+      "requirements": [
+        "FR-REV-050",
+        "FR-REV-051",
+        "FR-REV-052",
+        "FR-REV-053",
+        "FR-REV-054",
+        "FR-REV-055",
+        "FR-REV-056"
+      ],
+      "stories": [
+        "US-REV-022",
+        "US-REV-023"
+      ],
+      "rules": [
+        "BR-REV-22",
+        "BR-REV-23",
+        "BR-REV-24",
+        "BR-REV-26",
+        "BR-REV-38",
+        "BR-REV-25"
+      ],
+      "dependencies": [
+        "PRJ contracts/projects (deletion on unmerge)"
+      ],
+      "acceptance_criteria": [
+        "Merging an approved request with one at stage 2 (prior 1) sets the result to stage 2 after a second confirmation.",
+        "Unmerge is hidden once any contract of the request is past «preparing»."
+      ],
+      "open_questions": [
+        "OQ-REV-07"
+      ]
+    },
+    {
+      "id": "FT-REV-16",
+      "epic": "EP-REV-06",
+      "name": "Co-funding & Conditional Approval",
+      "description": "Register co-funders (new or existing) with contribution amounts, either confirmed or as approval conditions tied to the current stage; attach donor approval evidence to confirm.",
+      "roles": [
+        "grants_manager",
+        "reviewer"
+      ],
+      "priority": "Could",
+      "screens": [
+        "SCR-REV-02",
+        "SCR-REV-11"
+      ],
+      "requirements": [
+        "FR-REV-057",
+        "FR-REV-058",
+        "FR-REV-059"
+      ],
+      "stories": [
+        "US-REV-024"
+      ],
+      "rules": [
+        "BR-REV-27"
+      ],
+      "dependencies": [
+        "co_funders, co_fundings",
+        "transferApplication moves rows (FT-REV-18)"
+      ],
+      "acceptance_criteria": [
+        "Adding a condition writes a history note «اعتماد مشروط بمساهمة …».",
+        "Attaching evidence switches the row to «موافقة مثبتة»."
+      ],
+      "open_questions": [
+        "OQ-REV-04"
+      ]
+    },
+    {
+      "id": "FT-REV-17",
+      "epic": "EP-REV-06",
+      "name": "Application Indicator Linking",
+      "description": "Staff link plan indicators (quantitative or milestone) to the application with a required quantity, capped by the indicator's remaining target; links move to the project on transfer.",
+      "roles": [
+        "grants_manager",
+        "reviewer"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-REV-02"
+      ],
+      "requirements": [
+        "FR-REV-060",
+        "FR-REV-061",
+        "FR-REV-062"
+      ],
+      "stories": [
+        "US-REV-025"
+      ],
+      "rules": [
+        "BR-REV-28"
+      ],
+      "dependencies": [
+        "PLN plan_indicators"
+      ],
+      "acceptance_criteria": [
+        "Linking more than the remaining target shows «المتبقي من المؤشر … فقط — خفّض العدد المطلوب».",
+        "Milestone indicators link with target 1 and no quantity input."
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-REV-18",
+      "epic": "EP-REV-07",
+      "name": "Transfer to Contract & Projects",
+      "description": "Convert an approved project-type application into one contract (status preparing) and one or several projects (BOQ split), seed payments from the payment schedule, move co-funding/allocations/indicators.",
+      "roles": [
+        "grants_manager",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-REV-10"
+      ],
+      "requirements": [
+        "FR-REV-063",
+        "FR-REV-064",
+        "FR-REV-065",
+        "FR-REV-066"
+      ],
+      "stories": [
+        "US-REV-026"
+      ],
+      "rules": [
+        "BR-REV-29",
+        "BR-REV-30",
+        "BR-REV-31",
+        "BR-REV-32",
+        "BR-REV-39"
+      ],
+      "dependencies": [
+        "PRJ contracts/projects",
+        "FIN payments",
+        "PLN budget lock",
+        "PRG program defaults"
+      ],
+      "acceptance_criteria": [
+        "Transfer is blocked with «ميزانية «X» مقفلة …» when the plan is budget_locked.",
+        "After success the user lands on the first project page and the application shows the contract card."
+      ],
+      "open_questions": [
+        "OQ-REV-08",
+        "OQ-REV-11"
+      ]
+    },
+    {
+      "id": "FT-REV-19",
+      "epic": "EP-REV-07",
+      "name": "Product Grant Approval & Delivery",
+      "description": "Final approval of product applications reserves stock and sets fulfillment to pending_delivery; staff record delivery afterwards.",
+      "roles": [
+        "grants_manager",
+        "admin"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-REV-02"
+      ],
+      "requirements": [
+        "FR-REV-067",
+        "FR-REV-068"
+      ],
+      "stories": [
+        "US-REV-027"
+      ],
+      "rules": [
+        "BR-REV-33",
+        "BR-REV-34"
+      ],
+      "dependencies": [
+        "PRG grant_products"
+      ],
+      "acceptance_criteria": [
+        "Final approval reduces grant_products.quantity_available by each line quantity (not below 0).",
+        "Delivery sets every delivered_quantity = quantity and fulfillment «delivered»."
+      ],
+      "open_questions": [
+        "OQ-REV-07"
+      ]
+    },
+    {
+      "id": "FT-REV-20",
+      "epic": "EP-REV-07",
+      "name": "Decision Snapshots",
+      "description": "Freeze partner and opportunity data at submission and at final approval in applications.snapshot and show them on the partner card.",
+      "roles": [
+        "staff (non-applicant)"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-REV-02"
+      ],
+      "requirements": [
+        "FR-REV-069",
+        "FR-REV-070"
+      ],
+      "stories": [
+        "US-REV-028"
+      ],
+      "rules": [
+        "BR-REV-35"
+      ],
+      "dependencies": [
+        "PTL submit"
+      ],
+      "acceptance_criteria": [
+        "After final approval snapshot.approved exists with timestamp, partner bank status and pass score.",
+        "Partner card shows «عند التقديم» and «عند الاعتماد» blocks when present."
+      ],
+      "open_questions": []
+    }
+  ],
+  "requirements": [
+    {
+      "id": "FR-REV-001",
+      "feature": "FT-REV-01",
+      "stories": [
+        "US-REV-001"
+      ],
+      "statement": "The system shall list all applications of the tenant with columns project title + reference, partner, stage (+sub-status and late flag), status, AI score, requested amount, opportunity and date added.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.index.tsx:60-86",
+      "acceptance_criteria": [
+        "Opportunity and date columns are hidden by default (saved view default hidden=[program,date]).",
+        "A pending application whose stage_entered_at is more than 3 days old shows «متأخر»."
+      ]
+    },
+    {
+      "id": "FR-REV-002",
+      "feature": "FT-REV-01",
+      "stories": [
+        "US-REV-001"
+      ],
+      "statement": "The system shall filter the list by free-text (ref/title/partner), stage (1-3), status (incl. «المغلقة (كلها)»), opportunity, grant kind, region and partner account type, showing active extra filters as removable chips.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.index.tsx:90-120,148-218",
+      "acceptance_criteria": [
+        "Selecting «المغلقة (كلها)» shows closed, awaiting_apology and cancelled.",
+        "Clearing a chip resets that filter to «all»."
+      ]
+    },
+    {
+      "id": "FR-REV-003",
+      "feature": "FT-REV-01",
+      "stories": [
+        "US-REV-001"
+      ],
+      "statement": "The system shall show stat cards (total, pending, approved, closed) that act as status filters.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.index.tsx:117,141-146",
+      "acceptance_criteria": [
+        "Closed card counts closed + awaiting_apology + cancelled.",
+        "Active card is highlighted."
+      ]
+    },
+    {
+      "id": "FR-REV-004",
+      "feature": "FT-REV-01",
+      "stories": [
+        "US-REV-002"
+      ],
+      "statement": "The system shall let users show/hide columns and save filters and column choices as a personal saved view (key applications.v2).",
+      "type": "Functional",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.index.tsx:51-57,168-189",
+      "acceptance_criteria": [
+        "Saved view restores filters on next visit.",
+        "Search text is not saved."
+      ]
+    },
+    {
+      "id": "FR-REV-005",
+      "feature": "FT-REV-01",
+      "stories": [
+        "US-REV-002"
+      ],
+      "statement": "The system shall export the currently filtered applications to applications.csv (ref, project, partner, opportunity, stage, status, requested amount, date).",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.index.tsx:119-127",
+      "acceptance_criteria": [
+        "Exported row count equals visible row count.",
+        "Stage column shows «—» for applications without current stage."
+      ]
+    },
+    {
+      "id": "FR-REV-006",
+      "feature": "FT-REV-02",
+      "stories": [
+        "US-REV-003"
+      ],
+      "statement": "The system shall display an application header with title, AI badge, ineligible badge, status, reference, opportunity, partner, 3-step stage tracker, current stage name, stage sub-status, SLA progress and requested amount.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.$id.tsx:173-203",
+      "acceptance_criteria": [
+        "SLA turns red with «متأخر n أيام (المستهدف s)» when days in stage > stage.sla_days.",
+        "Stage line is shown only when status is pending and a stage config exists."
+      ]
+    },
+    {
+      "id": "FR-REV-007",
+      "feature": "FT-REV-02",
+      "stories": [
+        "US-REV-003"
+      ],
+      "statement": "The system shall display project data: description, duration, region, total beneficiaries, opportunity, initiative, product lines with fulfillment status, target groups and dynamic form answers.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.$id.tsx:81-91,234-293",
+      "acceptance_criteria": [
+        "Form fields come from grant_programs.form_id, else legacy form_fields.program_id.",
+        "Product table shows unit price, quantity, delivered and line total."
+      ]
+    },
+    {
+      "id": "FR-REV-008",
+      "feature": "FT-REV-02",
+      "stories": [
+        "US-REV-003"
+      ],
+      "statement": "The system shall display a partner card with status, bank verification status, running projects (count and budget) and on expansion full profile, previous projects and last grant year.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.$id.tsx:376-416",
+      "acceptance_criteria": [
+        "Running = projects in planning/in_progress; previous = completed/closed.",
+        "When no partner is linked «لا توجد جهة مرتبطة» is shown."
+      ]
+    },
+    {
+      "id": "FR-REV-009",
+      "feature": "FT-REV-02",
+      "stories": [
+        "US-REV-003"
+      ],
+      "statement": "The system shall show a sticky decision bar (approve/return for edit/reject) when the decision card is scrolled out of view.",
+      "type": "UI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.$id.tsx:111-119,502-509",
+      "acceptance_criteria": [
+        "Bar disappears when the decision card is ≥15% visible.",
+        "Bar buttons honour the same stage flags as the card."
+      ]
+    },
+    {
+      "id": "FR-REV-010",
+      "feature": "FT-REV-03",
+      "stories": [
+        "US-REV-004"
+      ],
+      "statement": "The system shall list application attachments with their stage tag and open them via a signed URL valid for 300 seconds.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.$id.tsx:161-164,418-428",
+      "acceptance_criteria": [
+        "Clicking a file opens it in a new tab.",
+        "Empty list shows «لا توجد مرفقات»."
+      ]
+    },
+    {
+      "id": "FR-REV-011",
+      "feature": "FT-REV-03",
+      "stories": [
+        "US-REV-004"
+      ],
+      "statement": "The system shall allow staff to upload a file (pdf, doc(x), xls(x), ppt(x), jpg, jpeg, png, gif) stored under <application_id>/ in the attachments bucket and recorded with the current stage and uploader.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.$id.tsx:153-160,429-434",
+      "acceptance_criteria": [
+        "Successful upload shows «تم رفع المرفق».",
+        "Storage error shows «تعذّر الحفظ، حاول مرة أخرى» and no row is inserted."
+      ]
+    },
+    {
+      "id": "FR-REV-012",
+      "feature": "FT-REV-04",
+      "stories": [
+        "US-REV-005"
+      ],
+      "statement": "The system shall append an application_status_history row (status, stage, action, note, changed_by, minute_id) for every workflow action.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:12-30",
+      "acceptance_criteria": [
+        "Actions: submit, receive, approve_stage, skip, return, close, reopen, request_edit, resubmit, note, evaluate, transfer, deliver, merge, unmerge, propose_changes, accept_changes, reject_changes, relocate, award.",
+        "changed_by is the current persona id."
+      ]
+    },
+    {
+      "id": "FR-REV-013",
+      "feature": "FT-REV-04",
+      "stories": [
+        "US-REV-005"
+      ],
+      "statement": "The system shall render an approval chain per configured stage showing not started / current sub-status / approved, time taken vs SLA, approver and stage notes.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.$id.tsx:567-639",
+      "acceptance_criteria": [
+        "Last visit per stage is reconstructed from submit/approve_stage/skip/return/close events.",
+        "Clicking a step toggles its details."
+      ]
+    },
+    {
+      "id": "FR-REV-014",
+      "feature": "FT-REV-04",
+      "stories": [
+        "US-REV-005"
+      ],
+      "statement": "The system shall show the full operations log (newest first) with action label, stage, note, actor and date.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.$id.tsx:443-456; src/lib/workflow.ts:220-236",
+      "acceptance_criteria": [
+        "Unknown actions fall back to the raw action key.",
+        "Count is shown in the expander label."
+      ]
+    },
+    {
+      "id": "FR-REV-015",
+      "feature": "FT-REV-05",
+      "stories": [
+        "US-REV-006"
+      ],
+      "statement": "The system shall, on approval of stage 1 or 2, increment current_stage, set stage_status=received and stage_entered_at=now, and log approve_stage with the from-stage.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:73-80",
+      "acceptance_criteria": [
+        "Status remains pending.",
+        "Toast «تم اعتماد المرحلة ونقل الطلب للمرحلة التالية»."
+      ]
+    },
+    {
+      "id": "FR-REV-016",
+      "feature": "FT-REV-05",
+      "stories": [
+        "US-REV-006"
+      ],
+      "statement": "The system shall, on approval at stage 3 (final), set status=approved, current_stage=null, stage_status=approved, stage_entered_at=now and store snapshot.approved.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:45-72",
+      "acceptance_criteria": [
+        "History row status=approved, stage=3, note «اعتماد نهائي للطلب» unless a note is given.",
+        "Button label is «اعتماد نهائي» at stage 3."
+      ]
+    },
+    {
+      "id": "FR-REV-017",
+      "feature": "FT-REV-05",
+      "stories": [
+        "US-REV-007"
+      ],
+      "statement": "The system shall allow skipping the current stage only when the stage config has allow_skip, applying the same transition as approval and logging action skip (stage 3 skip = final approval).",
+      "type": "Functional",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:84-89; src/routes/reviewer.$id.tsx:363",
+      "acceptance_criteria": [
+        "Skip button absent when allow_skip is false/undefined.",
+        "Skip at stage 3 results in status approved with note «تخطي مرحلة الاعتماد»."
+      ]
+    },
+    {
+      "id": "FR-REV-018",
+      "feature": "FT-REV-05",
+      "stories": [
+        "US-REV-007"
+      ],
+      "statement": "The system shall return an application to the previous stage (minimum 1) when current_stage>1 and allow_return is not false, logging action return with the from-stage.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:91-100; src/routes/reviewer.$id.tsx:364",
+      "acceptance_criteria": [
+        "Return from stage 3 → stage 2 with stage_status received.",
+        "Button hidden at stage 1."
+      ]
+    },
+    {
+      "id": "FR-REV-019",
+      "feature": "FT-REV-05",
+      "stories": [
+        "US-REV-006"
+      ],
+      "statement": "The system shall display the stage decision card only to non-applicant personas, only for pending applications whose current stage exists in workflow_stages, with buttons governed by allow_request_edit, allow_close, allow_skip and allow_return.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.$id.tsx:124,348-371",
+      "acceptance_criteria": [
+        "Applicant persona never sees decision controls.",
+        "allow_close=false hides «رفض»."
+      ]
+    },
+    {
+      "id": "FR-REV-020",
+      "feature": "FT-REV-05",
+      "stories": [
+        "US-REV-006"
+      ],
+      "statement": "The system shall let staff add a free-text note to the history at any status.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:135-137; src/routes/reviewer.$id.tsx:225,365,495",
+      "acceptance_criteria": [
+        "Confirm disabled while the note is empty.",
+        "History row action=note keeps current status/stage."
+      ]
+    },
+    {
+      "id": "FR-REV-021",
+      "feature": "FT-REV-06",
+      "stories": [
+        "US-REV-008"
+      ],
+      "statement": "The system shall, on «إرجاع للتعديل», require a note, set stage_status=needs_edit and reviewer_note=note without changing status or stage, and log request_edit.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:125-128; src/routes/reviewer.$id.tsx:478-493",
+      "acceptance_criteria": [
+        "Partner portal shows «مطلوب تعديل: <note>».",
+        "Application disappears from staff derived tasks."
+      ]
+    },
+    {
+      "id": "FR-REV-022",
+      "feature": "FT-REV-06",
+      "stories": [
+        "US-REV-008"
+      ],
+      "statement": "The system shall let the applicant resubmit an application in needs_edit, setting stage_status=received and logging resubmit.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:130-133; src/routes/portal.tsx:141-147",
+      "acceptance_criteria": [
+        "Resubmission is available only while status=pending and stage_status=needs_edit.",
+        "stage_entered_at is not reset (SLA keeps running)."
+      ]
+    },
+    {
+      "id": "FR-REV-023",
+      "feature": "FT-REV-06",
+      "stories": [
+        "US-REV-008"
+      ],
+      "statement": "The system shall exclude applications awaiting applicant edits from staff derived tasks.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/lib/tasks.ts:100",
+      "acceptance_criteria": [
+        "needs_edit applications produce no application task.",
+        "After resubmission the task is derived again."
+      ]
+    },
+    {
+      "id": "FR-REV-024",
+      "feature": "FT-REV-07",
+      "stories": [
+        "US-REV-009"
+      ],
+      "statement": "The system shall reject a pending application with a mandatory reason from CLOSE_REASONS and an optional apology message, setting status awaiting_apology when an apology is entered, otherwise closed; stage_status=closed and close_reason stored.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:102-112; src/routes/reviewer.$id.tsx:469-477,492; src/lib/data.ts:315-321",
+      "acceptance_criteria": [
+        "History note concatenates reason — apology.",
+        "current_stage is preserved for reopen."
+      ]
+    },
+    {
+      "id": "FR-REV-025",
+      "feature": "FT-REV-07",
+      "stories": [
+        "US-REV-010"
+      ],
+      "statement": "The system shall reopen applications in closed, awaiting_apology or cancelled status to pending at their last stage (or 1) with stage_status received, clearing close_reason and resetting stage_entered_at.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:114-123; src/routes/reviewer.$id.tsx:206-215",
+      "acceptance_criteria": [
+        "Reopen button visible only for those statuses and staff.",
+        "History action reopen."
+      ]
+    },
+    {
+      "id": "FR-REV-026",
+      "feature": "FT-REV-08",
+      "stories": [
+        "US-REV-011"
+      ],
+      "statement": "The system shall show an evaluation panel on stages with approval_type=criteria where each staff persona records one accept/reject decision with an optional comment (upsert on application_id+reviewer_id; total 100/0) and logs evaluate.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.$id.tsx:521-565",
+      "acceptance_criteria": [
+        "Second save by the same persona overwrites the first.",
+        "Current opinion pill shows «قبول»/«رفض»."
+      ]
+    },
+    {
+      "id": "FR-REV-027",
+      "feature": "FT-REV-08",
+      "stories": [
+        "US-REV-011"
+      ],
+      "statement": "The system shall require a justification comment when a reviewer's decision contradicts the AI recommendation (AI score vs pass score).",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.$id.tsx:534-536",
+      "acceptance_criteria": [
+        "Error «قرارك يخالف توصية الوكيل — اكتب المبرر في الملاحظة».",
+        "No AI score → no conflict check."
+      ]
+    },
+    {
+      "id": "FR-REV-028",
+      "feature": "FT-REV-08",
+      "stories": [
+        "US-REV-012"
+      ],
+      "statement": "The system shall warn when n reviewers decided against the AI recommendation.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.$id.tsx:305-316",
+      "acceptance_criteria": [
+        "Banner hidden when no evaluations or no AI score.",
+        "Text states count and AI score."
+      ]
+    },
+    {
+      "id": "FR-REV-029",
+      "feature": "FT-REV-08",
+      "stories": [
+        "US-REV-012"
+      ],
+      "statement": "The system shall block approval at stage 2 when the stage is criteria-based and the AI score is missing or below the opportunity pass score (default 80).",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.$id.tsx:145-151",
+      "acceptance_criteria": [
+        "Missing score → «لا يمكن اعتماد مرحلة الدراسة قبل إدخال تقييم واحد على الأقل».",
+        "Score below pass → error with both percentages."
+      ]
+    },
+    {
+      "id": "FR-REV-030",
+      "feature": "FT-REV-09",
+      "stories": [
+        "US-REV-013"
+      ],
+      "statement": "The system shall accept external agent results at POST /api/public/ai-report (Bearer AI_AGENT_TOKEN, timing-safe compare) identifying the application by application_id or ref_no, and store score, colour, label, summary, report, recommendation, criteria and details.",
+      "type": "Integration",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/api/public/ai-report.ts:5-45",
+      "acceptance_criteria": [
+        "Missing token config → 503; bad token → 401; invalid body → 400; unknown application → 404.",
+        "external_ai_at set to now."
+      ]
+    },
+    {
+      "id": "FR-REV-031",
+      "feature": "FT-REV-09",
+      "stories": [
+        "US-REV-013"
+      ],
+      "statement": "The system shall display the AI score as a badge using the agent-supplied colour and label, and «—» when no score exists.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/AiScore.tsx:10-21",
+      "acceptance_criteria": [
+        "Score rounded to integer.",
+        "Label shown in large variant/tooltip."
+      ]
+    },
+    {
+      "id": "FR-REV-032",
+      "feature": "FT-REV-09",
+      "stories": [
+        "US-REV-013"
+      ],
+      "statement": "The system shall show a detailed AI report: conditions (met/unmet/unverifiable, mandatory), strengths, risks, gaps, committee questions, cost per beneficiary (and per day), suggested payment schedule, suggested initiative, suggested track, policy version, per-criterion weight/score/note and the markdown report.",
+      "type": "AI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/AiScore.tsx:54-165",
+      "acceptance_criteria": [
+        "Suggested track is informational («لا ينقله تلقائياً»).",
+        "Button shown only when a score, report or criteria exist."
+      ]
+    },
+    {
+      "id": "FR-REV-033",
+      "feature": "FT-REV-09",
+      "stories": [
+        "US-REV-013"
+      ],
+      "statement": "The system shall flag an application «غير مؤهل» when any mandatory AI condition is unmet, without altering the score.",
+      "type": "AI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/AiScore.tsx:40-47",
+      "acceptance_criteria": [
+        "Tooltip lists failed condition names.",
+        "Flag appears in header, report and compare."
+      ]
+    },
+    {
+      "id": "FR-REV-034",
+      "feature": "FT-REV-09",
+      "stories": [
+        "US-REV-014"
+      ],
+      "statement": "The system shall let staff submit feedback for the AI agent, recorded as a history note prefixed «تغذية راجعة للوكيل».",
+      "type": "AI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.$id.tsx:317-323,494",
+      "acceptance_criteria": [
+        "Available only when an AI score exists.",
+        "Toast says feedback was sent for re-evaluation."
+      ]
+    },
+    {
+      "id": "FR-REV-035",
+      "feature": "FT-REV-09",
+      "stories": [
+        "US-REV-013"
+      ],
+      "statement": "The system shall evaluate opportunity eligibility rules (checkEligibility) against current partner data on the review page and display reasons.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Recommended",
+      "source": "src/lib/eligibility.ts:38-58 (used only in portal.tsx:162)",
+      "acceptance_criteria": [
+        "Ineligible partners show rule reasons on SCR-REV-02.",
+        "Named/group-targeted partners bypass other rules."
+      ]
+    },
+    {
+      "id": "FR-REV-036",
+      "feature": "FT-REV-10",
+      "stories": [
+        "US-REV-015"
+      ],
+      "statement": "The system shall let staff choose another application from the same opportunity to compare.",
+      "type": "Functional",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/components/CompareApplications.tsx:11-60",
+      "acceptance_criteria": [
+        "Peers are loaded only when the dialog opens.",
+        "Empty → «لا توجد طلبات أخرى في هذا المسار»."
+      ]
+    },
+    {
+      "id": "FR-REV-037",
+      "feature": "FT-REV-10",
+      "stories": [
+        "US-REV-015"
+      ],
+      "statement": "The system shall compare AI score, eligibility, recommendation, amount, duration, region, beneficiaries, cost per beneficiary and each criterion, highlighting and listing disagreements (score gap ≥15, different recommendations, mandatory-fail mismatch, criterion gap ≥3/10, amount ratio ≥2 or ≤0.5, risks on one side only).",
+      "type": "Functional",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/components/CompareApplications.tsx:72-151",
+      "acceptance_criteria": [
+        "Differing rows have amber background.",
+        "No differences → «لا توجد فروقات جوهرية بين الطلبين»."
+      ]
+    },
+    {
+      "id": "FR-REV-038",
+      "feature": "FT-REV-11",
+      "stories": [
+        "US-REV-016"
+      ],
+      "statement": "The system shall run an advisory AI check on a selected official document (pdf/png/jpg/jpeg/webp/txt/csv ≤10MB) with action and context, showing verdict, score, summary and issues with a re-check control, never blocking the save.",
+      "type": "AI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/DocAiCheck.tsx:12-50; src/lib/docAi.functions.ts:7-15",
+      "acceptance_criteria": [
+        "Footer always reads «لا يمنع الحفظ — القرار لك».",
+        "Unsupported type/oversize → informational message, no call."
+      ]
+    },
+    {
+      "id": "FR-REV-039",
+      "feature": "FT-REV-11",
+      "stories": [
+        "US-REV-016"
+      ],
+      "statement": "The system shall provide file slots (one per required document plus «مرفقات أخرى») with multi-file upload ≤10MB, per-file AI check saved to attachment_files.ai_check and optional collective slot check saved to the owner's evidence_ai (activities and payments only).",
+      "type": "AI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/FileSlots.tsx:122-238; src/lib/attachmentAi.functions.ts:40-85",
+      "acceptance_criteria": [
+        "Any uploaded file satisfies the slot regardless of verdict (fileAccepted=true).",
+        "Check failures are stored as verdict «error» requiring manual verification."
+      ]
+    },
+    {
+      "id": "FR-REV-040",
+      "feature": "FT-REV-11",
+      "stories": [
+        "US-REV-016"
+      ],
+      "statement": "The system shall warn (confirm dialog) before an action when attached files carry an AI «fail» verdict, and require only the presence of a file for mandatory slots.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/FileSlots.tsx:46-53; src/lib/attachments.ts:4-12",
+      "acceptance_criteria": [
+        "User can continue after confirm.",
+        "Missing slot → «أرفق «slot» أولاً»."
+      ]
+    },
+    {
+      "id": "FR-REV-041",
+      "feature": "FT-REV-12",
+      "stories": [
+        "US-REV-017"
+      ],
+      "statement": "The system shall let a committee secretary multi-select pending application tasks only for committee stages where they are the stage secretary, restricted to the same committee and stage as the first selection.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/tasks.tsx:306-318",
+      "acceptance_criteria": [
+        "Checkboxes of non-matching tasks are disabled.",
+        "Selection bar shows count and «قرار بمحضر»."
+      ]
+    },
+    {
+      "id": "FR-REV-042",
+      "feature": "FT-REV-12",
+      "stories": [
+        "US-REV-018"
+      ],
+      "statement": "The system shall capture minute number*, minute date* (default today), committee name (prefilled), decision* (approve/reject/return), note (mandatory for reject) and minute file* (pdf/doc/docx/xls/xlsx/png/jpg/jpeg ≤10MB) with an advisory AI check.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/MinuteDialog.tsx:13-55; src/lib/minutes.ts:9,15-20",
+      "acceptance_criteria": [
+        "Apply disabled until file and minute number provided.",
+        "Wrong type or >10MB → «المرفق يجب أن يكون PDF أو Word أو Excel أو صورة وبحجم لا يتجاوز 10MB»."
+      ]
+    },
+    {
+      "id": "FR-REV-043",
+      "feature": "FT-REV-12",
+      "stories": [
+        "US-REV-017",
+        "US-REV-018"
+      ],
+      "statement": "The system shall upload the minute once, create one committee_minutes record and apply approveStage/returnStage/closeApplication to each selected application with the minute id and note «محضر <no> — <note>», recording a minute_items row per application (ok or error).",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/minutes.ts:15-52",
+      "acceptance_criteria": [
+        "All succeed → toast «تم تطبيق القرار على n طلب» and dialog closes.",
+        "Partial failure → dialog shows succeeded/failed counts and per-item errors."
+      ]
+    },
+    {
+      "id": "FR-REV-044",
+      "feature": "FT-REV-12",
+      "stories": [
+        "US-REV-017"
+      ],
+      "statement": "The system shall reject a bulk application decision when selected applications are at different stages, and a reject without note.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/minutes.ts:33-35",
+      "acceptance_criteria": [
+        "Mixed stages → «اختر طلبات في المرحلة نفسها فقط».",
+        "Reject without note → «اكتب سبب الرفض في الملاحظة»."
+      ]
+    },
+    {
+      "id": "FR-REV-045",
+      "feature": "FT-REV-13",
+      "stories": [
+        "US-REV-019"
+      ],
+      "statement": "The system shall let staff propose a new requested amount and duration (project grants) or new item quantities (product grants, amount = Σ qty × unit price) with a note, stored in applications.proposed_changes with before values, author and timestamp, and logged propose_changes.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/ApplicationEdits.tsx:49-95; src/lib/workflow.ts:239-252",
+      "acceptance_criteria": [
+        "Only changed values are stored.",
+        "Duration not editable for product grants."
+      ]
+    },
+    {
+      "id": "FR-REV-046",
+      "feature": "FT-REV-13",
+      "stories": [
+        "US-REV-019"
+      ],
+      "statement": "The system shall allow only one pending proposal per application and expose the proposal action only from the return-for-edit dialog of pending applications.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/ApplicationEdits.tsx:50,75; src/routes/reviewer.$id.tsx:478-483",
+      "acceptance_criteria": [
+        "Pending proposal shows badge instead of button.",
+        "Not available for approved applications."
+      ]
+    },
+    {
+      "id": "FR-REV-047",
+      "feature": "FT-REV-13",
+      "stories": [
+        "US-REV-019"
+      ],
+      "statement": "The system shall reject a proposal in which no number changed.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/ApplicationEdits.tsx:70",
+      "acceptance_criteria": [
+        "Error «لم تغيّر أي رقم».",
+        "No history row written."
+      ]
+    },
+    {
+      "id": "FR-REV-048",
+      "feature": "FT-REV-13",
+      "stories": [
+        "US-REV-020"
+      ],
+      "statement": "The system shall let the partner accept (apply amount, duration, item quantities and clear the proposal) or reject with a note (clear proposal), logging accept_changes or reject_changes.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:254-269; src/routes/portal.tsx:442-449",
+      "acceptance_criteria": [
+        "Accept updates application_items.quantity per proposed item.",
+        "No proposal → «لا يوجد تعديل مقترح»."
+      ]
+    },
+    {
+      "id": "FR-REV-049",
+      "feature": "FT-REV-14",
+      "stories": [
+        "US-REV-021"
+      ],
+      "statement": "The system shall let staff relocate an application to a different initiative with a mandatory reason, updating plan_level_id and logging relocate.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/ApplicationEdits.tsx:19-46; src/lib/workflow.ts:271-274",
+      "acceptance_criteria": [
+        "Same initiative → «اختر مبادرة مختلفة».",
+        "Empty reason → «اكتب سبب إعادة التسكين»."
+      ]
+    },
+    {
+      "id": "FR-REV-050",
+      "feature": "FT-REV-15",
+      "stories": [
+        "US-REV-022"
+      ],
+      "statement": "The system shall offer as merge candidates only other applications of the same partner, status pending or approved, not transferred, not already merged into another, and of the same grant kind.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/MergeApplications.tsx:26-44; src/lib/workflow.ts:291-294",
+      "acceptance_criteria": [
+        "Different partner/status/transferred → library error «الطلب X غير مؤهل للدمج» or «الطلبات لجهات مختلفة».",
+        "No candidates → «لا توجد طلبات أخرى مؤهلة لهذه الجهة»."
+      ]
+    },
+    {
+      "id": "FR-REV-051",
+      "feature": "FT-REV-15",
+      "stories": [
+        "US-REV-022"
+      ],
+      "statement": "The system shall require choosing the target opportunity and/or plan item when the selected requests differ in them.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/MergeApplications.tsx:48-56,94-111",
+      "acceptance_criteria": [
+        "Merge button disabled until required choices are made.",
+        "«بدون بند» is a valid plan-item choice."
+      ]
+    },
+    {
+      "id": "FR-REV-052",
+      "feature": "FT-REV-15",
+      "stories": [
+        "US-REV-022"
+      ],
+      "statement": "The system shall build the merged request: amount = sum, BOQ = concatenation with «[ref]» prefixes and new ids, first non-empty payment schedule, merge_parts with each part's prior approved stage, original values and moved row ids; status/stage = approved if all parts were finally approved, otherwise pending at (lowest prior approved stage + 1) with stage_status received.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:283-327",
+      "acceptance_criteria": [
+        "Approved (3) + part at stage 2 (prior 1) → pending at stage 2.",
+        "Nested merges keep earlier merge_parts."
+      ]
+    },
+    {
+      "id": "FR-REV-053",
+      "feature": "FT-REV-15",
+      "stories": [
+        "US-REV-022"
+      ],
+      "statement": "The system shall close each absorbed request (status closed, merged_into, close_reason «مُدمج ضمن الطلب <ref>»), move its project_indicators, co_fundings and project_plan_allocations to the primary, and log merge on all affected requests.",
+      "type": "Data",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:328-336",
+      "acceptance_criteria": [
+        "Absorbed request shows a banner linking to the merged request.",
+        "Primary log explains the stage it was set to."
+      ]
+    },
+    {
+      "id": "FR-REV-054",
+      "feature": "FT-REV-15",
+      "stories": [
+        "US-REV-022"
+      ],
+      "statement": "The system shall require a second explicit confirmation when merging would move a finally approved request back into review.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/MergeApplications.tsx:54,60,126-132",
+      "acceptance_criteria": [
+        "First click shows the destructive warning; second click merges.",
+        "Changing the selection resets the confirmation."
+      ]
+    },
+    {
+      "id": "FR-REV-055",
+      "feature": "FT-REV-15",
+      "stories": [
+        "US-REV-022"
+      ],
+      "statement": "The system shall list merge parts with a «سبق اعتماده حتى المرحلة n» badge while the merged stage has not passed the part's prior approval.",
+      "type": "UI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/components/MergeApplications.tsx:176-196",
+      "acceptance_criteria": [
+        "Badge disappears once current stage > prior stage.",
+        "Each part links to its original request."
+      ]
+    },
+    {
+      "id": "FR-REV-056",
+      "feature": "FT-REV-15",
+      "stories": [
+        "US-REV-023"
+      ],
+      "statement": "The system shall unmerge a merged request only when it has no contract or all its contracts are «preparing», deleting its payments, project reports, activities, projects and contracts, returning moved rows and restoring each part's original values with merged_into cleared and transferred=false, logging unmerge.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:340-367; src/components/MergeApplications.tsx:140-173",
+      "acceptance_criteria": [
+        "Button hidden when any contract is past preparing; library also throws «لا يمكن فك الدمج بعد تجاوز العقد حالة «بانتظار الإعداد»».",
+        "Dialog warns that the preparing contract and its projects will be deleted."
+      ]
+    },
+    {
+      "id": "FR-REV-057",
+      "feature": "FT-REV-16",
+      "stories": [
+        "US-REV-024"
+      ],
+      "statement": "The system shall let staff add a co-funder (pick existing by name or create with optional email) and contribution amount as a confirmed contribution or as an approval condition linked to the current stage.",
+      "type": "Functional",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/components/CoFunding.tsx:94-151",
+      "acceptance_criteria": [
+        "Empty name or amount ≤0 → «أدخل اسم المانح والمبلغ».",
+        "Condition adds history note «اعتماد مشروط بمساهمة <name> بمبلغ <amount>»."
+      ]
+    },
+    {
+      "id": "FR-REV-058",
+      "feature": "FT-REV-16",
+      "stories": [
+        "US-REV-024"
+      ],
+      "statement": "The system shall let staff attach the donor's approval evidence to a pending co-funding row, marking it confirmed, and open it later via signed URL.",
+      "type": "Functional",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/components/CoFunding.tsx:37-48,63-83",
+      "acceptance_criteria": [
+        "Row shows «موافقة مثبتة» after upload.",
+        "Upload error shown as toast."
+      ]
+    },
+    {
+      "id": "FR-REV-059",
+      "feature": "FT-REV-16",
+      "stories": [
+        "US-REV-024"
+      ],
+      "statement": "The system shall block final approval (and transfer) while any co-funding approval condition is unconfirmed.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Recommended",
+      "source": "src/components/CoFunding.tsx:27 (pendingConditions defined but unused)",
+      "acceptance_criteria": [
+        "Approve shows the pending conditions list.",
+        "Confirmed conditions do not block."
+      ]
+    },
+    {
+      "id": "FR-REV-060",
+      "feature": "FT-REV-17",
+      "stories": [
+        "US-REV-025"
+      ],
+      "statement": "The system shall let staff link any plan indicator to the application with a required quantity (milestones fixed at 1).",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/Indicators.tsx:163-175,242-256",
+      "acceptance_criteria": [
+        "Indicator list shows remaining/target and the initiative name.",
+        "Missing pick/quantity → «اختر المؤشر وحدد العدد المطلوب»."
+      ]
+    },
+    {
+      "id": "FR-REV-061",
+      "feature": "FT-REV-17",
+      "stories": [
+        "US-REV-025"
+      ],
+      "statement": "The system shall prevent linking a quantitative indicator beyond its remaining target (target minus all links), disabling exhausted indicators.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/Indicators.tsx:167-171,246-249",
+      "acceptance_criteria": [
+        "Exhausted → «المؤشر استنفد مستهدفه …».",
+        "Over remaining → «المتبقي من المؤشر … فقط»."
+      ]
+    },
+    {
+      "id": "FR-REV-062",
+      "feature": "FT-REV-17",
+      "stories": [
+        "US-REV-025"
+      ],
+      "statement": "The system shall let staff unlink an indicator at application stage and hide the funding & indicators card for closed applications.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/Indicators.tsx:211; src/routes/reviewer.$id.tsx:333",
+      "acceptance_criteria": [
+        "Unlink deletes the project_indicators row.",
+        "Card absent when status=closed."
+      ]
+    },
+    {
+      "id": "FR-REV-063",
+      "feature": "FT-REV-18",
+      "stories": [
+        "US-REV-026"
+      ],
+      "statement": "The system shall offer «اعتماد العقد وترحيله» for approved, non-transferred, non-product applications, optionally splitting BOQ items (≥2) into several named projects, then navigate to the first project.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.$id.tsx:216-217; src/components/BoqSchedule.tsx:101-158",
+      "acceptance_criteria": [
+        "Split requires every project to have ≥1 item.",
+        "Single project is the default."
+      ]
+    },
+    {
+      "id": "FR-REV-064",
+      "feature": "FT-REV-18",
+      "stories": [
+        "US-REV-026"
+      ],
+      "statement": "The system shall resolve the project manager (explicit → program default → first project_manager persona), contract need (explicit → program has_contract → true) and plan level (explicit → application → program default), and refuse transfer when the plan is budget-locked.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:145-158",
+      "acceptance_criteria": [
+        "Locked plan → «ميزانية «name» مقفلة — لا يمكن اعتماد مشاريع جديدة منها».",
+        "No PM persona → manager_id null."
+      ]
+    },
+    {
+      "id": "FR-REV-065",
+      "feature": "FT-REV-18",
+      "stories": [
+        "US-REV-026"
+      ],
+      "statement": "The system shall create one contract (status preparing, amount = requested) when required, and per part a project (status planning, budget = part item sum or requested amount, start today, end = today + duration) and payments from the payment schedule percentages (not for RFP programs, which get the RFP plan seeded).",
+      "type": "Integration",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:159-201",
+      "acceptance_criteria": [
+        "Payment amount = round(budget × percent / 100); due = today + due_days.",
+        "RFP opportunity → seedRfpPlan called."
+      ]
+    },
+    {
+      "id": "FR-REV-066",
+      "feature": "FT-REV-18",
+      "stories": [
+        "US-REV-026"
+      ],
+      "statement": "The system shall move co_fundings, project_plan_allocations and project_indicators of the application to the (first) project, set applications.transferred=true (and plan_level_id) and log transfer with contract/project references.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:194-204",
+      "acceptance_criteria": [
+        "History note «ترحيل إلى عقد … ومشروع …» or «(بدون عقد)».",
+        "Transfer action disappears after success."
+      ]
+    },
+    {
+      "id": "FR-REV-067",
+      "feature": "FT-REV-19",
+      "stories": [
+        "US-REV-027"
+      ],
+      "statement": "The system shall, on final approval of an application with product lines, decrease each product's quantity_available by the line quantity (floor 0) and set fulfillment_status=pending_delivery.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:48-69",
+      "acceptance_criteria": [
+        "Transfer action is not offered for product applications.",
+        "Delivery action appears."
+      ]
+    },
+    {
+      "id": "FR-REV-068",
+      "feature": "FT-REV-19",
+      "stories": [
+        "US-REV-027"
+      ],
+      "statement": "The system shall let staff record delivery of an approved product application, setting delivered_quantity=quantity for all lines and fulfillment_status=delivered, logging deliver.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:208-218; src/routes/reviewer.$id.tsx:219-224",
+      "acceptance_criteria": [
+        "Button visible only when fulfillment is pending_delivery.",
+        "Status pill changes to «تم التسليم»."
+      ]
+    },
+    {
+      "id": "FR-REV-069",
+      "feature": "FT-REV-20",
+      "stories": [
+        "US-REV-028"
+      ],
+      "statement": "The system shall freeze a snapshot (timestamp, partner name/account type/licence/region/city/status/bank/IBAN/bank status, opportunity title/pass score/has_contract, requested amount) at submission and at final approval.",
+      "type": "Data",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:4-10,70; src/routes/portal.tsx:315",
+      "acceptance_criteria": [
+        "snapshot.submitted set by portal submit.",
+        "snapshot.approved set by final approval."
+      ]
+    },
+    {
+      "id": "FR-REV-070",
+      "feature": "FT-REV-20",
+      "stories": [
+        "US-REV-028"
+      ],
+      "statement": "The system shall display available snapshots (at submission / at approval) in the partner card.",
+      "type": "UI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/routes/reviewer.$id.tsx:401-411",
+      "acceptance_criteria": [
+        "Each block shows date, partner status, bank status, pass score, amount.",
+        "Missing snapshot → block not rendered."
+      ]
+    },
+    {
+      "id": "FR-REV-071",
+      "feature": "FT-REV-05",
+      "stories": [
+        "US-REV-006"
+      ],
+      "statement": "The system shall enforce server-side that only the stage's supervisors/secretary (or admin/grants manager) can execute stage transitions.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "src/lib/tasks.ts:102 (task scoping only); RLS open policies",
+      "acceptance_criteria": [
+        "Unauthorised persona receives an error and no history row.",
+        "Authorised supervisor can approve."
+      ]
+    },
+    {
+      "id": "FR-REV-072",
+      "feature": "FT-REV-05",
+      "stories": [
+        "US-REV-006"
+      ],
+      "statement": "The system shall prevent stage approval while the application awaits applicant edits (needs_edit) or a staff proposal awaits partner acceptance, and apply the pass-score gate inside the workflow library for all entry points.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "src/routes/reviewer.$id.tsx:145-151; src/routes/tasks.tsx:331-347; src/lib/minutes.ts:41",
+      "acceptance_criteria": [
+        "Approve on needs_edit shows an explanatory error.",
+        "Committee minute approval below pass score fails per item."
+      ]
+    }
+  ],
+  "stories": [
+    {
+      "id": "US-REV-001",
+      "epic": "EP-REV-01",
+      "feature": "FT-REV-01",
+      "role": "Reviewer",
+      "story": "As a reviewer I want to search and filter all applications by stage, status, opportunity, kind, region and account type so that I can find the requests that need my attention.",
+      "priority": "Must",
+      "requirements": [
+        "FR-REV-001",
+        "FR-REV-002",
+        "FR-REV-003"
+      ],
+      "acceptance_criteria": [
+        "Given 10 applications of which 3 are pending, When I click «قيد الانتظار», Then exactly the 3 pending applications are listed.",
+        "Given a pending application in its stage for 5 days, When the list renders, Then its stage cell shows «متأخر».",
+        "Given I type a partner name, When matching, Then rows whose ref, title or partner contain the text remain."
+      ],
+      "dependencies": [
+        "useApplications"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-REV-002",
+      "epic": "EP-REV-01",
+      "feature": "FT-REV-01",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to save my column/filter layout and export the filtered list so that I can reuse my working view and report outside the system.",
+      "priority": "Could",
+      "requirements": [
+        "FR-REV-004",
+        "FR-REV-005"
+      ],
+      "acceptance_criteria": [
+        "Given I hide «القيمة» and save, When I return later, Then «القيمة» stays hidden.",
+        "Given 4 rows are filtered, When I export, Then applications.csv has a header plus 4 rows."
+      ],
+      "dependencies": [
+        "PLT saved views"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-REV-003",
+      "epic": "EP-REV-01",
+      "feature": "FT-REV-02",
+      "role": "Reviewer",
+      "story": "As a reviewer I want to see the full application dossier, partner profile and SLA status on one page so that I can decide without switching screens.",
+      "priority": "Must",
+      "requirements": [
+        "FR-REV-006",
+        "FR-REV-007",
+        "FR-REV-008",
+        "FR-REV-009"
+      ],
+      "acceptance_criteria": [
+        "Given the current stage SLA is 5 days and 7 days have passed, When I open the page, Then the header shows «متأخر 2 أيام (المستهدف 5)».",
+        "Given the program uses a form from the library, When I expand details, Then answers are labelled with that form's fields."
+      ],
+      "dependencies": [
+        "PRG",
+        "BEN"
+      ],
+      "open_questions": [
+        "OQ-REV-13"
+      ]
+    },
+    {
+      "id": "US-REV-004",
+      "epic": "EP-REV-01",
+      "feature": "FT-REV-03",
+      "role": "Reviewer",
+      "story": "As a reviewer I want to open and add supporting files on an application so that evidence collected during review is kept with it.",
+      "priority": "Should",
+      "requirements": [
+        "FR-REV-010",
+        "FR-REV-011"
+      ],
+      "acceptance_criteria": [
+        "Given I upload «study.pdf» at stage 2, When the list refreshes, Then «study.pdf» appears tagged «م2».",
+        "Given I am the applicant persona, When I view the page, Then the upload control is not shown."
+      ],
+      "dependencies": [
+        "Storage bucket attachments"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-REV-005",
+      "epic": "EP-REV-01",
+      "feature": "FT-REV-04",
+      "role": "CEO",
+      "story": "As a CEO I want to see who approved each stage, how long it took versus SLA and every action taken so that decisions are auditable.",
+      "priority": "Must",
+      "requirements": [
+        "FR-REV-012",
+        "FR-REV-013",
+        "FR-REV-014"
+      ],
+      "acceptance_criteria": [
+        "Given stage 1 was approved 2 days after submission with SLA 3, When I open the chain, Then stage 1 shows «معتمد» and «استغرقت 2 يوم».",
+        "Given any workflow action, When it completes, Then a history row with my persona name appears at the top of the log."
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-REV-006",
+      "epic": "EP-REV-02",
+      "feature": "FT-REV-05",
+      "role": "Stage supervisor (reviewer / grants manager)",
+      "story": "As a stage supervisor I want to approve the current stage so that the application moves to the next stage or is finally approved.",
+      "priority": "Must",
+      "requirements": [
+        "FR-REV-015",
+        "FR-REV-016",
+        "FR-REV-019",
+        "FR-REV-020",
+        "FR-REV-071",
+        "FR-REV-072"
+      ],
+      "acceptance_criteria": [
+        "Given an application at stage 1, When I approve, Then current_stage=2, stage_status=received and a history row approve_stage stage 1 exists.",
+        "Given an application at stage 3, When I approve, Then status=approved, current_stage is empty and snapshot.approved is stored.",
+        "Given I am the applicant persona, When I open the page, Then no decision card is shown."
+      ],
+      "dependencies": [
+        "PRG workflow_stages"
+      ],
+      "open_questions": [
+        "OQ-REV-01",
+        "OQ-REV-05"
+      ]
+    },
+    {
+      "id": "US-REV-007",
+      "epic": "EP-REV-02",
+      "feature": "FT-REV-05",
+      "role": "Stage supervisor",
+      "story": "As a stage supervisor I want to skip a stage (when the engine allows it) or send the application back to the previous stage so that the flow adapts to the case.",
+      "priority": "Should",
+      "requirements": [
+        "FR-REV-017",
+        "FR-REV-018"
+      ],
+      "acceptance_criteria": [
+        "Given stage 2 with allow_return true, When I click «إرجاع للسابقة», Then current_stage=1 and history action=return stage=2.",
+        "Given a stage with allow_skip false, When I view the decision card, Then no «تخطي» button exists."
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-REV-008",
+      "epic": "EP-REV-02",
+      "feature": "FT-REV-06",
+      "role": "Reviewer",
+      "story": "As a reviewer I want to return an application to the partner with a note describing required edits so that they can complete it without rejection.",
+      "priority": "Must",
+      "requirements": [
+        "FR-REV-021",
+        "FR-REV-022",
+        "FR-REV-023"
+      ],
+      "acceptance_criteria": [
+        "Given a pending application, When I confirm return-for-edit with note «أرفق الميزانية», Then stage_status=needs_edit and reviewer_note=«أرفق الميزانية».",
+        "Given stage_status=needs_edit, When the partner clicks «تم التعديل — إعادة الإرسال», Then stage_status=received and a resubmit history row exists."
+      ],
+      "dependencies": [
+        "PTL"
+      ],
+      "open_questions": [
+        "OQ-REV-04"
+      ]
+    },
+    {
+      "id": "US-REV-009",
+      "epic": "EP-REV-02",
+      "feature": "FT-REV-07",
+      "role": "Reviewer",
+      "story": "As a reviewer I want to reject an application with a standard reason and optional apology message so that the closure is documented and communicated.",
+      "priority": "Must",
+      "requirements": [
+        "FR-REV-024"
+      ],
+      "acceptance_criteria": [
+        "Given I reject with reason «خارج نطاق الفرصة» and an apology text, When saved, Then status=awaiting_apology and close_reason=«خارج نطاق الفرصة».",
+        "Given I reject without apology, When saved, Then status=closed."
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-REV-03"
+      ]
+    },
+    {
+      "id": "US-REV-010",
+      "epic": "EP-REV-02",
+      "feature": "FT-REV-07",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to reopen a closed application so that a wrongful or premature closure can be corrected.",
+      "priority": "Should",
+      "requirements": [
+        "FR-REV-025"
+      ],
+      "acceptance_criteria": [
+        "Given a request closed at stage 2, When I reopen, Then status=pending, current_stage=2, close_reason empty.",
+        "Given an approved request, When I view actions, Then no reopen button exists."
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-REV-15"
+      ]
+    },
+    {
+      "id": "US-REV-011",
+      "epic": "EP-REV-02",
+      "feature": "FT-REV-08",
+      "role": "Reviewer (study committee member)",
+      "story": "As a reviewer I want to record my accept/reject opinion with a justification so that my assessment is part of the study stage.",
+      "priority": "Must",
+      "requirements": [
+        "FR-REV-026",
+        "FR-REV-027"
+      ],
+      "acceptance_criteria": [
+        "Given AI score 85 and pass score 80, When I click «رفض» with empty note, Then I see «قرارك يخالف توصية الوكيل — اكتب المبرر في الملاحظة» and nothing is saved.",
+        "Given I already accepted, When I reject with a note, Then my single evaluation row now has decision reject."
+      ],
+      "dependencies": [
+        "FT-REV-09"
+      ],
+      "open_questions": [
+        "OQ-REV-02"
+      ]
+    },
+    {
+      "id": "US-REV-012",
+      "epic": "EP-REV-02",
+      "feature": "FT-REV-08",
+      "role": "Study-stage approver",
+      "story": "As a study-stage approver I want the system to stop approval when the evaluation score is missing or below the pass score so that weak applications don't advance by mistake.",
+      "priority": "Must",
+      "requirements": [
+        "FR-REV-028",
+        "FR-REV-029"
+      ],
+      "acceptance_criteria": [
+        "Given no AI score, When I approve stage 2, Then «لا يمكن اعتماد مرحلة الدراسة قبل إدخال تقييم واحد على الأقل» appears and stage stays 2.",
+        "Given AI score 82 and pass score 80, When I approve, Then the application moves to stage 3."
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-REV-02"
+      ]
+    },
+    {
+      "id": "US-REV-013",
+      "epic": "EP-REV-03",
+      "feature": "FT-REV-09",
+      "role": "Reviewer",
+      "story": "As a reviewer I want to read the external AI agent's score, eligibility conditions and detailed report so that I can base my study on structured evidence.",
+      "priority": "Should",
+      "requirements": [
+        "FR-REV-030",
+        "FR-REV-031",
+        "FR-REV-032",
+        "FR-REV-033",
+        "FR-REV-035"
+      ],
+      "acceptance_criteria": [
+        "Given the agent posts score 72 with colour #d97706 for ref REQ…, When I open the application, Then a badge «72» in that colour is shown.",
+        "Given a mandatory condition is unmet, When the page renders, Then «غير مؤهل» appears next to the title."
+      ],
+      "dependencies": [
+        "External agent"
+      ],
+      "open_questions": [
+        "OQ-REV-10"
+      ]
+    },
+    {
+      "id": "US-REV-014",
+      "epic": "EP-REV-03",
+      "feature": "FT-REV-09",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to send feedback to the AI agent so that it can re-evaluate with my remarks.",
+      "priority": "Could",
+      "requirements": [
+        "FR-REV-034"
+      ],
+      "acceptance_criteria": [
+        "Given an AI-scored application, When I submit feedback «راجع الميزانية», Then the log shows a note «تغذية راجعة للوكيل: راجع الميزانية».",
+        "Given no AI score, When I view the study card, Then the feedback button is hidden."
+      ],
+      "dependencies": [
+        "(Recommended) agent callback API"
+      ],
+      "open_questions": [
+        "OQ-REV-12"
+      ]
+    },
+    {
+      "id": "US-REV-015",
+      "epic": "EP-REV-03",
+      "feature": "FT-REV-10",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to compare an application with another in the same opportunity so that I can spot inconsistent scoring or pricing.",
+      "priority": "Could",
+      "requirements": [
+        "FR-REV-036",
+        "FR-REV-037"
+      ],
+      "acceptance_criteria": [
+        "Given two applications scored 90 and 70, When compared, Then «فجوة كبيرة في الدرجة الإجمالية (90 مقابل 70)» is listed.",
+        "Given amounts 100,000 and 300,000, When compared, Then an amount-difference item is listed."
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-REV-016",
+      "epic": "EP-REV-03",
+      "feature": "FT-REV-11",
+      "role": "Committee secretary",
+      "story": "As a committee secretary I want an advisory AI opinion on the document I attach so that I notice a wrong or mismatched file before saving, without being blocked.",
+      "priority": "Should",
+      "requirements": [
+        "FR-REV-038",
+        "FR-REV-039",
+        "FR-REV-040"
+      ],
+      "acceptance_criteria": [
+        "Given I pick a PDF minute, When the check returns «fail», Then «غير مطابق» is shown and «تطبيق على n» remains enabled.",
+        "Given I pick a .docx, When the check would run, Then «نوع الملف غير مدعوم للفحص الذكي» is shown and no request is made."
+      ],
+      "dependencies": [
+        "AI provider via projectAi.server"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-REV-017",
+      "epic": "EP-REV-04",
+      "feature": "FT-REV-12",
+      "role": "Committee secretary",
+      "story": "As a committee secretary I want to select several applications awaiting my committee at the same stage and apply one decision so that a meeting's outcome is recorded at once.",
+      "priority": "Must",
+      "requirements": [
+        "FR-REV-041",
+        "FR-REV-043",
+        "FR-REV-044"
+      ],
+      "acceptance_criteria": [
+        "Given 3 committee applications at stage 3, When I apply «اعتماد» with minute 12/1447, Then all 3 become approved and each history row references the minute.",
+        "Given one selected application was already decided elsewhere and fails, When I apply, Then the dialog shows «نجح: 2 · تعذّر: 1» with the error."
+      ],
+      "dependencies": [
+        "TSK",
+        "FT-REV-05"
+      ],
+      "open_questions": [
+        "OQ-REV-06"
+      ]
+    },
+    {
+      "id": "US-REV-018",
+      "epic": "EP-REV-04",
+      "feature": "FT-REV-12",
+      "role": "Committee secretary",
+      "story": "As a committee secretary I want the minute number, date, committee and signed minute file stored once and linked to every decided item so that any decision can be traced to its minute.",
+      "priority": "Must",
+      "requirements": [
+        "FR-REV-042",
+        "FR-REV-043"
+      ],
+      "acceptance_criteria": [
+        "Given a 12MB PDF, When I apply, Then «المرفق يجب أن يكون PDF أو Word أو Excel أو صورة وبحجم لا يتجاوز 10MB» is shown and nothing is decided.",
+        "Given a valid minute, When applied to 4 items, Then one committee_minutes row and 4 minute_items rows exist."
+      ],
+      "dependencies": [
+        "FT-REV-11"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-REV-019",
+      "epic": "EP-REV-05",
+      "feature": "FT-REV-13",
+      "role": "Reviewer",
+      "story": "As a reviewer I want to propose adjusted amount, duration or product quantities so that the partner can accept the revised figures before approval.",
+      "priority": "Should",
+      "requirements": [
+        "FR-REV-045",
+        "FR-REV-046",
+        "FR-REV-047"
+      ],
+      "acceptance_criteria": [
+        "Given requested 500,000, When I propose 400,000, Then proposed_changes.requested_amount=400000 and before.requested_amount=500000.",
+        "Given a pending proposal, When I open the edit dialog, Then I see «تعديل أرقام بانتظار موافقة الجهة» instead of the button."
+      ],
+      "dependencies": [
+        "PTL"
+      ],
+      "open_questions": [
+        "OQ-REV-04"
+      ]
+    },
+    {
+      "id": "US-REV-020",
+      "epic": "EP-REV-05",
+      "feature": "FT-REV-13",
+      "role": "Applicant (partner)",
+      "story": "As a partner I want to accept or object to the figures proposed by the grant staff so that changes to my request only apply with my consent.",
+      "priority": "Should",
+      "requirements": [
+        "FR-REV-048"
+      ],
+      "acceptance_criteria": [
+        "Given a proposal of 400,000, When I accept, Then requested_amount=400000 and proposed_changes is empty.",
+        "Given a proposal, When I reject with note «المبلغ لا يكفي», Then values stay and a reject_changes history row contains the note."
+      ],
+      "dependencies": [
+        "PTL"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-REV-021",
+      "epic": "EP-REV-05",
+      "feature": "FT-REV-14",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to relocate an application to a different initiative with a reason so that plan consumption is attributed correctly.",
+      "priority": "Should",
+      "requirements": [
+        "FR-REV-049"
+      ],
+      "acceptance_criteria": [
+        "Given initiative A, When I relocate to B with reason, Then plan_level_id=B and a relocate history row includes the reason.",
+        "Given I select A again, When saving, Then «اختر مبادرة مختلفة» is shown."
+      ],
+      "dependencies": [
+        "PLN"
+      ],
+      "open_questions": [
+        "OQ-REV-09"
+      ]
+    },
+    {
+      "id": "US-REV-022",
+      "epic": "EP-REV-05",
+      "feature": "FT-REV-15",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to merge several eligible requests of the same partner into one request so that they are contracted once while prior approvals stay visible.",
+      "priority": "Should",
+      "requirements": [
+        "FR-REV-050",
+        "FR-REV-051",
+        "FR-REV-052",
+        "FR-REV-053",
+        "FR-REV-054",
+        "FR-REV-055"
+      ],
+      "acceptance_criteria": [
+        "Given an approved request and a candidate at stage 2, When I merge and confirm twice, Then the primary is pending at stage 2 with amount = sum and the candidate is closed with merged_into set.",
+        "Given candidates from two opportunities, When I have not chosen the opportunity, Then «دمج» is disabled."
+      ],
+      "dependencies": [
+        "FT-REV-05"
+      ],
+      "open_questions": [
+        "OQ-REV-07"
+      ]
+    },
+    {
+      "id": "US-REV-023",
+      "epic": "EP-REV-05",
+      "feature": "FT-REV-15",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to undo a merge while the contract is still being prepared so that wrongly merged requests regain their original state.",
+      "priority": "Should",
+      "requirements": [
+        "FR-REV-056"
+      ],
+      "acceptance_criteria": [
+        "Given a merged request with a preparing contract and 1 project, When I unmerge, Then the contract, project and its payments are deleted and each part regains its original status and stage.",
+        "Given the contract is «بانتظار التوقيع», When I view the request, Then no «فك الدمج» button is shown."
+      ],
+      "dependencies": [
+        "PRJ"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-REV-024",
+      "epic": "EP-REV-06",
+      "feature": "FT-REV-16",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to register a co-funder's contribution, optionally as an approval condition, and attach their approval so that joint funding is tracked.",
+      "priority": "Could",
+      "requirements": [
+        "FR-REV-057",
+        "FR-REV-058",
+        "FR-REV-059"
+      ],
+      "acceptance_criteria": [
+        "Given I add funder «صندوق X» 100,000 as condition at stage 3, When saved, Then a co_fundings row is_condition=true stage=3 and a history note exist.",
+        "Given a pending condition, When I attach the approval letter, Then the row status is confirmed."
+      ],
+      "dependencies": [
+        "FT-REV-18"
+      ],
+      "open_questions": [
+        "OQ-REV-04"
+      ]
+    },
+    {
+      "id": "US-REV-025",
+      "epic": "EP-REV-06",
+      "feature": "FT-REV-17",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to link plan indicators with required quantities to the application so that the resulting project inherits measurable commitments.",
+      "priority": "Should",
+      "requirements": [
+        "FR-REV-060",
+        "FR-REV-061",
+        "FR-REV-062"
+      ],
+      "acceptance_criteria": [
+        "Given indicator target 1000 with 800 already linked, When I link 300, Then «المتبقي من المؤشر 200 … فقط — خفّض العدد المطلوب» is shown.",
+        "Given a milestone indicator, When I link it, Then target=1 is stored."
+      ],
+      "dependencies": [
+        "PLN"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-REV-026",
+      "epic": "EP-REV-07",
+      "feature": "FT-REV-18",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to approve the contract and transfer an approved application into one or more projects so that execution can start.",
+      "priority": "Must",
+      "requirements": [
+        "FR-REV-063",
+        "FR-REV-064",
+        "FR-REV-065",
+        "FR-REV-066"
+      ],
+      "acceptance_criteria": [
+        "Given an approved application of 300,000 with a 3-row schedule (30/40/30), When I transfer as one project, Then one contract (preparing), one project (planning, budget 300,000) and payments 90,000/120,000/90,000 exist.",
+        "Given the plan is budget-locked, When I transfer, Then the error message names the plan and nothing is created."
+      ],
+      "dependencies": [
+        "PRJ",
+        "FIN",
+        "PLN"
+      ],
+      "open_questions": [
+        "OQ-REV-08",
+        "OQ-REV-11"
+      ]
+    },
+    {
+      "id": "US-REV-027",
+      "epic": "EP-REV-07",
+      "feature": "FT-REV-19",
+      "role": "Grants manager",
+      "story": "As a grants manager I want final approval of a product request to reserve stock and then record delivery so that in-kind grants are tracked to handover.",
+      "priority": "Should",
+      "requirements": [
+        "FR-REV-067",
+        "FR-REV-068"
+      ],
+      "acceptance_criteria": [
+        "Given stock 50 and a line of 20, When final approval completes, Then quantity_available=30 and fulfillment=pending_delivery.",
+        "Given pending_delivery, When I record delivery, Then delivered quantities equal requested and the pill shows «تم التسليم»."
+      ],
+      "dependencies": [
+        "PRG products"
+      ],
+      "open_questions": [
+        "OQ-REV-07"
+      ]
+    },
+    {
+      "id": "US-REV-028",
+      "epic": "EP-REV-07",
+      "feature": "FT-REV-20",
+      "role": "Auditor / CEO",
+      "story": "As an auditor I want to see the partner and opportunity data as they were at submission and at approval so that later master-data changes do not obscure the basis of the decision.",
+      "priority": "Should",
+      "requirements": [
+        "FR-REV-069",
+        "FR-REV-070"
+      ],
+      "acceptance_criteria": [
+        "Given a partner's bank status changed after approval, When I view the snapshot, Then «عند الاعتماد» shows the bank status at approval time.",
+        "Given final approval, When saved, Then snapshot.approved.at equals the approval timestamp."
+      ],
+      "dependencies": [
+        "PTL submit"
+      ],
+      "open_questions": []
+    }
+  ],
+  "rules": [
+    {
+      "id": "BR-REV-01",
+      "rule": "Application status/stage transitions are executed only by functions in lib/workflow.ts (and rfp.awardOffer); pages hold no transition rules.",
+      "evidence": "Observed",
+      "source": "AGENTS.md; src/lib/workflow.ts"
+    },
+    {
+      "id": "BR-REV-02",
+      "rule": "The review lifecycle has three fixed stages: 1 «استقبال الطلبات», 2 «دراسة الطلبات», 3 «اعتماد الطلبات»; approving at stage ≥3 is final approval.",
+      "evidence": "Observed",
+      "source": "src/lib/data.ts:246-250; src/lib/workflow.ts:47"
+    },
+    {
+      "id": "BR-REV-03",
+      "rule": "Final approval sets status=approved, current_stage=null, stage_status=approved and freezes snapshot.approved.",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:64-72"
+    },
+    {
+      "id": "BR-REV-04",
+      "rule": "Return moves to the previous stage (never below 1), is not offered at stage 1 and only when the stage's allow_return is not false.",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:91-100; reviewer.$id.tsx:364"
+    },
+    {
+      "id": "BR-REV-05",
+      "rule": "A stage can be skipped only if allow_skip is true; skipping stage 3 equals final approval.",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:84-89; reviewer.$id.tsx:363"
+    },
+    {
+      "id": "BR-REV-06",
+      "rule": "Rejection requires a reason from CLOSE_REASONS; an apology text sets status awaiting_apology, otherwise closed; current_stage is preserved.",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:102-112; src/lib/data.ts:315-321"
+    },
+    {
+      "id": "BR-REV-07",
+      "rule": "Return-for-edit requires a note and keeps status and stage; only stage_status becomes needs_edit until the applicant resubmits.",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:125-133"
+    },
+    {
+      "id": "BR-REV-08",
+      "rule": "Only closed, awaiting_apology or cancelled applications can be reopened; they return to pending at their last stage (or 1).",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:114-123; reviewer.$id.tsx:206-215"
+    },
+    {
+      "id": "BR-REV-09",
+      "rule": "On the detail page, stage-2 approval of a criteria stage requires an AI score ≥ the opportunity pass score (default 80).",
+      "evidence": "Observed",
+      "source": "reviewer.$id.tsx:145-149"
+    },
+    {
+      "id": "BR-REV-10",
+      "rule": "A reviewer decision contradicting the AI recommendation (score vs pass score) requires a justification note.",
+      "evidence": "Observed",
+      "source": "reviewer.$id.tsx:534-536"
+    },
+    {
+      "id": "BR-REV-11",
+      "rule": "One evaluation per reviewer per application (unique application_id+reviewer_id; upsert).",
+      "evidence": "Observed",
+      "source": "supabase/migrations/20261004093306…sql:88-95; reviewer.$id.tsx:537-540"
+    },
+    {
+      "id": "BR-REV-12",
+      "rule": "Every workflow action writes an application_status_history row with actor, stage, action, note and optional minute.",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:12-30"
+    },
+    {
+      "id": "BR-REV-13",
+      "rule": "An application is late when days in the current stage exceed the stage's sla_days (detail/chain/tasks); the list uses a fixed 3-day threshold.",
+      "evidence": "Observed",
+      "source": "reviewer.$id.tsx:191-192; reviewer.index.tsx:75; tasks.ts:103-104"
+    },
+    {
+      "id": "BR-REV-14",
+      "rule": "External AI output is advisory: colour/label come from the agent; an unmet mandatory condition flags «غير مؤهل» without changing the score; suggested track is never applied automatically.",
+      "evidence": "Observed",
+      "source": "src/components/AiScore.tsx:9,40-47,99; AGENTS.md"
+    },
+    {
+      "id": "BR-REV-15",
+      "rule": "AI document checks are advisory only and never block a slot, a save or a workflow action; any uploaded file satisfies its slot.",
+      "evidence": "Observed",
+      "source": "src/lib/attachments.ts:3-12; DocAiCheck.tsx:47"
+    },
+    {
+      "id": "BR-REV-16",
+      "rule": "Committee bulk decisions: only the stage secretary can select; all items must share committee and stage; minute number, date and file (pdf/doc/docx/xls/xlsx/png/jpg/jpeg ≤10MB) are mandatory; reject requires a note.",
+      "evidence": "Observed",
+      "source": "tasks.tsx:308-314; minutes.ts:9,15-20,33-35"
+    },
+    {
+      "id": "BR-REV-17",
+      "rule": "One minute document per bulk decision; each item reuses the single-item workflow function and is linked via minute_items and history.minute_id.",
+      "evidence": "Observed",
+      "source": "AGENTS.md; minutes.ts:32-52"
+    },
+    {
+      "id": "BR-REV-18",
+      "rule": "Bulk payment minutes allow only approve/reject (no return).",
+      "evidence": "Observed",
+      "source": "minutes.ts:55 (see FIN)"
+    },
+    {
+      "id": "BR-REV-19",
+      "rule": "Staff numeric edits are stored as a single pending proposal and applied only after the partner accepts.",
+      "evidence": "Observed",
+      "source": "AGENTS.md; workflow.ts:239-269; ApplicationEdits.tsx:75"
+    },
+    {
+      "id": "BR-REV-20",
+      "rule": "For product grants, proposed amount = Σ(quantity × unit price) and duration is not editable.",
+      "evidence": "Observed",
+      "source": "ApplicationEdits.tsx:58-66"
+    },
+    {
+      "id": "BR-REV-21",
+      "rule": "Relocation requires a different initiative and a reason.",
+      "evidence": "Observed",
+      "source": "ApplicationEdits.tsx:28-29"
+    },
+    {
+      "id": "BR-REV-22",
+      "rule": "Merge candidates: same partner, same grant kind, status pending or approved, not transferred, not merged into another request.",
+      "evidence": "Observed",
+      "source": "MergeApplications.tsx:33-39; workflow.ts:291-294"
+    },
+    {
+      "id": "BR-REV-23",
+      "rule": "A merged request restarts at (lowest prior approved stage + 1); it stays approved only if every part was finally approved.",
+      "evidence": "Observed",
+      "source": "workflow.ts:283-285,309,323-326"
+    },
+    {
+      "id": "BR-REV-24",
+      "rule": "Merging that lowers a finally approved request requires a second confirmation.",
+      "evidence": "Observed",
+      "source": "MergeApplications.tsx:54,60,126-130"
+    },
+    {
+      "id": "BR-REV-25",
+      "rule": "Unmerge is allowed only before a contract exists or while all its contracts are «preparing»; it deletes those contracts and their projects, payments, activities and reports.",
+      "evidence": "Observed",
+      "source": "workflow.ts:340-357"
+    },
+    {
+      "id": "BR-REV-26",
+      "rule": "When merged parts differ in opportunity or plan item, the user must pick the merged request's opportunity/plan item.",
+      "evidence": "Observed",
+      "source": "MergeApplications.tsx:50,56"
+    },
+    {
+      "id": "BR-REV-27",
+      "rule": "A co-funding condition is tied to the stage at which it was added and becomes confirmed only when donor approval evidence is attached.",
+      "evidence": "Observed",
+      "source": "CoFunding.tsx:37-44,117"
+    },
+    {
+      "id": "BR-REV-28",
+      "rule": "Indicators are linked only at application stage; a quantitative link cannot exceed the indicator's remaining target; milestone links have target 1.",
+      "evidence": "Observed",
+      "source": "Indicators.tsx:163-171; AGENTS.md"
+    },
+    {
+      "id": "BR-REV-29",
+      "rule": "Transfer is available only for approved, non-transferred applications without product lines; one contract per application.",
+      "evidence": "Observed",
+      "source": "reviewer.$id.tsx:216; workflow.ts:160-168; AGENTS.md"
+    },
+    {
+      "id": "BR-REV-30",
+      "rule": "Transfer is refused when the target plan is budget-locked.",
+      "evidence": "Observed",
+      "source": "workflow.ts:154-158"
+    },
+    {
+      "id": "BR-REV-31",
+      "rule": "Project manager defaults: explicit → opportunity default_manager_id → first project_manager persona.",
+      "evidence": "Observed",
+      "source": "workflow.ts:147-151"
+    },
+    {
+      "id": "BR-REV-32",
+      "rule": "On split transfer each project's budget = sum of its BOQ items and payments follow the schedule percentages; RFP opportunities get the pre-defined RFP plan instead of schedule payments.",
+      "evidence": "Observed",
+      "source": "workflow.ts:172-201; BoqSchedule.tsx:149"
+    },
+    {
+      "id": "BR-REV-33",
+      "rule": "Final approval of a product application deducts stock (not below 0) and sets fulfillment pending_delivery.",
+      "evidence": "Observed",
+      "source": "workflow.ts:48-69"
+    },
+    {
+      "id": "BR-REV-34",
+      "rule": "Delivery marks all requested quantities as delivered.",
+      "evidence": "Observed",
+      "source": "workflow.ts:208-218"
+    },
+    {
+      "id": "BR-REV-35",
+      "rule": "Partner/opportunity snapshots are frozen at submission and final approval.",
+      "evidence": "Observed",
+      "source": "workflow.ts:4-10,70; portal.tsx:315"
+    },
+    {
+      "id": "BR-REV-36",
+      "rule": "Application tasks are derived for pending applications not awaiting edits, assigned to stage supervisors/secretary, admin and grants managers.",
+      "evidence": "Observed",
+      "source": "tasks.ts:98-107 (see TSK)"
+    },
+    {
+      "id": "BR-REV-37",
+      "rule": "Decision controls are shown to any non-applicant persona; there is no server-side role or stage-supervisor enforcement in the prototype.",
+      "evidence": "Observed",
+      "source": "reviewer.$id.tsx:124; AGENTS.md (open RLS)"
+    },
+    {
+      "id": "BR-REV-38",
+      "rule": "Absorbed requests are closed with reason «مُدمج ضمن الطلب <ref>» and link to the merged request.",
+      "evidence": "Observed",
+      "source": "workflow.ts:332; MergeApplications.tsx:199-207"
+    },
+    {
+      "id": "BR-REV-39",
+      "rule": "RFP award approves the winning offer, closes other pending offers with an automatic apology and transfers the winner.",
+      "evidence": "Observed",
+      "source": "src/lib/rfp.ts:54-62 (see PRG)"
+    }
+  ],
+  "issues": [
+    {
+      "id": "ISS-REV-01",
+      "description": "No stage-level or role authorisation: any non-applicant persona (incl. finance, project_manager) can approve/reject/transfer on the detail page; RLS policies are fully open.",
+      "severity": "High",
+      "location": "reviewer.$id.tsx:124; migrations poc_open_* policies",
+      "recommendation": "Enforce stage supervisors/secretary and roles in a server function or RLS (FR-REV-071)."
+    },
+    {
+      "id": "ISS-REV-02",
+      "description": "Pass-score gate exists only in the detail page; Tasks quick decision, Focus mode and committee minute call approveStage directly and bypass it.",
+      "severity": "High",
+      "location": "reviewer.$id.tsx:145-151; tasks.tsx:331-347; minutes.ts:41",
+      "recommendation": "Move the gate into workflow.approveStage (FR-REV-072)."
+    },
+    {
+      "id": "ISS-REV-03",
+      "description": "Gate checks the external AI score, not human evaluations, yet the message says «قبل إدخال تقييم واحد على الأقل»; reviewers' accept/reject never influences approval; variable named avg is the AI score.",
+      "severity": "Medium",
+      "location": "reviewer.$id.tsx:129,145-148",
+      "recommendation": "Confirm gate source and quorum (OQ-REV-02); align message."
+    },
+    {
+      "id": "ISS-REV-04",
+      "description": "Merge ignores application_items: product parts' lines stay on the closed requests while amounts are summed; re-approving a merged request deducts stock again for parts already approved.",
+      "severity": "High",
+      "location": "workflow.ts:280,289-327,48-63",
+      "recommendation": "Move/merge application_items and avoid double deduction, or disallow product merges."
+    },
+    {
+      "id": "ISS-REV-05",
+      "description": "Stock deduction clamps to 0 without validating availability at final approval.",
+      "severity": "Medium",
+      "location": "workflow.ts:58-60",
+      "recommendation": "Validate stock before final approval and fail clearly."
+    },
+    {
+      "id": "ISS-REV-06",
+      "description": "Approval is possible while stage_status=needs_edit, while a numeric proposal awaits the partner, and while co-funding conditions are unconfirmed (pendingConditions is never used).",
+      "severity": "High",
+      "location": "reviewer.$id.tsx:348-371; CoFunding.tsx:27",
+      "recommendation": "Add guards (FR-REV-059, FR-REV-072)."
+    },
+    {
+      "id": "ISS-REV-07",
+      "description": "Reopen does not check merged_into: an absorbed request can be reopened and become an active duplicate while its indicators/co-funding stay on the primary.",
+      "severity": "Medium",
+      "location": "workflow.ts:114-123; reviewer.$id.tsx:211",
+      "recommendation": "Block reopen for merged requests (use unmerge)."
+    },
+    {
+      "id": "ISS-REV-08",
+      "description": "Split transfer moves all co_fundings, allocations and indicators to the first project only.",
+      "severity": "Medium",
+      "location": "workflow.ts:192-197",
+      "recommendation": "Distribute per part or ask user (OQ-REV-08)."
+    },
+    {
+      "id": "ISS-REV-09",
+      "description": "After transfer, indicator links keep application_id so they remain unlinkable (deletable) from the application page, affecting the project.",
+      "severity": "Medium",
+      "location": "Indicators.tsx:158,211; reviewer.$id.tsx:333",
+      "recommendation": "Hide unlink when transferred or filter by project_id null."
+    },
+    {
+      "id": "ISS-REV-10",
+      "description": "Relocation is allowed after approval/transfer; the project's plan level is not updated, splitting plan attribution.",
+      "severity": "Medium",
+      "location": "reviewer.$id.tsx:274; ApplicationEdits.tsx",
+      "recommendation": "Lock relocation after transfer or propagate to projects (OQ-REV-09)."
+    },
+    {
+      "id": "ISS-REV-11",
+      "description": "ACTION_LABELS lacks propose_changes, accept_changes, reject_changes, relocate and award, so the log shows raw keys.",
+      "severity": "Low",
+      "location": "workflow.ts:220-236",
+      "recommendation": "Add labels."
+    },
+    {
+      "id": "ISS-REV-12",
+      "description": "receiveApplication is never called; stage_status values waiting/in_progress/in_approval are defined but unused (every stage entry sets received).",
+      "severity": "Low",
+      "location": "workflow.ts:40-43; data.ts:252-260",
+      "recommendation": "Remove or implement a «receive» step."
+    },
+    {
+      "id": "ISS-REV-13",
+      "description": "Three-stage lifecycle hard-coded (approveStage stage>=3, STAGE_NAMES, StageTracker, list stage filter) although stages come from configurable engines.",
+      "severity": "Medium",
+      "location": "workflow.ts:47; common.tsx:115; reviewer.index.tsx:157",
+      "recommendation": "Derive final stage from workflow_stages (OQ-REV-05)."
+    },
+    {
+      "id": "ISS-REV-14",
+      "description": "List «متأخر» uses a fixed 3 days while detail and tasks use stage.sla_days.",
+      "severity": "Low",
+      "location": "reviewer.index.tsx:75",
+      "recommendation": "Use stage SLA everywhere."
+    },
+    {
+      "id": "ISS-REV-15",
+      "description": "Committee stages can be decided individually on the detail page without any minute; the minute flow exists only in Tasks.",
+      "severity": "Medium",
+      "location": "reviewer.$id.tsx:348-371; tasks.tsx:390",
+      "recommendation": "Require minute for committee stages (OQ-REV-06)."
+    },
+    {
+      "id": "ISS-REV-16",
+      "description": "Bulk minute is non-transactional: the minute is created/uploaded even if every item fails; items are processed sequentially from the client.",
+      "severity": "Medium",
+      "location": "minutes.ts:36-52",
+      "recommendation": "Server-side transaction or compensation."
+    },
+    {
+      "id": "ISS-REV-17",
+      "description": "«تغذية راجعة للوكيل» only writes a history note; no call to the external agent, though the toast says it was sent for re-evaluation.",
+      "severity": "Low",
+      "location": "reviewer.$id.tsx:494",
+      "recommendation": "Implement callback/webhook to agent (OQ-REV-12)."
+    },
+    {
+      "id": "ISS-REV-18",
+      "description": "Rule-based eligibility (checkEligibility) is evaluated only in the portal although AGENTS.md says portal+review.",
+      "severity": "Medium",
+      "location": "eligibility.ts:38; portal.tsx:162",
+      "recommendation": "Show eligibility on review (FR-REV-035)."
+    },
+    {
+      "id": "ISS-REV-19",
+      "description": "Application attachments use the legacy attachments table (no slots, no AI check, no delete), unlike the FileSlots standard used elsewhere.",
+      "severity": "Low",
+      "location": "reviewer.$id.tsx:153-160,418-437",
+      "recommendation": "Migrate to attachment_files/FileSlots."
+    },
+    {
+      "id": "ISS-REV-20",
+      "description": "Status «cancelled» is displayed, filtered and reopenable but no code ever sets it.",
+      "severity": "Low",
+      "location": "data.ts:234; reviewer.index.tsx:94",
+      "recommendation": "Define cancellation (e.g. applicant withdrawal) or remove (OQ-REV-03)."
+    },
+    {
+      "id": "ISS-REV-21",
+      "description": "awaiting_apology has no follow-up action (no «apology sent» transition); its meaning is unclear.",
+      "severity": "Low",
+      "location": "workflow.ts:109",
+      "recommendation": "Define apology delivery process (OQ-REV-03)."
+    },
+    {
+      "id": "ISS-REV-22",
+      "description": "Snapshots are not refreshed on merge/reopen, and the RFP award path does not take snapshot.approved.",
+      "severity": "Low",
+      "location": "workflow.ts:316-327; rfp.ts:55",
+      "recommendation": "Snapshot at every approval path."
+    },
+    {
+      "id": "ISS-REV-23",
+      "description": "Approval chain and stage statistics ignore reopen/merge/unmerge events, so durations after those events can be wrong.",
+      "severity": "Low",
+      "location": "reviewer.$id.tsx:567-584; stageStats.ts:6",
+      "recommendation": "Treat reopen/merge as stage entries."
+    },
+    {
+      "id": "ISS-REV-24",
+      "description": "Transfer, merge and unmerge are long sequences of client-side writes without a transaction; a mid-way failure leaves partial contracts/projects/rows.",
+      "severity": "Medium",
+      "location": "workflow.ts:140-205,289-367",
+      "recommendation": "Move to a database function / server transaction."
+    },
+    {
+      "id": "ISS-REV-25",
+      "description": "List search is a case-sensitive substring match; export button says «Excel» but produces CSV.",
+      "severity": "Low",
+      "location": "reviewer.index.tsx:100-103,135-137",
+      "recommendation": "Normalise search; rename or produce XLSX."
+    },
+    {
+      "id": "ISS-REV-26",
+      "description": "Funding & indicators card is hidden only for status closed; still editable for awaiting_apology and cancelled.",
+      "severity": "Low",
+      "location": "reviewer.$id.tsx:333",
+      "recommendation": "Hide for all closed variants."
+    },
+    {
+      "id": "ISS-REV-27",
+      "description": "Final approval and transfer do not check partner status or bank verification, although both are displayed.",
+      "severity": "Medium",
+      "location": "workflow.ts:45-81,140-205; reviewer.$id.tsx:383-384",
+      "recommendation": "Confirm requirement (OQ-REV-11)."
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "OQ-REV-01",
+      "question": "Who may decide at each stage — only configured supervisors/secretary, or any grants staff? Which roles may transfer, merge, reopen?",
+      "related": [
+        "FT-REV-05",
+        "FR-REV-019",
+        "FR-REV-071",
+        "ISS-REV-01"
+      ]
+    },
+    {
+      "id": "OQ-REV-02",
+      "question": "Should the study-stage gate use the AI score, human evaluations (quorum/majority), or both? Is 80 the right default pass score?",
+      "related": [
+        "FT-REV-08",
+        "FR-REV-029",
+        "ISS-REV-03"
+      ]
+    },
+    {
+      "id": "OQ-REV-03",
+      "question": "What do «بانتظار الاعتذار» and «ملغي» mean operationally; who sends the apology letter and through which channel; who cancels?",
+      "related": [
+        "FT-REV-07",
+        "ISS-REV-20",
+        "ISS-REV-21"
+      ]
+    },
+    {
+      "id": "OQ-REV-04",
+      "question": "Must approval be blocked while edits are requested, a numeric proposal is pending, or co-funding conditions are unconfirmed?",
+      "related": [
+        "FR-REV-059",
+        "FR-REV-072",
+        "ISS-REV-06"
+      ]
+    },
+    {
+      "id": "OQ-REV-05",
+      "question": "Are all workflows strictly three stages, or can engines have more/fewer stages?",
+      "related": [
+        "FT-REV-05",
+        "ISS-REV-13"
+      ]
+    },
+    {
+      "id": "OQ-REV-06",
+      "question": "Must every decision at a committee stage be backed by a minute, including single-item decisions on the detail page?",
+      "related": [
+        "FT-REV-12",
+        "ISS-REV-15"
+      ]
+    },
+    {
+      "id": "OQ-REV-07",
+      "question": "Are merges of product-grant requests allowed, and how should stock already reserved be handled?",
+      "related": [
+        "FT-REV-15",
+        "FT-REV-19",
+        "ISS-REV-04"
+      ]
+    },
+    {
+      "id": "OQ-REV-08",
+      "question": "On split transfer, how are co-funding, plan allocations and indicators distributed across the resulting projects?",
+      "related": [
+        "FT-REV-18",
+        "ISS-REV-08"
+      ]
+    },
+    {
+      "id": "OQ-REV-09",
+      "question": "Should initiative relocation be locked after approval/transfer, and should it check the target initiative's available budget?",
+      "related": [
+        "FT-REV-14",
+        "ISS-REV-10"
+      ]
+    },
+    {
+      "id": "OQ-REV-10",
+      "question": "Should rule-based eligibility be re-checked at review/approval time against current partner data?",
+      "related": [
+        "FR-REV-035",
+        "ISS-REV-18"
+      ]
+    },
+    {
+      "id": "OQ-REV-11",
+      "question": "Is a verified bank account / active partner status required before final approval or transfer?",
+      "related": [
+        "FT-REV-18",
+        "ISS-REV-27"
+      ]
+    },
+    {
+      "id": "OQ-REV-12",
+      "question": "What should «تغذية راجعة للوكيل» trigger in the external agent (API, webhook, manual)?",
+      "related": [
+        "FR-REV-034",
+        "ISS-REV-17"
+      ]
+    },
+    {
+      "id": "OQ-REV-13",
+      "question": "Are SLAs measured in calendar or working days, and should the list use per-stage SLAs?",
+      "related": [
+        "FT-REV-01",
+        "FT-REV-02",
+        "ISS-REV-14"
+      ]
+    },
+    {
+      "id": "OQ-REV-14",
+      "question": "Should evaluations/reviewer comments ever be visible to applicants (e.g. on rejection)?",
+      "related": [
+        "FT-REV-08"
+      ]
+    },
+    {
+      "id": "OQ-REV-15",
+      "question": "Should reopen be restricted (role, time window, merged requests, RFP non-awarded offers)?",
+      "related": [
+        "FT-REV-07",
+        "ISS-REV-07"
+      ]
+    }
+  ]
+}
