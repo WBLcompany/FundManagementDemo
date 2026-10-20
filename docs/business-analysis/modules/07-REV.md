@@ -2154,7 +2154,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 
 ## 12. User Stories
 
-### US-REV-001 — reviewer I want to search and filter all applications by stage, status, opportunity, kind,
+### US-REV-001 — Search and filter all applications by stage, status, opportunity, kind, region and account type
 - **Parent Epic**: EP-REV-01 · **Parent Feature**: FT-REV-01 · **User Role**: Reviewer
 - **Story**: As a reviewer I want to search and filter all applications by stage, status, opportunity, kind, region and account type so that I can find the requests that need my attention.
 - **Related FRs**: FR-REV-001, FR-REV-002, FR-REV-003
@@ -2190,7 +2190,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Must
 - **Open Questions**: —
 
-### US-REV-002 — grants manager I want to save my column/filter layout and export the filtered list
+### US-REV-002 — Save my column/filter layout and export the filtered list
 - **Parent Epic**: EP-REV-01 · **Parent Feature**: FT-REV-01 · **User Role**: Grants manager
 - **Story**: As a grants manager I want to save my column/filter layout and export the filtered list so that I can reuse my working view and report outside the system.
 - **Related FRs**: FR-REV-004, FR-REV-005
@@ -2224,7 +2224,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Could
 - **Open Questions**: —
 
-### US-REV-003 — reviewer I want to see the full application dossier, partner profile and SLA status on one
+### US-REV-003 — See the full application dossier, partner profile and SLA status on one page
 - **Parent Epic**: EP-REV-01 · **Parent Feature**: FT-REV-02 · **User Role**: Reviewer
 - **Story**: As a reviewer I want to see the full application dossier, partner profile and SLA status on one page so that I can decide without switching screens.
 - **Related FRs**: FR-REV-006, FR-REV-007, FR-REV-008, FR-REV-009
@@ -2259,7 +2259,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Must
 - **Open Questions**: OQ-REV-13
 
-### US-REV-004 — reviewer I want to open and add supporting files on an application
+### US-REV-004 — Open and add supporting files on an application
 - **Parent Epic**: EP-REV-01 · **Parent Feature**: FT-REV-03 · **User Role**: Reviewer
 - **Story**: As a reviewer I want to open and add supporting files on an application so that evidence collected during review is kept with it.
 - **Related FRs**: FR-REV-010, FR-REV-011
@@ -2292,7 +2292,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Should
 - **Open Questions**: —
 
-### US-REV-005 — CEO I want to see who approved each stage, how long it took versus SLA and every action ta
+### US-REV-005 — See who approved each stage, how long it took versus SLA and every action taken
 - **Parent Epic**: EP-REV-01 · **Parent Feature**: FT-REV-04 · **User Role**: CEO
 - **Story**: As a CEO I want to see who approved each stage, how long it took versus SLA and every action taken so that decisions are auditable.
 - **Related FRs**: FR-REV-012, FR-REV-013, FR-REV-014
@@ -2326,7 +2326,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Must
 - **Open Questions**: —
 
-### US-REV-006 — stage supervisor I want to approve the current stage
+### US-REV-006 — Approve the current stage
 - **Parent Epic**: EP-REV-02 · **Parent Feature**: FT-REV-05 · **User Role**: Stage supervisor (reviewer / grants manager)
 - **Story**: As a stage supervisor I want to approve the current stage so that the application moves to the next stage or is finally approved.
 - **Related FRs**: FR-REV-015, FR-REV-016, FR-REV-019, FR-REV-020, FR-REV-071, FR-REV-072
@@ -2366,7 +2366,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Must
 - **Open Questions**: OQ-REV-01, OQ-REV-05
 
-### US-REV-007 — stage supervisor I want to skip a stage (when the engine allows it) or send the applicatio
+### US-REV-007 — Skip a stage (when the engine allows it) or send the application back to the previous stage
 - **Parent Epic**: EP-REV-02 · **Parent Feature**: FT-REV-05 · **User Role**: Stage supervisor
 - **Story**: As a stage supervisor I want to skip a stage (when the engine allows it) or send the application back to the previous stage so that the flow adapts to the case.
 - **Related FRs**: FR-REV-017, FR-REV-018
@@ -2399,7 +2399,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Should
 - **Open Questions**: —
 
-### US-REV-008 — reviewer I want to return an application to the partner with a note describing required ed
+### US-REV-008 — Return an application to the partner with a note describing required edits
 - **Parent Epic**: EP-REV-02 · **Parent Feature**: FT-REV-06 · **User Role**: Reviewer
 - **Story**: As a reviewer I want to return an application to the partner with a note describing required edits so that they can complete it without rejection.
 - **Related FRs**: FR-REV-021, FR-REV-022, FR-REV-023
@@ -2435,7 +2435,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Must
 - **Open Questions**: OQ-REV-04
 
-### US-REV-009 — reviewer I want to reject an application with a standard reason and optional apology messa
+### US-REV-009 — Reject an application with a standard reason and optional apology message
 - **Parent Epic**: EP-REV-02 · **Parent Feature**: FT-REV-07 · **User Role**: Reviewer
 - **Story**: As a reviewer I want to reject an application with a standard reason and optional apology message so that the closure is documented and communicated.
 - **Related FRs**: FR-REV-024
@@ -2471,7 +2471,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Must
 - **Open Questions**: OQ-REV-03
 
-### US-REV-010 — grants manager I want to reopen a closed application
+### US-REV-010 — Reopen a closed application
 - **Parent Epic**: EP-REV-02 · **Parent Feature**: FT-REV-07 · **User Role**: Grants manager
 - **Story**: As a grants manager I want to reopen a closed application so that a wrongful or premature closure can be corrected.
 - **Related FRs**: FR-REV-025
@@ -2504,7 +2504,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Should
 - **Open Questions**: OQ-REV-15
 
-### US-REV-011 — reviewer I want to record my accept/reject opinion with a justification
+### US-REV-011 — Record my accept/reject opinion with a justification
 - **Parent Epic**: EP-REV-02 · **Parent Feature**: FT-REV-08 · **User Role**: Reviewer (study committee member)
 - **Story**: As a reviewer I want to record my accept/reject opinion with a justification so that my assessment is part of the study stage.
 - **Related FRs**: FR-REV-026, FR-REV-027
@@ -2539,7 +2539,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Must
 - **Open Questions**: OQ-REV-02
 
-### US-REV-012 — study-stage approver I want the system to stop approval when the evaluation score is missi
+### US-REV-012 — The system to stop approval when the evaluation score is missing or below the pass score
 - **Parent Epic**: EP-REV-02 · **Parent Feature**: FT-REV-08 · **User Role**: Study-stage approver
 - **Story**: As a study-stage approver I want the system to stop approval when the evaluation score is missing or below the pass score so that weak applications don't advance by mistake.
 - **Related FRs**: FR-REV-028, FR-REV-029
@@ -2575,7 +2575,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Must
 - **Open Questions**: OQ-REV-02
 
-### US-REV-013 — reviewer I want to read the external AI agent's score, eligibility conditions and detailed
+### US-REV-013 — Read the external AI agent's score, eligibility conditions and detailed report
 - **Parent Epic**: EP-REV-03 · **Parent Feature**: FT-REV-09 · **User Role**: Reviewer
 - **Story**: As a reviewer I want to read the external AI agent's score, eligibility conditions and detailed report so that I can base my study on structured evidence.
 - **Related FRs**: FR-REV-030, FR-REV-031, FR-REV-032, FR-REV-033, FR-REV-035
@@ -2609,7 +2609,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Should
 - **Open Questions**: OQ-REV-10
 
-### US-REV-014 — grants manager I want to send feedback to the AI agent
+### US-REV-014 — Send feedback to the AI agent
 - **Parent Epic**: EP-REV-03 · **Parent Feature**: FT-REV-09 · **User Role**: Grants manager
 - **Story**: As a grants manager I want to send feedback to the AI agent so that it can re-evaluate with my remarks.
 - **Related FRs**: FR-REV-034
@@ -2643,7 +2643,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Could
 - **Open Questions**: OQ-REV-12
 
-### US-REV-015 — grants manager I want to compare an application with another in the same opportunity
+### US-REV-015 — Compare an application with another in the same opportunity
 - **Parent Epic**: EP-REV-03 · **Parent Feature**: FT-REV-10 · **User Role**: Grants manager
 - **Story**: As a grants manager I want to compare an application with another in the same opportunity so that I can spot inconsistent scoring or pricing.
 - **Related FRs**: FR-REV-036, FR-REV-037
@@ -2677,7 +2677,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Could
 - **Open Questions**: —
 
-### US-REV-016 — committee secretary I want an advisory AI opinion on the document I attach
+### US-REV-016 — An advisory AI opinion on the document I attach
 - **Parent Epic**: EP-REV-03 · **Parent Feature**: FT-REV-11 · **User Role**: Committee secretary
 - **Story**: As a committee secretary I want an advisory AI opinion on the document I attach so that I notice a wrong or mismatched file before saving, without being blocked.
 - **Related FRs**: FR-REV-038, FR-REV-039, FR-REV-040
@@ -2714,7 +2714,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Should
 - **Open Questions**: —
 
-### US-REV-017 — committee secretary I want to select several applications awaiting my committee at the sam
+### US-REV-017 — Select several applications awaiting my committee at the same stage and apply one decision
 - **Parent Epic**: EP-REV-04 · **Parent Feature**: FT-REV-12 · **User Role**: Committee secretary
 - **Story**: As a committee secretary I want to select several applications awaiting my committee at the same stage and apply one decision so that a meeting's outcome is recorded at once.
 - **Related FRs**: FR-REV-041, FR-REV-043, FR-REV-044
@@ -2752,7 +2752,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Must
 - **Open Questions**: OQ-REV-06
 
-### US-REV-018 — committee secretary I want the minute number, date, committee and signed minute file store
+### US-REV-018 — The minute number, date, committee and signed minute file stored once and linked to every decided item
 - **Parent Epic**: EP-REV-04 · **Parent Feature**: FT-REV-12 · **User Role**: Committee secretary
 - **Story**: As a committee secretary I want the minute number, date, committee and signed minute file stored once and linked to every decided item so that any decision can be traced to its minute.
 - **Related FRs**: FR-REV-042, FR-REV-043
@@ -2788,7 +2788,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Must
 - **Open Questions**: —
 
-### US-REV-019 — reviewer I want to propose adjusted amount, duration or product quantities
+### US-REV-019 — Propose adjusted amount, duration or product quantities
 - **Parent Epic**: EP-REV-05 · **Parent Feature**: FT-REV-13 · **User Role**: Reviewer
 - **Story**: As a reviewer I want to propose adjusted amount, duration or product quantities so that the partner can accept the revised figures before approval.
 - **Related FRs**: FR-REV-045, FR-REV-046, FR-REV-047
@@ -2824,7 +2824,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Should
 - **Open Questions**: OQ-REV-04
 
-### US-REV-020 — partner I want to accept or object to the figures proposed by the grant staff
+### US-REV-020 — Accept or object to the figures proposed by the grant staff
 - **Parent Epic**: EP-REV-05 · **Parent Feature**: FT-REV-13 · **User Role**: Applicant (partner)
 - **Story**: As a partner I want to accept or object to the figures proposed by the grant staff so that changes to my request only apply with my consent.
 - **Related FRs**: FR-REV-048
@@ -2857,7 +2857,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Should
 - **Open Questions**: —
 
-### US-REV-021 — grants manager I want to relocate an application to a different initiative with a reason
+### US-REV-021 — Relocate an application to a different initiative with a reason
 - **Parent Epic**: EP-REV-05 · **Parent Feature**: FT-REV-14 · **User Role**: Grants manager
 - **Story**: As a grants manager I want to relocate an application to a different initiative with a reason so that plan consumption is attributed correctly.
 - **Related FRs**: FR-REV-049
@@ -2892,7 +2892,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Should
 - **Open Questions**: OQ-REV-09
 
-### US-REV-022 — grants manager I want to merge several eligible requests of the same partner into one requ
+### US-REV-022 — Merge several eligible requests of the same partner into one request
 - **Parent Epic**: EP-REV-05 · **Parent Feature**: FT-REV-15 · **User Role**: Grants manager
 - **Story**: As a grants manager I want to merge several eligible requests of the same partner into one request so that they are contracted once while prior approvals stay visible.
 - **Related FRs**: FR-REV-050, FR-REV-051, FR-REV-052, FR-REV-053, FR-REV-054, FR-REV-055
@@ -2929,7 +2929,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Should
 - **Open Questions**: OQ-REV-07
 
-### US-REV-023 — grants manager I want to undo a merge while the contract is still being prepared
+### US-REV-023 — Undo a merge while the contract is still being prepared
 - **Parent Epic**: EP-REV-05 · **Parent Feature**: FT-REV-15 · **User Role**: Grants manager
 - **Story**: As a grants manager I want to undo a merge while the contract is still being prepared so that wrongly merged requests regain their original state.
 - **Related FRs**: FR-REV-056
@@ -2964,7 +2964,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Should
 - **Open Questions**: —
 
-### US-REV-024 — grants manager I want to register a co-funder's contribution, optionally as an approval co
+### US-REV-024 — Register a co-funder's contribution, optionally as an approval condition, and attach their approval
 - **Parent Epic**: EP-REV-06 · **Parent Feature**: FT-REV-16 · **User Role**: Grants manager
 - **Story**: As a grants manager I want to register a co-funder's contribution, optionally as an approval condition, and attach their approval so that joint funding is tracked.
 - **Related FRs**: FR-REV-057, FR-REV-058, FR-REV-059
@@ -2999,7 +2999,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Could
 - **Open Questions**: OQ-REV-04
 
-### US-REV-025 — grants manager I want to link plan indicators with required quantities to the application
+### US-REV-025 — Link plan indicators with required quantities to the application
 - **Parent Epic**: EP-REV-06 · **Parent Feature**: FT-REV-17 · **User Role**: Grants manager
 - **Story**: As a grants manager I want to link plan indicators with required quantities to the application so that the resulting project inherits measurable commitments.
 - **Related FRs**: FR-REV-060, FR-REV-061, FR-REV-062
@@ -3033,7 +3033,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Should
 - **Open Questions**: —
 
-### US-REV-026 — grants manager I want to approve the contract and transfer an approved application into on
+### US-REV-026 — Approve the contract and transfer an approved application into one or more projects
 - **Parent Epic**: EP-REV-07 · **Parent Feature**: FT-REV-18 · **User Role**: Grants manager
 - **Story**: As a grants manager I want to approve the contract and transfer an approved application into one or more projects so that execution can start.
 - **Related FRs**: FR-REV-063, FR-REV-064, FR-REV-065, FR-REV-066
@@ -3072,7 +3072,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Must
 - **Open Questions**: OQ-REV-08, OQ-REV-11
 
-### US-REV-027 — grants manager I want final approval of a product request to reserve stock and then record
+### US-REV-027 — Final approval of a product request to reserve stock and then record delivery
 - **Parent Epic**: EP-REV-07 · **Parent Feature**: FT-REV-19 · **User Role**: Grants manager
 - **Story**: As a grants manager I want final approval of a product request to reserve stock and then record delivery so that in-kind grants are tracked to handover.
 - **Related FRs**: FR-REV-067, FR-REV-068
@@ -3105,7 +3105,7 @@ workflow_stages & evaluation_criteria (PRG), grant_programs (PRG: pass_score, ha
 - **Suggested Priority**: Should
 - **Open Questions**: OQ-REV-07
 
-### US-REV-028 — auditor I want to see the partner and opportunity data as they were at submission and at a
+### US-REV-028 — See the partner and opportunity data as they were at submission and at approval
 - **Parent Epic**: EP-REV-07 · **Parent Feature**: FT-REV-20 · **User Role**: Auditor / CEO
 - **Story**: As an auditor I want to see the partner and opportunity data as they were at submission and at approval so that later master-data changes do not obscure the basis of the decision.
 - **Related FRs**: FR-REV-069, FR-REV-070
