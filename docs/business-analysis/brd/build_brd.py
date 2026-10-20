@@ -664,6 +664,26 @@ def build(args):
                 err.append((f"ERR{err_no:03d}", [e["name"], e["description"]] if e.get("name") else e["description"]))
             m["_uc"][uc["key"]] = {"no": f"UC{uc_no:02d}", "brq": brq, "err": err}
 
+    # cross-references written with local keys (e.g. "PLT-1") become document use-case numbers
+    keymap = {k: v["no"] for m in mods for k, v in m["_uc"].items()}
+    keypat = re.compile(r"(?<![\w-])(?:%s)-\d{1,2}\b" % "|".join(ORDER))
+
+    def renumber(x):
+        if isinstance(x, str):
+            return keypat.sub(lambda mt: keymap.get(mt.group(0), mt.group(0)), x)
+        if isinstance(x, list):
+            return [renumber(i) for i in x]
+        if isinstance(x, dict):
+            return {k: (v if k in ("key", "use_case", "_uc") else renumber(v)) for k, v in x.items()}
+        return x
+
+    for m in mods:
+        for k in ("use_cases", "business_rules", "gaps", "open_questions", "kpis", "messages"):
+            m[k] = renumber(m.get(k, []))
+        for v in m["_uc"].values():
+            v["brq"] = [(c, renumber(t)) for c, t in v["brq"]]
+            v["err"] = [(c, renumber(t)) for c, t in v["err"]]
+
     cover(doc, today)
     heading(doc, "Table of Contents", 1)
     add_toc(doc)
