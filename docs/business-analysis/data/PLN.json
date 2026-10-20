@@ -1,0 +1,3205 @@
+{
+  "module": {
+    "code": "PLN",
+    "name": "Annual Plans, Endowments & Initiatives"
+  },
+  "screens": [
+    {
+      "id": "SCR-PLN-01",
+      "name": "Annual Plans register (الخطط السنوية)",
+      "route": "/plans",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PLN-02",
+      "name": "Plan Summary (ملخص الخطة)",
+      "route": "/plans/$id/summary",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PLN-03",
+      "name": "Plan Hierarchy view (العرض الهرمي)",
+      "route": "/plans/$id",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PLN-04",
+      "name": "Plan Hierarchy Edit Session (وضع التعديل)",
+      "route": "/plans/$id?edit=1",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PLN-05",
+      "name": "Plan Tree diagram (العرض الشجري)",
+      "route": "/plans/$id/tree",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PLN-06",
+      "name": "Financial Operations register (العمليات المالية)",
+      "route": "/plans/adjustments",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PLN-07",
+      "name": "Endowment detail (تفاصيل الوقف)",
+      "route": "/endowments/$id",
+      "roles": [
+        "grants_manager",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PLN-08",
+      "name": "Initiatives legacy redirect (المبادرات)",
+      "route": "/initiatives",
+      "roles": [
+        "any"
+      ]
+    },
+    {
+      "id": "SCR-PLN-09",
+      "name": "Plan editor dialog (خطة جديدة / تعديل الخطة)",
+      "route": "PlanEditor (PlanEditors.tsx)",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PLN-10",
+      "name": "Budget adjustment dialog (تعزيز / تخفيض / نقل)",
+      "route": "AdjustmentDialog.tsx",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PLN-11",
+      "name": "Lock / reopen plan dialog (إغلاق الخطة)",
+      "route": "plans.index.tsx AlertDialog",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PLN-12",
+      "name": "Level editor dialog (مسار جديد / تعديل مستوى)",
+      "route": "LevelEditor (PlanEditors.tsx)",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PLN-13",
+      "name": "Save plan changes dialog (حفظ تعديلات الخطة)",
+      "route": "plans.$id.index.tsx Dialog",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PLN-14",
+      "name": "Endowment funding dialog (تغذية الوقف)",
+      "route": "FundingDialog (endowments.$id.tsx)",
+      "roles": [
+        "grants_manager",
+        "admin"
+      ]
+    }
+  ],
+  "epics": [
+    {
+      "id": "EP-PLN-01",
+      "name": "Annual Plan Portfolio & Lifecycle",
+      "description": "Register of annual plans, creation, approval/active flags and budget locking."
+    },
+    {
+      "id": "EP-PLN-02",
+      "name": "Plan Structure Management",
+      "description": "Hierarchical levels (tracks, items, initiatives) edited in an evidenced edit session, with audit history and leaf indicators."
+    },
+    {
+      "id": "EP-PLN-03",
+      "name": "Budget Monitoring & Visualization",
+      "description": "Single budget-math engine (used, available, pending, approved, due, paid) and the summary, hierarchy and tree views built on it."
+    },
+    {
+      "id": "EP-PLN-04",
+      "name": "Budget Adjustments",
+      "description": "Evidenced increase, decrease and transfer of level budgets with propagation up the hierarchy, and the operations register."
+    },
+    {
+      "id": "EP-PLN-05",
+      "name": "Endowments",
+      "description": "Endowment funding ledger, participation and percentage splits across plan levels, and the endowment portion report."
+    },
+    {
+      "id": "EP-PLN-06",
+      "name": "Plan Linkage & Initiatives",
+      "description": "Linking applications, projects and programs to plan items, lock enforcement, and initiatives modelled as projects."
+    }
+  ],
+  "features": [
+    {
+      "id": "FT-PLN-01",
+      "epic": "EP-PLN-01",
+      "name": "Annual plans register",
+      "description": "Tabular list of annual plans with spend and indicator progress, status/approval/year/date filters, saved view, export, row navigation and per-plan action menu.",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLN-01"
+      ],
+      "requirements": [
+        "FR-PLN-001",
+        "FR-PLN-002",
+        "FR-PLN-003",
+        "FR-PLN-004",
+        "FR-PLN-005"
+      ],
+      "stories": [
+        "US-PLN-001",
+        "US-PLN-002"
+      ],
+      "rules": [
+        "BR-PLN-07",
+        "BR-PLN-09",
+        "BR-PLN-43"
+      ],
+      "dependencies": [
+        "PLT DataTable & saved views",
+        "FT-PLN-07 budget engine"
+      ],
+      "acceptance_criteria": [
+        "All plans are listed with name, year, budget, spend %, indicator %, status and approval.",
+        "Filters for status, approval and year persist per user when the view is saved.",
+        "Portfolio KPIs are computed on approved plans only, sum-based."
+      ],
+      "open_questions": [
+        "OQ-PLN-01"
+      ]
+    },
+    {
+      "id": "FT-PLN-02",
+      "epic": "EP-PLN-01",
+      "name": "Create annual plan",
+      "description": "Dialog to create a plan with name, year, budget, active and approved flags, optionally pre-filled by AI assist.",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLN-01",
+        "SCR-PLN-09"
+      ],
+      "requirements": [
+        "FR-PLN-006",
+        "FR-PLN-007",
+        "FR-PLN-008"
+      ],
+      "stories": [
+        "US-PLN-003"
+      ],
+      "rules": [
+        "BR-PLN-23",
+        "BR-PLN-42"
+      ],
+      "dependencies": [
+        "AiAssist (PLT)"
+      ],
+      "acceptance_criteria": [
+        "A plan can be created with name, year and budget ≥ 0.",
+        "New plans default to next year, active and not approved.",
+        "A reference number PLN-… is assigned."
+      ],
+      "open_questions": [
+        "OQ-PLN-01",
+        "OQ-PLN-05"
+      ]
+    },
+    {
+      "id": "FT-PLN-03",
+      "epic": "EP-PLN-01",
+      "name": "Plan budget lock and reopen",
+      "description": "Lock a plan so no new projects can be approved from its budget, recording the treatment of outstanding obligations and a decision document; reopen when needed.",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLN-01",
+        "SCR-PLN-11"
+      ],
+      "requirements": [
+        "FR-PLN-009",
+        "FR-PLN-010",
+        "FR-PLN-011",
+        "FR-PLN-012"
+      ],
+      "stories": [
+        "US-PLN-004",
+        "US-PLN-005"
+      ],
+      "rules": [
+        "BR-PLN-35",
+        "BR-PLN-36"
+      ],
+      "dependencies": [
+        "FT-PLN-16",
+        "REV/PRJ transferApplication"
+      ],
+      "acceptance_criteria": [
+        "Locking requires both obligation choices and an evidence file.",
+        "A locked plan's items are not offered in pickers and project transfer is refused.",
+        "Reopening restores availability."
+      ],
+      "open_questions": [
+        "OQ-PLN-01",
+        "OQ-PLN-03"
+      ]
+    },
+    {
+      "id": "FT-PLN-04",
+      "epic": "EP-PLN-02",
+      "name": "Hierarchy edit session",
+      "description": "View-by-default hierarchy with an explicit edit mode (?edit=1) where users draft level additions, level edits and plan-header changes (including approval/active flags), preview their effect, and commit all at once with one evidence document.",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLN-04",
+        "SCR-PLN-09",
+        "SCR-PLN-12",
+        "SCR-PLN-13"
+      ],
+      "requirements": [
+        "FR-PLN-013",
+        "FR-PLN-014",
+        "FR-PLN-015",
+        "FR-PLN-016",
+        "FR-PLN-017",
+        "FR-PLN-018",
+        "FR-PLN-019",
+        "FR-PLN-020",
+        "FR-PLN-021",
+        "FR-PLN-022"
+      ],
+      "stories": [
+        "US-PLN-006",
+        "US-PLN-007",
+        "US-PLN-008",
+        "US-PLN-009",
+        "US-PLN-010"
+      ],
+      "rules": [
+        "BR-PLN-18",
+        "BR-PLN-19",
+        "BR-PLN-20",
+        "BR-PLN-21",
+        "BR-PLN-22",
+        "BR-PLN-23",
+        "BR-PLN-24",
+        "BR-PLN-25",
+        "BR-PLN-39"
+      ],
+      "dependencies": [
+        "Storage bucket attachments",
+        "DocAiCheck"
+      ],
+      "acceptance_criteria": [
+        "No change is written until «حفظ الكل».",
+        "Changes to existing items require one evidence document; additions only do not.",
+        "Each changed existing item produces one history row with before/after values."
+      ],
+      "open_questions": [
+        "OQ-PLN-06",
+        "OQ-PLN-07",
+        "OQ-PLN-10",
+        "OQ-PLN-16"
+      ]
+    },
+    {
+      "id": "FT-PLN-05",
+      "epic": "EP-PLN-02",
+      "name": "Plan edit audit history",
+      "description": "List of evidenced plan and level edits on summary, hierarchy and tree pages with access to the evidence document.",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PLN-02",
+        "SCR-PLN-03",
+        "SCR-PLN-05"
+      ],
+      "requirements": [
+        "FR-PLN-023",
+        "FR-PLN-024"
+      ],
+      "stories": [
+        "US-PLN-011"
+      ],
+      "rules": [
+        "BR-PLN-19"
+      ],
+      "dependencies": [
+        "Storage signed URLs"
+      ],
+      "acceptance_criteria": [
+        "History lists each edit with type, target, date and document.",
+        "Evidence opens through a time-limited signed URL."
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-PLN-06",
+      "epic": "EP-PLN-02",
+      "name": "Leaf-level plan indicators",
+      "description": "Display and (in edit mode) add/delete quantitative or milestone indicators on leaf plan levels.",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PLN-03",
+        "SCR-PLN-04"
+      ],
+      "requirements": [
+        "FR-PLN-025",
+        "FR-PLN-026"
+      ],
+      "stories": [
+        "US-PLN-012"
+      ],
+      "rules": [
+        "BR-PLN-40"
+      ],
+      "dependencies": [
+        "Indicators.tsx (REV/PRJ)"
+      ],
+      "acceptance_criteria": [
+        "Indicators appear only on persisted leaf levels.",
+        "A linked indicator cannot be deleted."
+      ],
+      "open_questions": [
+        "OQ-PLN-08"
+      ]
+    },
+    {
+      "id": "FT-PLN-07",
+      "epic": "EP-PLN-03",
+      "name": "Budget breakdown engine",
+      "description": "Shared calculation of used, actual available and the five-way split (paid, due, approved/committed, available, pending) per level and per plan, including multi-initiative splits, spend ratios and project progress.",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLN-02",
+        "SCR-PLN-03"
+      ],
+      "requirements": [
+        "FR-PLN-027",
+        "FR-PLN-028",
+        "FR-PLN-029",
+        "FR-PLN-030",
+        "FR-PLN-031",
+        "FR-PLN-032",
+        "FR-PLN-033"
+      ],
+      "stories": [
+        "US-PLN-013",
+        "US-PLN-014"
+      ],
+      "rules": [
+        "BR-PLN-01",
+        "BR-PLN-02",
+        "BR-PLN-03",
+        "BR-PLN-04",
+        "BR-PLN-05",
+        "BR-PLN-06",
+        "BR-PLN-07",
+        "BR-PLN-08",
+        "BR-PLN-10"
+      ],
+      "dependencies": [
+        "payments (FIN)",
+        "project_plan_allocations (PRJ)",
+        "applications (REV)"
+      ],
+      "acceptance_criteria": [
+        "Figures follow BR-PLN-01…08 exactly (see worked examples §6.6).",
+        "Pending never reduces available.",
+        "A multi-initiative project is counted once in total."
+      ],
+      "open_questions": [
+        "OQ-PLN-11"
+      ]
+    },
+    {
+      "id": "FT-PLN-08",
+      "epic": "EP-PLN-03",
+      "name": "Plan summary dashboard",
+      "description": "One-page overview: total budget split, spend KPIs, per-track distribution with over-budget flag, linked initiatives and recent adjustments.",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLN-02"
+      ],
+      "requirements": [
+        "FR-PLN-034",
+        "FR-PLN-035",
+        "FR-PLN-036",
+        "FR-PLN-037",
+        "FR-PLN-038"
+      ],
+      "stories": [
+        "US-PLN-015"
+      ],
+      "rules": [
+        "BR-PLN-07",
+        "BR-PLN-08",
+        "BR-PLN-10",
+        "BR-PLN-41"
+      ],
+      "dependencies": [
+        "FT-PLN-07"
+      ],
+      "acceptance_criteria": [
+        "Summary shows plan breakdown, three KPI bars, per-track bars, initiatives and last five adjustments.",
+        "Tracks with negative available are flagged."
+      ],
+      "open_questions": [
+        "OQ-PLN-08"
+      ]
+    },
+    {
+      "id": "FT-PLN-09",
+      "epic": "EP-PLN-03",
+      "name": "Hierarchical plan view",
+      "description": "Collapsible tree of tracks and nested levels with amount, money split, budget warnings, endowment chips, projects/applications drill-down and a view switcher.",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLN-03"
+      ],
+      "requirements": [
+        "FR-PLN-039",
+        "FR-PLN-040",
+        "FR-PLN-041",
+        "FR-PLN-042"
+      ],
+      "stories": [
+        "US-PLN-016",
+        "US-PLN-017"
+      ],
+      "rules": [
+        "BR-PLN-01",
+        "BR-PLN-22",
+        "BR-PLN-34"
+      ],
+      "dependencies": [
+        "FT-PLN-07"
+      ],
+      "acceptance_criteria": [
+        "Every level shows its amount and breakdown.",
+        "Project and application counts include descendants and open a list dialog."
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-PLN-10",
+      "epic": "EP-PLN-03",
+      "name": "Plan tree diagram",
+      "description": "Read-only organisation-chart style diagram of the plan with each level's amount and share of its parent.",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Could",
+      "screens": [
+        "SCR-PLN-05"
+      ],
+      "requirements": [
+        "FR-PLN-043"
+      ],
+      "stories": [
+        "US-PLN-018"
+      ],
+      "rules": [
+        "BR-PLN-22",
+        "BR-PLN-44"
+      ],
+      "dependencies": [
+        "@xyflow/react"
+      ],
+      "acceptance_criteria": [
+        "Each node shows code-name, share % and amount.",
+        "Mismatched children sums show a warning on the node."
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-PLN-11",
+      "epic": "EP-PLN-04",
+      "name": "Budget adjustment execution",
+      "description": "Dialog to increase, decrease or transfer a level's budget with mandatory evidence; changes propagate to all ancestors and (for increase/decrease) to the plan budget, and are recorded.",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLN-10",
+        "SCR-PLN-01",
+        "SCR-PLN-06"
+      ],
+      "requirements": [
+        "FR-PLN-044",
+        "FR-PLN-045",
+        "FR-PLN-046",
+        "FR-PLN-047",
+        "FR-PLN-048",
+        "FR-PLN-049",
+        "FR-PLN-050",
+        "FR-PLN-051"
+      ],
+      "stories": [
+        "US-PLN-019",
+        "US-PLN-020",
+        "US-PLN-021"
+      ],
+      "rules": [
+        "BR-PLN-02",
+        "BR-PLN-11",
+        "BR-PLN-12",
+        "BR-PLN-13",
+        "BR-PLN-14",
+        "BR-PLN-15",
+        "BR-PLN-16",
+        "BR-PLN-17"
+      ],
+      "dependencies": [
+        "FT-PLN-07",
+        "Storage",
+        "DocAiCheck"
+      ],
+      "acceptance_criteria": [
+        "No adjustment executes without a valid evidence document.",
+        "Decrease/transfer cannot exceed the source's actual available.",
+        "Ancestors and plan budget are updated as per BR-PLN-13…15."
+      ],
+      "open_questions": [
+        "OQ-PLN-04",
+        "OQ-PLN-12",
+        "OQ-PLN-14",
+        "OQ-PLN-15"
+      ]
+    },
+    {
+      "id": "FT-PLN-12",
+      "epic": "EP-PLN-04",
+      "name": "Financial operations register",
+      "description": "List of executed adjustments by type and plan with reference, levels, amount, creator, note, evidence and date.",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLN-06"
+      ],
+      "requirements": [
+        "FR-PLN-052",
+        "FR-PLN-053",
+        "FR-PLN-054"
+      ],
+      "stories": [
+        "US-PLN-022"
+      ],
+      "rules": [
+        "BR-PLN-16"
+      ],
+      "dependencies": [
+        "FT-PLN-11"
+      ],
+      "acceptance_criteria": [
+        "Adjustments are filtered by type tab and plan.",
+        "Evidence opens via signed URL."
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-PLN-13",
+      "epic": "EP-PLN-05",
+      "name": "Endowment funding ledger",
+      "description": "Record dated, evidenced funding movements for an endowment; endowment size is their sum.",
+      "roles": [
+        "grants_manager",
+        "admin"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PLN-07",
+        "SCR-PLN-14"
+      ],
+      "requirements": [
+        "FR-PLN-055",
+        "FR-PLN-056"
+      ],
+      "stories": [
+        "US-PLN-023"
+      ],
+      "rules": [
+        "BR-PLN-32",
+        "BR-PLN-33"
+      ],
+      "dependencies": [
+        "CFG endowments master data",
+        "Storage"
+      ],
+      "acceptance_criteria": [
+        "A funding needs amount > 0, date and evidence.",
+        "Endowment size equals the sum of fundings."
+      ],
+      "open_questions": [
+        "OQ-PLN-13"
+      ]
+    },
+    {
+      "id": "FT-PLN-14",
+      "epic": "EP-PLN-05",
+      "name": "Endowment participation and splits",
+      "description": "Determine which endowments fund each level and in what percentage (own, inherited or default equal split), and let users toggle an endowment's participation per level.",
+      "roles": [
+        "grants_manager",
+        "admin"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PLN-07",
+        "SCR-PLN-03"
+      ],
+      "requirements": [
+        "FR-PLN-057",
+        "FR-PLN-058",
+        "FR-PLN-059"
+      ],
+      "stories": [
+        "US-PLN-024"
+      ],
+      "rules": [
+        "BR-PLN-25",
+        "BR-PLN-26",
+        "BR-PLN-27",
+        "BR-PLN-28",
+        "BR-PLN-29",
+        "BR-PLN-34"
+      ],
+      "dependencies": [
+        "FT-PLN-13"
+      ],
+      "acceptance_criteria": [
+        "With one active endowment every level is 100 % that endowment.",
+        "Toggling rewrites the level's split equally among participants; the last participant cannot leave."
+      ],
+      "open_questions": [
+        "OQ-PLN-09"
+      ]
+    },
+    {
+      "id": "FT-PLN-15",
+      "epic": "EP-PLN-05",
+      "name": "Endowment portion report",
+      "description": "Per endowment: its allocation, used and available across the organization's plans, level-by-level percentages and funded projects.",
+      "roles": [
+        "grants_manager",
+        "admin"
+      ],
+      "priority": "Could",
+      "screens": [
+        "SCR-PLN-07"
+      ],
+      "requirements": [
+        "FR-PLN-060",
+        "FR-PLN-061",
+        "FR-PLN-062"
+      ],
+      "stories": [
+        "US-PLN-025"
+      ],
+      "rules": [
+        "BR-PLN-30",
+        "BR-PLN-31"
+      ],
+      "dependencies": [
+        "FT-PLN-07",
+        "FT-PLN-14"
+      ],
+      "acceptance_criteria": [
+        "Allocation, used and available follow BR-PLN-30/31.",
+        "Inherited percentages are labelled «(موروث)»."
+      ],
+      "open_questions": [
+        "OQ-PLN-17"
+      ]
+    },
+    {
+      "id": "FT-PLN-16",
+      "epic": "EP-PLN-06",
+      "name": "Plan item linking",
+      "description": "Reusable pickers to link applications, projects and grant programs (default item) to plan items, and applicant-facing initiative selection, both limited to active unlocked plans; lock enforced at project transfer.",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin",
+        "applicant"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLN-03"
+      ],
+      "requirements": [
+        "FR-PLN-063",
+        "FR-PLN-064",
+        "FR-PLN-065"
+      ],
+      "stories": [
+        "US-PLN-026",
+        "US-PLN-027"
+      ],
+      "rules": [
+        "BR-PLN-35",
+        "BR-PLN-37"
+      ],
+      "dependencies": [
+        "REV, PRJ, PTL, PRG consumers"
+      ],
+      "acceptance_criteria": [
+        "Pickers list only non-root levels of active, unlocked plans.",
+        "Transfer to a project from a locked plan is refused."
+      ],
+      "open_questions": [
+        "OQ-PLN-02",
+        "OQ-PLN-16"
+      ]
+    },
+    {
+      "id": "FT-PLN-17",
+      "epic": "EP-PLN-06",
+      "name": "Initiatives as projects",
+      "description": "Initiatives are projects with source = initiative; legacy route redirects to the filtered projects list; initiative progress is derived from weighted activities and shown on the plan summary.",
+      "roles": [
+        "grants_manager",
+        "finance",
+        "ceo",
+        "admin",
+        "project_manager"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PLN-08",
+        "SCR-PLN-02"
+      ],
+      "requirements": [
+        "FR-PLN-066",
+        "FR-PLN-067"
+      ],
+      "stories": [
+        "US-PLN-028"
+      ],
+      "rules": [
+        "BR-PLN-10",
+        "BR-PLN-38"
+      ],
+      "dependencies": [
+        "PRJ projects module"
+      ],
+      "acceptance_criteria": [
+        "/initiatives lands on /projects?source=initiative.",
+        "Initiative progress = weighted activity progress."
+      ],
+      "open_questions": []
+    }
+  ],
+  "requirements": [
+    {
+      "id": "FR-PLN-001",
+      "feature": "FT-PLN-01",
+      "stories": [
+        "US-PLN-001"
+      ],
+      "statement": "The system shall list annual plans with name, year, budget, spend-from-budget %, indicator achievement %, active status and approval status, with plan number and creation date available as optional columns.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.index.tsx:62-111",
+      "acceptance_criteria": [
+        "Each plan appears once with the seven default columns.",
+        "Plan number and creation date are hidden by default and can be shown."
+      ]
+    },
+    {
+      "id": "FR-PLN-002",
+      "feature": "FT-PLN-01",
+      "stories": [
+        "US-PLN-001"
+      ],
+      "statement": "The system shall filter plans by active status, approval status, year (2021–2031) and creation date range, and persist status/approval/year, hidden columns and page size in the user's saved view.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.index.tsx:47-70,142-148",
+      "acceptance_criteria": [
+        "Selecting «معتمد» shows only approved plans.",
+        "A saved view restores the status, approval and year filters on next visit."
+      ]
+    },
+    {
+      "id": "FR-PLN-003",
+      "feature": "FT-PLN-01",
+      "stories": [
+        "US-PLN-002"
+      ],
+      "statement": "The system shall show portfolio KPI cards: number of plans, spend from budget across approved plans (sum-based), and budget-weighted indicator achievement across approved plans.",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/plans.index.tsx:71-75,131-135",
+      "acceptance_criteria": [
+        "Spend KPI = Σ paid ÷ Σ budget of approved plans.",
+        "Unapproved plans do not affect the spend and indicator KPIs."
+      ]
+    },
+    {
+      "id": "FR-PLN-004",
+      "feature": "FT-PLN-01",
+      "stories": [
+        "US-PLN-001"
+      ],
+      "statement": "The system shall allow exporting the plans table and toggling column visibility, excluding the actions column from exports.",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/plans.index.tsx:79,136-141",
+      "acceptance_criteria": [
+        "Export file is named annual-plans.",
+        "Actions column is not exported."
+      ]
+    },
+    {
+      "id": "FR-PLN-005",
+      "feature": "FT-PLN-01",
+      "stories": [
+        "US-PLN-001"
+      ],
+      "statement": "The system shall provide per-plan actions: view summary (row click, name, eye icon), lock/reopen, increase, decrease, transfer, and «تعديل الخطة والاعتماد» opening the edit session.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.index.tsx:79-100,140",
+      "acceptance_criteria": [
+        "Row click opens /plans/$id/summary.",
+        "The menu offers the three adjustment types and the edit session link."
+      ]
+    },
+    {
+      "id": "FR-PLN-006",
+      "feature": "FT-PLN-02",
+      "stories": [
+        "US-PLN-003"
+      ],
+      "statement": "The system shall create a plan with name, year, budget, active and approved flags, assigning a PLN reference number.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.index.tsx:128; PlanEditors.tsx:44-58; migration 20261004115345:20",
+      "acceptance_criteria": [
+        "Saving a valid form inserts a plan and shows «تم حفظ الخطة».",
+        "The new plan appears in the list with a PLN-… number."
+      ]
+    },
+    {
+      "id": "FR-PLN-007",
+      "feature": "FT-PLN-02",
+      "stories": [
+        "US-PLN-003"
+      ],
+      "statement": "The system shall validate that plan name and year are provided and budget is a finite number ≥ 0.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/PlanEditors.tsx:45-46",
+      "acceptance_criteria": [
+        "Empty name shows «الاسم والسنة مطلوبان».",
+        "Invalid budget shows «أدخل موازنة صحيحة»."
+      ]
+    },
+    {
+      "id": "FR-PLN-008",
+      "feature": "FT-PLN-02",
+      "stories": [
+        "US-PLN-003"
+      ],
+      "statement": "The system shall offer an AI assist that proposes plan name, year and budget from free text, applied to the form only on user action.",
+      "type": "AI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/components/PlanEditors.tsx:63-65",
+      "acceptance_criteria": [
+        "AI proposals populate the form fields without saving.",
+        "User can edit proposed values before saving."
+      ]
+    },
+    {
+      "id": "FR-PLN-009",
+      "feature": "FT-PLN-03",
+      "stories": [
+        "US-PLN-004"
+      ],
+      "statement": "The system shall lock a plan only after the user chooses the treatment of contracted-not-due and due-not-paid obligations and attaches an evidence file, then set budget_locked = true.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.index.tsx:162-190",
+      "acceptance_criteria": [
+        "«إغلاق الخطة» stays disabled until both choices and a file are set.",
+        "After confirmation the lock icon turns red and the plan is locked."
+      ]
+    },
+    {
+      "id": "FR-PLN-010",
+      "feature": "FT-PLN-03",
+      "stories": [
+        "US-PLN-005"
+      ],
+      "statement": "The system shall reopen a locked plan after confirmation, setting budget_locked = false.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.index.tsx:155-159,182-190",
+      "acceptance_criteria": [
+        "Confirming «إعادة الفتح» unlocks the plan and shows «أُعيد فتح الخطة».",
+        "Cancelling leaves the plan locked."
+      ]
+    },
+    {
+      "id": "FR-PLN-011",
+      "feature": "FT-PLN-03",
+      "stories": [
+        "US-PLN-004",
+        "US-PLN-005"
+      ],
+      "statement": "The system shall indicate each plan's lock state in the register with distinct icons and tooltips.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/plans.index.tsx:84-88",
+      "acceptance_criteria": [
+        "Locked plans show a red closed-lock icon titled «الخطة مقفلة — اضغط لإعادة فتحها».",
+        "Unlocked plans show an open-lock icon titled «إغلاق الخطة»."
+      ]
+    },
+    {
+      "id": "FR-PLN-012",
+      "feature": "FT-PLN-03",
+      "stories": [
+        "US-PLN-004"
+      ],
+      "statement": "The system shall store each lock/reopen decision with actor, timestamp, obligation treatment choices and the uploaded evidence document.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "src/routes/plans.index.tsx:171-189",
+      "acceptance_criteria": [
+        "The evidence file is uploaded to private storage and retrievable.",
+        "Lock history shows choices and document."
+      ]
+    },
+    {
+      "id": "FR-PLN-013",
+      "feature": "FT-PLN-04",
+      "stories": [
+        "US-PLN-006",
+        "US-PLN-010"
+      ],
+      "statement": "The system shall provide an explicit edit mode for a plan's hierarchy (search param edit=1) entered from the plan views or the register, and exited by cancel (discarding drafts) or successful save.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.index.tsx:29,60-61,117,175-181; PlanViewNav.tsx:8",
+      "acceptance_criteria": [
+        "Opening /plans/$id?edit=1 shows the amber session banner and edit controls.",
+        "«إلغاء» clears the draft and returns to view mode."
+      ]
+    },
+    {
+      "id": "FR-PLN-014",
+      "feature": "FT-PLN-04",
+      "stories": [
+        "US-PLN-006"
+      ],
+      "statement": "The system shall let users add a root track or a child level to any level as a draft with name and amount, generating code and sort order automatically.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.index.tsx:102-106,135-136,187",
+      "acceptance_criteria": [
+        "Adding under level 1.2 with siblings 1.2.1–1.2.3 creates code 1.2.4.",
+        "The draft level appears highlighted before saving."
+      ]
+    },
+    {
+      "id": "FR-PLN-015",
+      "feature": "FT-PLN-04",
+      "stories": [
+        "US-PLN-007"
+      ],
+      "statement": "The system shall let users edit a level's name and amount as a draft, keeping one pending change per level and dropping it when values return to the original.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.index.tsx:84-101",
+      "acceptance_criteria": [
+        "Editing the same level twice yields one change entry.",
+        "Restoring original values removes the change."
+      ]
+    },
+    {
+      "id": "FR-PLN-016",
+      "feature": "FT-PLN-04",
+      "stories": [
+        "US-PLN-008"
+      ],
+      "statement": "The system shall let users edit plan name, year, budget, active and approved flags as a single draft change within the session.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.index.tsx:186,217-218; PlanEditors.tsx:48",
+      "acceptance_criteria": [
+        "Applying the plan editor adds «تعديل بيانات الخطة» to the change list.",
+        "Only the last plan-header change is kept."
+      ]
+    },
+    {
+      "id": "FR-PLN-017",
+      "feature": "FT-PLN-04",
+      "stories": [
+        "US-PLN-006",
+        "US-PLN-007"
+      ],
+      "statement": "The system shall recompute all displayed amounts, breakdowns and warnings with drafts applied and highlight changed items and the number of unsaved changes.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.index.tsx:44-56,73-74,150,176",
+      "acceptance_criteria": [
+        "After a draft amount change, the level's figures reflect the new amount.",
+        "Changed levels have an amber border/background."
+      ]
+    },
+    {
+      "id": "FR-PLN-018",
+      "feature": "FT-PLN-04",
+      "stories": [
+        "US-PLN-007"
+      ],
+      "statement": "The system shall warn, without blocking, when the sum of a node's children differs from its amount, showing the children sum and the absolute difference.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:269-275; PlanEditors.tsx:16-19,68,143",
+      "acceptance_criteria": [
+        "Parent 1,000,000 with children 600,000 + 300,000 shows difference 100,000.",
+        "Equal sums show no warning."
+      ]
+    },
+    {
+      "id": "FR-PLN-019",
+      "feature": "FT-PLN-04",
+      "stories": [
+        "US-PLN-009"
+      ],
+      "statement": "The system shall present a save dialog listing all pending changes and require one evidence document when any existing item changes, otherwise stating that no document is needed.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.index.tsx:118,220-227",
+      "acceptance_criteria": [
+        "With a level edit pending, «حفظ الكل» is disabled until a file is chosen.",
+        "With additions only, the note «إضافات فقط — لا يلزم مستند نظامي.» is shown."
+      ]
+    },
+    {
+      "id": "FR-PLN-020",
+      "feature": "FT-PLN-04",
+      "stories": [
+        "US-PLN-009"
+      ],
+      "statement": "The system shall persist a session by uploading the evidence, inserting new levels parent-first (mapping temporary ids), updating edited plan/level rows and endowment splits, and writing one plan_edit_history row per changed existing item.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:320-374",
+      "acceptance_criteria": [
+        "A child added under a draft parent is saved with the parent's real id.",
+        "Each edited level produces a history row with before/after values and the evidence path."
+      ]
+    },
+    {
+      "id": "FR-PLN-021",
+      "feature": "FT-PLN-04",
+      "stories": [
+        "US-PLN-009"
+      ],
+      "statement": "The system shall reject a session whose endowment splits (edited or for added levels) do not total 100 %.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:321-324",
+      "acceptance_criteria": [
+        "A split of 60 % + 30 % blocks saving with «مجموع نسب الأوقاف لكل مستوى يجب أن يساوي 100%».",
+        "An empty split (inherit) is accepted."
+      ]
+    },
+    {
+      "id": "FR-PLN-022",
+      "feature": "FT-PLN-04",
+      "stories": [
+        "US-PLN-009"
+      ],
+      "statement": "The system shall commit an edit session atomically (all changes or none) and remove the evidence on failure.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "src/lib/plans.ts:320-374",
+      "acceptance_criteria": [
+        "A failure in any change leaves the plan unchanged.",
+        "No orphan evidence file remains after a failed save."
+      ]
+    },
+    {
+      "id": "FR-PLN-023",
+      "feature": "FT-PLN-05",
+      "stories": [
+        "US-PLN-011"
+      ],
+      "statement": "The system shall display the plan's edit history (plan vs level edit, target name, date, evidence name) on summary, hierarchy and tree pages, newest first.",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/PlanEditHistory.tsx:7-21; plans.ts:156",
+      "acceptance_criteria": [
+        "Each history row shows «تعديل مستوى» or «تعديل الخطة» with the target name.",
+        "Empty history shows «لا توجد تعديلات موثقة بعد.»."
+      ]
+    },
+    {
+      "id": "FR-PLN-024",
+      "feature": "FT-PLN-05",
+      "stories": [
+        "US-PLN-011"
+      ],
+      "statement": "The system shall open evidence documents through a signed URL valid for 300 seconds in a new tab.",
+      "type": "Security",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/PlanEditHistory.tsx:9-13",
+      "acceptance_criteria": [
+        "Clicking the document opens it in a new tab.",
+        "If signing fails «تعذر فتح المستند النظامي» is shown."
+      ]
+    },
+    {
+      "id": "FR-PLN-025",
+      "feature": "FT-PLN-06",
+      "stories": [
+        "US-PLN-012"
+      ],
+      "statement": "The system shall display indicators on persisted leaf levels of the hierarchy.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.index.tsx:161; Indicators.tsx:44-51",
+      "acceptance_criteria": [
+        "A leaf with indicators lists them.",
+        "Non-leaf levels and draft levels show no indicator block."
+      ]
+    },
+    {
+      "id": "FR-PLN-026",
+      "feature": "FT-PLN-06",
+      "stories": [
+        "US-PLN-012"
+      ],
+      "statement": "The system shall allow adding (quantitative or milestone) and deleting leaf indicators in edit mode, preventing deletion of indicators linked to applications or projects.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/Indicators.tsx:53-71",
+      "acceptance_criteria": [
+        "Quantitative indicator without unit or target is rejected.",
+        "Deleting a linked indicator shows the link counts and is not executed."
+      ]
+    },
+    {
+      "id": "FR-PLN-027",
+      "feature": "FT-PLN-07",
+      "stories": [
+        "US-PLN-013"
+      ],
+      "statement": "The system shall compute, for every level, used and actual available amounts rolled up over the level and its descendants.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:402-422",
+      "acceptance_criteria": [
+        "Used includes descendant projects and approved untransferred applications.",
+        "Available = amount − used."
+      ]
+    },
+    {
+      "id": "FR-PLN-028",
+      "feature": "FT-PLN-07",
+      "stories": [
+        "US-PLN-013"
+      ],
+      "statement": "The system shall compute the five-way split (paid, due, approved, available, pending) per level and per plan from projects, applications and payments.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:424-443",
+      "acceptance_criteria": [
+        "Worked example A (§6.6) yields paid 100,000, due 50,000, approved 600,000, available 250,000.",
+        "Pending is excluded from available."
+      ]
+    },
+    {
+      "id": "FR-PLN-029",
+      "feature": "FT-PLN-07",
+      "stories": [
+        "US-PLN-014"
+      ],
+      "statement": "The system shall split a project funded by two or more plan allocations into one piece per allocation, prorating its payments by share.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:182-191,431-432",
+      "acceptance_criteria": [
+        "Worked example B: 90,000 paid splits into 60,000 and 30,000.",
+        "A project with one allocation counts fully at its plan_level_id."
+      ]
+    },
+    {
+      "id": "FR-PLN-030",
+      "feature": "FT-PLN-07",
+      "stories": [
+        "US-PLN-013"
+      ],
+      "statement": "The system shall compute spend from budget and spend of approved per plan using a single definition reused across screens.",
+      "type": "Reporting",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:448-459",
+      "acceptance_criteria": [
+        "Spend from budget is capped at 100 %.",
+        "A plan with budget 0 shows 0 %."
+      ]
+    },
+    {
+      "id": "FR-PLN-031",
+      "feature": "FT-PLN-07",
+      "stories": [
+        "US-PLN-013"
+      ],
+      "statement": "The system shall render money splits as a stacked bar with paid, due, approved and available figures (full, compact or bare variants), pending shown aside, and negative available highlighted in red.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/FinanceBreakdown.tsx:5-64",
+      "acceptance_criteria": [
+        "Bar widths are proportional to max(total, paid+due+approved).",
+        "Negative available displays in destructive colour."
+      ]
+    },
+    {
+      "id": "FR-PLN-032",
+      "feature": "FT-PLN-07",
+      "stories": [
+        "US-PLN-014"
+      ],
+      "statement": "The system shall provide a per-project breakdown (contract value, approved-not-due, due, paid) for use on the project page.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:384-389; projects.$id.tsx:159",
+      "acceptance_criteria": [
+        "Approved = max(0, budget − paid − due).",
+        "Pending and available are 0 for a project."
+      ]
+    },
+    {
+      "id": "FR-PLN-033",
+      "feature": "FT-PLN-07",
+      "stories": [
+        "US-PLN-013"
+      ],
+      "statement": "The system shall load plan data in one query set, failing on core tables but degrading secondary tables (history, endowments, shares, fundings, allocations) to empty with a warning.",
+      "type": "Integration",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:142-180",
+      "acceptance_criteria": [
+        "If plan_edit_history fails, plan pages still render.",
+        "If payments fail, the page shows the query error."
+      ]
+    },
+    {
+      "id": "FR-PLN-034",
+      "feature": "FT-PLN-08",
+      "stories": [
+        "US-PLN-015"
+      ],
+      "statement": "The system shall show on the plan summary the plan year, approval and active status, total budget and the plan-level five-way breakdown.",
+      "type": "Reporting",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.summary.tsx:39-40",
+      "acceptance_criteria": [
+        "Header subtitle reads «{year} · معتمدة/غير معتمدة · فعالة/غير فعالة».",
+        "Unknown plan id shows «الخطة غير موجودة»."
+      ]
+    },
+    {
+      "id": "FR-PLN-035",
+      "feature": "FT-PLN-08",
+      "stories": [
+        "US-PLN-015"
+      ],
+      "statement": "The system shall show progress bars for spend from budget, spend of approved and indicator achievement.",
+      "type": "Reporting",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.summary.tsx:42-49",
+      "acceptance_criteria": [
+        "Values equal FR-PLN-030 results.",
+        "Indicator achievement shows the stored plan value."
+      ]
+    },
+    {
+      "id": "FR-PLN-036",
+      "feature": "FT-PLN-08",
+      "stories": [
+        "US-PLN-015"
+      ],
+      "statement": "The system shall show per-track amount and breakdown bars with a shared legend and flag tracks with negative available as «تجاوز الموازنة».",
+      "type": "Reporting",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.summary.tsx:50-60",
+      "acceptance_criteria": [
+        "A track with available −10,000 shows the over-budget badge.",
+        "A plan without tracks shows «لا توجد مسارات في الخطة.»."
+      ]
+    },
+    {
+      "id": "FR-PLN-037",
+      "feature": "FT-PLN-08",
+      "stories": [
+        "US-PLN-015",
+        "US-PLN-028"
+      ],
+      "statement": "The system shall list initiatives (projects with source = initiative) linked to the plan with title, progress and budget.",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.summary.tsx:63-66",
+      "acceptance_criteria": [
+        "Only source = initiative projects appear.",
+        "Section is hidden when there are none."
+      ]
+    },
+    {
+      "id": "FR-PLN-038",
+      "feature": "FT-PLN-08",
+      "stories": [
+        "US-PLN-015"
+      ],
+      "statement": "The system shall show the five most recent adjustments of the plan with type, reference, amount and date.",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.summary.tsx:34,67-73",
+      "acceptance_criteria": [
+        "At most five rows, newest first.",
+        "No adjustments shows «لا توجد تعديلات مالية بعد.»."
+      ]
+    },
+    {
+      "id": "FR-PLN-039",
+      "feature": "FT-PLN-09",
+      "stories": [
+        "US-PLN-016"
+      ],
+      "statement": "The system shall render the plan hierarchy as collapsible tracks with nested levels, each showing code-name, amount, compact breakdown and budget warning.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.index.tsx:140-164,193-211",
+      "acceptance_criteria": [
+        "Tracks are expanded by default and can be collapsed.",
+        "Empty plan shows «لا توجد مستويات بعد.»."
+      ]
+    },
+    {
+      "id": "FR-PLN-040",
+      "feature": "FT-PLN-09",
+      "stories": [
+        "US-PLN-017"
+      ],
+      "statement": "The system shall show counts of projects and applications per level (including descendants) and open a list dialog with key columns and links.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.index.tsx:148-159,229-269",
+      "acceptance_criteria": [
+        "Buttons are disabled when count is 0.",
+        "Project refs link to /projects/$id; application refs link to /reviewer/$id."
+      ]
+    },
+    {
+      "id": "FR-PLN-041",
+      "feature": "FT-PLN-09",
+      "stories": [
+        "US-PLN-016"
+      ],
+      "statement": "The system shall show endowment share chips on levels that have their own split when the organization has two or more active endowments, linking to the endowment page.",
+      "type": "UI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.index.tsx:107-116",
+      "acceptance_criteria": [
+        "Inherited splits show no chips.",
+        "With one endowment no chips are shown."
+      ]
+    },
+    {
+      "id": "FR-PLN-042",
+      "feature": "FT-PLN-09",
+      "stories": [
+        "US-PLN-016"
+      ],
+      "statement": "The system shall provide a view switcher (summary, hierarchy, tree) and an edit entry button on plan pages, hiding the edit button while editing.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/components/PlanViewNav.tsx:5-21",
+      "acceptance_criteria": [
+        "The active view button is highlighted.",
+        "«تعديل الخطة» opens /plans/$id?edit=1."
+      ]
+    },
+    {
+      "id": "FR-PLN-043",
+      "feature": "FT-PLN-10",
+      "stories": [
+        "US-PLN-018"
+      ],
+      "statement": "The system shall render a read-only zoomable tree of the plan with each node showing code-name, share of parent and amount, and a budget warning where children sums mismatch.",
+      "type": "UI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.tree.tsx:30-108",
+      "acceptance_criteria": [
+        "Root node shows plan name, 100 % and budget.",
+        "Nodes cannot be dragged or connected."
+      ]
+    },
+    {
+      "id": "FR-PLN-044",
+      "feature": "FT-PLN-11",
+      "stories": [
+        "US-PLN-019",
+        "US-PLN-020",
+        "US-PLN-021"
+      ],
+      "statement": "The system shall open the adjustment dialog for a given plan and type from the plans register menu or the financial operations page, resetting all fields on open.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.index.tsx:92-94,150; plans.adjustments.tsx:75,94; AdjustmentDialog.tsx:37",
+      "acceptance_criteria": [
+        "Dialog title shows type and plan name.",
+        "Re-opening shows empty fields."
+      ]
+    },
+    {
+      "id": "FR-PLN-045",
+      "feature": "FT-PLN-11",
+      "stories": [
+        "US-PLN-019",
+        "US-PLN-020",
+        "US-PLN-021"
+      ],
+      "statement": "The system shall let the user pick the source and/or target level among all plan levels (indented) and show the chosen level's amount and actual available.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/AdjustmentDialog.tsx:41-60,84-85",
+      "acceptance_criteria": [
+        "Selecting a level shows «المبلغ … · المتاح الفعلي …».",
+        "Increase shows only one level picker."
+      ]
+    },
+    {
+      "id": "FR-PLN-046",
+      "feature": "FT-PLN-11",
+      "stories": [
+        "US-PLN-020",
+        "US-PLN-021"
+      ],
+      "statement": "The system shall validate amount > 0, required levels, distinct source/target for transfers, and amount ≤ source actual available for decreases and transfers.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:494-505",
+      "acceptance_criteria": [
+        "Amount exceeding available shows «القيمة تتجاوز المتاح الفعلي للمستوى (…)».",
+        "Same source and target shows «لا يمكن النقل إلى نفس المستوى»."
+      ]
+    },
+    {
+      "id": "FR-PLN-047",
+      "feature": "FT-PLN-11",
+      "stories": [
+        "US-PLN-019",
+        "US-PLN-020",
+        "US-PLN-021"
+      ],
+      "statement": "The system shall require an evidence document (allowed formats, ≤ 10 MB), run an advisory AI check on it, and store it privately before applying the adjustment.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:497-499,507-509; AdjustmentDialog.tsx:94-104",
+      "acceptance_criteria": [
+        "«تنفيذ» is disabled without a file.",
+        "A .zip file is rejected with the format message."
+      ]
+    },
+    {
+      "id": "FR-PLN-048",
+      "feature": "FT-PLN-11",
+      "stories": [
+        "US-PLN-019"
+      ],
+      "statement": "The system shall apply an increase by adding the amount to the target level, each of its ancestors and the plan budget.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:512-514,530-533",
+      "acceptance_criteria": [
+        "Worked example C: increase 2.1 by 100,000 → 2.1, Track 2 and plan each +100,000.",
+        "Sibling levels are unchanged."
+      ]
+    },
+    {
+      "id": "FR-PLN-049",
+      "feature": "FT-PLN-11",
+      "stories": [
+        "US-PLN-020"
+      ],
+      "statement": "The system shall apply a decrease by subtracting the amount from the source level, each of its ancestors and the plan budget.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:527,530-533",
+      "acceptance_criteria": [
+        "Decrease 1.2 by 50,000 → 1.2, Track 1 and plan each −50,000.",
+        "Decrease above available is rejected before any write."
+      ]
+    },
+    {
+      "id": "FR-PLN-050",
+      "feature": "FT-PLN-11",
+      "stories": [
+        "US-PLN-021"
+      ],
+      "statement": "The system shall apply a transfer by subtracting the amount along the source chain, re-reading levels and adding it along the target chain, leaving the plan budget unchanged.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:519-526",
+      "acceptance_criteria": [
+        "Transfer 1.1→2.1 of 100,000: Track 1 −100,000, Track 2 +100,000, plan unchanged.",
+        "Transfer between siblings leaves the common parent unchanged."
+      ]
+    },
+    {
+      "id": "FR-PLN-051",
+      "feature": "FT-PLN-11",
+      "stories": [
+        "US-PLN-019",
+        "US-PLN-020",
+        "US-PLN-021"
+      ],
+      "statement": "The system shall record each executed adjustment (type, levels, amount, note, actor, evidence) with an ADJ reference and refresh plan, project and application data; on failure it shall delete the uploaded evidence.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:535-550; AdjustmentDialog.tsx:66-71",
+      "acceptance_criteria": [
+        "Success toast «تم تنفيذ {type}» and the register shows the new row.",
+        "On insert failure the evidence file no longer exists in storage."
+      ]
+    },
+    {
+      "id": "FR-PLN-052",
+      "feature": "FT-PLN-12",
+      "stories": [
+        "US-PLN-022"
+      ],
+      "statement": "The system shall list adjustments in three tabs (increases, decreases, transfers) filterable by plan.",
+      "type": "Reporting",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.adjustments.tsx:30-45,77-92",
+      "acceptance_criteria": [
+        "Switching tab shows only that type.",
+        "Selecting a plan shows only its adjustments."
+      ]
+    },
+    {
+      "id": "FR-PLN-053",
+      "feature": "FT-PLN-12",
+      "stories": [
+        "US-PLN-022"
+      ],
+      "statement": "The system shall show reference, plan, level(s) (source ← target for transfers), amount (red for decreases), creator, note, evidence link and date for each adjustment.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/plans.adjustments.tsx:47-67",
+      "acceptance_criteria": [
+        "Transfer rows show «source ← target».",
+        "Evidence opens via a 300-second signed URL."
+      ]
+    },
+    {
+      "id": "FR-PLN-054",
+      "feature": "FT-PLN-12",
+      "stories": [
+        "US-PLN-022"
+      ],
+      "statement": "The system shall export the adjustments of the current tab (file adjustments-<type>), excluding the evidence column.",
+      "type": "Reporting",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/routes/plans.adjustments.tsx:65,83",
+      "acceptance_criteria": [
+        "Export file name includes the type.",
+        "Evidence column is not exported."
+      ]
+    },
+    {
+      "id": "FR-PLN-055",
+      "feature": "FT-PLN-13",
+      "stories": [
+        "US-PLN-023"
+      ],
+      "statement": "The system shall record an endowment funding with amount, funding date, optional note, evidence document and acting persona.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/routes/endowments.$id.tsx:47-65",
+      "acceptance_criteria": [
+        "Missing evidence shows «أرفق المستند النظامي».",
+        "Successful save shows «تم تسجيل التغذية» and updates the endowment size."
+      ]
+    },
+    {
+      "id": "FR-PLN-056",
+      "feature": "FT-PLN-13",
+      "stories": [
+        "US-PLN-023"
+      ],
+      "statement": "The system shall display the endowment's current size (sum of fundings) and its funding ledger (date, amount, note, document name).",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/endowments.$id.tsx:120-145; plans.ts:118-121",
+      "acceptance_criteria": [
+        "Size equals Σ funding amounts.",
+        "With no fundings the empty-state hint is shown and size shows «—»."
+      ]
+    },
+    {
+      "id": "FR-PLN-057",
+      "feature": "FT-PLN-14",
+      "stories": [
+        "US-PLN-024"
+      ],
+      "statement": "The system shall let the user toggle an endowment's participation in each level of each plan of its organization, rewriting that level's split equally among participants.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/endowments.$id.tsx:79-109; plans.ts:218-227",
+      "acceptance_criteria": [
+        "Turning A off where A, B, C participate leaves B 50 % / C 50 %.",
+        "Turning off the last participant shows «يجب أن يشارك وقف واحد على الأقل في كل مستوى»."
+      ]
+    },
+    {
+      "id": "FR-PLN-058",
+      "feature": "FT-PLN-14",
+      "stories": [
+        "US-PLN-024"
+      ],
+      "statement": "The system shall resolve each level's effective endowment split as own rows, else nearest ancestor's rows, else equal default, with a single-endowment organization always 100 %.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:202-216",
+      "acceptance_criteria": [
+        "A level without own rows under a parent with A 70 / B 30 inherits 70/30.",
+        "With no rows anywhere and 2 endowments, 50/50 applies."
+      ]
+    },
+    {
+      "id": "FR-PLN-059",
+      "feature": "FT-PLN-14",
+      "stories": [
+        "US-PLN-024"
+      ],
+      "statement": "The system shall provide equal and size-weighted split calculations totalling exactly 100 %.",
+      "type": "Functional",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:123-140",
+      "acceptance_criteria": [
+        "Equal split of 3 = 34/33/33.",
+        "Size-weighted is unavailable if any endowment has no funding."
+      ]
+    },
+    {
+      "id": "FR-PLN-060",
+      "feature": "FT-PLN-15",
+      "stories": [
+        "US-PLN-025"
+      ],
+      "statement": "The system shall show an endowment's total allocation, used and available across its organization's plans.",
+      "type": "Reporting",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/routes/endowments.$id.tsx:118-132; plans.ts:229-256",
+      "acceptance_criteria": [
+        "Available is green when ≥ 0, red otherwise.",
+        "Allocation follows the residual rule BR-PLN-30."
+      ]
+    },
+    {
+      "id": "FR-PLN-061",
+      "feature": "FT-PLN-15",
+      "stories": [
+        "US-PLN-025"
+      ],
+      "statement": "The system shall show, per plan, the levels where the endowment has a share with level amount, percentage, share amount and an «(موروث)» marker for inherited percentages.",
+      "type": "Reporting",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/routes/endowments.$id.tsx:149-162; plans.ts:241-244",
+      "acceptance_criteria": [
+        "Levels with 0 % are omitted.",
+        "Inherited rows are greyed and marked «(موروث)»."
+      ]
+    },
+    {
+      "id": "FR-PLN-062",
+      "feature": "FT-PLN-15",
+      "stories": [
+        "US-PLN-025"
+      ],
+      "statement": "The system shall list projects funded by the endowment with budget, percentage, endowment share and status.",
+      "type": "Reporting",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "src/routes/endowments.$id.tsx:163-176; plans.ts:246-249",
+      "acceptance_criteria": [
+        "Share = project piece budget × %.",
+        "Project reference links to the project page."
+      ]
+    },
+    {
+      "id": "FR-PLN-063",
+      "feature": "FT-PLN-16",
+      "stories": [
+        "US-PLN-026"
+      ],
+      "statement": "The system shall provide a plan-item picker that links an application, project or grant program (default item) to a non-root level of an active, unlocked plan, or unlinks it.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/PlanLevelPicker.tsx:7-41",
+      "acceptance_criteria": [
+        "Options are labelled «year · code - name».",
+        "Choosing «غير مرتبط ببند» clears the link."
+      ]
+    },
+    {
+      "id": "FR-PLN-064",
+      "feature": "FT-PLN-16",
+      "stories": [
+        "US-PLN-027"
+      ],
+      "statement": "The system shall provide an initiative selector listing non-root levels of active, unlocked plans for applicants on open opportunities and staff re-placing applications.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/components/PlanLevelPicker.tsx:43-58; portal.tsx:343; ApplicationEdits.tsx:40",
+      "acceptance_criteria": [
+        "Levels of locked plans are not listed.",
+        "Root tracks are not selectable."
+      ]
+    },
+    {
+      "id": "FR-PLN-065",
+      "feature": "FT-PLN-16",
+      "stories": [
+        "US-PLN-026"
+      ],
+      "statement": "The system shall refuse to create projects from an approved application when the target plan item belongs to a locked plan.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "src/lib/workflow.ts:154-158",
+      "acceptance_criteria": [
+        "Transfer to a locked plan item fails with «ميزانية «…» مقفلة — لا يمكن اعتماد مشاريع جديدة منها».",
+        "Transfer to an unlocked plan item proceeds."
+      ]
+    },
+    {
+      "id": "FR-PLN-066",
+      "feature": "FT-PLN-17",
+      "stories": [
+        "US-PLN-028"
+      ],
+      "statement": "The system shall redirect /initiatives to /projects filtered by source = initiative, replacing the history entry.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/routes/initiatives.tsx:4-6",
+      "acceptance_criteria": [
+        "Opening /initiatives shows the projects list filtered to initiatives.",
+        "Back navigation does not return to /initiatives."
+      ]
+    },
+    {
+      "id": "FR-PLN-067",
+      "feature": "FT-PLN-17",
+      "stories": [
+        "US-PLN-028"
+      ],
+      "statement": "The system shall compute initiative/project progress as the weight-averaged progress of its activities, falling back to the stored progress.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:461-468",
+      "acceptance_criteria": [
+        "Activities (weight 1, 60 %) and (weight 3, 20 %) give 30 %.",
+        "No activities → stored progress rounded."
+      ]
+    }
+  ],
+  "stories": [
+    {
+      "id": "US-PLN-001",
+      "epic": "EP-PLN-01",
+      "feature": "FT-PLN-01",
+      "role": "Grants Manager",
+      "story": "As a grants manager I want to browse and filter annual plans so that I can find a plan and see its execution status quickly.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-001",
+        "FR-PLN-002",
+        "FR-PLN-004",
+        "FR-PLN-005"
+      ],
+      "acceptance_criteria": [
+        "Given plans of several years, When I select year 2026, Then only 2026 plans are listed.",
+        "Given I click a plan row, When the page loads, Then the plan summary of that plan is shown.",
+        "Given I saved a view with «معتمد», When I return to the page, Then the approval filter is still «معتمد»."
+      ],
+      "dependencies": [
+        "PLT DataTable"
+      ],
+      "open_questions": [
+        "OQ-PLN-01"
+      ]
+    },
+    {
+      "id": "US-PLN-002",
+      "epic": "EP-PLN-01",
+      "feature": "FT-PLN-01",
+      "role": "CEO",
+      "story": "As a CEO I want portfolio KPIs for approved plans so that I can judge overall spend and indicator achievement.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLN-003"
+      ],
+      "acceptance_criteria": [
+        "Given two approved plans of 10 M (paid 2 M) and 30 M (paid 3 M), When I open the register, Then spend shows 12.5 %.",
+        "Given an unapproved plan with payments, When KPIs compute, Then it is excluded from spend and indicator KPIs."
+      ],
+      "dependencies": [
+        "FT-PLN-07"
+      ],
+      "open_questions": [
+        "OQ-PLN-08"
+      ]
+    },
+    {
+      "id": "US-PLN-003",
+      "epic": "EP-PLN-01",
+      "feature": "FT-PLN-02",
+      "role": "Grants Manager",
+      "story": "As a grants manager I want to create a new annual plan so that I can start allocating next year's budget.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-006",
+        "FR-PLN-007",
+        "FR-PLN-008"
+      ],
+      "acceptance_criteria": [
+        "Given a valid name, year and budget, When I save, Then a plan with a PLN-… reference appears in the list.",
+        "Given an empty name, When I save, Then the error «الاسم والسنة مطلوبان» is shown and nothing is saved."
+      ],
+      "dependencies": [
+        "AiAssist"
+      ],
+      "open_questions": [
+        "OQ-PLN-05"
+      ]
+    },
+    {
+      "id": "US-PLN-004",
+      "epic": "EP-PLN-01",
+      "feature": "FT-PLN-03",
+      "role": "Finance officer",
+      "story": "As a finance officer I want to lock a plan's budget with a documented decision so that no new projects are approved from a closed year.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-009",
+        "FR-PLN-011",
+        "FR-PLN-012"
+      ],
+      "acceptance_criteria": [
+        "Given only one obligation choice is made, When I look at the confirm button, Then it is disabled.",
+        "Given both choices and a file, When I confirm, Then the plan is locked and its items no longer appear in plan-item pickers.",
+        "Given a lock decision, When it is saved, Then the document and choices are retrievable in the plan history (Recommended)."
+      ],
+      "dependencies": [
+        "FT-PLN-16"
+      ],
+      "open_questions": [
+        "OQ-PLN-01",
+        "OQ-PLN-03"
+      ]
+    },
+    {
+      "id": "US-PLN-005",
+      "epic": "EP-PLN-01",
+      "feature": "FT-PLN-03",
+      "role": "Finance officer",
+      "story": "As a finance officer I want to reopen a locked plan so that approvals can resume when a decision is reversed.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-010",
+        "FR-PLN-011"
+      ],
+      "acceptance_criteria": [
+        "Given a locked plan, When I confirm reopening, Then budget_locked is false and «أُعيد فتح الخطة» is shown.",
+        "Given the plan is reopened, When a staff member opens a plan-item picker, Then the plan's items are listed again (if the plan is active)."
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-PLN-03"
+      ]
+    },
+    {
+      "id": "US-PLN-006",
+      "epic": "EP-PLN-02",
+      "feature": "FT-PLN-04",
+      "role": "Grants Manager",
+      "story": "As a grants manager I want to add tracks and sub-levels in an edit session so that I can build the plan structure before committing it.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-013",
+        "FR-PLN-014",
+        "FR-PLN-017"
+      ],
+      "acceptance_criteria": [
+        "Given track 1 has children 1.1 and 1.2, When I add a child to track 1, Then the draft level gets code 1.3.",
+        "Given I added a draft level, When I look at the banner, Then it shows «1 تعديل غير محفوظ»."
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-PLN-16"
+      ]
+    },
+    {
+      "id": "US-PLN-007",
+      "epic": "EP-PLN-02",
+      "feature": "FT-PLN-04",
+      "role": "Grants Manager",
+      "story": "As a grants manager I want to change level names and amounts in the session so that allocations reflect the revised plan.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-015",
+        "FR-PLN-017",
+        "FR-PLN-018"
+      ],
+      "acceptance_criteria": [
+        "Given a parent of 1,000,000 with children 600,000 and 400,000, When I draft child 1.2 to 300,000, Then the parent shows a warning with difference 100,000.",
+        "Given I edit a level and then restore its original values, When I check the change count, Then the change is no longer listed."
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-PLN-10"
+      ]
+    },
+    {
+      "id": "US-PLN-008",
+      "epic": "EP-PLN-02",
+      "feature": "FT-PLN-04",
+      "role": "Grants Manager",
+      "story": "As a grants manager I want to edit the plan header, including approval and active flags, in the session so that plan status changes are evidenced.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-016"
+      ],
+      "acceptance_criteria": [
+        "Given I toggle «معتمدة» on, When I apply, Then «تعديل بيانات الخطة» appears in the save list.",
+        "Given I saved the session, When I view history, Then a «تعديل الخطة» row holds before/after values."
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-PLN-02"
+      ]
+    },
+    {
+      "id": "US-PLN-009",
+      "epic": "EP-PLN-02",
+      "feature": "FT-PLN-04",
+      "role": "Grants Manager",
+      "story": "As a grants manager I want to save all session changes at once with one official document so that the plan stays auditable.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-019",
+        "FR-PLN-020",
+        "FR-PLN-021",
+        "FR-PLN-022"
+      ],
+      "acceptance_criteria": [
+        "Given a level edit is pending and no file chosen, When I look at «حفظ الكل», Then it is disabled.",
+        "Given two level edits and a valid PDF, When I save, Then two history rows share the same evidence path and the session closes.",
+        "Given a save fails mid-way, When I retry, Then no partial changes remain (Recommended, FR-PLN-022)."
+      ],
+      "dependencies": [
+        "Storage"
+      ],
+      "open_questions": [
+        "OQ-PLN-06"
+      ]
+    },
+    {
+      "id": "US-PLN-010",
+      "epic": "EP-PLN-02",
+      "feature": "FT-PLN-04",
+      "role": "Grants Manager",
+      "story": "As a grants manager I want to cancel an edit session so that unwanted draft changes are discarded.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLN-013"
+      ],
+      "acceptance_criteria": [
+        "Given three draft changes, When I click «إلغاء», Then the plan is shown in view mode with no changes saved.",
+        "Given I cancel, When I re-enter edit mode, Then the change count is 0."
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-PLN-011",
+      "epic": "EP-PLN-02",
+      "feature": "FT-PLN-05",
+      "role": "Auditor / Finance officer",
+      "story": "As an auditor I want to see the evidenced history of plan edits so that I can verify each change against its official document.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLN-023",
+        "FR-PLN-024"
+      ],
+      "acceptance_criteria": [
+        "Given a level edit was saved, When I open the summary, Then a «تعديل مستوى» row with its date and document is listed.",
+        "Given I click the document, When the URL is signed, Then it opens in a new tab."
+      ],
+      "dependencies": [
+        "Storage"
+      ],
+      "open_questions": [
+        "OQ-PLN-01"
+      ]
+    },
+    {
+      "id": "US-PLN-012",
+      "epic": "EP-PLN-02",
+      "feature": "FT-PLN-06",
+      "role": "Grants Manager",
+      "story": "As a grants manager I want to define indicators on leaf plan items so that funded work has measurable targets.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLN-025",
+        "FR-PLN-026"
+      ],
+      "acceptance_criteria": [
+        "Given a quantitative indicator without unit, When I add it, Then «أدخل المؤشر والوحدة والعدد» is shown.",
+        "Given an indicator linked to a project, When I try to delete it, Then the dialog explains the links and nothing is deleted."
+      ],
+      "dependencies": [
+        "Indicators (REV/PRJ)"
+      ],
+      "open_questions": [
+        "OQ-PLN-08"
+      ]
+    },
+    {
+      "id": "US-PLN-013",
+      "epic": "EP-PLN-03",
+      "feature": "FT-PLN-07",
+      "role": "Finance officer",
+      "story": "As a finance officer I want each plan level to show paid, due, committed, available and pending amounts so that I know how much can still be committed.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-027",
+        "FR-PLN-028",
+        "FR-PLN-030",
+        "FR-PLN-031",
+        "FR-PLN-033"
+      ],
+      "acceptance_criteria": [
+        "Given worked example A, When I open the level, Then it shows paid 100,000, due 50,000, approved 600,000 and available 250,000.",
+        "Given an application under review on the level, When figures compute, Then available is not reduced by it."
+      ],
+      "dependencies": [
+        "FIN payments"
+      ],
+      "open_questions": [
+        "OQ-PLN-11"
+      ]
+    },
+    {
+      "id": "US-PLN-014",
+      "epic": "EP-PLN-03",
+      "feature": "FT-PLN-07",
+      "role": "Finance officer",
+      "story": "As a finance officer I want a project funded by several initiatives to be split across them so that plan usage is counted once and in the right items.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-029",
+        "FR-PLN-032"
+      ],
+      "acceptance_criteria": [
+        "Given project P3 300,000 with allocations 200,000 / 100,000 and 90,000 paid, When I view L1, Then paid shows 60,000 and approved 140,000.",
+        "Given the same project, When I view the plan total, Then its budget is counted once (300,000)."
+      ],
+      "dependencies": [
+        "PRJ allocations"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PLN-015",
+      "epic": "EP-PLN-03",
+      "feature": "FT-PLN-08",
+      "role": "CEO",
+      "story": "As a CEO I want a one-page plan summary so that I can assess budget use, spend rates, tracks at risk and recent changes.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-034",
+        "FR-PLN-035",
+        "FR-PLN-036",
+        "FR-PLN-037",
+        "FR-PLN-038"
+      ],
+      "acceptance_criteria": [
+        "Given a track with available below zero, When I open the summary, Then it shows «تجاوز الموازنة».",
+        "Given seven adjustments, When I open the summary, Then only the five most recent are listed."
+      ],
+      "dependencies": [
+        "FT-PLN-07"
+      ],
+      "open_questions": [
+        "OQ-PLN-08"
+      ]
+    },
+    {
+      "id": "US-PLN-016",
+      "epic": "EP-PLN-03",
+      "feature": "FT-PLN-09",
+      "role": "Grants Manager",
+      "story": "As a grants manager I want to navigate the plan hierarchy with each level's figures so that I can see where money is allocated and consumed.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-039",
+        "FR-PLN-041",
+        "FR-PLN-042"
+      ],
+      "acceptance_criteria": [
+        "Given a plan with tracks, When I open the hierarchy, Then tracks are expanded with amount and breakdown.",
+        "Given the organization has two active endowments and a level with its own split, When I view it, Then share chips link to the endowment pages."
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-PLN-017",
+      "epic": "EP-PLN-03",
+      "feature": "FT-PLN-09",
+      "role": "Grants Manager",
+      "story": "As a grants manager I want to list the projects and applications charged to a level so that I can verify what consumes its budget.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLN-040"
+      ],
+      "acceptance_criteria": [
+        "Given a track whose child has 3 projects, When I click the track's projects button, Then the dialog lists the 3 projects.",
+        "Given I click an application reference, When navigation completes, Then the reviewer detail opens."
+      ],
+      "dependencies": [
+        "REV, PRJ pages"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PLN-018",
+      "epic": "EP-PLN-03",
+      "feature": "FT-PLN-10",
+      "role": "CEO",
+      "story": "As a CEO I want a tree diagram of the plan so that I can present the structure and proportions visually.",
+      "priority": "Could",
+      "requirements": [
+        "FR-PLN-043"
+      ],
+      "acceptance_criteria": [
+        "Given a track of 2 M in a 10 M plan, When I open the tree, Then the node shows 20 %.",
+        "Given the diagram, When I try to drag a node, Then it does not move."
+      ],
+      "dependencies": [
+        "@xyflow/react"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PLN-019",
+      "epic": "EP-PLN-04",
+      "feature": "FT-PLN-11",
+      "role": "Finance officer",
+      "story": "As a finance officer I want to increase a level's budget with an official document so that additional funding is reflected throughout the plan.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-044",
+        "FR-PLN-045",
+        "FR-PLN-047",
+        "FR-PLN-048",
+        "FR-PLN-051"
+      ],
+      "acceptance_criteria": [
+        "Given level 2.1 of 500,000 under track 2 of 500,000 in a 1.5 M plan, When I increase 2.1 by 100,000, Then 2.1, track 2 and plan become 600,000, 600,000 and 1.6 M.",
+        "Given the increase succeeded, When I open the operations register, Then an ADJ row with my evidence is listed."
+      ],
+      "dependencies": [
+        "Storage",
+        "DocAiCheck"
+      ],
+      "open_questions": [
+        "OQ-PLN-14"
+      ]
+    },
+    {
+      "id": "US-PLN-020",
+      "epic": "EP-PLN-04",
+      "feature": "FT-PLN-11",
+      "role": "Finance officer",
+      "story": "As a finance officer I want to decrease a level's budget within its actual availability so that cuts never undercut existing commitments.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-044",
+        "FR-PLN-045",
+        "FR-PLN-046",
+        "FR-PLN-047",
+        "FR-PLN-049",
+        "FR-PLN-051"
+      ],
+      "acceptance_criteria": [
+        "Given a level with available 250,000, When I decrease by 300,000, Then the operation is rejected and nothing changes.",
+        "Given a valid decrease of 50,000, When executed, Then the level, its ancestors and the plan budget each drop by 50,000."
+      ],
+      "dependencies": [
+        "FT-PLN-07"
+      ],
+      "open_questions": [
+        "OQ-PLN-04",
+        "OQ-PLN-12"
+      ]
+    },
+    {
+      "id": "US-PLN-021",
+      "epic": "EP-PLN-04",
+      "feature": "FT-PLN-11",
+      "role": "Finance officer",
+      "story": "As a finance officer I want to transfer allocations between levels so that budget follows changing priorities without changing the plan total.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-044",
+        "FR-PLN-045",
+        "FR-PLN-046",
+        "FR-PLN-047",
+        "FR-PLN-050",
+        "FR-PLN-051"
+      ],
+      "acceptance_criteria": [
+        "Given 1.1 (600,000) and 2.1 (500,000), When I transfer 100,000 from 1.1 to 2.1, Then track 1 decreases and track 2 increases by 100,000 and the plan budget is unchanged.",
+        "Given source equals target, When I execute, Then the error «لا يمكن النقل إلى نفس المستوى» is shown."
+      ],
+      "dependencies": [
+        "FT-PLN-07"
+      ],
+      "open_questions": [
+        "OQ-PLN-04"
+      ]
+    },
+    {
+      "id": "US-PLN-022",
+      "epic": "EP-PLN-04",
+      "feature": "FT-PLN-12",
+      "role": "Finance officer",
+      "story": "As a finance officer I want a register of all budget operations so that I can review and evidence every movement.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-052",
+        "FR-PLN-053",
+        "FR-PLN-054"
+      ],
+      "acceptance_criteria": [
+        "Given the transfers tab, When rows load, Then each shows «source ← target».",
+        "Given a plan filter, When applied, Then only that plan's adjustments are listed."
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-PLN-023",
+      "epic": "EP-PLN-05",
+      "feature": "FT-PLN-13",
+      "role": "Grants Manager",
+      "story": "As a grants manager I want to record endowment fundings with documents so that each endowment's size is known and evidenced.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLN-055",
+        "FR-PLN-056"
+      ],
+      "acceptance_criteria": [
+        "Given an endowment with fundings 1 M and 0.5 M, When I open it, Then «حجم الوقف الحالي» shows 1.5 M.",
+        "Given no evidence, When I try to save, Then the save button is disabled."
+      ],
+      "dependencies": [
+        "CFG endowments"
+      ],
+      "open_questions": [
+        "OQ-PLN-13"
+      ]
+    },
+    {
+      "id": "US-PLN-024",
+      "epic": "EP-PLN-05",
+      "feature": "FT-PLN-14",
+      "role": "Grants Manager",
+      "story": "As a grants manager I want to set which endowments fund each plan level so that plan money is attributed to the right source.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLN-057",
+        "FR-PLN-058",
+        "FR-PLN-059"
+      ],
+      "acceptance_criteria": [
+        "Given A, B, C share a level equally, When I switch A off, Then B and C show 50 % each.",
+        "Given only A participates in a level, When I switch A off, Then the error is shown and nothing changes."
+      ],
+      "dependencies": [
+        "FT-PLN-13"
+      ],
+      "open_questions": [
+        "OQ-PLN-09"
+      ]
+    },
+    {
+      "id": "US-PLN-025",
+      "epic": "EP-PLN-05",
+      "feature": "FT-PLN-15",
+      "role": "Grants Manager",
+      "story": "As a grants manager I want an endowment's share of plans and projects so that I can report what each endowment finances.",
+      "priority": "Could",
+      "requirements": [
+        "FR-PLN-060",
+        "FR-PLN-061",
+        "FR-PLN-062"
+      ],
+      "acceptance_criteria": [
+        "Given worked example D, When I open endowment A, Then its allocation for track 1 is 500,000.",
+        "Given a level inherits A's percentage, When listed, Then it is marked «(موروث)»."
+      ],
+      "dependencies": [
+        "FT-PLN-14"
+      ],
+      "open_questions": [
+        "OQ-PLN-17"
+      ]
+    },
+    {
+      "id": "US-PLN-026",
+      "epic": "EP-PLN-06",
+      "feature": "FT-PLN-16",
+      "role": "Grants Manager",
+      "story": "As a grants manager I want to link applications, projects and programs to plan items so that every commitment is charged to the plan.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-063",
+        "FR-PLN-065"
+      ],
+      "acceptance_criteria": [
+        "Given a locked plan, When I open the picker, Then its items are not offered.",
+        "Given an approved application linked to a locked plan item, When it is transferred to a project, Then the transfer is refused with the lock message."
+      ],
+      "dependencies": [
+        "REV, PRJ, PRG"
+      ],
+      "open_questions": [
+        "OQ-PLN-02",
+        "OQ-PLN-16"
+      ]
+    },
+    {
+      "id": "US-PLN-027",
+      "epic": "EP-PLN-06",
+      "feature": "FT-PLN-16",
+      "role": "Applicant (partner user)",
+      "story": "As an applicant I want to choose the initiative my request serves on an open opportunity so that it is routed to the right plan item.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLN-064"
+      ],
+      "acceptance_criteria": [
+        "Given an active unlocked plan with sub-levels, When I open the initiative list, Then only its non-root levels are listed.",
+        "Given a locked plan, When I open the list, Then none of its levels appear."
+      ],
+      "dependencies": [
+        "PTL portal"
+      ],
+      "open_questions": [
+        "OQ-PLN-16"
+      ]
+    },
+    {
+      "id": "US-PLN-028",
+      "epic": "EP-PLN-06",
+      "feature": "FT-PLN-17",
+      "role": "Project Manager",
+      "story": "As a project manager I want initiatives to be managed as projects with activity-based progress so that their plan usage and progress are consistent.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLN-066",
+        "FR-PLN-067",
+        "FR-PLN-037"
+      ],
+      "acceptance_criteria": [
+        "Given I open /initiatives, When the route loads, Then I land on /projects?source=initiative.",
+        "Given activities weighted 1 at 60 % and 3 at 20 %, When progress is computed, Then it shows 30 %."
+      ],
+      "dependencies": [
+        "PRJ"
+      ],
+      "open_questions": []
+    }
+  ],
+  "rules": [
+    {
+      "id": "BR-PLN-01",
+      "rule": "Level «used» = Σ budget of projects linked to the level or any descendant + Σ requested_amount of applications linked to the level or any descendant whose status is `approved` and `transferred = false`.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:376-418 (countsAsUsedApp, used)"
+    },
+    {
+      "id": "BR-PLN-02",
+      "rule": "Level «actual available» (المتاح الفعلي) = level.amount − used. This is the figure shown in the adjustment dialog and used to validate decreases/transfers. Child allocations are not deducted.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:419; AdjustmentDialog.tsx:56"
+    },
+    {
+      "id": "BR-PLN-03",
+      "rule": "Five-way breakdown per level/plan: paid = Σ payments in `awaiting_receipt`/`paid`; due = Σ payments in `due`/`awaiting_approval`/`awaiting_transfer`; approved = Σ max(0, project budget − (paid+due)×share) + Σ approved-not-transferred application amounts; available = total − approved − due − paid. Payments in `new` stay inside approved; `cancelled` payments are ignored.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:379-437"
+    },
+    {
+      "id": "BR-PLN-04",
+      "rule": "«Pending» (محجوز مؤقتاً) = Σ requested_amount of applications in `submitted`/`under_review`; it is informational only and never reduces available or the ceiling.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:382,424,435; FinanceBreakdown.tsx:12,55-60"
+    },
+    {
+      "id": "BR-PLN-05",
+      "rule": "Plan-level breakdown uses plan.budget as total and includes every project/application linked to any level of the plan (not the sum of root-level breakdowns).",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:439-443"
+    },
+    {
+      "id": "BR-PLN-06",
+      "rule": "A project with two or more project_plan_allocations rows is counted as one piece per allocation: piece budget = allocation amount, share = amount ÷ Σ allocation amounts (fallback divisor 1); its payments are prorated by share. With fewer than two rows the project counts fully at projects.plan_level_id (share 1).",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:182-191,431-432"
+    },
+    {
+      "id": "BR-PLN-07",
+      "rule": "Spend from budget (الصرف من الموازنة) = min(100, plan paid ÷ plan.budget × 100); 0 when budget is 0.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:448-452"
+    },
+    {
+      "id": "BR-PLN-08",
+      "rule": "Spend of approved (الصرف من المعتمد) = min(100, paid ÷ (approved + due + paid) × 100); 0 when the base is 0.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:454-459"
+    },
+    {
+      "id": "BR-PLN-09",
+      "rule": "Plans-list portfolio KPIs consider approved plans only: spend = Σ (spend% × budget) ÷ Σ budget; indicator achievement = Σ(indicators_progress × budget) ÷ Σ budget. «عدد الخطط» counts all plans.",
+      "evidence": "Observed",
+      "source": "src/routes/plans.index.tsx:71-75,132-134"
+    },
+    {
+      "id": "BR-PLN-10",
+      "rule": "Project/initiative progress = round(Σ activity weight × progress ÷ Σ weight) when activities with non-zero total weight exist; otherwise round(stored projects.progress).",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:461-468"
+    },
+    {
+      "id": "BR-PLN-11",
+      "rule": "An adjustment amount must be strictly greater than zero.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:494"
+    },
+    {
+      "id": "BR-PLN-12",
+      "rule": "Every adjustment requires an evidence document with extension pdf, doc, docx, xls, xlsx, png, jpg or jpeg and size ≤ 10 MB, stored privately at `plan-adjustments/<plan_id>/<uuid>/<file name>`.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:497-499,507-509; AdjustmentDialog.tsx:63,104"
+    },
+    {
+      "id": "BR-PLN-13",
+      "rule": "Increase: a target level is required; the target and every ancestor are increased by the amount and plan.budget is increased by the amount.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:500,512-514,530-533,474-484"
+    },
+    {
+      "id": "BR-PLN-14",
+      "rule": "Decrease: a source level is required and amount ≤ source actual available (BR-PLN-02); the source and every ancestor are reduced by the amount and plan.budget is reduced by the amount.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:501-503,516-518,527,530-533"
+    },
+    {
+      "id": "BR-PLN-15",
+      "rule": "Transfer: source and target are required and must differ; amount ≤ source actual available; source chain −amount, then levels are re-read and target chain +amount; plan.budget unchanged; common ancestors net to zero.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:504-505,519-526"
+    },
+    {
+      "id": "BR-PLN-16",
+      "rule": "Each executed adjustment is recorded with plan, type, source (null for increase), target (null for decrease), amount, note, acting persona and evidence; reference ADJ-… is assigned by DB trigger.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:535-545; migration 20261004115345:53"
+    },
+    {
+      "id": "BR-PLN-17",
+      "rule": "If any step fails after the evidence upload, the evidence file is deleted; level/plan amounts already written are not reverted.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:547-550"
+    },
+    {
+      "id": "BR-PLN-18",
+      "rule": "Plan structure edits: one evidence document (same format/size rule as BR-PLN-12) per edit session, required when any existing item (plan header, level, endowment split) changes; sessions containing only additions need no evidence. Stored at `plan-edits/<plan_id>/<uuid>/<file name>`.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:277-282,325-332; plans.$id.index.tsx:118,225-226"
+    },
+    {
+      "id": "BR-PLN-19",
+      "rule": "On commit, each changed existing item writes one plan_edit_history row (before/after JSON, shared evidence); added levels write no history row. plan_edit_history is append-only (insert/select policies only).",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:336-370; migration 20261006140739:13-15"
+    },
+    {
+      "id": "BR-PLN-20",
+      "rule": "New level code = `<parent code>.<n>` (root: `<n>`) where n = max(sort_order of siblings, including draft siblings) + 1; sort_order = n.",
+      "evidence": "Observed",
+      "source": "plans.$id.index.tsx:102-106; PlanEditors.tsx:130-132"
+    },
+    {
+      "id": "BR-PLN-21",
+      "rule": "Draft coalescing: at most one pending change per existing level; a change whose values equal the original is dropped; editing a draft (added) level updates its add record; only the latest plan-header change is kept.",
+      "evidence": "Observed",
+      "source": "plans.$id.index.tsx:84-101,218"
+    },
+    {
+      "id": "BR-PLN-22",
+      "rule": "When a level (or the plan) has children and Σ children amounts ≠ parent amount (difference rounded to 2 decimals), a non-blocking warning shows the children sum and the absolute difference. Saving is not blocked.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:269-275; PlanEditors.tsx:16-19"
+    },
+    {
+      "id": "BR-PLN-23",
+      "rule": "Plan header: name (trimmed) and year required; budget must be a finite number ≥ 0; year chosen from 2021–2031; new plan defaults: year = current year + 1, active = true, approved = false.",
+      "evidence": "Observed",
+      "source": "PlanEditors.tsx:45-47; plans.ts:89; plans.index.tsx:128"
+    },
+    {
+      "id": "BR-PLN-24",
+      "rule": "Level: name (trimmed) required; amount required, finite and ≥ 0.",
+      "evidence": "Observed",
+      "source": "PlanEditors.tsx:122-123"
+    },
+    {
+      "id": "BR-PLN-25",
+      "rule": "When endowment shares are specified for a level they must total exactly 100 % (rounded to 2 decimals).",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:315-324; PlanEditors.tsx:106"
+    },
+    {
+      "id": "BR-PLN-26",
+      "rule": "Effective endowment split of a level: if the organization has exactly one active endowment → that endowment 100 %; else the level's own rows; else the nearest ancestor's rows (inherited); else an equal split among all active endowments.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:202-216"
+    },
+    {
+      "id": "BR-PLN-27",
+      "rule": "Equal split: each endowment gets floor(100 ÷ n); the first gets the remainder so the total is exactly 100 (e.g. 34/33/33).",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:123-128"
+    },
+    {
+      "id": "BR-PLN-28",
+      "rule": "Size-weighted split: shares proportional to current endowment sizes, rounded to integers; rounding difference added to the largest endowment; not available when any selected endowment has size ≤ 0.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:130-140; PlanEditors.tsx:91-93"
+    },
+    {
+      "id": "BR-PLN-29",
+      "rule": "Participation toggle: start from the level's effective participants, add or remove the endowment, and rewrite the level's own rows as an equal split; at least one endowment must participate in every level.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:218-227"
+    },
+    {
+      "id": "BR-PLN-30",
+      "rule": "Endowment allocation within a plan = Σ over levels of max(0, level.amount − Σ children amounts) × endowment % at that level (each level contributes only its unallocated residual; leaves contribute their full amount).",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:229-250"
+    },
+    {
+      "id": "BR-PLN-31",
+      "rule": "Endowment used = Σ (project piece budget × endowment % at the project's level) + Σ (approved-not-transferred application amount × %); endowment available = allocation − used.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:246-254"
+    },
+    {
+      "id": "BR-PLN-32",
+      "rule": "Endowment size = Σ of its funding movements (endowment_fundings.amount); it grows as the endowment is topped up during the year.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:118-121"
+    },
+    {
+      "id": "BR-PLN-33",
+      "rule": "Recording a funding requires amount > 0, a funding date (default today), and a valid evidence document; note optional. If the insert fails the uploaded file is removed.",
+      "evidence": "Observed",
+      "source": "src/routes/endowments.$id.tsx:47-61"
+    },
+    {
+      "id": "BR-PLN-34",
+      "rule": "Endowment split UI (chips, participation card) is shown only when the organization has two or more active endowments.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:193; plans.$id.index.tsx:81,108; endowments.$id.tsx:147"
+    },
+    {
+      "id": "BR-PLN-35",
+      "rule": "A locked plan (budget_locked) accepts no new project approvals: pickers exclude locked or inactive plans (an existing link stays visible) and transferApplication refuses levels of a locked plan; running projects continue.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:13; PlanLevelPicker.tsx:19-20,47; workflow.ts:154-158"
+    },
+    {
+      "id": "BR-PLN-36",
+      "rule": "Locking requires choosing how contracted-not-due and due-not-paid obligations are treated (continue on this plan / carry to next plan) and attaching an evidence file; reopening requires confirmation only.",
+      "evidence": "Observed",
+      "source": "src/routes/plans.index.tsx:162-180"
+    },
+    {
+      "id": "BR-PLN-37",
+      "rule": "Plan-item pickers list only non-root levels (levels with a parent) of active, unlocked plans, labelled `<year> · <code> - <name>`.",
+      "evidence": "Observed",
+      "source": "PlanLevelPicker.tsx:34-35,52-53"
+    },
+    {
+      "id": "BR-PLN-38",
+      "rule": "Initiatives are projects with projects.source = 'initiative'; the legacy /initiatives route redirects to /projects?source=initiative.",
+      "evidence": "Observed",
+      "source": "src/routes/initiatives.tsx:3-5; AGENTS.md"
+    },
+    {
+      "id": "BR-PLN-39",
+      "rule": "Plan structure and header changes (including the approval and active flags) are made only in the hierarchy edit session (?edit=1) and committed together.",
+      "evidence": "Observed",
+      "source": "plans.$id.index.tsx:117-127,217-218; AGENTS.md"
+    },
+    {
+      "id": "BR-PLN-40",
+      "rule": "Indicators attach to persisted leaf levels only; quantitative indicators need name, unit and target > 0; milestones get unit «تحقق» and target 1; an indicator linked to applications or projects cannot be deleted.",
+      "evidence": "Observed",
+      "source": "plans.$id.index.tsx:161; Indicators.tsx:53-67"
+    },
+    {
+      "id": "BR-PLN-41",
+      "rule": "A root track whose breakdown available < 0 is flagged «تجاوز الموازنة» on the plan summary.",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.summary.tsx:55"
+    },
+    {
+      "id": "BR-PLN-42",
+      "rule": "Plans receive reference numbers PLN-… from a DB trigger on insert.",
+      "evidence": "Observed",
+      "source": "migration 20261004115345:20"
+    },
+    {
+      "id": "BR-PLN-43",
+      "rule": "Plans are listed newest year first; default hidden columns are plan number and creation date; default page size 15.",
+      "evidence": "Observed",
+      "source": "src/lib/plans.ts:147; plans.index.tsx:47"
+    },
+    {
+      "id": "BR-PLN-44",
+      "rule": "Tree view share of a level = level.amount ÷ parent amount × 100 (plan.budget for root levels; 0 when parent amount is 0).",
+      "evidence": "Observed",
+      "source": "src/routes/plans.$id.tree.tsx:65,70,75"
+    }
+  ],
+  "issues": [
+    {
+      "id": "ISS-PLN-01",
+      "description": "applyAdjustment is not atomic: shiftChain updates each level of the chain in separate requests, then plans.budget, then inserts budget_adjustments. A failure mid-way leaves amounts partly changed with no adjustment record; only the evidence file is removed.",
+      "severity": "High",
+      "location": "src/lib/plans.ts:474-551",
+      "recommendation": "Execute each adjustment as one database transaction (RPC / stored procedure) that validates availability server-side and writes amounts + record together."
+    },
+    {
+      "id": "ISS-PLN-02",
+      "description": "savePlanDraft is not atomic: inserts/updates/history rows run sequentially; on error, earlier writes persist, the uploaded evidence is not deleted, and the client draft is kept, so re-saving can duplicate added levels.",
+      "severity": "High",
+      "location": "src/lib/plans.ts:320-374; plans.$id.index.tsx:119-127",
+      "recommendation": "Commit the change set in one transaction; on failure roll back everything and delete the evidence; make adds idempotent."
+    },
+    {
+      "id": "ISS-PLN-03",
+      "description": "Plan lock dialog: the evidence file is only read for its name (never uploaded or stored); the two obligation-treatment choices are shown in a toast but not persisted; no audit row is written for lock or reopen; reopen requires no evidence.",
+      "severity": "High",
+      "location": "src/routes/plans.index.tsx:162-191",
+      "recommendation": "Persist lock/reopen as an evidenced, audited operation (who, when, choices, document) and implement carry-over behaviour for ‘ترحَّل للخطة القادمة’."
+    },
+    {
+      "id": "ISS-PLN-04",
+      "description": "No role-based authorization: every plan action (create, edit, approve, adjust, lock, endowment funding/participation) is available to any persona; routes are reachable by URL; RLS grants any signed-in user full access.",
+      "severity": "High",
+      "location": "All PLN routes; migration 20261006140739",
+      "recommendation": "Define a permission matrix (OQ-PLN-01) and enforce it in RLS / server functions, not only in navigation."
+    },
+    {
+      "id": "ISS-PLN-05",
+      "description": "Decrease and transfer validate only against amount − used of the source (BR-PLN-02) and ignore child allocations. Decreasing a parent does not touch its children, so children can exceed the parent (only a warning appears).",
+      "severity": "Medium",
+      "location": "src/lib/plans.ts:419,502-503",
+      "recommendation": "For non-leaf sources validate against the unallocated residual (amount − Σ children) or cascade the change to a chosen child."
+    },
+    {
+      "id": "ISS-PLN-06",
+      "description": "Transfers between a level and its own ancestor/descendant produce non-intuitive results: child→parent creates unallocated residual at the parent; parent→child leaves the parent unchanged and over-allocates children.",
+      "severity": "Medium",
+      "location": "src/lib/plans.ts:519-526",
+      "recommendation": "Block transfers between levels on the same branch, or define explicit ‘allocate residual to child’ semantics."
+    },
+    {
+      "id": "ISS-PLN-07",
+      "description": "Added levels are not audited: additions-only sessions need no evidence and savePlanDraft writes no plan_edit_history row for ‘add’ changes, although additions change the allocated structure.",
+      "severity": "Medium",
+      "location": "src/lib/plans.ts:325,337-345",
+      "recommendation": "Write a history row for every added level and decide whether additions to an approved plan need evidence (OQ-PLN-06)."
+    },
+    {
+      "id": "ISS-PLN-08",
+      "description": "Levels cannot be deleted, moved to another parent, re-ordered or re-coded anywhere in the UI.",
+      "severity": "Medium",
+      "location": "plans.$id.index.tsx; PlanEditors.tsx",
+      "recommendation": "Confirm requirement (OQ-PLN-07); if needed, add evidenced delete/move with guards for linked projects, applications, indicators and adjustments."
+    },
+    {
+      "id": "ISS-PLN-09",
+      "description": "plans.indicators_progress is a stored number that no code ever updates; plan list, portfolio KPI and summary show a static (seeded) value unrelated to leaf indicators.",
+      "severity": "Medium",
+      "location": "plans.index.tsx:75,106; plans.$id.summary.tsx:47",
+      "recommendation": "Derive plan indicator achievement from leaf indicator targets and accepted evidence (see PRJ), or confirm a manual entry process (OQ-PLN-08)."
+    },
+    {
+      "id": "ISS-PLN-10",
+      "description": "usePlanData loads plans, levels, adjustments and endowments of all tenants without a tenant filter; the plans list, adjustments register and pickers therefore mix organizations, and new plans are inserted with the hard-coded TENANT_ID. Reports page does filter by tenant (inconsistent).",
+      "severity": "Medium",
+      "location": "src/lib/plans.ts:142-162; PlanEditors.tsx:53; reports.tsx:41",
+      "recommendation": "Scope every plan query and insert to the current persona's tenant and enforce tenant isolation in RLS."
+    },
+    {
+      "id": "ISS-PLN-11",
+      "description": "On the Financial Operations page, with filter ‘كل الخطط’ the «new adjustment» button silently targets the first active plan (or the first plan); the user cannot choose the plan in the dialog.",
+      "severity": "Medium",
+      "location": "src/routes/plans.adjustments.tsx:45,94",
+      "recommendation": "Add a plan selector inside the adjustment dialog or disable the button until a plan is selected."
+    },
+    {
+      "id": "ISS-PLN-12",
+      "description": "Adjustments are allowed on unapproved, inactive or locked plans; there is no state guard.",
+      "severity": "Low",
+      "location": "src/lib/plans.ts:487-506",
+      "recommendation": "Confirm the allowed plan states for each adjustment type (OQ-PLN-12) and enforce them."
+    },
+    {
+      "id": "ISS-PLN-13",
+      "description": "Endowment page levels table shows level.amount × % for every level, while the allocation total counts only each level's unallocated residual (BR-PLN-30); row values therefore do not add up to «الحصة».",
+      "severity": "Low",
+      "location": "src/routes/endowments.$id.tsx:160 vs src/lib/plans.ts:236-240",
+      "recommendation": "Show the residual-based share per row (or add a column) so the table reconciles with the total."
+    },
+    {
+      "id": "ISS-PLN-14",
+      "description": "Endowment participation toggles write plan_level_endowments immediately with no evidence document and no history row, contradicting the ‘every financial operation requires evidence’ principle and the edit-session approach used for other split changes.",
+      "severity": "Medium",
+      "location": "src/routes/endowments.$id.tsx:83-88; src/lib/plans.ts:219-227",
+      "recommendation": "Route participation changes through an evidenced, audited change (e.g., the plan edit session) — see OQ-PLN-09."
+    },
+    {
+      "id": "ISS-PLN-15",
+      "description": "Endowment funding evidence is listed by file name only and cannot be opened; fundings cannot be corrected or reversed.",
+      "severity": "Low",
+      "location": "src/routes/endowments.$id.tsx:142",
+      "recommendation": "Add signed-URL opening and an evidenced reversal entry (OQ-PLN-13)."
+    },
+    {
+      "id": "ISS-PLN-16",
+      "description": "The per-level endowment split editor (SharesField) is compiled but disabled (`splitting = false`); split editing in the session is therefore unreachable while savePlanDraft still supports it — dead code.",
+      "severity": "Low",
+      "location": "src/components/PlanEditors.tsx:80-108,118",
+      "recommendation": "Remove or re-enable deliberately once the split-editing owner (plan session vs endowment page) is decided."
+    },
+    {
+      "id": "ISS-PLN-17",
+      "description": "Non-session save paths (savePlanEdit; PlanEditor/LevelEditor without onApply for existing items) are not reachable from current UI — dead code with a different audit pattern.",
+      "severity": "Low",
+      "location": "src/lib/plans.ts:285-307; PlanEditors.tsx:51,128",
+      "recommendation": "Remove to keep a single commit path (savePlanDraft)."
+    },
+    {
+      "id": "ISS-PLN-18",
+      "description": "Edit-session drafts live only in browser memory: they are lost on refresh or navigation without warning; a plan-header change is recorded even when values equal the original.",
+      "severity": "Medium",
+      "location": "plans.$id.index.tsx:68,217-218",
+      "recommendation": "Add an unsaved-changes guard and drop no-op header changes; consider server-side drafts."
+    },
+    {
+      "id": "ISS-PLN-19",
+      "description": "In edit mode, leaf indicator add/delete is written immediately, outside the draft and without evidence; cancelling the session does not undo it.",
+      "severity": "Low",
+      "location": "plans.$id.index.tsx:161; Indicators.tsx:53-71",
+      "recommendation": "Include indicator changes in the session change set or clearly separate them from the session UI."
+    },
+    {
+      "id": "ISS-PLN-20",
+      "description": "Schema drift: plans.budget_locked, endowment_fundings and project_plan_allocations appear in types.ts but in no SQL migration.",
+      "severity": "Medium",
+      "location": "supabase/migrations; src/integrations/supabase/types.ts:1074,2318,2609",
+      "recommendation": "Add the missing migrations (with constraints) so environments can be rebuilt reproducibly."
+    },
+    {
+      "id": "ISS-PLN-21",
+      "description": "The «pending» bucket counts applications in `submitted`/`under_review`, but current application statuses are pending / approved / closed / cancelled / awaiting_apology (legacy enum values). The «محجوز مؤقتاً» figure is therefore always 0.",
+      "severity": "High",
+      "location": "src/lib/plans.ts:382; src/lib/data.ts:230-236; migration 20261004093306:6",
+      "recommendation": "Redefine pending as applications with status `pending` (optionally from a given stage) linked to the level; confirm with stakeholders (OQ-PLN-11)."
+    },
+    {
+      "id": "ISS-PLN-22",
+      "description": "Two definitions of ‘available’ coexist: idx.available = amount − used (used for adjustments) and breakdown.available = total − approved − due − paid. They diverge when payments exceed a project budget (approved is clamped at 0).",
+      "severity": "Low",
+      "location": "src/lib/plans.ts:419 vs 432,436",
+      "recommendation": "Use one definition everywhere and flag overpaid projects explicitly."
+    },
+    {
+      "id": "ISS-PLN-23",
+      "description": "Inactive endowments' existing own rows still count in ownShares/effectiveShares, so a deactivated endowment can keep a share, while equal-split defaults ignore it.",
+      "severity": "Medium",
+      "location": "src/lib/plans.ts:198-216",
+      "recommendation": "Filter own rows by active endowments and re-normalise, or block deactivation while shares exist."
+    },
+    {
+      "id": "ISS-PLN-24",
+      "description": "Adjustment and edit-session amounts are computed from the client snapshot (stale data); concurrent users can overwrite each other's changes (lost update).",
+      "severity": "Low",
+      "location": "src/lib/plans.ts:474-484,492",
+      "recommendation": "Apply deltas server-side (amount = amount + delta) inside a transaction with row locks."
+    },
+    {
+      "id": "ISS-PLN-25",
+      "description": "Plan summary computes projectTotal / pendingTotal but never displays them (dead code).",
+      "severity": "Low",
+      "location": "src/routes/plans.$id.summary.tsx:32-33",
+      "recommendation": "Remove or surface the figures."
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "OQ-PLN-01",
+      "question": "Which roles may create plans, edit structure, approve plans, execute increases/decreases/transfers, lock/reopen plans and manage endowment funding/participation? Is segregation of duties (maker ≠ approver) required?",
+      "related": [
+        "FT-PLN-02",
+        "FT-PLN-03",
+        "FT-PLN-04",
+        "FT-PLN-11",
+        "FT-PLN-13",
+        "FT-PLN-14",
+        "ISS-PLN-04"
+      ]
+    },
+    {
+      "id": "OQ-PLN-02",
+      "question": "Is plan approval a formal multi-step workflow (e.g., board/CEO approval) rather than a flag? Should an unapproved plan be usable for linking applications, adjustments or project transfers?",
+      "related": [
+        "FT-PLN-04",
+        "FT-PLN-16"
+      ]
+    },
+    {
+      "id": "OQ-PLN-03",
+      "question": "What must happen to obligations marked ‘carry to next plan’ when a plan is locked (automatic carry-over adjustments, re-linking projects, reporting only)?",
+      "related": [
+        "FT-PLN-03",
+        "ISS-PLN-03"
+      ]
+    },
+    {
+      "id": "OQ-PLN-04",
+      "question": "Should decreases/transfers on parent levels be limited to the unallocated residual, or cascade to children? Should transfers within the same branch be allowed?",
+      "related": [
+        "FT-PLN-11",
+        "ISS-PLN-05",
+        "ISS-PLN-06"
+      ]
+    },
+    {
+      "id": "OQ-PLN-05",
+      "question": "May an organization have several plans for the same year, or several active plans at once?",
+      "related": [
+        "FT-PLN-02"
+      ]
+    },
+    {
+      "id": "OQ-PLN-06",
+      "question": "Do level additions to an approved plan require an evidence document and audit history?",
+      "related": [
+        "FT-PLN-04",
+        "ISS-PLN-07"
+      ]
+    },
+    {
+      "id": "OQ-PLN-07",
+      "question": "Must users be able to delete, move or re-order levels? What happens to linked projects, applications, indicators and adjustments?",
+      "related": [
+        "FT-PLN-04",
+        "ISS-PLN-08"
+      ]
+    },
+    {
+      "id": "OQ-PLN-08",
+      "question": "How is plan indicator achievement (indicators_progress) calculated and by whom is it maintained?",
+      "related": [
+        "FT-PLN-06",
+        "FT-PLN-08",
+        "ISS-PLN-09"
+      ]
+    },
+    {
+      "id": "OQ-PLN-09",
+      "question": "Do endowment participation/split changes require an evidence document and approval like other financial operations? Where should splits be edited (plan session or endowment page)?",
+      "related": [
+        "FT-PLN-14",
+        "ISS-PLN-14",
+        "ISS-PLN-16"
+      ]
+    },
+    {
+      "id": "OQ-PLN-10",
+      "question": "Should a mismatch between children sum and parent amount block saving or approving a plan?",
+      "related": [
+        "FT-PLN-04"
+      ]
+    },
+    {
+      "id": "OQ-PLN-11",
+      "question": "Which application states should count as ‘pending / temporarily reserved’ against a level (all pending, or only from a certain review stage)?",
+      "related": [
+        "FT-PLN-07",
+        "ISS-PLN-21"
+      ]
+    },
+    {
+      "id": "OQ-PLN-12",
+      "question": "Which adjustment types are allowed on unapproved, inactive or locked plans?",
+      "related": [
+        "FT-PLN-11",
+        "ISS-PLN-12"
+      ]
+    },
+    {
+      "id": "OQ-PLN-13",
+      "question": "How are erroneous endowment fundings corrected (reversal entry, edit with evidence)?",
+      "related": [
+        "FT-PLN-13",
+        "ISS-PLN-15"
+      ]
+    },
+    {
+      "id": "OQ-PLN-14",
+      "question": "Must budget adjustments go through an approval (maker-checker) step before being applied?",
+      "related": [
+        "FT-PLN-11"
+      ]
+    },
+    {
+      "id": "OQ-PLN-15",
+      "question": "Should the AI evidence check (DocAiCheck) ever block an operation (e.g., verdict ‘غير مطابق’), or remain advisory?",
+      "related": [
+        "FT-PLN-11",
+        "FT-PLN-04",
+        "FT-PLN-13"
+      ]
+    },
+    {
+      "id": "OQ-PLN-16",
+      "question": "What is the intended level taxonomy and maximum depth (track → item → initiative)? Are only non-root levels valid funding targets?",
+      "related": [
+        "FT-PLN-04",
+        "FT-PLN-16"
+      ]
+    },
+    {
+      "id": "OQ-PLN-17",
+      "question": "What is the business value and target audience of the endowment portion report (e.g., reporting to endowment boards)?",
+      "related": [
+        "FT-PLN-15"
+      ]
+    }
+  ]
+}
