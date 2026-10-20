@@ -202,12 +202,12 @@ Role visibility comes from the sidebar (`AppShell.tsx:45,54-61`): Projects is sh
 ```mermaid
 stateDiagram-v2
     [*] --> planning: transferApplication / initiative created / RFP award
-    planning --> in_progress: StartExecution (staff)\n[≥1 non-payment activity AND contract signed (if any)\nAND every quantitative indicator fully distributed]
+    planning --> in_progress: StartExecution (staff)\n["≥1 non-payment activity AND contract signed (if any)\nAND every quantitative indicator fully distributed"]
     in_progress --> stalled_display: any activity overdue & not approved\n(derived, display only)
     stalled_display --> in_progress: overdue items approved
     in_progress --> completed: Approve closure (staff)\n[all phases approved AND evaluation not empty]
     completed --> [*]
-    note right of stalled_display: 'stalled' is never stored;\n'active', 'closing', 'closed' are referenced\nin UI but never set (ISS-PRJ-09)
+    note right of stalled_display: 'stalled' is never stored,\n'active', 'closing', 'closed' are referenced\nin UI but never set (ISS-PRJ-09)
 ```
 
 Stored values in use: `planning`, `in_progress`, `completed` [Observed]. Labels exist for `closed` and `stalled` [Observed `data.ts:336-342`]. There is no cancel/suspend state [Observed] (OQ-PRJ-13). Transitions are client-side updates without server guard [Observed] (ISS-PRJ-01).
@@ -247,7 +247,7 @@ flowchart TD
     L --> M{program.kind = rfp?}
     M -->|yes| N[seedRfpPlan on first project]
     M -->|no| O[ ]
-    N --> P[application.transferred = true; history 'transfer']
+    N --> P[application.transferred = true, history 'transfer']
     O --> P
     P --> Q[Navigate to first project]
 ```
@@ -309,7 +309,7 @@ sequenceDiagram
     Req->>UI: reason (≥5 chars) + optional evidence
     UI->>AI: current snapshot (locked flags), budget, reason, today
     AI-->>UI: proposed phases
-    UI->>UI: enforceLocks; check Σ phase payments ≤ budget; diff
+    UI->>UI: enforceLocks, check Σ phase payments ≤ budget, diff
     Req->>DB: insert status=pending (before, proposed, requested_by)
     App->>UI: review banner diff
     alt approve

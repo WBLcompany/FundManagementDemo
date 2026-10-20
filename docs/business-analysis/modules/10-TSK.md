@@ -126,9 +126,9 @@ Supporting reads: `src/lib/data.ts` (PAYMENT_APPROVAL_CHAIN), `src/lib/queries.t
 flowchart TD
   A[applications] --> B{status=pending AND current_stage AND stage_status≠needs_edit AND same tenant}
   B -- no --> X[no task]
-  B -- yes --> C[find workflow_stage (program, stage_no)]
+  B -- yes --> C["find workflow_stage (program, stage_no)"]
   C --> D{me ∈ supervisor_ids OR me = secretary_id OR role ∈ admin, grants_manager}
-  D -- yes --> E[Application task: due = stage_entered_at + sla_days(3)]
+  D -- yes --> E["Application task: due = stage_entered_at + sla_days(3)"]
   D -- no --> X
   P[payments] --> Q{status=awaiting_approval AND project tenant = mine}
   Q -- yes --> R{chain step}
@@ -161,9 +161,9 @@ flowchart LR
   T[Derived task] --> A{Quick action}
   A -- approve --> S[Approve sheet] --> R{risky?}
   R -- yes, note empty --> S
-  R -- no / note given --> W[approveStage or approvePayment(true)]
+  R -- no / note given --> W["approveStage or approvePayment(true)"]
   A -- return (apps) --> D[Reason dialog] --> W2[returnStage]
-  A -- reject --> D2[Reason dialog] --> W3[closeApplication / approvePayment(false) → payment due, step 0]
+  A -- reject --> D2[Reason dialog] --> W3["closeApplication / approvePayment(false) → payment due, step 0"]
   W & W2 & W3 --> RF[refresh applications & payments → task disappears]
 ```
 
@@ -174,7 +174,7 @@ stateDiagram-v2
   Inactive --> OpenRunning: «وضع التركيز» (startFocus)
   OpenRunning --> ClosedRunning: «خروج» / Escape / open detail link
   ClosedRunning --> OpenRunning: pill «العودة للتركيز» or «وضع التركيز»
-  OpenRunning --> OpenRunning: task changes / timer reset; pause ↔ resume
+  OpenRunning --> OpenRunning: task changes / timer reset, pause ↔ resume
   OpenRunning --> Inactive: «إنهاء وضع التركيز»
   ClosedRunning --> ClosedRunning: reload (persisted)
 ```

@@ -178,12 +178,12 @@ stateDiagram-v2
         step1_PM --> step2_GM : approve\n[actor = projects.manager_id OR admin]
         step2_GM --> step3_CEO : approve\n[role = grants_manager OR admin]
     }
-    awaiting_approval --> due : reject at any step\n[approval_step := 0; payment_approvals 'rejected']
+    awaiting_approval --> due : reject at any step\n[approval_step := 0, payment_approvals 'rejected']
     awaiting_approval --> awaiting_transfer : approve step 3\n[role = ceo OR admin]\nissue disbursement order DSB-… (disbursement_no, disbursement_at)
 
     awaiting_transfer --> awaiting_transfer : Payee set/changed (partner ↔ third party)\n[name+IBAN+reason required for third party]
-    awaiting_transfer --> awaiting_receipt : Finance «تأكيد التحويل»\n[≥1 file in «إشعار الحوالة البنكية»; role finance/admin (UI)]\ntransfer_ref?, transferred_at
-    awaiting_receipt --> paid : Partner «تأكيد الاستلام وإغلاق الدفعة»\n[≥1 file in «سند القبض»; applicant persona (UI)]\nreceipt_ref?, received_at
+    awaiting_transfer --> awaiting_receipt : Finance «تأكيد التحويل»\n["≥1 file in «إشعار الحوالة البنكية», role finance/admin (UI)"]\ntransfer_ref?, transferred_at
+    awaiting_receipt --> paid : Partner «تأكيد الاستلام وإغلاق الدفعة»\n["≥1 file in «سند القبض», applicant persona (UI)"]\nreceipt_ref?, received_at
     paid --> [*]
 
     note right of awaiting_approval
@@ -219,7 +219,7 @@ flowchart TD
       E3 -- approve --> F[Disbursement order issued\nawaiting_transfer]
     end
     subgraph FINN["Finance"]
-      F --> G[Open «إذن الصرف»; optional third-party payee]
+      F --> G[Open «إذن الصرف», optional third-party payee]
       G --> H[Execute bank transfer outside the system]
       H --> I[Upload «إشعار الحوالة البنكية» + optional ref]
       I --> J[«تأكيد التحويل» → awaiting_receipt]

@@ -217,7 +217,7 @@ stateDiagram-v2
     Created --> Scheduled: now < open_at
     Created --> Open: open_at <= now <= close_at
     Scheduled --> Open: open_at reached (computed)
-    Open --> Expired: now > close_at (computed; status stays active)
+    Open --> Expired: now > close_at (computed, status stays active)
     Open --> Unpublished: publish switch off
     Unpublished --> Open: publish switch on [within window, active]
     Open --> ClosedManual: 'نشطة' off (status=closed)
@@ -234,7 +234,7 @@ flowchart TD
     B --> C[Step 2 budget>0, open<close, general flag]
     C --> D[Step 3 confirm default 3 stages + 3 criteria]
     D --> E[Step 4 review → create]
-    E --> F[(grant_programs + workflow_stages x3 + evaluation_criteria x3)]
+    E --> F["(grant_programs + workflow_stages x3 + evaluation_criteria x3)"]
     F --> G[Opportunity detail]
     G --> H{Edit session 'تعديل'}
     H --> I[Basic info & targeting]
@@ -242,19 +242,19 @@ flowchart TD
     H --> K[Criteria & pass score]
     H --> L[Form from library]
     H --> M[Defaults: contract, manager, plan item]
-    H --> N[Products (product) / RFP details (rfp)]
+    H --> N["Products (product) / RFP details (rfp)"]
     I & J & K & L & M & N --> O{'حفظ التعديلات'}
     O -- no change --> G
-    O -- changes --> P[Evidence dialog: file mandatory] --> Q[(config_edit_history)]
+    O -- changes --> P[Evidence dialog: file mandatory] --> Q["(config_edit_history)"]
     H -- 'تراجع' --> R[Restore snapshot]
 ```
 
 ### 6.3 Workflow template (engine) → opportunity copy
 ```mermaid
 flowchart LR
-    T[(workflow_templates: stages JSON, criteria JSON, pass_score)] -->|Apply + confirm| X[Read existing stage supervisors by stage_no]
+    T["(workflow_templates: stages JSON, criteria JSON, pass_score)"] -->|Apply + confirm| X[Read existing stage supervisors by stage_no]
     X --> Y[Delete opportunity workflow_stages and evaluation_criteria]
-    Y --> Z[Insert stages: approval single/all→supervisor; allow_return/close=true; supervisors kept]
+    Y --> Z[Insert stages: approval single/all→supervisor, allow_return/close=true, supervisors kept]
     Z --> W[Insert criteria with sort_order]
     W --> V[Update grant_programs.workflow_template_id, pass_score]
 ```
@@ -280,11 +280,11 @@ flowchart TD
 ```mermaid
 flowchart LR
     C[Catalog: quantity_available] --> L[Linked to product opportunity]
-    L --> R[Partner request: qty <= available (no reservation)]
-    R --> RV[Review stages 1-3 (REV)]
-    RV -->|final approval| D[Stock -= qty, clamp 0; fulfillment=pending_delivery]
+    L --> R["Partner request: qty <= available (no reservation)"]
+    R --> RV["Review stages 1-3 (REV)"]
+    RV -->|final approval| D[Stock -= qty, clamp 0, fulfillment=pending_delivery]
     RV -->|rejected| N[No stock change]
-    D --> DL[Deliver: delivered_quantity = quantity; fulfillment=delivered]
+    D --> DL[Deliver: delivered_quantity = quantity, fulfillment=delivered]
 ```
 
 ### 6.6 RFP: invitation → offers → award

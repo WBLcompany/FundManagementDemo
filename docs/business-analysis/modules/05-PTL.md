@@ -255,11 +255,11 @@ sequenceDiagram
   participant SYS as System
   participant P as Partner (applicant)
   GM->>SYS: proposeChanges(amount/duration/items, note)
-  SYS->>SYS: applications.proposed_changes = {...before, new, by, at}; history propose_changes
+  SYS->>SYS: applications.proposed_changes = {...before, new, by, at}, history propose_changes
   P->>SYS: Accept
-  SYS->>SYS: apply values + item quantities; proposed_changes = null; history accept_changes
+  SYS->>SYS: apply values + item quantities, proposed_changes = null, history accept_changes
   P-->>SYS: Object (note mandatory)
-  SYS-->>SYS: proposed_changes = null; history reject_changes (note)
+  SYS-->>SYS: proposed_changes = null, history reject_changes (note)
 ```
 
 ### 6.4 Partner registration request

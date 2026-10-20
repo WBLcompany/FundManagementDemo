@@ -342,7 +342,7 @@ flowchart TD
   F --> H{Public page or applicant?}
   H -- yes --> I[Header-only layout]
   H -- no --> J[Sidebar = NAV_BY_ROLE + task badges]
-  J --> K[Persona switch] --> L[Store id; navigate ROLE_HOME] --> F
+  J --> K[Persona switch] --> L[Store id, navigate ROLE_HOME] --> F
 ```
 
 [Observed] `DemoSession.tsx`, `persona.tsx`, `AppShell.tsx`. Actor: any visitor. Guard: none server-side.
@@ -354,7 +354,7 @@ flowchart TD
   S[Choose applicant type] --> L[Enter license / ID → تحقق]
   L --> Q{lookupLicense}
   Q -- registered --> R[Show masked delegates]
-  R --> R1[OTP to delegate → verified\n(no record created)]
+  R --> R1["OTP to delegate → verified\n(no record created)"]
   R --> R2[Delegate change request → entity_registrations pending]
   Q -- pending --> P[Show masked applicant of pending request]
   Q -- new --> N[Prefill from registry or manual]
@@ -407,14 +407,14 @@ sequenceDiagram
 
 ```mermaid
 stateDiagram-v2
-  s0: 0 Initial (A1 70% no evidence; P2 pending)
+  s0: 0 Initial (A1 70% no evidence, P2 pending)
   s1: 1 Evidence uploaded
   s2: 2 AI check passed (A1 submitted)
   s3: 3 Stage report submitted
-  s4: 4 Milestone approved (A1 approved; A2 in progress; P2 due)
+  s4: 4 Milestone approved (A1 approved, A2 in progress, P2 due)
   s5: 5 Disbursement order (P2 awaiting_transfer)
   s6: 6 Transferred (P2 awaiting_receipt)
-  s7: 7 Receipt; P2 paid; project in_progress 40%
+  s7: 7 Receipt, P2 paid, project in_progress 40%
   [*] --> s0
   s0 --> s1
   s1 --> s2

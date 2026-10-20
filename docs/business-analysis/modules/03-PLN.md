@@ -249,11 +249,11 @@ flowchart TD
     V3 -->|decrease| D1{source chosen & amount ≤ available?} -->|yes| U
     V3 -->|transfer| T1{source & target, distinct, amount ≤ source available?} -->|yes| U
     U --> W{type}
-    W -->|increase| WI[target chain +A; plan.budget +A]
-    W -->|decrease| WD[source chain −A; plan.budget −A]
-    W -->|transfer| WT[source chain −A; re-read; target chain +A]
+    W -->|increase| WI[target chain +A, plan.budget +A]
+    W -->|decrease| WD[source chain −A, plan.budget −A]
+    W -->|transfer| WT[source chain −A, re-read, target chain +A]
     WI & WD & WT --> R[Insert budget_adjustments, ref ADJ-…]
-    R -->|any failure| F[Remove evidence file; amounts already written are NOT reverted]
+    R -->|any failure| F[Remove evidence file, amounts already written are NOT reverted]
 ```
 Actors: any persona reaching the page (nav: grants_manager, finance, ceo, admin). No approval step (maker-checker) exists [Observed]; [To Confirm] OQ-PLN-14.
 

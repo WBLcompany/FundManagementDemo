@@ -285,7 +285,7 @@ flowchart TD
     B -- no --> X[No checkbox]
     B -- yes --> C[Select items with same committee + stage]
     C --> D[«قرار بمحضر» → MinuteDialog]
-    D --> E[Enter minute no*, date*, committee, decision*, note (*reject), file*]
+    D --> E["Enter minute no*, date*, committee, decision*, note (*reject), file*"]
     E --> F[DocAiCheck advisory opinion]
     F --> G[«تطبيق على n»]
     G --> H{All same current_stage?\nreject has note?}
@@ -295,7 +295,7 @@ flowchart TD
     J --> K{success?}
     K -- yes --> L[minute_items ok=true]
     K -- no --> M[minute_items ok=false + error]
-    L --> N[Result: all ok → toast & close; else list failures]
+    L --> N[Result: all ok → toast & close, else list failures]
     M --> N
 ```
 
@@ -304,12 +304,12 @@ flowchart TD
 ```mermaid
 flowchart TD
     P[Primary request pending/approved, not transferred] --> Q[Load same-partner candidates:\npending/approved, not transferred, not merged, same kind]
-    Q --> R[Select parts; pick opportunity/plan item if they differ]
+    Q --> R[Select parts, pick opportunity/plan item if they differ]
     R --> S{Would lower a finally approved request?}
     S -- yes --> S2[Second confirmation]
     S -- no --> T
     S2 --> T[mergeApplications]
-    T --> U[Primary: amount Σ, BOQ concat with ref tags, first schedule,\nmerge_parts(prior stage, orig values, moved row ids)]
+    T --> U["Primary: amount Σ, BOQ concat with ref tags, first schedule,\nmerge_parts(prior stage, orig values, moved row ids)"]
     U --> V{min prior stage = 3?}
     V -- yes --> W[status approved]
     V -- no --> Y[status pending at stage min+1]
@@ -329,14 +329,14 @@ flowchart LR
     B --> C[Resolve manager, has_contract, plan level]
     C --> D{Plan budget_locked?}
     D -- yes --> E[Error, stop]
-    D -- no --> F[Contract (preparing) if has_contract]
-    F --> G[For each part: project (planning), budget, dates, BOQ items]
+    D -- no --> F["Contract (preparing) if has_contract"]
+    F --> G["For each part: project (planning), budget, dates, BOQ items"]
     G --> H{Program kind = rfp?}
     H -- no --> I[Payments from schedule %]
     H -- yes --> J[seedRfpPlan activities/payments]
     I --> K[Move co_fundings, allocations, indicators to first project]
     J --> K
-    K --> L[transferred=true, history transfer] --> M[Navigate to /projects/$id (PRJ)]
+    K --> L[transferred=true, history transfer] --> M["Navigate to /projects/$id (PRJ)"]
 ```
 
 ### 6.7 Staff numeric proposal ↔ partner acceptance
@@ -347,12 +347,12 @@ sequenceDiagram
     participant W as workflow.ts
     participant P as Partner (portal, PTL)
     S->>W: proposeChanges(amount/duration/items, note)
-    W-->>W: proposed_changes = {changes, before, by, at}; history propose_changes
+    W-->>W: proposed_changes = {changes, before, by, at}, history propose_changes
     P->>W: respondToProposal(accept | reject, note)
     alt accept
-        W-->>W: apply item quantities, amount, duration; clear proposal; history accept_changes
+        W-->>W: apply item quantities, amount, duration, clear proposal, history accept_changes
     else reject
-        W-->>W: clear proposal; history reject_changes (with note)
+        W-->>W: clear proposal, history reject_changes (with note)
     end
 ```
 

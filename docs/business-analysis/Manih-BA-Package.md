@@ -447,7 +447,7 @@ flowchart TD
   F --> H{Public page or applicant?}
   H -- yes --> I[Header-only layout]
   H -- no --> J[Sidebar = NAV_BY_ROLE + task badges]
-  J --> K[Persona switch] --> L[Store id; navigate ROLE_HOME] --> F
+  J --> K[Persona switch] --> L[Store id, navigate ROLE_HOME] --> F
 ```
 
 [Observed] `DemoSession.tsx`, `persona.tsx`, `AppShell.tsx`. Actor: any visitor. Guard: none server-side.
@@ -459,7 +459,7 @@ flowchart TD
   S[Choose applicant type] --> L[Enter license / ID → تحقق]
   L --> Q{lookupLicense}
   Q -- registered --> R[Show masked delegates]
-  R --> R1[OTP to delegate → verified\n(no record created)]
+  R --> R1["OTP to delegate → verified\n(no record created)"]
   R --> R2[Delegate change request → entity_registrations pending]
   Q -- pending --> P[Show masked applicant of pending request]
   Q -- new --> N[Prefill from registry or manual]
@@ -512,14 +512,14 @@ sequenceDiagram
 
 ```mermaid
 stateDiagram-v2
-  s0: 0 Initial (A1 70% no evidence; P2 pending)
+  s0: 0 Initial (A1 70% no evidence, P2 pending)
   s1: 1 Evidence uploaded
   s2: 2 AI check passed (A1 submitted)
   s3: 3 Stage report submitted
-  s4: 4 Milestone approved (A1 approved; A2 in progress; P2 due)
+  s4: 4 Milestone approved (A1 approved, A2 in progress, P2 due)
   s5: 5 Disbursement order (P2 awaiting_transfer)
   s6: 6 Transferred (P2 awaiting_receipt)
-  s7: 7 Receipt; P2 paid; project in_progress 40%
+  s7: 7 Receipt, P2 paid, project in_progress 40%
   [*] --> s0
   s0 --> s1
   s1 --> s2
@@ -6563,11 +6563,11 @@ flowchart TD
     V3 -->|decrease| D1{source chosen & amount ≤ available?} -->|yes| U
     V3 -->|transfer| T1{source & target, distinct, amount ≤ source available?} -->|yes| U
     U --> W{type}
-    W -->|increase| WI[target chain +A; plan.budget +A]
-    W -->|decrease| WD[source chain −A; plan.budget −A]
-    W -->|transfer| WT[source chain −A; re-read; target chain +A]
+    W -->|increase| WI[target chain +A, plan.budget +A]
+    W -->|decrease| WD[source chain −A, plan.budget −A]
+    W -->|transfer| WT[source chain −A, re-read, target chain +A]
     WI & WD & WT --> R[Insert budget_adjustments, ref ADJ-…]
-    R -->|any failure| F[Remove evidence file; amounts already written are NOT reverted]
+    R -->|any failure| F[Remove evidence file, amounts already written are NOT reverted]
 ```
 Actors: any persona reaching the page (nav: grants_manager, finance, ceo, admin). No approval step (maker-checker) exists [Observed]; [To Confirm] OQ-PLN-14.
 
@@ -9220,7 +9220,7 @@ stateDiagram-v2
     Created --> Scheduled: now < open_at
     Created --> Open: open_at <= now <= close_at
     Scheduled --> Open: open_at reached (computed)
-    Open --> Expired: now > close_at (computed; status stays active)
+    Open --> Expired: now > close_at (computed, status stays active)
     Open --> Unpublished: publish switch off
     Unpublished --> Open: publish switch on [within window, active]
     Open --> ClosedManual: 'نشطة' off (status=closed)
@@ -9237,7 +9237,7 @@ flowchart TD
     B --> C[Step 2 budget>0, open<close, general flag]
     C --> D[Step 3 confirm default 3 stages + 3 criteria]
     D --> E[Step 4 review → create]
-    E --> F[(grant_programs + workflow_stages x3 + evaluation_criteria x3)]
+    E --> F["(grant_programs + workflow_stages x3 + evaluation_criteria x3)"]
     F --> G[Opportunity detail]
     G --> H{Edit session 'تعديل'}
     H --> I[Basic info & targeting]
@@ -9245,19 +9245,19 @@ flowchart TD
     H --> K[Criteria & pass score]
     H --> L[Form from library]
     H --> M[Defaults: contract, manager, plan item]
-    H --> N[Products (product) / RFP details (rfp)]
+    H --> N["Products (product) / RFP details (rfp)"]
     I & J & K & L & M & N --> O{'حفظ التعديلات'}
     O -- no change --> G
-    O -- changes --> P[Evidence dialog: file mandatory] --> Q[(config_edit_history)]
+    O -- changes --> P[Evidence dialog: file mandatory] --> Q["(config_edit_history)"]
     H -- 'تراجع' --> R[Restore snapshot]
 ```
 
 ### 6.3 Workflow template (engine) → opportunity copy
 ```mermaid
 flowchart LR
-    T[(workflow_templates: stages JSON, criteria JSON, pass_score)] -->|Apply + confirm| X[Read existing stage supervisors by stage_no]
+    T["(workflow_templates: stages JSON, criteria JSON, pass_score)"] -->|Apply + confirm| X[Read existing stage supervisors by stage_no]
     X --> Y[Delete opportunity workflow_stages and evaluation_criteria]
-    Y --> Z[Insert stages: approval single/all→supervisor; allow_return/close=true; supervisors kept]
+    Y --> Z[Insert stages: approval single/all→supervisor, allow_return/close=true, supervisors kept]
     Z --> W[Insert criteria with sort_order]
     W --> V[Update grant_programs.workflow_template_id, pass_score]
 ```
@@ -9283,11 +9283,11 @@ flowchart TD
 ```mermaid
 flowchart LR
     C[Catalog: quantity_available] --> L[Linked to product opportunity]
-    L --> R[Partner request: qty <= available (no reservation)]
-    R --> RV[Review stages 1-3 (REV)]
-    RV -->|final approval| D[Stock -= qty, clamp 0; fulfillment=pending_delivery]
+    L --> R["Partner request: qty <= available (no reservation)"]
+    R --> RV["Review stages 1-3 (REV)"]
+    RV -->|final approval| D[Stock -= qty, clamp 0, fulfillment=pending_delivery]
     RV -->|rejected| N[No stock change]
-    D --> DL[Deliver: delivered_quantity = quantity; fulfillment=delivered]
+    D --> DL[Deliver: delivered_quantity = quantity, fulfillment=delivered]
 ```
 
 ### 6.6 RFP: invitation → offers → award
@@ -12315,11 +12315,11 @@ sequenceDiagram
   participant SYS as System
   participant P as Partner (applicant)
   GM->>SYS: proposeChanges(amount/duration/items, note)
-  SYS->>SYS: applications.proposed_changes = {...before, new, by, at}; history propose_changes
+  SYS->>SYS: applications.proposed_changes = {...before, new, by, at}, history propose_changes
   P->>SYS: Accept
-  SYS->>SYS: apply values + item quantities; proposed_changes = null; history accept_changes
+  SYS->>SYS: apply values + item quantities, proposed_changes = null, history accept_changes
   P-->>SYS: Object (note mandatory)
-  SYS-->>SYS: proposed_changes = null; history reject_changes (note)
+  SYS-->>SYS: proposed_changes = null, history reject_changes (note)
 ```
 
 ### 6.4 Partner registration request
@@ -17323,7 +17323,7 @@ flowchart TD
     B -- no --> X[No checkbox]
     B -- yes --> C[Select items with same committee + stage]
     C --> D[«قرار بمحضر» → MinuteDialog]
-    D --> E[Enter minute no*, date*, committee, decision*, note (*reject), file*]
+    D --> E["Enter minute no*, date*, committee, decision*, note (*reject), file*"]
     E --> F[DocAiCheck advisory opinion]
     F --> G[«تطبيق على n»]
     G --> H{All same current_stage?\nreject has note?}
@@ -17333,7 +17333,7 @@ flowchart TD
     J --> K{success?}
     K -- yes --> L[minute_items ok=true]
     K -- no --> M[minute_items ok=false + error]
-    L --> N[Result: all ok → toast & close; else list failures]
+    L --> N[Result: all ok → toast & close, else list failures]
     M --> N
 ```
 
@@ -17342,12 +17342,12 @@ flowchart TD
 ```mermaid
 flowchart TD
     P[Primary request pending/approved, not transferred] --> Q[Load same-partner candidates:\npending/approved, not transferred, not merged, same kind]
-    Q --> R[Select parts; pick opportunity/plan item if they differ]
+    Q --> R[Select parts, pick opportunity/plan item if they differ]
     R --> S{Would lower a finally approved request?}
     S -- yes --> S2[Second confirmation]
     S -- no --> T
     S2 --> T[mergeApplications]
-    T --> U[Primary: amount Σ, BOQ concat with ref tags, first schedule,\nmerge_parts(prior stage, orig values, moved row ids)]
+    T --> U["Primary: amount Σ, BOQ concat with ref tags, first schedule,\nmerge_parts(prior stage, orig values, moved row ids)"]
     U --> V{min prior stage = 3?}
     V -- yes --> W[status approved]
     V -- no --> Y[status pending at stage min+1]
@@ -17367,14 +17367,14 @@ flowchart LR
     B --> C[Resolve manager, has_contract, plan level]
     C --> D{Plan budget_locked?}
     D -- yes --> E[Error, stop]
-    D -- no --> F[Contract (preparing) if has_contract]
-    F --> G[For each part: project (planning), budget, dates, BOQ items]
+    D -- no --> F["Contract (preparing) if has_contract"]
+    F --> G["For each part: project (planning), budget, dates, BOQ items"]
     G --> H{Program kind = rfp?}
     H -- no --> I[Payments from schedule %]
     H -- yes --> J[seedRfpPlan activities/payments]
     I --> K[Move co_fundings, allocations, indicators to first project]
     J --> K
-    K --> L[transferred=true, history transfer] --> M[Navigate to /projects/$id (PRJ)]
+    K --> L[transferred=true, history transfer] --> M["Navigate to /projects/$id (PRJ)"]
 ```
 
 ### 6.7 Staff numeric proposal ↔ partner acceptance
@@ -17385,12 +17385,12 @@ sequenceDiagram
     participant W as workflow.ts
     participant P as Partner (portal, PTL)
     S->>W: proposeChanges(amount/duration/items, note)
-    W-->>W: proposed_changes = {changes, before, by, at}; history propose_changes
+    W-->>W: proposed_changes = {changes, before, by, at}, history propose_changes
     P->>W: respondToProposal(accept | reject, note)
     alt accept
-        W-->>W: apply item quantities, amount, duration; clear proposal; history accept_changes
+        W-->>W: apply item quantities, amount, duration, clear proposal, history accept_changes
     else reject
-        W-->>W: clear proposal; history reject_changes (with note)
+        W-->>W: clear proposal, history reject_changes (with note)
     end
 ```
 
@@ -20445,12 +20445,12 @@ Role visibility comes from the sidebar (`AppShell.tsx:45,54-61`): Projects is sh
 ```mermaid
 stateDiagram-v2
     [*] --> planning: transferApplication / initiative created / RFP award
-    planning --> in_progress: StartExecution (staff)\n[≥1 non-payment activity AND contract signed (if any)\nAND every quantitative indicator fully distributed]
+    planning --> in_progress: StartExecution (staff)\n["≥1 non-payment activity AND contract signed (if any)\nAND every quantitative indicator fully distributed"]
     in_progress --> stalled_display: any activity overdue & not approved\n(derived, display only)
     stalled_display --> in_progress: overdue items approved
     in_progress --> completed: Approve closure (staff)\n[all phases approved AND evaluation not empty]
     completed --> [*]
-    note right of stalled_display: 'stalled' is never stored;\n'active', 'closing', 'closed' are referenced\nin UI but never set (ISS-PRJ-09)
+    note right of stalled_display: 'stalled' is never stored,\n'active', 'closing', 'closed' are referenced\nin UI but never set (ISS-PRJ-09)
 ```
 
 Stored values in use: `planning`, `in_progress`, `completed` [Observed]. Labels exist for `closed` and `stalled` [Observed `data.ts:336-342`]. There is no cancel/suspend state [Observed] (OQ-PRJ-13). Transitions are client-side updates without server guard [Observed] (ISS-PRJ-01).
@@ -20490,7 +20490,7 @@ flowchart TD
     L --> M{program.kind = rfp?}
     M -->|yes| N[seedRfpPlan on first project]
     M -->|no| O[ ]
-    N --> P[application.transferred = true; history 'transfer']
+    N --> P[application.transferred = true, history 'transfer']
     O --> P
     P --> Q[Navigate to first project]
 ```
@@ -20552,7 +20552,7 @@ sequenceDiagram
     Req->>UI: reason (≥5 chars) + optional evidence
     UI->>AI: current snapshot (locked flags), budget, reason, today
     AI-->>UI: proposed phases
-    UI->>UI: enforceLocks; check Σ phase payments ≤ budget; diff
+    UI->>UI: enforceLocks, check Σ phase payments ≤ budget, diff
     Req->>DB: insert status=pending (before, proposed, requested_by)
     App->>UI: review banner diff
     alt approve
@@ -23300,12 +23300,12 @@ stateDiagram-v2
         step1_PM --> step2_GM : approve\n[actor = projects.manager_id OR admin]
         step2_GM --> step3_CEO : approve\n[role = grants_manager OR admin]
     }
-    awaiting_approval --> due : reject at any step\n[approval_step := 0; payment_approvals 'rejected']
+    awaiting_approval --> due : reject at any step\n[approval_step := 0, payment_approvals 'rejected']
     awaiting_approval --> awaiting_transfer : approve step 3\n[role = ceo OR admin]\nissue disbursement order DSB-… (disbursement_no, disbursement_at)
 
     awaiting_transfer --> awaiting_transfer : Payee set/changed (partner ↔ third party)\n[name+IBAN+reason required for third party]
-    awaiting_transfer --> awaiting_receipt : Finance «تأكيد التحويل»\n[≥1 file in «إشعار الحوالة البنكية»; role finance/admin (UI)]\ntransfer_ref?, transferred_at
-    awaiting_receipt --> paid : Partner «تأكيد الاستلام وإغلاق الدفعة»\n[≥1 file in «سند القبض»; applicant persona (UI)]\nreceipt_ref?, received_at
+    awaiting_transfer --> awaiting_receipt : Finance «تأكيد التحويل»\n["≥1 file in «إشعار الحوالة البنكية», role finance/admin (UI)"]\ntransfer_ref?, transferred_at
+    awaiting_receipt --> paid : Partner «تأكيد الاستلام وإغلاق الدفعة»\n["≥1 file in «سند القبض», applicant persona (UI)"]\nreceipt_ref?, received_at
     paid --> [*]
 
     note right of awaiting_approval
@@ -23341,7 +23341,7 @@ flowchart TD
       E3 -- approve --> F[Disbursement order issued\nawaiting_transfer]
     end
     subgraph FINN["Finance"]
-      F --> G[Open «إذن الصرف»; optional third-party payee]
+      F --> G[Open «إذن الصرف», optional third-party payee]
       G --> H[Execute bank transfer outside the system]
       H --> I[Upload «إشعار الحوالة البنكية» + optional ref]
       I --> J[«تأكيد التحويل» → awaiting_receipt]
@@ -25705,9 +25705,9 @@ Supporting reads: `src/lib/data.ts` (PAYMENT_APPROVAL_CHAIN), `src/lib/queries.t
 flowchart TD
   A[applications] --> B{status=pending AND current_stage AND stage_status≠needs_edit AND same tenant}
   B -- no --> X[no task]
-  B -- yes --> C[find workflow_stage (program, stage_no)]
+  B -- yes --> C["find workflow_stage (program, stage_no)"]
   C --> D{me ∈ supervisor_ids OR me = secretary_id OR role ∈ admin, grants_manager}
-  D -- yes --> E[Application task: due = stage_entered_at + sla_days(3)]
+  D -- yes --> E["Application task: due = stage_entered_at + sla_days(3)"]
   D -- no --> X
   P[payments] --> Q{status=awaiting_approval AND project tenant = mine}
   Q -- yes --> R{chain step}
@@ -25740,9 +25740,9 @@ flowchart LR
   T[Derived task] --> A{Quick action}
   A -- approve --> S[Approve sheet] --> R{risky?}
   R -- yes, note empty --> S
-  R -- no / note given --> W[approveStage or approvePayment(true)]
+  R -- no / note given --> W["approveStage or approvePayment(true)"]
   A -- return (apps) --> D[Reason dialog] --> W2[returnStage]
-  A -- reject --> D2[Reason dialog] --> W3[closeApplication / approvePayment(false) → payment due, step 0]
+  A -- reject --> D2[Reason dialog] --> W3["closeApplication / approvePayment(false) → payment due, step 0"]
   W & W2 & W3 --> RF[refresh applications & payments → task disappears]
 ```
 
@@ -25753,7 +25753,7 @@ stateDiagram-v2
   Inactive --> OpenRunning: «وضع التركيز» (startFocus)
   OpenRunning --> ClosedRunning: «خروج» / Escape / open detail link
   ClosedRunning --> OpenRunning: pill «العودة للتركيز» or «وضع التركيز»
-  OpenRunning --> OpenRunning: task changes / timer reset; pause ↔ resume
+  OpenRunning --> OpenRunning: task changes / timer reset, pause ↔ resume
   OpenRunning --> Inactive: «إنهاء وضع التركيز»
   ClosedRunning --> ClosedRunning: reload (persisted)
 ```
