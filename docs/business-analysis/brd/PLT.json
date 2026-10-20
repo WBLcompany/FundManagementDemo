@@ -1,0 +1,960 @@
+{
+  "module": "PLT",
+  "title": "Access, Workspace & Platform Services",
+  "summary": "This capability area provides the common foundation every user of Manih relies on: secure sign-in, a workspace tailored to each person's role, a public entry page that presents open grant opportunities, quick search across grant records, an AI Assistant that answers questions over the foundation's data, and consistent list, export and saved-view tools. It also carries the platform-wide qualities the foundation expects of the whole system: individual accountability, role-based authorization enforced by the system, strict separation of each grantor organization's data, a complete audit trail, and a fully Arabic right-to-left experience with Western digits. Partner self-registration and invitation responses are part of the Partner Portal area and are not repeated here.",
+  "process": {
+    "title": "Access and daily work in the platform",
+    "mermaid": "flowchart LR\n  A[\"Visitor opens the platform\"] --> B[\"Public landing page\"]\n  B --> C[\"Browse open grant opportunities\"]\n  B --> D[\"Sign in with individual account\"]\n  D --> E{\"Identity and role verified?\"}\n  E -- \"No\" --> F[\"Access refused\"]\n  E -- \"Yes\" --> G[\"Role workspace and pending-work counts\"]\n  G --> H[\"Open authorised section\"]\n  G --> I[\"Global search\"]\n  G --> J[\"Ask the AI Assistant\"]\n  I --> K[\"Open record\"]\n  J --> L[\"Proposed action link\"]\n  L --> K\n  H --> K\n  K --> M[\"Act on record and log in audit trail\"]"
+  },
+  "use_cases": [
+    {
+      "key": "PLT-1",
+      "name": "Sign in and reach my role workspace",
+      "title": "As a staff member or partner user, I want to sign in with my own credentials so that I reach the workspace for my role and every action I take is attributed to me.",
+      "description": "Every person who uses Manih signs in with an individual account. After successful sign-in the system identifies the person's organization and role and opens the home page for that role (for example My Tasks for operational staff, the dashboard for executives, and My Portal for partner users). No grant data is visible before sign-in, and demonstration shortcuts are not available in the live service.",
+      "actors": [
+        "System Administrator",
+        "Grants Manager",
+        "Reviewer",
+        "Committee Secretary",
+        "Project Manager",
+        "Finance Officer",
+        "CEO / Executive Approver",
+        "Partner Organization (Applicant / Partner Delegate)",
+        "System"
+      ],
+      "preconditions": [
+        "The user has an active individual account linked to one grantor organization (or to a partner organization).",
+        "The user's organization is active (not suspended)."
+      ],
+      "trigger": "The user opens the sign-in page (تسجيل الدخول) or tries to open any protected page.",
+      "scenario": [
+        "The user opens the sign-in page.",
+        "The user enters the email address (البريد الإلكتروني) and password (كلمة المرور) and selects Sign in (دخول).",
+        "The system verifies the credentials and any additional verification required for the user's role.",
+        "The system identifies the user's organization, role and (for partner users) partner organization.",
+        "The system opens the home page defined for that role.",
+        "The system records the sign-in in the audit trail.",
+        "The user's subsequent actions are carried out and recorded under the user's own identity."
+      ],
+      "alternative_flows": [
+        "If the user tried to open a protected page before signing in, then after successful sign-in the system returns the user to that page, provided the role is authorised for it.",
+        "If a new partner organization has not yet registered, then the user follows the registration link (سجّل جهتك) to the Partner Portal registration process.",
+        "If the user belongs to more than one organization or role, then the system asks the user to choose the active organization/role after sign-in (To be confirmed)."
+      ],
+      "business_requirements": [
+        "The system must require every user to sign in with individual credentials before any grant, partner, financial or staff data is shown.",
+        "The system must not use shared or pre-filled accounts in the live service.",
+        "The system must determine the user's organization and role from the signed-in account; the user must not be able to choose or change their role themselves.",
+        "The system must open the home page configured for the user's role after sign-in.",
+        "The system must lock or throttle sign-in after repeated failed attempts (Recommended).",
+        "The system must end inactive sessions after a configurable period and ask the user to sign in again (Recommended).",
+        "The system must support multi-factor or national single sign-on for roles that require it (To be confirmed).",
+        "The system must allow users to reset a forgotten password securely (Recommended).",
+        "The system must refuse sign-in for users of a suspended organization.",
+        "The system must record each successful and failed sign-in in the audit trail.",
+        "The system must exclude all demonstration features (role switching, guided demo, scripted demo controls, on-screen verification codes) from the live service."
+      ],
+      "errors": [
+        {
+          "name": "Invalid credentials",
+          "description": "The email or password is wrong. The system refuses sign-in, shows a generic message without revealing which value was wrong, and counts the failed attempt."
+        },
+        {
+          "name": "Account locked",
+          "description": "Too many failed attempts. The system blocks further attempts for a set period and explains how to recover the account."
+        },
+        {
+          "name": "Organization suspended",
+          "description": "The user's organization has been suspended by the platform. The system refuses sign-in and advises contacting platform administration."
+        },
+        {
+          "name": "Session expired",
+          "description": "The session ended due to inactivity. The system asks the user to sign in again and then returns them to their page."
+        }
+      ],
+      "postconditions": "The user is signed in under their own identity, sees only the workspace allowed for their role and organization, and the sign-in is recorded.",
+      "fields": [
+        {
+          "en": "Email",
+          "ar": "البريد الإلكتروني",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Valid email format"
+        },
+        {
+          "en": "Password",
+          "ar": "كلمة المرور",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Masked; password policy to be confirmed"
+        }
+      ],
+      "trace": [
+        "US-PLT-001",
+        "US-PLT-002",
+        "US-PLT-003",
+        "FR-PLT-001",
+        "FR-PLT-002",
+        "FR-PLT-003",
+        "FR-PLT-004",
+        "FR-PLT-006",
+        "FR-PLT-008",
+        "FT-PLT-17"
+      ]
+    },
+    {
+      "key": "PLT-2",
+      "name": "Work within a role-based workspace",
+      "title": "As a staff member, I want a workspace that shows only the sections relevant to my role, with counts of my pending work, so that I can focus on what needs my action.",
+      "description": "Once signed in, each user sees a navigation menu limited to the sections their role is authorised for, with badges showing the number of open tasks in each area. Platform-level administration is visible only to the System Administrator, organization settings only to authorised organization staff, and partner users get a simplified portal layout. The same workspace adapts to phones and tablets.",
+      "actors": [
+        "System Administrator",
+        "Grants Manager",
+        "Reviewer",
+        "Committee Secretary",
+        "Project Manager",
+        "Finance Officer",
+        "CEO / Executive Approver",
+        "Partner Organization (Applicant / Partner Delegate)",
+        "System"
+      ],
+      "preconditions": [
+        "The user is signed in (PLT-1)."
+      ],
+      "trigger": "The user lands on the role home page or moves between sections.",
+      "scenario": [
+        "The system displays the navigation menu (القائمة) containing only the sections the user's role may access.",
+        "The system shows next to each section the number of open tasks the user has there (for example applications awaiting action, payments awaiting action).",
+        "The user selects a section; the system opens it and highlights where the user is.",
+        "Within a section, the system shows related pages as tabs (for example grant applications and opportunities, or settings tabs) limited to what the role may see.",
+        "The user opens a record and performs the actions their role allows.",
+        "On a phone or small screen, the user opens the menu as a slide-in panel and it closes after a choice."
+      ],
+      "alternative_flows": [
+        "If the user is a partner user, then the system shows a simplified header-only portal layout without the staff menu.",
+        "If the user opens a page outside their role (for example by a saved link), then the system refuses access with a clear message and offers a link back to their home page.",
+        "If a section has no pending work, then no count is shown."
+      ],
+      "business_requirements": [
+        "The system must show each user only the menu sections and section tabs permitted for their role.",
+        "The system must enforce page and action access by role on every request, not only by hiding menu items.",
+        "The system must restrict platform administration (organizations and platform-wide settings) to the System Administrator.",
+        "The system must hide organization-only settings (team, roles, endowments) from the platform administrator unless explicitly authorised (To be confirmed).",
+        "The system must show pending-work counts per section using the same source as the user's task list.",
+        "The system must give each role a home page that is also reachable from that role's menu.",
+        "The system must provide a simplified portal layout for partner users.",
+        "The system must be fully usable on desktop, tablet and phone screens.",
+        "The system must display a friendly not-found page with a link home for unknown addresses."
+      ],
+      "errors": [
+        {
+          "name": "Access denied",
+          "description": "The user opens a page or action not allowed for their role. The system blocks it, explains that the page is not available for their role, and offers a link to their home page."
+        },
+        {
+          "name": "Page not found",
+          "description": "The address does not exist. The system shows the not-found page (الصفحة غير موجودة) with a link back home."
+        }
+      ],
+      "postconditions": "The user works only within sections authorised for their role and can see where pending work is waiting.",
+      "fields": [],
+      "trace": [
+        "US-PLT-005",
+        "US-PLT-006",
+        "US-PLT-007",
+        "US-PLT-008",
+        "FR-PLT-010",
+        "FR-PLT-011",
+        "FR-PLT-012",
+        "FR-PLT-013",
+        "FR-PLT-014",
+        "FR-PLT-015",
+        "FR-PLT-016",
+        "FR-PLT-064"
+      ]
+    },
+    {
+      "key": "PLT-3",
+      "name": "View the public landing page and open grant opportunities",
+      "title": "As a prospective partner organization, I want to see what the platform offers and which grant opportunities are currently open so that I can decide whether to register and apply.",
+      "description": "The public landing page explains the purpose of the grant platform and lists the grant opportunities that are published and open for applications, with their budget and closing date. From here visitors can browse opportunities, register their organization or sign in.",
+      "actors": [
+        "Partner Organization (Applicant / Partner Delegate)",
+        "System"
+      ],
+      "preconditions": [
+        "At least one grant opportunity has been published by the foundation (otherwise an empty-state message is shown)."
+      ],
+      "trigger": "A visitor opens the platform's public address.",
+      "scenario": [
+        "The visitor opens the landing page (الصفحة الرئيسية).",
+        "The system shows the value proposition and the main capabilities (electronic submission, clear review flow, live indicators).",
+        "The system lists the published grant opportunities whose application window is currently open, with title, short description, budget (الميزانية) and closing date (آخر موعد).",
+        "The visitor selects Apply now (قدّم الآن) on an opportunity or Browse grant programs (تصفح برامج المنح).",
+        "If the visitor is not signed in as a partner user, the system directs them to sign in or register their organization.",
+        "A signed-in partner user is taken to the opportunity in the Partner Portal."
+      ],
+      "alternative_flows": [
+        "If no opportunities are open, then the system shows a message that no opportunities are currently open.",
+        "If the visitor selects Register your organization (سجّل جهتك), then the system opens partner registration in the Partner Portal."
+      ],
+      "business_requirements": [
+        "The system must make the landing page available without sign-in.",
+        "The system must list only opportunities that are published and whose application window is currently open.",
+        "The system must show each opportunity's title, description, budget in SAR and official closing date.",
+        "The system must show only opportunities of the grantor organization(s) that the public site represents (To be confirmed).",
+        "The system must direct visitors who are not signed-in partner users to sign in or register before applying.",
+        "The system must use consistent wording that the registration link is for partner (beneficiary) organizations, not grantors.",
+        "The system must show a clear message when the list cannot be loaded or is empty."
+      ],
+      "errors": [
+        {
+          "name": "Opportunities not available",
+          "description": "The list of opportunities cannot be loaded. The system shows an error message with a retry option instead of an empty list."
+        }
+      ],
+      "postconditions": "The visitor knows which opportunities are open and has a clear path to register, sign in and apply.",
+      "fields": [
+        {
+          "en": "Opportunity title",
+          "ar": "عنوان الفرصة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Display only"
+        },
+        {
+          "en": "Budget",
+          "ar": "الميزانية",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Display only"
+        },
+        {
+          "en": "Closing date",
+          "ar": "آخر موعد",
+          "type": "Date",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Official application closing date"
+        }
+      ],
+      "trace": [
+        "US-PLT-009",
+        "FR-PLT-017",
+        "FR-PLT-018",
+        "FT-PLT-04"
+      ]
+    },
+    {
+      "key": "PLT-4",
+      "name": "Find records with global search",
+      "title": "As a staff member, I want to search across partners, applications, projects, payments, opportunities, plans and colleagues from anywhere so that I can open what I need without navigating through menus.",
+      "description": "A search box available on every page (also via a keyboard shortcut) lets users find any record they are entitled to see, using Arabic-tolerant matching. Results are grouped by record type and the user's recently opened items are offered for quick return.",
+      "actors": [
+        "Grants Manager",
+        "Reviewer",
+        "Committee Secretary",
+        "Project Manager",
+        "Finance Officer",
+        "CEO / Executive Approver",
+        "System Administrator",
+        "System"
+      ],
+      "preconditions": [
+        "The user is signed in."
+      ],
+      "trigger": "The user selects the search icon (البحث) or presses Ctrl/Cmd+K.",
+      "scenario": [
+        "The system opens the search box with the prompt «ابحث عن جهة، طلب، مشروع، دفعة، شخص…» and the user's recently opened items (آخر ما فتحته).",
+        "The user types at least two characters.",
+        "The system searches partner organizations, grant applications, projects and initiatives, payments, grant opportunities and tracks, annual plans, team members and page shortcuts.",
+        "The system returns results grouped by type, each with its title and a reference line (reference number, city, partner or project).",
+        "The user selects a result.",
+        "The system opens the record and adds it to the user's recent items."
+      ],
+      "alternative_flows": [
+        "If fewer than two characters are typed, then the system asks the user to type at least two characters.",
+        "If nothing matches, then the system shows «لا نتائج».",
+        "If the user is a partner user, then search is either unavailable or limited to the partner's own records (To be confirmed)."
+      ],
+      "business_requirements": [
+        "The system must provide global search from every staff page and by keyboard shortcut.",
+        "The system must return only records and page shortcuts the user's role and organization are entitled to see.",
+        "The system must never show partner users records belonging to other partner organizations.",
+        "The system must treat Arabic letter variants (أ/إ/آ/ا, ة/ه, ى/ي) and Arabic-Indic/Western digits as equivalent when matching.",
+        "The system must allow search by name, title and reference number for each record type.",
+        "The system must group results by record type and limit each group to a manageable number with the most relevant first.",
+        "The system must keep a short list of the user's recently opened items, private to that user.",
+        "The system should show a progress indicator while searching (Recommended)."
+      ],
+      "errors": [
+        {
+          "name": "Search unavailable",
+          "description": "The search cannot be completed. The system informs the user and allows retrying."
+        }
+      ],
+      "postconditions": "The user has opened the required record, within the limits of their access rights.",
+      "fields": [
+        {
+          "en": "Search term",
+          "ar": "البحث",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Minimum two characters"
+        }
+      ],
+      "trace": [
+        "US-PLT-018",
+        "US-PLT-019",
+        "FR-PLT-034",
+        "FR-PLT-035",
+        "FR-PLT-036",
+        "FR-PLT-037"
+      ]
+    },
+    {
+      "key": "PLT-5",
+      "name": "Ask the AI Assistant about grant data",
+      "title": "As a staff member, I want to ask the AI Assistant (رفيق المنح) questions about opportunities, applications, partners, projects, payments, plans and tasks so that I get quick answers and suggested next steps without building reports.",
+      "description": "The AI Assistant is a conversational helper in Arabic available to foundation staff. It reads the foundation's data within the user's access rights to answer questions and summarise status. It never changes data itself: when an action is needed, it proposes the action as a link that opens the relevant page, where the user reviews and confirms it.",
+      "actors": [
+        "Grants Manager",
+        "Reviewer",
+        "Committee Secretary",
+        "Project Manager",
+        "Finance Officer",
+        "CEO / Executive Approver",
+        "System Administrator",
+        "AI Assistant",
+        "System"
+      ],
+      "preconditions": [
+        "The user is a signed-in staff member authorised to use the assistant.",
+        "The AI service is available and approved for the foundation's data (To be confirmed)."
+      ],
+      "trigger": "The user selects the AI Assistant button (رفيق المنح) in the header.",
+      "scenario": [
+        "The system opens the assistant panel with suggested questions relevant to the current section (for example «ما الدفعات المستحقة هذا الشهر؟»).",
+        "The user selects a suggestion or types a request (اكتب طلبك…).",
+        "The AI Assistant reads the relevant data within the user's organization and access rights, showing that it is reading data (قراءة البيانات).",
+        "The AI Assistant answers in Arabic, using figures from the data with Western digits and amounts in SAR.",
+        "Where a change is needed, the AI Assistant presents a proposed action card with a link «فتح الصفحة للتأكيد».",
+        "The user opens the linked page and performs or rejects the action there under normal approvals.",
+        "The user may stop a long answer or start a new conversation (محادثة جديدة)."
+      ],
+      "alternative_flows": [
+        "If the request falls outside the data the user may see, then the AI Assistant states that it cannot provide the information.",
+        "If the AI service fails, then the system shows «تعذر الحصول على رد» and lets the user retry."
+      ],
+      "business_requirements": [
+        "The system must offer the AI Assistant only to authorised staff roles; partner users must not have access unless decided otherwise (To be confirmed).",
+        "The AI Assistant must only read data; it must never create, change or approve records.",
+        "The AI Assistant must present any suggested change as a link to the page where the user confirms it through the normal process.",
+        "The AI Assistant must only use data of the user's own organization and within the user's role permissions, determined by the system and not by the request.",
+        "The AI Assistant must answer in Arabic with Western digits and SAR amounts and must base figures on actual data rather than estimates.",
+        "The system must log each assistant request (user, time, question, data areas read) for audit.",
+        "The system must apply usage limits per user (Recommended).",
+        "The system must keep conversation history private to the user and clear it on sign-out or per retention policy (To be confirmed).",
+        "The system must use an AI provider that meets the foundation's data-residency and confidentiality requirements (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "No response",
+          "description": "The AI service fails or times out. The system shows «تعذر الحصول على رد» with the reason and allows retrying."
+        },
+        {
+          "name": "Not authorised",
+          "description": "The user's session is invalid or the role is not allowed to use the assistant. The system refuses the request."
+        }
+      ],
+      "postconditions": "The user has an answer based on authorised data and, where relevant, a link to the page where the proposed action can be confirmed; the request is logged.",
+      "fields": [
+        {
+          "en": "Request",
+          "ar": "اكتب طلبك",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Free-text question in Arabic"
+        }
+      ],
+      "trace": [
+        "US-PLT-022",
+        "US-PLT-023",
+        "FR-PLT-042",
+        "FR-PLT-043",
+        "FR-PLT-044",
+        "FR-PLT-045",
+        "FR-PLT-046",
+        "FR-PLT-047",
+        "FT-PLT-10"
+      ]
+    },
+    {
+      "key": "PLT-6",
+      "name": "Work with lists, export data and save preferred views",
+      "title": "As a staff member, I want to search, filter, choose columns, export and save my preferred view of any list so that I can analyse and share data efficiently.",
+      "description": "All lists in the system (applications, partners, projects, payments, plans and others) offer the same tools: free-text search, additional filters, filter-by-indicator cards, column selection, paging, and export to Excel or CSV. Each user can pin the current arrangement as their personal default view and restore the original at any time.",
+      "actors": [
+        "Grants Manager",
+        "Reviewer",
+        "Committee Secretary",
+        "Project Manager",
+        "Finance Officer",
+        "CEO / Executive Approver",
+        "System Administrator",
+        "System"
+      ],
+      "preconditions": [
+        "The user is signed in and has access to the list."
+      ],
+      "trigger": "The user opens any list page.",
+      "scenario": [
+        "The system shows the list using the user's saved default view, if any, otherwise the standard view.",
+        "The user searches (بحث…), applies additional filters (تصفية) or selects an indicator card to filter.",
+        "The user chooses which columns to display (الأعمدة) and the number of rows per page (عدد الصفوف).",
+        "The user opens a record by selecting its row.",
+        "The user exports the filtered list (تصدير) to Excel or CSV.",
+        "The user saves the current arrangement as their default view (حفظ كعرض افتراضي).",
+        "The user may later restore the original view."
+      ],
+      "alternative_flows": [
+        "If no rows match, then the system shows «لا توجد بيانات».",
+        "If the user's role is not permitted to export, then the export option is not shown (To be confirmed)."
+      ],
+      "business_requirements": [
+        "The system must provide consistent search, filtering, column selection and paging on all lists.",
+        "The system must show the total number of matching records.",
+        "The system must export all filtered records (not only the current page) with the visible columns to Excel (right-to-left) and CSV (Arabic-safe encoding).",
+        "The system must include in exports only data the user is authorised to see.",
+        "The system must restrict exports to authorised roles and record each export in the audit trail (To be confirmed).",
+        "The system must let each user save and reset a personal default view per list, storing only the settings the user chose to pin.",
+        "The system must keep saved views per user across devices.",
+        "The system must show a loading indicator while a list loads and an error message with retry if it fails."
+      ],
+      "errors": [
+        {
+          "name": "View not saved",
+          "description": "The preferred view cannot be saved. The system shows «تعذر حفظ العرض» and keeps the current arrangement."
+        },
+        {
+          "name": "Data not loaded",
+          "description": "The list cannot be loaded. The system shows «تعذّر تحميل البيانات» with a retry option."
+        }
+      ],
+      "postconditions": "The user sees the list arranged as needed, may have exported it, and may have a saved personal default view.",
+      "fields": [
+        {
+          "en": "Search",
+          "ar": "بحث",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Searches visible values"
+        },
+        {
+          "en": "Rows per page",
+          "ar": "عدد الصفوف",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "15, 20, 30, 40 or 50"
+        },
+        {
+          "en": "Visible columns",
+          "ar": "الأعمدة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Multiple selection"
+        },
+        {
+          "en": "Export format",
+          "ar": "تصدير",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Excel or CSV"
+        }
+      ],
+      "trace": [
+        "US-PLT-028",
+        "US-PLT-029",
+        "FR-PLT-054",
+        "FR-PLT-055",
+        "FR-PLT-056",
+        "FR-PLT-057",
+        "FR-PLT-065",
+        "FT-PLT-14"
+      ]
+    },
+    {
+      "key": "PLT-7",
+      "name": "Personalise the appearance of the workspace",
+      "title": "As a user, I want to choose light or dark mode and a colour palette so that the interface suits my preference.",
+      "description": "Users can switch between light and dark display and choose one of the approved colour palettes (طيني، أخضر مائي، خزامى) from Settings > Appearance. The choice is applied immediately and remembered.",
+      "actors": [
+        "Grants Manager",
+        "Reviewer",
+        "Committee Secretary",
+        "Project Manager",
+        "Finance Officer",
+        "CEO / Executive Approver",
+        "System Administrator",
+        "Partner Organization (Applicant / Partner Delegate)",
+        "System"
+      ],
+      "preconditions": [
+        "The user can open the workspace."
+      ],
+      "trigger": "The user selects the theme toggle or opens Settings > Appearance (المظهر).",
+      "scenario": [
+        "The user selects the light/dark toggle in the header.",
+        "The system applies the chosen mode immediately.",
+        "The user opens Settings > Appearance and selects a colour palette (التدرج اللوني).",
+        "The system applies the palette immediately and marks it as active.",
+        "The system remembers the choices the next time the user opens the platform."
+      ],
+      "alternative_flows": [
+        "If the user has not made a choice, then the system follows the device's light/dark setting and the default palette."
+      ],
+      "business_requirements": [
+        "The system must offer light and dark display modes.",
+        "The system must offer the approved colour palettes, with the foundation's palette as default.",
+        "The system must apply the user's choice before the page is displayed, without flicker.",
+        "The system should remember appearance choices per user rather than per device (To be confirmed).",
+        "The system should allow organization-level branding (logo and palette) set by the organization (To be confirmed)."
+      ],
+      "errors": [],
+      "postconditions": "The workspace is displayed in the user's chosen mode and palette.",
+      "fields": [
+        {
+          "en": "Display mode",
+          "ar": "الوضع الليلي / النهاري",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Light or dark"
+        },
+        {
+          "en": "Colour palette",
+          "ar": "التدرج اللوني",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "طيني (default), أخضر مائي, خزامى"
+        }
+      ],
+      "trace": [
+        "US-PLT-020",
+        "FR-PLT-038",
+        "FR-PLT-039",
+        "FR-CFG-049"
+      ]
+    },
+    {
+      "key": "PLT-8",
+      "name": "General platform requirements",
+      "title": "As the foundation, I want the whole platform to meet common security, accountability, localisation and usability standards so that grant data is protected and every user has a consistent Arabic experience.",
+      "description": "This use case collects cross-cutting requirements that apply to every module of Manih: secure individual sign-in, role-based authorization enforced by the system, isolation of each grantor organization's data, a tamper-proof audit trail, Arabic right-to-left presentation with Western digits, and consistent loading, error and guidance behaviour.",
+      "actors": [
+        "System",
+        "System Administrator",
+        "All users"
+      ],
+      "preconditions": [
+        "Applies to all use cases in all modules."
+      ],
+      "trigger": "Any use of the platform.",
+      "scenario": [
+        "A user signs in with an individual account (PLT-1).",
+        "The system determines the user's organization and role from the account.",
+        "On every page, action and data request, the system checks that the user's role permits it and that the data belongs to the user's organization (or, for partner users, to their partner organization).",
+        "The system performs the permitted action and records who did what and when in the audit trail.",
+        "The system presents all content in Arabic, right-to-left, with Western digits.",
+        "If something fails, the system shows a clear Arabic message with a way to retry or return home."
+      ],
+      "alternative_flows": [
+        "If a request is not permitted, then the system refuses it, shows an access-denied message and records the attempt."
+      ],
+      "business_requirements": [
+        "The system must authenticate every user individually (no shared accounts) and protect credentials according to the foundation's security policy.",
+        "The system must enforce role-based authorization for every page, action and data request on the server side, based on the permissions configured for each role, not merely by hiding menu items.",
+        "The system must isolate each grantor organization's data so that users of one organization can never see or change another organization's data, including through search, exports, reports or the AI Assistant.",
+        "The system must restrict partner users to the data of their own partner organization.",
+        "The system must keep a complete, tamper-proof audit trail of significant actions (sign-in, creation, changes, approvals, payments, exports, configuration changes) recording the real user, date-time and before/after values.",
+        "The system must take the acting user for audit purposes from the signed-in identity, never from information supplied by the screen.",
+        "The system must present the entire interface in Arabic with right-to-left layout, including menus, dialogs, messages, error pages and exports.",
+        "The system must display all numbers, amounts and dates with Western digits (0-9) and amounts in SAR with thousands separators.",
+        "The system must accept Arabic-Indic digits typed by users and treat them as Western digits (Recommended).",
+        "The system must show a loading indicator while data loads and a clear error message with retry when loading fails.",
+        "The system must show a friendly Arabic error page with retry and return-home options for unexpected errors and report the error to technical support.",
+        "The system must keep sensitive data (conversation history, recent searches, notes) out of shared device storage or clear it on sign-out.",
+        "The system must break long data-entry forms into short guided steps and provide in-place explanations of key grant concepts.",
+        "The system must exclude all demonstration-only features from the live service.",
+        "The system must use one confirmed product name and brand throughout (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Access denied",
+          "description": "A user requests a page, action or record outside their role or organization. The system refuses the request, explains it, and logs the attempt."
+        },
+        {
+          "name": "Unexpected error",
+          "description": "A page fails to load. The system shows «تعذّر تحميل الصفحة» with retry and return-home options and reports the error."
+        }
+      ],
+      "postconditions": "All activity on the platform is authenticated, authorised, isolated by organization, recorded in the audit trail and presented in Arabic RTL with Western digits.",
+      "fields": [],
+      "trace": [
+        "US-PLT-003",
+        "US-PLT-004",
+        "US-PLT-021",
+        "US-PLT-030",
+        "US-PLT-031",
+        "US-PLT-032",
+        "FR-PLT-004",
+        "FR-PLT-005",
+        "FR-PLT-006",
+        "FR-PLT-040",
+        "FR-PLT-041",
+        "FR-PLT-058",
+        "FR-PLT-059",
+        "FR-PLT-061",
+        "FR-PLT-062",
+        "FR-PLT-063",
+        "BR-PLT-30"
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "type": "Information",
+      "en": "Loading…",
+      "ar": "جارٍ التحميل…",
+      "use_case": "PLT-1"
+    },
+    {
+      "type": "Error",
+      "en": "Incorrect email or password (Recommended)",
+      "ar": "البريد الإلكتروني أو كلمة المرور غير صحيحة",
+      "use_case": "PLT-1"
+    },
+    {
+      "type": "Warning",
+      "en": "Your session has expired, please sign in again (Recommended)",
+      "ar": "انتهت الجلسة، يرجى تسجيل الدخول مجدداً",
+      "use_case": "PLT-1"
+    },
+    {
+      "type": "Error",
+      "en": "Your organization's account is suspended, please contact platform administration (Recommended)",
+      "ar": "حساب الجهة موقوف، يرجى التواصل مع إدارة المنصة",
+      "use_case": "PLT-1"
+    },
+    {
+      "type": "Warning",
+      "en": "This page is reserved for platform administration",
+      "ar": "هذه الصفحة خاصة بإدارة المنصة",
+      "use_case": "PLT-2"
+    },
+    {
+      "type": "Error",
+      "en": "You do not have permission to access this page (Recommended)",
+      "ar": "ليست لديك صلاحية للوصول إلى هذه الصفحة",
+      "use_case": "PLT-8"
+    },
+    {
+      "type": "Error",
+      "en": "Page not found — the page you are looking for does not exist or has been moved.",
+      "ar": "الصفحة غير موجودة — الصفحة التي تبحث عنها غير موجودة أو تم نقلها.",
+      "use_case": "PLT-2"
+    },
+    {
+      "type": "Error",
+      "en": "The page could not be loaded — an error occurred on our side.",
+      "ar": "تعذّر تحميل الصفحة — حدث خطأ من جهتنا…",
+      "use_case": "PLT-8"
+    },
+    {
+      "type": "Error",
+      "en": "Data could not be loaded. An error occurred while fetching data; check the connection and try again.",
+      "ar": "تعذّر تحميل البيانات — حدث خطأ أثناء جلب البيانات. تحقق من الاتصال ثم حاول مرة أخرى.",
+      "use_case": "PLT-6"
+    },
+    {
+      "type": "Information",
+      "en": "Search for a partner, application, project, payment, person…",
+      "ar": "ابحث عن جهة، طلب، مشروع، دفعة، شخص…",
+      "use_case": "PLT-4"
+    },
+    {
+      "type": "Information",
+      "en": "Type at least two characters",
+      "ar": "اكتب حرفين على الأقل",
+      "use_case": "PLT-4"
+    },
+    {
+      "type": "Information",
+      "en": "No results",
+      "ar": "لا نتائج",
+      "use_case": "PLT-4"
+    },
+    {
+      "type": "Information",
+      "en": "Ask me about opportunities, applications, partners, projects and payments, or ask me to prepare an action.",
+      "ar": "اسألني عن الفرص والطلبات والجهات والمشاريع والدفعات، أو اطلب تجهيز إجراء.",
+      "use_case": "PLT-5"
+    },
+    {
+      "type": "Information",
+      "en": "Reading data",
+      "ar": "قراءة البيانات",
+      "use_case": "PLT-5"
+    },
+    {
+      "type": "Information",
+      "en": "Open the page to confirm",
+      "ar": "فتح الصفحة للتأكيد",
+      "use_case": "PLT-5"
+    },
+    {
+      "type": "Error",
+      "en": "Could not get a response: …",
+      "ar": "تعذر الحصول على رد: …",
+      "use_case": "PLT-5"
+    },
+    {
+      "type": "Confirmation",
+      "en": "View saved as your default",
+      "ar": "حُفظ العرض كافتراضي لك",
+      "use_case": "PLT-6"
+    },
+    {
+      "type": "Confirmation",
+      "en": "View restored to its original layout",
+      "ar": "رجع العرض لشكله الأصلي",
+      "use_case": "PLT-6"
+    },
+    {
+      "type": "Error",
+      "en": "Could not save the view",
+      "ar": "تعذر حفظ العرض",
+      "use_case": "PLT-6"
+    },
+    {
+      "type": "Information",
+      "en": "No data",
+      "ar": "لا توجد بيانات",
+      "use_case": "PLT-6"
+    },
+    {
+      "type": "Information",
+      "en": "No grant opportunities are currently open (Recommended)",
+      "ar": "لا توجد فرص منح مفتوحة حالياً",
+      "use_case": "PLT-3"
+    }
+  ],
+  "business_rules": [
+    {
+      "rule": "Every user signs in with an individual account; shared or demonstration accounts are not permitted in the live service.",
+      "use_case": "PLT-1"
+    },
+    {
+      "rule": "A user's organization and role are determined by their account and cannot be selected or changed by the user.",
+      "use_case": "PLT-1"
+    },
+    {
+      "rule": "Each role has a defined home page that is also part of its menu; operational staff land on My Tasks, executives on the dashboard and partner users on My Portal (To be confirmed per role).",
+      "use_case": "PLT-1"
+    },
+    {
+      "rule": "Users of a suspended organization cannot sign in.",
+      "use_case": "PLT-1"
+    },
+    {
+      "rule": "Each role sees only the menu sections and settings tabs it is authorised for; access is also enforced on every request.",
+      "use_case": "PLT-2"
+    },
+    {
+      "rule": "Platform administration (managing grantor organizations) is reserved for the System Administrator; organization settings are reserved for authorised organization staff.",
+      "use_case": "PLT-2"
+    },
+    {
+      "rule": "Partner users use a simplified portal layout and never see the staff workspace.",
+      "use_case": "PLT-2"
+    },
+    {
+      "rule": "Pending-work counts in the menu are calculated from the same tasks shown in My Tasks.",
+      "use_case": "PLT-2"
+    },
+    {
+      "rule": "The public landing page lists only published opportunities whose application window is currently open.",
+      "use_case": "PLT-3"
+    },
+    {
+      "rule": "Global search runs only for terms of at least two characters and returns only records the user is entitled to see.",
+      "use_case": "PLT-4"
+    },
+    {
+      "rule": "Search treats Arabic letter variants (hamza forms of alef, taa marbuta/haa, alef maqsura/yaa) and Arabic-Indic/Western digits as equivalent.",
+      "use_case": "PLT-4"
+    },
+    {
+      "rule": "The recent-items list holds the user's last six opened records, without duplicates, and is private to the user.",
+      "use_case": "PLT-4"
+    },
+    {
+      "rule": "The AI Assistant is read-only: it never creates, changes or approves data; any change it suggests is confirmed by the user on the relevant page.",
+      "use_case": "PLT-5"
+    },
+    {
+      "rule": "The AI Assistant answers in Arabic with Western digits and SAR amounts, using actual data rather than estimates, within the user's organization and permissions.",
+      "use_case": "PLT-5"
+    },
+    {
+      "rule": "The AI Assistant is not available to partner users unless decided otherwise.",
+      "use_case": "PLT-5"
+    },
+    {
+      "rule": "Exports contain all filtered records with the visible columns only; Excel exports are right-to-left.",
+      "use_case": "PLT-6"
+    },
+    {
+      "rule": "A saved view stores only the settings the user explicitly pinned (columns, page size, filters); search text and page number are never saved.",
+      "use_case": "PLT-6"
+    },
+    {
+      "rule": "A user's stored appearance choice overrides the device's light/dark setting.",
+      "use_case": "PLT-7"
+    },
+    {
+      "rule": "Every request is authorised by the system based on the signed-in user's organization and role.",
+      "use_case": "PLT-8"
+    },
+    {
+      "rule": "Data of one grantor organization is never visible to users of another organization.",
+      "use_case": "PLT-8"
+    },
+    {
+      "rule": "All significant actions are recorded in an audit trail with the real acting user and time; audit records cannot be altered or deleted.",
+      "use_case": "PLT-8"
+    },
+    {
+      "rule": "All numbers, amounts and dates are displayed with Western digits, without altering what users type or what is exported.",
+      "use_case": "PLT-8"
+    },
+    {
+      "rule": "Zero values (e.g. 0 SAR spent, 0%) are displayed and not hidden.",
+      "use_case": "PLT-8"
+    }
+  ],
+  "kpis": [],
+  "gaps": [
+    {
+      "area": "Identity",
+      "gap": "The prototype signs every visitor into one shared account and the sign-in page does not check credentials; no action can be attributed to an individual.",
+      "impact": "No accountability, no protection of confidential grant and financial data.",
+      "recommendation": "Implement individual accounts with secure sign-in, lockout, session timeout and password reset; decide on national SSO/MFA.",
+      "priority": "High"
+    },
+    {
+      "area": "Authorization",
+      "gap": "Role restrictions exist only in the menus; any user can switch to any role (including administrator) and open any page by its address; the configured permission matrix is not applied.",
+      "impact": "Users could view or perform actions beyond their authority, including approvals and payments.",
+      "recommendation": "Enforce role permissions on every page, action and data request, driven by the configured roles.",
+      "priority": "High"
+    },
+    {
+      "area": "Data isolation",
+      "gap": "There is no separation of data between grantor organizations; several lists, the role list and the AI Assistant can read other organizations' data.",
+      "impact": "Breach of confidentiality between organizations in a multi-tenant service.",
+      "recommendation": "Isolate all data by organization at the system level, including search, exports, reports and the AI Assistant.",
+      "priority": "High"
+    },
+    {
+      "area": "Partner access to search",
+      "gap": "Partner users can use global search across the foundation's partners, applications, payments and staff.",
+      "impact": "External users could see other partners' confidential information.",
+      "recommendation": "Hide search from partner users or limit it to their own organization's records.",
+      "priority": "High"
+    },
+    {
+      "area": "AI Assistant",
+      "gap": "The assistant's data scope is taken from the request rather than the signed-in user; requests are not logged and there are no usage limits.",
+      "impact": "Possible data leakage and no audit of AI use.",
+      "recommendation": "Scope by signed-in user, log every request, apply quotas; confirm approved AI provider and data residency.",
+      "priority": "High"
+    },
+    {
+      "area": "Audit trail",
+      "gap": "The acting user recorded in history is supplied by the screen and all activity runs under one account, so history records are not trustworthy.",
+      "impact": "Audit and compliance evidence cannot be relied upon.",
+      "recommendation": "Record the real signed-in user for every audited action; make audit records append-only.",
+      "priority": "High"
+    },
+    {
+      "area": "Landing page",
+      "gap": "The landing page lists all 'active' opportunities regardless of publication or open window and across organizations; 'Apply now' leads non-partner visitors to a dead end.",
+      "impact": "Visitors may see closed or unpublished opportunities and cannot easily apply.",
+      "recommendation": "Show only published, open opportunities and route visitors to sign-in or registration.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Navigation",
+      "gap": "Some role home pages are not in the role's own menu (e.g. Committee Secretary's dashboard).",
+      "impact": "Inconsistent experience and confusion about access.",
+      "recommendation": "Align each role's home page with its menu.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Localisation",
+      "gap": "The technical fallback error page is in English and left-to-right; Western-digit conversion is applied with a short delay.",
+      "impact": "Inconsistent Arabic experience.",
+      "recommendation": "Localise all error pages; format digits at source.",
+      "priority": "Low"
+    },
+    {
+      "area": "Device storage",
+      "gap": "AI conversations, recent searches and workshop notes are kept on the device and shared between users of the same device.",
+      "impact": "Possible exposure of sensitive information on shared computers.",
+      "recommendation": "Store per user on the server or clear on sign-out.",
+      "priority": "Low"
+    },
+    {
+      "area": "Demonstration features",
+      "gap": "The prototype contains a role switcher, guided demo panel, scripted demo controls that change project and payment data directly, and a workshop presentation with notes stored on one device.",
+      "impact": "These would bypass controls if left in the live service.",
+      "recommendation": "Remove from the live service or keep only in a separate training environment (decision required).",
+      "priority": "Medium"
+    },
+    {
+      "area": "Display",
+      "gap": "Zero values are hidden in record details and the stage tracker shows three fixed stages regardless of the configured workflow.",
+      "impact": "Misleading display of financial figures and workflow status.",
+      "recommendation": "Display zero values; show stages from the configured workflow.",
+      "priority": "Medium"
+    }
+  ],
+  "open_questions": [
+    "Which identity provider(s) will be used (e.g. Nafath for partner delegates, corporate SSO or email/password for staff), and which roles require multi-factor authentication?",
+    "Can one person hold several roles or belong to several organizations, and how is the active role chosen?",
+    "Is any support/impersonation capability needed in the live service, or is role switching removed entirely?",
+    "Is Manih a multi-tenant service operated by a platform administrator, or a single-foundation deployment? What may the System Administrator see across organizations?",
+    "Should partner users have global search, and over which records?",
+    "Which AI provider is approved, where must data reside, which roles may use the AI Assistant, and how long are conversations retained?",
+    "Which organization's opportunities does the public landing page show?",
+    "Should appearance choices and saved views be per user or per device, and is organization-level branding required?",
+    "Are the demo guide, scripted demo controls and workshop presentation retained (e.g. in a training environment) or removed?",
+    "What is the home page and dashboard access of the Committee Secretary?",
+    "Which roles may export lists to Excel/CSV, and must exports be logged or watermarked?",
+    "What is the official product name and branding (منصة منح / مانح / Manih) and whose logo appears in the workspace?",
+    "What session timeout, password policy and account lockout rules apply?"
+  ]
+}
