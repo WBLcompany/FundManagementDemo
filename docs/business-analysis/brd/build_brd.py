@@ -516,6 +516,127 @@ def fields_table(doc, fields):
         add_row(t, [f.get("en", ""), f.get("ar", ""), f.get("type", ""), f.get("editable", ""), f.get("mandatory", ""), f.get("notes", "")])
 
 
+USERS = [
+    # side, role EN, role AR, who, home page, pages
+    ("Grantor (foundation)", "Platform Administrator", "آدمن المنصة", "Operates the platform and every grantor organization on it.", "My Tasks",
+     ["Dashboard & Reports", "Annual Plan", "My Tasks", "Grant Applications & Opportunities", "Projects, Contracts & Payments", "Partner Organizations", "Settings", "Platform Administration"]),
+    ("Grantor (foundation)", "Grants Manager", "مدير المنح", "Owns the grant cycle: plans, opportunities, partners, reviews, projects and configuration.", "My Tasks",
+     ["Dashboard & Reports", "Annual Plan", "My Tasks", "Grant Applications & Opportunities", "Projects, Contracts & Payments", "Partner Organizations", "Settings"]),
+    ("Grantor (foundation)", "Reviewer", "مراجع", "Evaluates applications at the assigned stage.", "My Tasks",
+     ["Dashboard & Reports", "My Tasks", "Grant Applications & Opportunities", "Partner Organizations"]),
+    ("Grantor (foundation)", "Committee Secretary", "أمين لجنة", "Prepares committee meetings, records minutes and bulk decisions.", "Dashboard & Reports (not in its menu — see note)",
+     ["My Tasks", "Grant Applications & Opportunities"]),
+    ("Grantor (foundation)", "Project Manager", "مدير مشروع", "Follows execution of assigned projects; first approver of their payments.", "My Tasks",
+     ["My Tasks", "Projects, Contracts & Payments"]),
+    ("Grantor (foundation)", "Finance Officer", "مسؤول مالي", "Budgets, disbursement orders, bank transfers and commitments.", "My Tasks",
+     ["Dashboard & Reports", "Annual Plan", "My Tasks", "Projects, Contracts & Payments"]),
+    ("Grantor (foundation)", "CEO / Executive Approver", "رئيس تنفيذي", "Final approver of applications and payments; oversight.", "Dashboard & Reports",
+     ["Dashboard & Reports", "Annual Plan", "My Tasks", "Grant Applications & Opportunities", "Projects, Contracts & Payments"]),
+    ("Partner (association)", "Primary Delegate", "مفوض رئيسي", "Legally authorized representative of the partner organization.", "Partner Portal",
+     ["Partner Portal — Applications & Projects", "Partner Portal — Organization Profile (edit)"]),
+    ("Partner (association)", "Partner Project Manager", "مدير مشاريع", "Partner staff who prepares applications and runs projects.", "Partner Portal",
+     ["Partner Portal — Applications & Projects", "Partner Portal — Organization Profile (view)"]),
+    ("Partner (association)", "Partner Finance Officer", "مسؤول مالي", "Partner staff handling payments and receipts.", "Partner Portal",
+     ["Partner Portal — Applications & Projects", "Partner Portal — Organization Profile (view)"]),
+    ("Partner (association)", "Member", "عضو", "Other partner staff member.", "Partner Portal",
+     ["Partner Portal — Applications & Projects", "Partner Portal — Organization Profile (view)"]),
+    ("Public", "Visitor (not signed in)", "زائر", "Anyone opening the platform before signing in.", "Landing page",
+     ["Landing page & open opportunities", "Sign in", "Register an organization", "Invitation link"]),
+]
+
+ROLE_COLS = ["Admin", "Grants Mgr", "Reviewer", "Comm. Sec.", "Proj. Mgr", "Finance", "CEO", "Delegate", "Partner Staff"]
+
+PAGES = [
+    ("Dashboard & Reports", "البيانات والتقارير", "Executive dashboard, analytics and detailed reports", "✓ ✓ ✓ – – ✓ ✓ – –"),
+    ("Annual Plan", "الخطة السنوية", "Plans, budget tree, adjustments, endowments", "✓ ✓ – – – ✓ ✓ – –"),
+    ("My Tasks", "مهامي", "Inbox of stage, payment and manual tasks; focus mode; committee minutes", "✓ ✓ ✓ ✓ ✓ ✓ ✓ – –"),
+    ("Grant Applications & Opportunities", "طلبات المنح", "Review queue, application dossier, opportunities, workflow templates, products", "✓ ✓ ✓ ✓ – – ✓ – –"),
+    ("Partner Organizations", "الجهات الشريكة", "Partner directory, registrations, 360 profile, groups", "✓ ✓ ✓ – – – – – –"),
+    ("Projects, Contracts & Payments", "المشاريع", "Projects, contracts, execution plan, payments and disbursement", "✓ ✓ – – ✓ ✓ ✓ – –"),
+    ("Settings", "الإعدادات", "Team, roles, departments, workflow, forms, endowments, templates, lists", "✓ ✓ – – – – – – –"),
+    ("Platform Administration", "إدارة المنصة", "Grantor organizations and platform-wide registrations", "✓ – – – – – – – –"),
+    ("Partner Portal — Applications & Projects", "بوابتي — الطلبات والمشاريع", "Apply, track, respond to edits, project tasks and evidence, payment receipts", "– – – – – – – ✓ ✓"),
+    ("Partner Portal — Organization Profile", "بوابتي — ملف الجهة", "Contact data, bank account, license update, team and delegation", "– – – – – – – Edit View"),
+]
+
+# from the prototype's declared permission matrix (Settings › Roles), plus partner and approval-chain rules
+ACTIONS = [
+    ("Applications", "View grant applications", "A ✓ ✓ ✓ – – ✓ – –"),
+    ("Applications", "Evaluate and accept / reject at a review stage", "A – ✓ – – – – – –"),
+    ("Applications", "Final approval of applications", "A ✓ – ✓ – – ✓ – –"),
+    ("Applications", "Transfer an approved application to a project", "A ✓ – – – – – – –"),
+    ("Finance", "Manage the annual plan and budgets", "A ✓ – – – ✓ ✓ – –"),
+    ("Finance", "Payment approval — step 1 (project manager of that project)", "A – – – ✓ – – – –"),
+    ("Finance", "Payment approval — step 2", "A ✓ – – – – – – –"),
+    ("Finance", "Payment approval — step 3 (final)", "A – – – – – ✓ – –"),
+    ("Finance", "Issue disbursement orders", "A ✓ – – – – – – –"),
+    ("Finance", "Execute bank transfer and attach the transfer notice", "A – – – – ✓ – – –"),
+    ("Finance", "Upload the payment receipt voucher", "– – – – – – – ✓ ✓"),
+    ("Projects", "View projects and milestones", "A ✓ – – ✓ ✓ ✓ – –"),
+    ("Projects", "Manage project milestones and tasks", "A ✓ – – ✓ – – – –"),
+    ("Projects", "Approve execution-plan revisions", "A ✓ – – – – – – –"),
+    ("Projects", "Execute project tasks and submit evidence / reports", "– – – – – – – ✓ ✓"),
+    ("Settings", "Manage team members and roles", "A ✓ – – – – – – –"),
+    ("Settings", "Edit workflows and application forms", "A ✓ – – – – – – –"),
+    ("Settings", "Manage endowments and funding sources", "A ✓ – – – ✓ – – –"),
+    ("Platform", "Manage grantor organizations (platform level)", "✓ – – – – – – – –"),
+    ("Partner", "Submit and track grant applications", "– – – – – – – ✓ ✓"),
+    ("Partner", "Edit organization contact data, bank account and license", "– – – – – – – ✓ –"),
+    ("Partner", "Add / deactivate partner team members, transfer delegation", "– – – – – – – ✓ –"),
+]
+
+
+def matrix_row(t, first, marks, lead=1):
+    vals = marks.split()
+    row = add_row(t, first + vals)
+    for i in range(lead, lead + len(vals)):
+        p = row.cells[i].paragraphs[0]
+        p.alignment = 1
+        v = vals[i - lead]
+        if v in ("✓", "A", "Edit", "View"):
+            set_cell_fill(row.cells[i], "E6F1EE" if v != "A" else "F2F2F2")
+
+
+def user_matrix(doc):
+    heading(doc, "3.4  User Roles, Pages and Permissions", 2)
+    body(doc, "Manih serves two kinds of organizations: the grantor (the foundation and its staff) and partner organizations "
+              "(associations / non-profits) whose users work through the Partner Portal. A person can belong to more than one "
+              "partner organization, with a different role in each. The tables below list every user type, the pages available "
+              "to it, and the actions it may perform, as observed in the prototype.")
+    heading(doc, "3.4.1  User types", 3)
+    t = new_table(doc, [1200, 1600, 1050, 2350, 1250, 2805], header=["Side", "User role", "Arabic label", "Who", "Home page", "Pages available"])
+    for side, en, ar, who, home, pages in USERS:
+        add_row(t, [side, en, ar, who, home, pages])
+    heading(doc, "3.4.2  Page access by role", 3)
+    body(doc, "✓ = page appears in the user's menu. Grantor staff never see the Partner Portal; partner users see only the Partner Portal.")
+    w = [2250, 1600] + [710] * 9
+    t = new_table(doc, w, header=["Page", "Arabic label"] + ROLE_COLS)
+    for en, ar, _desc, marks in PAGES:
+        matrix_row(t, [en, ar], marks, lead=2)
+    heading(doc, "3.4.3  Action permissions by role", 3)
+    body(doc, "✓ = permitted. A = the Platform Administrator can perform the action in the prototype although the declared role "
+              "matrix does not list it (To be confirmed). Admin = Platform Administrator, Delegate = Partner Primary Delegate, Partner Staff = Partner Project Manager, Partner Finance Officer and Member.")
+    w = [1300, 2550] + [711] * 9
+    t = new_table(doc, w, header=["Area", "Action"] + ROLE_COLS)
+    for area, action, marks in ACTIONS:
+        matrix_row(t, [area, action], marks, lead=2)
+    heading(doc, "3.4.4  Notes and target requirements", 3)
+    bullet_list(doc, [
+        "In the prototype, roles are switched from a demo menu and access is controlled by hiding menu items; the permission "
+        "matrix in Settings is displayed but not enforced. The target behaviour — every page and action checked by the system "
+        "against the signed-in user's role — is specified in UC02 (Work within a role-based workspace), UC08 (General platform "
+        "requirements) and UC10 (Define roles and permissions).",
+        "Custom roles can be created in Settings with view / write / delete per permission (UC10); system roles get view on their "
+        "permissions, write on non-view permissions, and delete for the Grants Manager only.",
+        "Payment approvals follow a fixed chain: the project's Project Manager, then the Grants Manager, then the CEO (Payments use cases).",
+        "Application stage tasks go to the stage supervisors and committee secretary; the Platform Administrator and Grants Manager see all of them (Tasks use cases).",
+        "On the partner side, only the Primary Delegate may change the organization profile, bank account, license and team, and "
+        "transfer the delegation (UC55 – Manage the partner team and primary delegate, and the Partner Portal use cases). The other "
+        "partner roles currently have the same portal access as each other (To be confirmed whether they should differ).",
+        "The Committee Secretary's home page is the dashboard, which is not in its menu (To be confirmed).",
+    ])
+
+
 def build(args):
     mods = []
     for code in ORDER:
@@ -608,6 +729,8 @@ def build(args):
     t = new_table(doc, [2400, 4355, 3500], header=["Role", "Responsibility", "Main areas used"])
     for r in ROLES:
         add_row(t, list(r))
+
+    user_matrix(doc)
 
     # 4 Solution space
     heading(doc, "4.  Solution Space", 1)
