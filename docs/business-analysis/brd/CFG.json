@@ -132,7 +132,7 @@
       ],
       "business_requirements": [
         "The system must display for each role a matrix of permissions grouped by business area with view, write and delete levels.",
-        "The system must keep system roles read-only.",
+        "The system must keep system roles read-only (To be confirmed — see the open question on editable system roles).",
         "The system must allow creating a custom role with a unique name (up to 60 characters), optionally copying a system role's permissions.",
         "The system must allow editing a custom role's permissions per permission, per group and for all permissions at once.",
         "The system must enforce the configured permissions on all pages, actions and data for every user assigned to the role.",
@@ -140,7 +140,10 @@
         "The system must ask for confirmation before deleting a role.",
         "The system must record every role creation, permission change and deletion with the acting user, time and before/after values, and must not record empty changes.",
         "The system must show each role's change history newest first.",
-        "The system must define how the platform administrator's permissions relate to the matrix (To be confirmed)."
+        "The system must define how the platform administrator's permissions relate to the matrix (To be confirmed).",
+        "The system should allow the administrator to enable or disable permissions (view / write / delete) for an entire system role — e.g. Grants Manager, Reviewer, Finance Officer, CEO — with the change applied immediately to every user who has that role (To be confirmed).",
+        "If system roles are editable, the system must provide a “Restore default permissions” action for each system role and record every change in the role's history (To be confirmed).",
+        "The system must ask for confirmation before disabling a sensitive permission (such as final approval of applications or payment approval) on any role, and must prevent a configuration in which no role can perform a required approval step (Recommended)."
       ],
       "errors": [
         {
@@ -1326,6 +1329,13 @@
       "impact": "Data quality issues and unclear feedback.",
       "recommendation": "Add uniqueness checks, validation messages and standard states.",
       "priority": "Low"
+    },
+    {
+      "area": "System roles",
+      "gap": "Permissions can be enabled or disabled only for custom roles; the built-in system roles (Grants Manager, Reviewer, Finance Officer, CEO, etc.) are fixed and read-only.",
+      "impact": "Adapting a standard role to the foundation's policy requires copying it into a custom role and reassigning users, which adds administration effort and can lead to inconsistent roles.",
+      "recommendation": "Decide whether system roles should be editable. If yes, allow enabling/disabling permissions per system role with a restore-defaults action, confirmation for sensitive permissions and full change history (CFG-2).",
+      "priority": "Medium"
     }
   ],
   "open_questions": [
@@ -1342,6 +1352,7 @@
     "In a multi-organization deployment, which organization's applicant-type settings apply to the public registration page?",
     "Should team membership changes (add, remove, role change) be audited?",
     "What happens to a removed staff member's open tasks and workflow assignments?",
-    "Which identity verification is required before a person becomes a partner organization's primary delegate (managed in the Partners module)?"
+    "Which identity verification is required before a person becomes a partner organization's primary delegate (managed in the Partners module)?",
+    "Should the administrator be able to enable or disable permissions for a whole built-in system role (e.g. remove final approval from the CEO role), or should system roles stay fixed and be customised only by copying them into custom roles? (CFG-2)"
   ]
 }
