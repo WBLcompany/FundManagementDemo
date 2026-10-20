@@ -1,0 +1,1500 @@
+{
+  "module": "BEN",
+  "title": "Partner Organizations Management",
+  "summary": "Partner Organizations Management gives the foundation's staff one trusted register of the organizations it funds («الجهات الشريكة»). Staff approve self-registration requests field by field, confirm or block organizations, verify bank accounts before any payment, review official-data updates that the AI check could not fully match, manage each partner's team and single accountable delegate, and group partners for targeting grant opportunities. Every decision is recorded in an attributable timeline, giving the foundation governance, payment safety and a complete 360-degree view of each partner.",
+  "process": {
+    "title": "Partner organization lifecycle",
+    "mermaid": "flowchart LR\n  A[\"Registration request received\"] --> B[\"Review each field\"]\n  B --> C{\"All fields accepted?\"}\n  C -- \"No\" --> D[\"Return to registrant\"]\n  C -- \"Yes\" --> E[\"Create partner and primary delegate\"]\n  E --> F[\"Invite to activate account\"]\n  F --> G[\"Verify bank account\"]\n  G --> H[\"Confirm partner\"]\n  H --> I[\"Eligible for grants and payments\"]\n  I --> J[\"Review license and data updates\"]\n  I --> K[\"Manage team and delegate\"]\n  I --> L[\"Block partner with reason\"]"
+  },
+  "use_cases": [
+    {
+      "key": "BEN-1",
+      "name": "Review and decide a partner registration request",
+      "title": "As a System Administrator, I want to verify each field of a partner registration request and approve or return it so that only correct, verified organizations enter the partner register.",
+      "description": "Requests submitted through partner self-registration (PTL-1) are reviewed field by field, with each field showing whether it came from the official registry, was edited by the registrant, or was entered manually. When every field is accepted the partner organization and its primary delegate are created; if any field is rejected the request is returned for correction.",
+      "actors": [
+        "System Administrator",
+        "System",
+        "Partner Organization (Applicant)"
+      ],
+      "preconditions": [
+        "At least one registration request is pending review.",
+        "The user holds the System Administrator role."
+      ],
+      "trigger": "The System Administrator opens «طلبات تسجيل الجهات».",
+      "scenario": [
+        "The system lists registration requests, pending first, with organization name, identifier, date and status.",
+        "The administrator opens a pending request.",
+        "The system shows each field with its value and source badge («من السجل — أكّده المسجّل», «عدّله المسجّل عن السجل», «أدخله المسجّل»), showing the original registry value when edited.",
+        "The administrator accepts or rejects each field, or uses «قبول جماعي» to accept all remaining fields.",
+        "The system saves each decision as it is made.",
+        "When no field remains undecided, the administrator selects «اعتماد القرار».",
+        "If all fields are accepted, the system creates the partner organization from the accepted values, creates the primary delegate from the verified delegate data, and marks the request approved.",
+        "The system records the decision in the partner timeline and confirms «اعتُمدت الجهة وأُضيفت للشركاء».",
+        "The system notifies the registrant of the outcome and the next step to activate the account (Recommended)."
+      ],
+      "alternative_flows": [
+        "If any field is rejected, the system marks the request returned with a note listing the rejected fields, creates no partner, and confirms «أعيد الطلب للمسجّل لتصحيح الحقول المرفوضة».",
+        "If the request is a delegate-change request for an existing organization, approval transfers the primary delegation of that organization to the new delegate (see BEN-7) and no new organization is created.",
+        "If the identifier already belongs to a registered partner, the system warns the administrator and prevents creating a duplicate (Recommended)."
+      ],
+      "business_requirements": [
+        "The system must restrict registration review to the System Administrator role.",
+        "The system must show each submitted field with its value, its source and, when edited, the original registry value.",
+        "The system must allow accepting or rejecting each field individually and accepting all undecided fields at once.",
+        "The system must allow a final decision only when every field has been accepted or rejected.",
+        "The system must create the partner organization only when every field is accepted, and must link the approved request to the created partner.",
+        "On approval, the system must create the primary delegate membership from the verified delegate data and set the partner's initial status explicitly (Recommended).",
+        "The system must return the request with the list of rejected fields when any field is rejected, and must not create a partner.",
+        "The system must distinguish delegate-change requests from new registrations and process them as a delegation change on the existing partner.",
+        "The system must prevent creating two partners with the same official identifier (Recommended).",
+        "The system must record the decision, the decision maker and the date in the partner timeline.",
+        "The system should default the list to pending requests and allow filtering by status (Recommended).",
+        "The system should notify the registrant of approval or return (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Undecided fields",
+          "description": "The administrator tries to finalize while a field is undecided; the system shows «بقيت حقول لم يُبت فيها»."
+        },
+        {
+          "name": "Duplicate organization",
+          "description": "The identifier already belongs to a registered partner; the system blocks creation (Recommended)."
+        },
+        {
+          "name": "Decision not saved",
+          "description": "The decision could not be saved; the system shows an error and keeps the request pending."
+        }
+      ],
+      "postconditions": "The request is approved with a new partner and primary delegate, or returned to the registrant with the rejected fields listed.",
+      "fields": [
+        {
+          "en": "Organization name",
+          "ar": "اسم الجهة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Reviewed field"
+        },
+        {
+          "en": "Identifier",
+          "ar": "ترخيص",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Field source",
+          "ar": "مصدر الحقل",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Registry / edited / manual"
+        },
+        {
+          "en": "Field decision",
+          "ar": "قرار الحقل",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Accepted / rejected"
+        },
+        {
+          "en": "Request status",
+          "ar": "حالة الطلب",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "بانتظار التدقيق / معتمد / أعيد للمسجّل"
+        },
+        {
+          "en": "Return note",
+          "ar": "ملاحظة الإعادة",
+          "type": "Long text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Lists rejected fields"
+        }
+      ],
+      "trace": [
+        "US-BEN-013",
+        "US-BEN-014",
+        "US-BEN-015",
+        "US-BEN-016",
+        "FR-BEN-025",
+        "FR-BEN-026",
+        "FR-BEN-027",
+        "FR-BEN-028",
+        "FR-BEN-029",
+        "FR-BEN-030",
+        "FR-BEN-031"
+      ]
+    },
+    {
+      "key": "BEN-2",
+      "name": "Browse, filter and export the partner directory",
+      "title": "As a Grants Manager, I want to browse, filter, search and export the partner directory so that I can quickly find partners that need attention.",
+      "description": "The directory lists all partner organizations of the foundation with their type, location, number of applications, bank verification status, partner status and account activation status. Summary cards act as quick filters and the list can be exported for offline analysis.",
+      "actors": [
+        "Grants Manager",
+        "Reviewer",
+        "System Administrator",
+        "System"
+      ],
+      "preconditions": [
+        "The user has access to partner management."
+      ],
+      "trigger": "The user opens «الجهات الشريكة».",
+      "scenario": [
+        "The system shows summary cards: «إجمالي الجهات», «مؤكدة», «قيد الانتظار», «حسابات غير مفعّلة».",
+        "The system lists partners with name and license number, account type, region, applications count, bank status and partner status.",
+        "The user selects a summary card to filter by status.",
+        "The user filters by account type, region and bank status, and searches by free text.",
+        "The user chooses additional columns (account status, national-center classification, governance score, contact) and saves the view.",
+        "The user exports the filtered list to Excel or CSV.",
+        "The user opens a partner to view the profile (BEN-3)."
+      ],
+      "alternative_flows": [
+        "If no partner matches, the system shows «لا توجد بيانات».",
+        "From the account column, the user invites a non-activated partner (BEN-6) or opens the team and delegate panel of an active partner (BEN-7)."
+      ],
+      "business_requirements": [
+        "The system must list only the partners of the user's foundation.",
+        "The system must show summary counts of all, confirmed, pending and non-activated partners that act as filters.",
+        "The system must allow filtering by partner status, account type, region and bank status, and free-text search.",
+        "The system must allow exporting the filtered list with the visible columns to Excel and CSV.",
+        "The system must allow users to choose visible columns and save their view.",
+        "The system should cover all partner statuses (including blocked) in the summary and filters (Recommended).",
+        "Exports must respect the user's access rights and be logged (Recommended)."
+      ],
+      "errors": [],
+      "postconditions": "The user has located the partners of interest or exported the list.",
+      "fields": [
+        {
+          "en": "Partner name",
+          "ar": "الجهة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "With license number"
+        },
+        {
+          "en": "Account type",
+          "ar": "نوع الحساب",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Filter"
+        },
+        {
+          "en": "Region",
+          "ar": "المنطقة",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Filter; with governorate and city"
+        },
+        {
+          "en": "Applications",
+          "ar": "الطلبات",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Bank status",
+          "ar": "الحساب البنكي",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Pending / verified / rejected"
+        },
+        {
+          "en": "Partner status",
+          "ar": "حالة الجهة",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Pending / active / confirmed / blocked / rejected"
+        },
+        {
+          "en": "Account status",
+          "ar": "حساب الجمعية",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Not activated / invited / active"
+        },
+        {
+          "en": "Governance score",
+          "ar": "الحوكمة",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Optional column"
+        }
+      ],
+      "trace": [
+        "US-BEN-001",
+        "FR-BEN-001",
+        "FR-BEN-002",
+        "FR-BEN-003",
+        "FR-BEN-004"
+      ]
+    },
+    {
+      "key": "BEN-3",
+      "name": "View the partner 360 profile and decision timeline",
+      "title": "As a Grants Manager, I want a single 360 view of a partner and an attributable timeline of all decisions so that I can assess its history and audit who changed what and why.",
+      "description": "The profile brings together the partner's statuses, key figures (applications, approved applications, approved amounts, paid amounts, running projects), projects and payments, applications, bank account, organization data, team, pending license reviews and a timeline of every decision and change.",
+      "actors": [
+        "Grants Manager",
+        "Reviewer",
+        "Finance Officer",
+        "System"
+      ],
+      "preconditions": [
+        "The partner exists in the register."
+      ],
+      "trigger": "The user opens a partner from the directory, a project, an application or search.",
+      "scenario": [
+        "The system shows the partner name, account type, account status, partner status and bank status.",
+        "The system shows key figures: applications, approved applications, approved amounts, amount paid and projects in progress.",
+        "The system lists the partner's projects with budget, progress, payments and status, and its applications with reference, opportunity, amount, stage and status.",
+        "The system shows the payment commitments chart and organization data (license, entity number, region, classification, governance score, contact).",
+        "The system shows the bank account card, the team and any license updates awaiting review.",
+        "The system shows the timeline «السجل», newest first, with each event, before and after values, reason and the person who acted.",
+        "The user opens a project or application for details."
+      ],
+      "alternative_flows": [
+        "If the partner does not exist, the system shows «الجهة غير موجودة»."
+      ],
+      "business_requirements": [
+        "The system must show the partner's statuses and key figures on one page.",
+        "The system must list the partner's projects (as beneficiary or executor) and applications with links to their details.",
+        "The system must record every partner decision and change (status, bank, license, contact, invitation, team, delegation, registration) in an append-only timeline that cannot be edited or deleted.",
+        "Every timeline entry must identify the person who acted, the date, the before and after values and the reason where applicable.",
+        "The system must record team member additions and deactivations in the timeline (Recommended).",
+        "The system must include application submissions in the timeline.",
+        "Whether partners may see their own timeline must be decided (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Partner not found",
+          "description": "The link refers to an unknown partner; the system shows «الجهة غير موجودة»."
+        }
+      ],
+      "postconditions": "The user has a full view of the partner and its decision history.",
+      "fields": [
+        {
+          "en": "Applications",
+          "ar": "الطلبات",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Approved applications",
+          "ar": "المعتمدة",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Approved amounts",
+          "ar": "المبالغ المعتمدة",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Amount paid",
+          "ar": "المصروف",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Paid payments on partner projects"
+        },
+        {
+          "en": "Projects in progress",
+          "ar": "مشاريع جارية",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "License number",
+          "ar": "رقم الترخيص",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Entity number",
+          "ar": "رقم الكيان",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Classification",
+          "ar": "التصنيف النوعي / الفرعي",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Governance score",
+          "ar": "درجة الحوكمة",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Timeline entry",
+          "ar": "السجل",
+          "type": "Long text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Event, before → after, reason, actor"
+        }
+      ],
+      "trace": [
+        "US-BEN-003",
+        "US-BEN-012",
+        "FR-BEN-007",
+        "FR-BEN-008",
+        "FR-BEN-009",
+        "FR-BEN-022",
+        "FR-BEN-023",
+        "FR-BEN-024"
+      ]
+    },
+    {
+      "key": "BEN-4",
+      "name": "Confirm or block a partner organization",
+      "title": "As a Grants Manager, I want to confirm a partner or block it with a recorded reason so that only trusted organizations receive grants.",
+      "description": "Staff confirm a partner once satisfied with its data and documents, which marks it as a verified partner. A partner can be blocked when it should no longer be trusted; blocking requires confirmation and a reason, and is recorded in the timeline.",
+      "actors": [
+        "Grants Manager",
+        "System"
+      ],
+      "preconditions": [
+        "The partner exists.",
+        "The user is authorized to take partner status decisions."
+      ],
+      "trigger": "The user selects «تأكيد الجهة» or «حظر» on the partner profile.",
+      "scenario": [
+        "The user opens the partner profile.",
+        "The user selects «تأكيد الجهة» (shown when the partner is not confirmed).",
+        "The system sets the partner status to confirmed, records the change in the timeline and confirms «تم تأكيد الجهة».",
+        "Alternatively, the user selects «حظر» (shown when the partner is not blocked).",
+        "The system asks for confirmation and a reason (Recommended).",
+        "The system sets the partner status to blocked, records the reason in the timeline and confirms «تم حظر الجهة»."
+      ],
+      "alternative_flows": [
+        "To lift a block, the user confirms the partner again with a reason (Recommended)."
+      ],
+      "business_requirements": [
+        "The system must allow only authorized staff to confirm or block a partner, enforced on the server (Recommended).",
+        "The system must require confirmation and a reason to block or unblock a partner, and record the reason in the timeline.",
+        "The system must record every status change with the previous and new status, actor and date.",
+        "A blocked partner must not be able to submit new applications or receive payments (To be confirmed).",
+        "The full partner status model (pending, active, confirmed, blocked, rejected) and its allowed transitions must be agreed (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Reason missing",
+          "description": "The user blocks without a reason; the system prevents the action (Recommended)."
+        }
+      ],
+      "postconditions": "The partner status is updated and the decision is in the timeline.",
+      "fields": [
+        {
+          "en": "Partner status",
+          "ar": "حالة الجهة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Confirmed / blocked"
+        },
+        {
+          "en": "Reason",
+          "ar": "السبب",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Mandatory to block or unblock (Recommended)"
+        }
+      ],
+      "trace": [
+        "US-BEN-004",
+        "US-BEN-005",
+        "FR-BEN-010",
+        "FR-BEN-011",
+        "FR-BEN-012"
+      ]
+    },
+    {
+      "key": "BEN-5",
+      "name": "Verify or reject a partner bank account",
+      "title": "As a Grants Manager, I want to inspect the IBAN certificate and verify or reject the partner's bank account so that payments only go to a confirmed account.",
+      "description": "A partner's bank account starts as pending verification and returns to pending whenever the partner changes it (PTL-8). Staff inspect the IBAN certificate and either verify the account, stamping who verified it and when, or reject it with a reason the partner can act on.",
+      "actors": [
+        "Grants Manager",
+        "Finance Officer",
+        "System",
+        "Partner Organization"
+      ],
+      "preconditions": [
+        "The partner has entered a bank name and IBAN.",
+        "The user is authorized to verify bank accounts."
+      ],
+      "trigger": "The partner adds or changes bank details, or the user reviews the bank account card.",
+      "scenario": [
+        "The user opens the bank account card «الحساب البنكي» on the partner profile.",
+        "The system shows bank name, IBAN, status, last verification (date and verifier) and the IBAN certificate.",
+        "The user opens the IBAN certificate securely and compares it with the entered data.",
+        "The user selects «توثيق».",
+        "The system sets the bank status to verified, stamps the verifier and date, records the event and confirms «تم توثيق الحساب البنكي»."
+      ],
+      "alternative_flows": [
+        "If the account is not acceptable, the user selects «رفض», enters the reason and selects «تأكيد الرفض»; the system sets the status to rejected, clears the verification stamp, records the reason and confirms «تم رفض الحساب».",
+        "If the partner later changes bank name, IBAN or certificate, the system returns the status to pending verification."
+      ],
+      "business_requirements": [
+        "The system must allow verification only when an IBAN and an IBAN certificate are present and the account is not already verified (Recommended for the certificate).",
+        "The system must require a reason to reject a bank account and record it in the timeline for the partner to see.",
+        "The system must stamp the verifier and verification date, and clear them on rejection.",
+        "Any partner change to bank name, IBAN or IBAN certificate must return the account to pending verification and clear the stamp.",
+        "The system must not allow payments to a partner whose bank account is not verified (To be confirmed).",
+        "The system should require a second approver for bank account verification (four-eyes) (To be confirmed).",
+        "The system must open bank documents only through short-lived secure links."
+      ],
+      "errors": [
+        {
+          "name": "Reason missing",
+          "description": "The user rejects without a reason; the system shows «سبب الرفض مطلوب»."
+        },
+        {
+          "name": "No IBAN",
+          "description": "Verification is unavailable when no IBAN is entered."
+        }
+      ],
+      "postconditions": "The bank account is verified or rejected with an attributable record.",
+      "fields": [
+        {
+          "en": "Bank",
+          "ar": "البنك",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Entered by partner"
+        },
+        {
+          "en": "IBAN",
+          "ar": "IBAN",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "SA + 22 digits"
+        },
+        {
+          "en": "IBAN certificate",
+          "ar": "شهادة الآيبان",
+          "type": "File",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Opened via secure link"
+        },
+        {
+          "en": "Bank status",
+          "ar": "حالة الحساب البنكي",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Pending / verified / rejected"
+        },
+        {
+          "en": "Last verification",
+          "ar": "آخر توثيق",
+          "type": "Date-time",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "With verifier name"
+        },
+        {
+          "en": "Rejection reason",
+          "ar": "السبب",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Mandatory on rejection"
+        }
+      ],
+      "trace": [
+        "US-BEN-006",
+        "US-BEN-007",
+        "US-BEN-008",
+        "FR-BEN-013",
+        "FR-BEN-014",
+        "FR-BEN-015",
+        "FR-BEN-016"
+      ]
+    },
+    {
+      "key": "BEN-6",
+      "name": "Review a partner license and official data update",
+      "title": "As a System Administrator, I want to review license updates that the AI check could not fully match so that partner official data stays correct.",
+      "description": "When a partner submits a license renewal (PTL-8), the AI Assistant compares the document with the entered data. Exact matches are applied automatically; all others create a review task for grantor staff, who compare current, requested and document values and approve or reject with a note to the partner.",
+      "actors": [
+        "System Administrator",
+        "AI Assistant",
+        "System",
+        "Partner Organization"
+      ],
+      "preconditions": [
+        "A license update request is awaiting review and a review task is assigned."
+      ],
+      "trigger": "The reviewer opens the task «تدقيق تحديث ترخيص: <partner>» or the partner profile.",
+      "scenario": [
+        "The system shows «طلبات تحديث بانتظار تدقيقك (n)» on the partner profile.",
+        "The system shows the AI match score and summary, a link to the license document and a comparison of current, requested and document values for name, license number and expiry.",
+        "The system shows the AI notes for each criterion (license number, name, validity, issuer).",
+        "The reviewer opens the document and checks the differences.",
+        "The reviewer selects «اعتماد التحديث».",
+        "The system applies the new name, license number and expiry to the partner, marks the request approved, records the event with the document, closes the task and confirms «اعتُمد التحديث»."
+      ],
+      "alternative_flows": [
+        "If the update is not acceptable, the reviewer enters a note and selects «رفض»; the system marks the request rejected, shows the note to the partner, records the event, closes the task and confirms «رُفض وأُبلغت الجهة».",
+        "If the AI match is 100%, the system applies the update automatically, records it and creates no task.",
+        "If the document cannot be checked, the request goes to review with a score of zero."
+      ],
+      "business_requirements": [
+        "The system must apply a license update automatically only when the AI match score is exactly 100%.",
+        "The system must route every other request, including those that could not be checked, to manual review and create a review task due within two days.",
+        "The review task must be assigned to the responsible reviewer role or queue rather than a single person (To be confirmed).",
+        "The system must show the reviewer current, requested and document values side by side with match indicators and the AI notes.",
+        "The system must require a note to reject an update and show it to the partner.",
+        "On approval, the system must update the partner's official name, license number and expiry.",
+        "Both decisions must be recorded in the partner timeline with the document and must close the linked task.",
+        "The system must accept a decision only while the request is still awaiting review, preventing double decisions (Recommended).",
+        "Requests stuck in automatic checking must be retried or escalated automatically (Recommended)."
+      ],
+      "errors": [
+        {
+          "name": "Rejection note missing",
+          "description": "The reviewer rejects without a note; the system shows «اكتب سبب الرفض ليصل للجهة»."
+        },
+        {
+          "name": "Document cannot be read",
+          "description": "The document type is unsupported or unreadable («نوع الملف غير مدعوم للفحص» / «تعذر قراءة المستند»); the request goes to manual review."
+        }
+      ],
+      "postconditions": "The partner's official data is updated or the partner is told why the update was rejected; the review task is closed.",
+      "fields": [
+        {
+          "en": "AI match score",
+          "ar": "نسبة المطابقة",
+          "type": "Percentage",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Four equally weighted criteria"
+        },
+        {
+          "en": "Current value",
+          "ar": "الحالي",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Name, license number, expiry"
+        },
+        {
+          "en": "Requested value",
+          "ar": "المطلوب",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Value found in document",
+          "ar": "في المستند",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "License document",
+          "ar": "وثيقة الترخيص",
+          "type": "File",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Opened via secure link"
+        },
+        {
+          "en": "Note to partner",
+          "ar": "ملاحظة للجهة",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Mandatory on rejection"
+        }
+      ],
+      "trace": [
+        "US-BEN-009",
+        "US-BEN-010",
+        "US-BEN-011",
+        "FR-BEN-017",
+        "FR-BEN-018",
+        "FR-BEN-019",
+        "FR-BEN-020",
+        "FR-BEN-021"
+      ]
+    },
+    {
+      "key": "BEN-7",
+      "name": "Manage the partner team and primary delegate",
+      "title": "As a Grants Manager or the partner's primary delegate, I want to add and deactivate team members and transfer the primary delegation so that the right people act for the partner and there is always one accountable delegate.",
+      "description": "Each partner has a team of members with roles (primary delegate, project manager, finance officer, member) and exactly one active primary delegate. Staff (on behalf of the foundation) and the primary delegate (self-service) can add members, deactivate members who left and transfer the primary delegation with a reason.",
+      "actors": [
+        "Grants Manager",
+        "Partner Delegate (primary)",
+        "System"
+      ],
+      "preconditions": [
+        "The partner account is active."
+      ],
+      "trigger": "The user opens «فريق عمل الجمعية» on the partner profile, the directory, or the partner portal.",
+      "scenario": [
+        "The system lists team members with the primary delegate first, showing name, email, role and identity verification status, and dims inactive members with their end date.",
+        "The user selects «إضافة عضو» and enters name, email, national ID and role (project manager, finance officer, member).",
+        "The system verifies the member's identity (Recommended), links an existing partner user with that email or creates one, and adds the active membership.",
+        "The user deactivates a member who left; the system ends the membership with the date.",
+        "To change the delegate, the user selects «نقل التفويض», chooses an active member and enters the reason or reference to the authorization letter.",
+        "The system makes the chosen member primary delegate, changes the previous delegate's role, records the transfer (by grantor decision or by the partner) and confirms «تم نقل التفويض الرئيسي».",
+        "The system shows the transfer history «سجل نقل التفويض» with date, from, to, method and reason."
+      ],
+      "alternative_flows": [
+        "If the user tries to deactivate the primary delegate, the system refuses until the delegation is transferred.",
+        "If there is no other active member, delegation transfer is unavailable.",
+        "An approved delegate-change request (BEN-1) performs the transfer on the existing partner."
+      ],
+      "business_requirements": [
+        "Each partner must have exactly one active primary delegate at all times.",
+        "The system must not allow deactivating the primary delegate before the delegation is transferred.",
+        "The system must require name, email, a 10-digit national ID and a role to add a member, with one membership per person and partner.",
+        "The system must verify each member's identity through the national digital identity service (Recommended).",
+        "The system must link a new member only to partner user accounts, never to staff accounts (Recommended).",
+        "A delegation transfer must name an active member and a reason; staff transfers should be supported by an uploaded authorization letter (To be confirmed).",
+        "The system must perform the delegation transfer as one complete operation and record it with method (grantor or partner), actor and reason.",
+        "The system must record member additions and deactivations in the partner timeline (Recommended).",
+        "On the partner side, only the primary delegate may manage the team.",
+        "The role kept by the former primary delegate after a transfer must be agreed (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Primary cannot be deactivated",
+          "description": "The system shows «لا يمكن إيقاف المفوض الرئيسي قبل نقل التفويض»."
+        },
+        {
+          "name": "Incomplete transfer",
+          "description": "No new delegate or reason; the system shows «اختر المفوض الجديد واذكر السبب»."
+        }
+      ],
+      "postconditions": "The team reflects current members and exactly one primary delegate; all changes are recorded.",
+      "fields": [
+        {
+          "en": "Member name",
+          "ar": "الاسم",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Email",
+          "ar": "البريد",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Valid email"
+        },
+        {
+          "en": "National ID",
+          "ar": "رقم الهوية",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "10 digits"
+        },
+        {
+          "en": "Role",
+          "ar": "الدور",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Project manager / finance officer / member"
+        },
+        {
+          "en": "New primary delegate",
+          "ar": "المفوض الجديد",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Active non-primary members"
+        },
+        {
+          "en": "Reason / document",
+          "ar": "السبب / المستند",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Mandatory for transfer"
+        }
+      ],
+      "trace": [
+        "US-BEN-016",
+        "US-BEN-018",
+        "US-BEN-019",
+        "US-BEN-020",
+        "FR-BEN-031",
+        "FR-BEN-035",
+        "FR-BEN-036",
+        "FR-BEN-037",
+        "FR-BEN-038",
+        "FR-BEN-039",
+        "US-BEN-023",
+        "US-BEN-024",
+        "FR-BEN-043",
+        "FR-BEN-044",
+        "FR-BEN-045"
+      ]
+    },
+    {
+      "key": "BEN-8",
+      "name": "Invite a partner to activate its account",
+      "title": "As a Grants Manager, I want to invite a non-activated partner using its verified official email so that its delegate can activate the account and use the portal.",
+      "description": "Partners approved or recorded by the foundation may not yet have an active account. Staff send an activation invitation to the partner's verified official email; the representative verifies identity and becomes the primary delegate.",
+      "actors": [
+        "Grants Manager",
+        "System",
+        "Partner Delegate"
+      ],
+      "preconditions": [
+        "The partner account is not active."
+      ],
+      "trigger": "The user selects «دعوة للتفعيل» or «إعادة الدعوة» from the directory or profile.",
+      "scenario": [
+        "The system opens «دعوة <name> لتفعيل حسابها» prefilled with the invited or official email.",
+        "The user confirms the official email and selects «إرسال الدعوة».",
+        "The system sends an activation message with a single-use, time-limited link to the email (Recommended).",
+        "The system marks the account as invited with email and date and records the event in the timeline.",
+        "The representative opens the link, verifies identity and becomes the primary delegate.",
+        "The system marks the account active."
+      ],
+      "alternative_flows": [
+        "If the partner has already been invited, the user resends the invitation («إعادة الدعوة»)."
+      ],
+      "business_requirements": [
+        "The system must allow inviting only partners whose account is not active.",
+        "The system must require a valid official email for the invitation.",
+        "The system must send a single-use, time-limited activation link to the invited email (Recommended).",
+        "The system must activate the account only after the representative's identity is verified, and make them the primary delegate.",
+        "The system must record each invitation and activation with actor and date.",
+        "The relationship between account activation and opportunity invitations must be clarified (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Missing email",
+          "description": "No email entered; the system blocks sending."
+        }
+      ],
+      "postconditions": "The partner account is invited (and, once the delegate completes activation, active).",
+      "fields": [
+        {
+          "en": "Verified official email",
+          "ar": "البريد الرسمي الموثّق للجمعية",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Prefilled"
+        },
+        {
+          "en": "Account status",
+          "ar": "حساب الجمعية",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Not activated / invited / active"
+        }
+      ],
+      "trace": [
+        "US-BEN-017",
+        "FR-BEN-032",
+        "FR-BEN-033",
+        "FR-BEN-034"
+      ]
+    },
+    {
+      "key": "BEN-9",
+      "name": "Add a partner organization manually",
+      "title": "As a Grants Manager, I want to record a partner organization that did not self-register so that it can be targeted and funded.",
+      "description": "In exceptional cases staff record a partner directly, optionally prefilled by the AI Assistant from pasted text or an attached certificate. Because partners should normally enter only through approved registration, this path must be controlled, checked for duplicates and logged.",
+      "actors": [
+        "Grants Manager",
+        "System Administrator",
+        "AI Assistant",
+        "System"
+      ],
+      "preconditions": [
+        "The user is authorized to create partners (To be confirmed)."
+      ],
+      "trigger": "The user selects «إضافة جهة» in the directory.",
+      "scenario": [
+        "The system opens «إضافة جهة مستفيدة».",
+        "Optionally, the user pastes text or attaches a document and the AI Assistant proposes values.",
+        "The user reviews and completes name, account type, license number, region, city, mobile, email, bank and IBAN.",
+        "The user selects «حفظ».",
+        "The system checks that the license number is not already registered and the IBAN format is valid.",
+        "The system creates the partner as pending, records the creation in the timeline and confirms «تمت إضافة الجهة»."
+      ],
+      "alternative_flows": [
+        "If the license number already exists, the system shows the existing partner instead of creating a duplicate (Recommended)."
+      ],
+      "business_requirements": [
+        "The system must restrict manual partner creation to authorized roles, or route it through the registration approval process (To be confirmed).",
+        "The system must require the partner name.",
+        "The system must prevent duplicates by official identifier (Recommended).",
+        "The system must validate the IBAN as a Saudi IBAN.",
+        "The system must record the manual creation and its author in the partner timeline (Recommended).",
+        "AI-proposed values must be reviewed by the user before saving and never saved automatically."
+      ],
+      "errors": [
+        {
+          "name": "Name missing",
+          "description": "The partner name is empty; the system blocks saving."
+        },
+        {
+          "name": "Duplicate identifier",
+          "description": "The license number already exists; the system blocks creation (Recommended)."
+        }
+      ],
+      "postconditions": "A new partner exists in pending status with a logged creation.",
+      "fields": [
+        {
+          "en": "Organization name",
+          "ar": "اسم الجهة",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Account type",
+          "ar": "نوع الحساب",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Default first type"
+        },
+        {
+          "en": "License number",
+          "ar": "رقم الترخيص",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Must be unique (Recommended)"
+        },
+        {
+          "en": "Region",
+          "ar": "المنطقة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "City",
+          "ar": "المدينة",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Mobile",
+          "ar": "الجوال",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Email",
+          "ar": "البريد",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Valid email"
+        },
+        {
+          "en": "Bank",
+          "ar": "البنك",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "IBAN",
+          "ar": "رقم الـIBAN",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "SA + 22 digits"
+        }
+      ],
+      "trace": [
+        "US-BEN-002",
+        "FR-BEN-005",
+        "FR-BEN-006"
+      ]
+    },
+    {
+      "key": "BEN-10",
+      "name": "Manage partner groups for opportunity targeting",
+      "title": "As a Grants Manager, I want to create and maintain named groups of partners so that I can target grant opportunities to a predefined set of partners.",
+      "description": "Partner groups are reusable named lists of partners selected when targeting a grant opportunity (see PRG). Membership changes take effect for every opportunity that targets the group, so deletions and changes must be visible and controlled.",
+      "actors": [
+        "Grants Manager",
+        "System"
+      ],
+      "preconditions": [
+        "Partners exist in the register."
+      ],
+      "trigger": "The user opens the tab «المجموعات».",
+      "scenario": [
+        "The system lists groups with name, description, member names, member count and number of opportunities using the group.",
+        "The user selects «مجموعة جديدة» or edits an existing group.",
+        "The user enters the group name and description and adds or removes member partners.",
+        "The user selects «حفظ»; the system saves the group and confirms «تم حفظ المجموعة».",
+        "The system applies the new membership to every opportunity targeting the group at the next eligibility check.",
+        "To delete a group, the user selects delete; the system warns if opportunities use it and asks for confirmation."
+      ],
+      "alternative_flows": [
+        "If no groups exist, the system shows «لا توجد مجموعات بعد.».",
+        "If the group is used by active opportunities, the system blocks deletion or requires explicit confirmation of the targeting impact (Recommended)."
+      ],
+      "business_requirements": [
+        "The system must require a group name.",
+        "The system must show how many opportunities use each group.",
+        "Group membership changes must apply to every opportunity that targets the group.",
+        "The system must warn or block when deleting a group used by opportunities and must not leave opportunities pointing to a deleted group (Recommended).",
+        "The system must record group creation, membership changes and deletion with actor and date (Recommended).",
+        "Whether blocked or unverified partners may be group members must be decided (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Name missing",
+          "description": "The system shows «اسم المجموعة مطلوب»."
+        }
+      ],
+      "postconditions": "Groups are up to date and opportunity targeting reflects their membership.",
+      "fields": [
+        {
+          "en": "Group name",
+          "ar": "اسم المجموعة",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Description",
+          "ar": "الوصف",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Member partners",
+          "ar": "الجهات الأعضاء",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Selected from the partner register"
+        },
+        {
+          "en": "Opportunities using the group",
+          "ar": "مستخدمة في n فرصة",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        }
+      ],
+      "trace": [
+        "US-BEN-021",
+        "US-BEN-022",
+        "FR-BEN-040",
+        "FR-BEN-041",
+        "FR-BEN-042"
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "type": "Confirmation",
+      "en": "Organization approved and added to partners.",
+      "ar": "اعتُمدت الجهة وأُضيفت للشركاء",
+      "use_case": "BEN-1"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Request returned to the registrant to correct the rejected fields.",
+      "ar": "أعيد الطلب للمسجّل لتصحيح الحقول المرفوضة",
+      "use_case": "BEN-1"
+    },
+    {
+      "type": "Error",
+      "en": "Some fields have not been decided.",
+      "ar": "بقيت حقول لم يُبت فيها",
+      "use_case": "BEN-1"
+    },
+    {
+      "type": "Information",
+      "en": "No registration requests yet — try registering from the «Register your organization» page.",
+      "ar": "لا توجد طلبات تسجيل بعد — جرّب التسجيل من صفحة «سجّل جهتك».",
+      "use_case": "BEN-1"
+    },
+    {
+      "type": "Warning",
+      "en": "This page is for platform administration only.",
+      "ar": "هذه الصفحة خاصة بإدارة المنصة",
+      "use_case": "BEN-1"
+    },
+    {
+      "type": "Notification",
+      "en": "Your registration has been approved / returned for correction (Recommended).",
+      "ar": "تم اعتماد طلب تسجيل جهتكم / أعيد الطلب لتصحيح الحقول المرفوضة",
+      "use_case": "BEN-1"
+    },
+    {
+      "type": "Information",
+      "en": "No data.",
+      "ar": "لا توجد بيانات",
+      "use_case": "BEN-2"
+    },
+    {
+      "type": "Error",
+      "en": "Partner not found.",
+      "ar": "الجهة غير موجودة",
+      "use_case": "BEN-3"
+    },
+    {
+      "type": "Information",
+      "en": "No events.",
+      "ar": "لا توجد أحداث",
+      "use_case": "BEN-3"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Partner confirmed.",
+      "ar": "تم تأكيد الجهة",
+      "use_case": "BEN-4"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Partner blocked.",
+      "ar": "تم حظر الجهة",
+      "use_case": "BEN-4"
+    },
+    {
+      "type": "Warning",
+      "en": "Block this partner? A reason is required (Recommended).",
+      "ar": "هل تريد حظر الجهة؟ يلزم ذكر السبب",
+      "use_case": "BEN-4"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Bank account verified.",
+      "ar": "تم توثيق الحساب البنكي",
+      "use_case": "BEN-5"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Account rejected.",
+      "ar": "تم رفض الحساب",
+      "use_case": "BEN-5"
+    },
+    {
+      "type": "Error",
+      "en": "Rejection reason is required.",
+      "ar": "سبب الرفض مطلوب",
+      "use_case": "BEN-5"
+    },
+    {
+      "type": "Information",
+      "en": "IBAN certificate not uploaded yet.",
+      "ar": "لم تُرفع شهادة الآيبان بعد",
+      "use_case": "BEN-5"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Update approved.",
+      "ar": "اعتُمد التحديث",
+      "use_case": "BEN-6"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Rejected and the organization was notified.",
+      "ar": "رُفض وأُبلغت الجهة",
+      "use_case": "BEN-6"
+    },
+    {
+      "type": "Error",
+      "en": "Write the rejection reason so it reaches the organization.",
+      "ar": "اكتب سبب الرفض ليصل للجهة",
+      "use_case": "BEN-6"
+    },
+    {
+      "type": "Error",
+      "en": "File type not supported for checking.",
+      "ar": "نوع الملف غير مدعوم للفحص",
+      "use_case": "BEN-6"
+    },
+    {
+      "type": "Error",
+      "en": "Could not read the document.",
+      "ar": "تعذر قراءة المستند",
+      "use_case": "BEN-6"
+    },
+    {
+      "type": "Notification",
+      "en": "New task: review license update for <partner>.",
+      "ar": "تدقيق تحديث ترخيص: <الجهة>",
+      "use_case": "BEN-6"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Member added — identity check is a demo (national digital identity later).",
+      "ar": "أُضيف العضو — تحقق الهوية تجريبي (نفاذ لاحقاً)",
+      "use_case": "BEN-7"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Primary delegation transferred.",
+      "ar": "تم نقل التفويض الرئيسي",
+      "use_case": "BEN-7"
+    },
+    {
+      "type": "Error",
+      "en": "Select the new delegate and state the reason.",
+      "ar": "اختر المفوض الجديد واذكر السبب",
+      "use_case": "BEN-7"
+    },
+    {
+      "type": "Error",
+      "en": "The primary delegate cannot be deactivated before the delegation is transferred.",
+      "ar": "لا يمكن إيقاف المفوض الرئيسي قبل نقل التفويض",
+      "use_case": "BEN-7"
+    },
+    {
+      "type": "Information",
+      "en": "No members — the association has not activated its account yet.",
+      "ar": "لا يوجد أعضاء — الجمعية لم تفعّل حسابها بعد",
+      "use_case": "BEN-7"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Invitation recorded (demo — no actual email sent).",
+      "ar": "سُجّلت الدعوة (تجريبي — لا يُرسل بريد فعلي)",
+      "use_case": "BEN-8"
+    },
+    {
+      "type": "Notification",
+      "en": "Activation invitation email with a single-use link (Recommended).",
+      "ar": "دعوة لتفعيل حساب الجهة على منصة مانح",
+      "use_case": "BEN-8"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Partner added.",
+      "ar": "تمت إضافة الجهة",
+      "use_case": "BEN-9"
+    },
+    {
+      "type": "Error",
+      "en": "Group name is required.",
+      "ar": "اسم المجموعة مطلوب",
+      "use_case": "BEN-10"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Group saved.",
+      "ar": "تم حفظ المجموعة",
+      "use_case": "BEN-10"
+    },
+    {
+      "type": "Warning",
+      "en": "Delete group «<name>»?",
+      "ar": "حذف مجموعة «…»؟",
+      "use_case": "BEN-10"
+    },
+    {
+      "type": "Information",
+      "en": "No groups yet.",
+      "ar": "لا توجد مجموعات بعد.",
+      "use_case": "BEN-10"
+    }
+  ],
+  "business_rules": [
+    {
+      "rule": "Partner organizations enter the register only through an approved registration request; any manual creation is restricted and logged.",
+      "use_case": "BEN-1"
+    },
+    {
+      "rule": "A registration can be decided only when every field has been accepted or rejected.",
+      "use_case": "BEN-1"
+    },
+    {
+      "rule": "If any registration field is rejected, the request is returned with the list of rejected fields and no partner is created.",
+      "use_case": "BEN-1"
+    },
+    {
+      "rule": "Each registration field shows its source: confirmed from the registry, edited from the registry, or entered manually.",
+      "use_case": "BEN-1"
+    },
+    {
+      "rule": "A delegate-change request changes the delegate of the existing partner and never creates a new partner.",
+      "use_case": "BEN-1"
+    },
+    {
+      "rule": "Registration review is reserved for the System Administrator.",
+      "use_case": "BEN-1"
+    },
+    {
+      "rule": "Non-activated accounts are all partner accounts whose activation status is not active.",
+      "use_case": "BEN-2"
+    },
+    {
+      "rule": "Every partner decision and change is written to an append-only timeline with type, before and after values, reason, actor and supporting document.",
+      "use_case": "BEN-3"
+    },
+    {
+      "rule": "Blocking or unblocking a partner requires confirmation and a reason.",
+      "use_case": "BEN-4"
+    },
+    {
+      "rule": "Partner status decisions are restricted to authorized staff roles and enforced by the system, not only by screen visibility.",
+      "use_case": "BEN-4"
+    },
+    {
+      "rule": "Rejecting a bank account requires a reason.",
+      "use_case": "BEN-5"
+    },
+    {
+      "rule": "A bank account can be verified only when an IBAN exists and it is not already verified; verification records the verifier and date, rejection clears them.",
+      "use_case": "BEN-5"
+    },
+    {
+      "rule": "Any partner change to bank name, IBAN or IBAN certificate returns the account to pending verification.",
+      "use_case": "BEN-5"
+    },
+    {
+      "rule": "Official data (name, license number, license expiry) changes only through a license update request.",
+      "use_case": "BEN-6"
+    },
+    {
+      "rule": "A license update is applied automatically only on an exact 100% AI match; otherwise a review task due in two days is created.",
+      "use_case": "BEN-6"
+    },
+    {
+      "rule": "If the AI check cannot run, the score is zero and the request goes to manual review.",
+      "use_case": "BEN-6"
+    },
+    {
+      "rule": "Rejecting a license update requires a note that is shown to the partner; both decisions close the linked review task.",
+      "use_case": "BEN-6"
+    },
+    {
+      "rule": "Each partner has exactly one active primary delegate, who cannot be deactivated before the delegation is transferred.",
+      "use_case": "BEN-7"
+    },
+    {
+      "rule": "A delegation transfer requires an active non-primary member as target and a reason, and is recorded as a grantor or partner decision.",
+      "use_case": "BEN-7"
+    },
+    {
+      "rule": "Team members require name, email, a 10-digit national ID and a role (project manager, finance officer, member); one membership per person per partner.",
+      "use_case": "BEN-7"
+    },
+    {
+      "rule": "On the partner side, only the primary delegate may edit contact data, request license or bank updates and manage the team; contact edits are saved without approval but logged.",
+      "use_case": "BEN-7"
+    },
+    {
+      "rule": "Partner account activation moves from not activated to invited to active; activation requires identity verification of the representative.",
+      "use_case": "BEN-8"
+    },
+    {
+      "rule": "A partner group requires a name, and membership changes apply to every opportunity targeting the group.",
+      "use_case": "BEN-10"
+    }
+  ],
+  "kpis": [
+    {
+      "name": "Total partners",
+      "definition": "Number of partner organizations registered for the foundation."
+    },
+    {
+      "name": "Confirmed partners",
+      "definition": "Number of partners whose status is confirmed."
+    },
+    {
+      "name": "Pending partners",
+      "definition": "Number of partners whose status is pending."
+    },
+    {
+      "name": "Non-activated accounts",
+      "definition": "Number of partners whose account activation status is not active."
+    },
+    {
+      "name": "Partner applications",
+      "definition": "Number of applications submitted by a partner, and the number approved."
+    },
+    {
+      "name": "Approved amounts",
+      "definition": "Sum of requested amounts of a partner's approved applications (SAR)."
+    },
+    {
+      "name": "Amount paid",
+      "definition": "Sum of paid payments on the partner's projects (SAR)."
+    },
+    {
+      "name": "Projects in progress",
+      "definition": "Number of the partner's projects currently in execution."
+    },
+    {
+      "name": "Verified bank accounts (Recommended)",
+      "definition": "Percentage of partners whose bank account is verified."
+    },
+    {
+      "name": "Time to approve registration (Recommended)",
+      "definition": "Average days from registration submission to final decision."
+    }
+  ],
+  "gaps": [
+    {
+      "area": "Access control",
+      "gap": "Any staff user who can open partner management (including reviewers) can confirm or block partners, verify bank accounts, invite partners and manage teams; restrictions exist only on screen.",
+      "impact": "Unauthorized changes to partner status and bank accounts, with fraud and payment risk.",
+      "recommendation": "Define a permission matrix per role and enforce it on the server with individual user authentication.",
+      "priority": "High"
+    },
+    {
+      "area": "Manual partner creation",
+      "gap": "Staff can create partners directly without registration approval, duplicate-identifier check, IBAN validation or audit entry.",
+      "impact": "Unverified or duplicate partners and no accountability for their creation.",
+      "recommendation": "Remove or restrict direct creation to authorized roles with duplicate checks and logging, or route through registration approval.",
+      "priority": "High"
+    },
+    {
+      "area": "Delegate change",
+      "gap": "Approving a delegate-change request creates a duplicate partner instead of changing the delegate.",
+      "impact": "Duplicate records and the wrong person continues to represent the partner.",
+      "recommendation": "Introduce a separate request type and approval path that performs a delegation transfer.",
+      "priority": "High"
+    },
+    {
+      "area": "Registration approval",
+      "gap": "Approval ignores the delegate data, so the new partner has no delegate and no way to activate; the recorded status differs from the actual status.",
+      "impact": "Approved partners cannot use the portal; the audit trail is inaccurate.",
+      "recommendation": "Create the primary delegate and send an activation invitation on approval; set and log the actual initial status.",
+      "priority": "High"
+    },
+    {
+      "area": "Audit trail",
+      "gap": "Invitations and delegation transfers are logged without the actor; team member additions and deactivations are not logged; multi-step decisions can be partially saved.",
+      "impact": "Decisions cannot be fully attributed or reconstructed.",
+      "recommendation": "Require the actor on every event, log team changes, and save each decision and its audit entry together.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Partner status",
+      "gap": "Blocking is immediate with no confirmation or reason; there is no explicit unblock and the effect of blocking on applications and payments is not defined.",
+      "impact": "Accidental blocks and blocked partners may still apply or be paid.",
+      "recommendation": "Require confirmation and reason, define the status model and enforce its downstream effects.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Bank verification",
+      "gap": "A bank account can be verified without an IBAN certificate and by a single person.",
+      "impact": "Payments may go to an unproven account.",
+      "recommendation": "Require the certificate before verification and consider a second approver.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Account activation",
+      "gap": "Staff invitation only sets a flag; no email or activation link is produced and identity verification is simulated.",
+      "impact": "Partners cannot activate accounts through this path.",
+      "recommendation": "Send single-use activation links and integrate national digital identity verification.",
+      "priority": "Medium"
+    },
+    {
+      "area": "License review",
+      "gap": "Review tasks go to the first administrator only; a decision can be taken twice; requests can remain stuck in automatic checking.",
+      "impact": "Bottlenecks and inconsistent official data.",
+      "recommendation": "Assign to a role queue, guard decisions by status and retry or escalate stuck checks.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Partner groups",
+      "gap": "Deleting a group used by opportunities silently changes their targeting; group changes are not audited; blocked partners can be members.",
+      "impact": "Unintended eligibility changes for live opportunities.",
+      "recommendation": "Warn or block deletion of used groups, log changes and decide on blocked members.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Data quality",
+      "gap": "Region values are inconsistent between registration and the standard list; the directory cannot filter all statuses; registration list has no status filter.",
+      "impact": "Partners are missed by filters and targeting.",
+      "recommendation": "Use controlled region lists, normalize data and add full status filters.",
+      "priority": "Low"
+    },
+    {
+      "area": "Team identity",
+      "gap": "Every team member is shown as identity-verified although no verification takes place; any account with the same email can be linked, including staff accounts.",
+      "impact": "False assurance of identity; mixing staff and partner access.",
+      "recommendation": "Integrate identity verification, show the real verification method and link only partner accounts.",
+      "priority": "Low"
+    }
+  ],
+  "open_questions": [
+    "Which staff roles may confirm or block partners, verify or reject bank accounts, review license updates, invite partners, manage partner teams and transfer delegation?",
+    "Should direct staff creation of partners be allowed at all; if so, by which role and with what verification?",
+    "What is the authoritative partner status model (pending, active, confirmed, blocked, rejected), its transitions and the effect of blocking on applications, contracts and payments?",
+    "Must bank verification require an IBAN certificate and/or a second approver? Is an external IBAN ownership check expected?",
+    "What should registration approval create: partner only, or partner plus primary delegate plus activation invitation? Which initial status should the partner get?",
+    "How is a partner account activated after a staff invitation, and is it separate from opportunity invitations?",
+    "Who should receive license review tasks, and is the two-day due date the agreed service level?",
+    "After a delegation transfer, which role should the former primary delegate keep? Must staff transfers require an uploaded authorization letter?",
+    "Can partner groups include blocked or unverified partners, and what happens to opportunities when a group is deleted?",
+    "Is integration with the National Center registry in scope, and which fields are authoritative from it?",
+    "How long are partner timeline records retained, should partners see their own timeline, and is a reason mandatory for every staff decision?",
+    "Which partner-management KPIs (e.g. time to verify a partner, percentage of verified bank accounts) does management want to monitor?"
+  ]
+}

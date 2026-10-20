@@ -1,0 +1,1191 @@
+{
+  "module": "TSK",
+  "title": "Work Management & Tasks",
+  "summary": "This capability gives every staff member one personal work inbox («مهامي») that combines tasks generated automatically by the system — applications waiting at a stage they own and payments waiting for their approval — with manual tasks and meetings created by colleagues. Users can plan their work in list or calendar form, take approval decisions directly from a task (individually, in bulk by committee minute, or in a distraction-free focus mode) and follow up work they delegated. The value is that no application or payment waits unnoticed, service levels are visible, and ad-hoc work is tracked alongside the formal workflow.",
+  "process": {
+    "title": "Work item lifecycle",
+    "mermaid": "flowchart LR\n  A[\"Application enters a stage\"] --> D[\"Task for stage owners with SLA due date\"]\n  B[\"Payment awaits an approval step\"] --> E[\"Task for the current approver\"]\n  C[\"Staff creates a task or meeting\"] --> F[\"Task assigned to a colleague\"]\n  D --> G[\"My Tasks inbox and calendar\"]\n  E --> G\n  F --> G\n  G --> H{\"Task type\"}\n  H -->|\"System task\"| I[\"Approve, return or reject\"]\n  H -->|\"Committee items\"| J[\"One decision by committee minute\"]\n  H -->|\"Manual task\"| K[\"Progress to done\"]\n  G --> N[\"Focus mode one task at a time\"]\n  N --> I\n  N --> K\n  I --> L[\"Task closes automatically\"]\n  J --> L\n  K --> M[\"Completion counted in staff performance\"]"
+  },
+  "use_cases": [
+    {
+      "key": "TSK-1",
+      "name": "Receive application stage tasks automatically",
+      "title": "As a Reviewer or Committee Secretary, I want applications waiting at the stage I own to appear automatically in my tasks with a service-level due date so that I act on them in time.",
+      "description": "Whenever an application is pending at a review stage, the system generates a task for the people responsible for that stage: its configured supervisors and committee secretary. Grants Managers and System Administrators oversee all pending stage tasks of the organization. The task's due date follows the stage service level, and the task disappears automatically as soon as the application leaves the stage, so there is never a separate task status to maintain.",
+      "actors": [
+        "Reviewer",
+        "Committee Secretary",
+        "Grants Manager",
+        "System Administrator",
+        "System"
+      ],
+      "preconditions": [
+        "The grant opportunity has a configured workflow whose stages name their supervisors, committee secretary and service level.",
+        "The user belongs to the same organization as the application."
+      ],
+      "trigger": "An application enters a stage (submission, stage approval, skip, return, reopen, resubmission after edits or merge).",
+      "scenario": [
+        "An application becomes pending at a stage.",
+        "The system identifies the stage's supervisors and committee secretary.",
+        "The system creates a task for each responsible person with due date = stage entry date + stage service level (default 3 days).",
+        "The task shows the project title, the committee or stage and partner, the application reference, requested amount, AI score and an «تلقائية» (automatic) marker.",
+        "The user opens the application from the task to study it (see REV-2) or decides directly from the task (TSK-7).",
+        "When the application is approved, returned, rejected or sent to the partner for edits, the system removes the task.",
+        "If the application moves to another stage, the system creates the task for the next stage's owners."
+      ],
+      "alternative_flows": [
+        "If the application is returned to the partner for edits, then no task exists until the partner resubmits.",
+        "If the user is a Grants Manager or System Administrator, then the user sees the stage tasks of the whole organization, showing the actual responsible owners (oversight view)."
+      ],
+      "business_requirements": [
+        "The system must generate a task for every application pending at a stage, for that stage's configured supervisors and committee secretary.",
+        "The system must not generate a task while the application is awaiting edits from the partner.",
+        "The system must set the task due date to the stage entry date plus the stage service level, defaulting to 3 days when none is configured.",
+        "The system must remove the task automatically as soon as the application leaves the stage, without any manual closing.",
+        "The system must only show tasks for applications of the user's own organization.",
+        "The system must let Grants Managers and System Administrators oversee all pending stage tasks while still showing the actual responsible owners (To be confirmed whether as a separate oversight view).",
+        "The system must show task content: project title, committee/stage and partner, reference, requested amount and AI score, with a link to the application.",
+        "The system should notify the responsible people when a new task arrives and when it becomes overdue (To be confirmed).",
+        "The system should measure service levels in Saudi working days if agreed (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Tasks cannot be loaded",
+          "description": "When task data cannot be retrieved, the system shows a clear error with a retry option (Recommended)."
+        }
+      ],
+      "postconditions": "Every pending application is visible as a task to its responsible people with a due date reflecting the stage service level.",
+      "fields": [
+        {
+          "en": "Task title",
+          "ar": "المهمة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Project title of the application."
+        },
+        {
+          "en": "Stage / committee",
+          "ar": "المرحلة / اللجنة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Application reference",
+          "ar": "رقم الطلب",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Requested amount",
+          "ar": "القيمة",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "AI score",
+          "ar": "تقييم الوكيل",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Out of 100."
+        },
+        {
+          "en": "Due date",
+          "ar": "الاستحقاق",
+          "type": "Date",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Stage entry + service level."
+        }
+      ],
+      "trace": [
+        "US-TSK-001",
+        "US-TSK-002",
+        "FR-TSK-001",
+        "FR-TSK-002",
+        "FR-TSK-003",
+        "FR-TSK-004"
+      ]
+    },
+    {
+      "key": "TSK-2",
+      "name": "Receive payment approval and execution tasks",
+      "title": "As a payment approver (Project Manager, Grants Manager or CEO), I want payments awaiting my approval step to appear in my tasks so that disbursements to partners are not delayed.",
+      "description": "Each payment awaiting approval passes through an approval chain: the project's manager, then a Grants Manager, then the CEO. The system generates a task for whoever owns the current step, with the payment due date. Finance should equally receive tasks for approved payments awaiting transfer and for receipt follow-up.",
+      "actors": [
+        "Project Manager",
+        "Grants Manager",
+        "CEO / Executive Approver",
+        "Finance Officer",
+        "System Administrator",
+        "System"
+      ],
+      "preconditions": [
+        "A payment of a project of the user's organization is awaiting approval (or awaiting transfer for Finance)."
+      ],
+      "trigger": "A payment is submitted for approval or moves to the next approval step.",
+      "scenario": [
+        "A payment enters the approval chain.",
+        "At step 1 the system creates a task for the manager of that project only.",
+        "At step 2 the system creates a task for Grants Managers.",
+        "At step 3 the system creates a task for the CEO («اعتماد الرئيس التنفيذي»).",
+        "The task shows the payment title, project, step, reference, due date and a link to the project.",
+        "When the step is approved or the payment is rejected, the system removes the task and, on approval, creates it for the next approver."
+      ],
+      "alternative_flows": [
+        "If the payment is fully approved and awaits transfer, then the system should create a task for the Finance Officer (Recommended).",
+        "If the user is a System Administrator, then the user can see tasks at every step."
+      ],
+      "business_requirements": [
+        "The system must generate a payment task for the owner of the current approval step: the project's own manager at step 1, Grants Managers at step 2, the CEO at step 3.",
+        "The system must not show a step-1 payment task to project managers of other projects.",
+        "The system must use the payment due date as the task due date.",
+        "The system must remove the task when the step is decided and create it for the next approver on approval.",
+        "The system must generate tasks for Finance for approved payments awaiting transfer and for partner receipt follow-up (Recommended).",
+        "The system must restrict payment tasks to projects of the user's organization.",
+        "The system should order payment tasks by the time they reached the current step when sorting by newest (Recommended)."
+      ],
+      "errors": [],
+      "postconditions": "Every payment waiting in the approval chain (and, when implemented, awaiting transfer) is visible to exactly the person who must act.",
+      "fields": [
+        {
+          "en": "Payment title",
+          "ar": "الدفعة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Project",
+          "ar": "المشروع",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Approval step",
+          "ar": "خطوة الاعتماد",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Project manager, Grants Manager, CEO."
+        },
+        {
+          "en": "Payment amount",
+          "ar": "المبلغ",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Due date",
+          "ar": "تاريخ الاستحقاق",
+          "type": "Date",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        }
+      ],
+      "trace": [
+        "US-TSK-003",
+        "US-TSK-004",
+        "FR-TSK-005",
+        "FR-TSK-006",
+        "FR-TSK-007"
+      ]
+    },
+    {
+      "key": "TSK-3",
+      "name": "Organise and monitor my work inbox",
+      "title": "As a staff member, I want to view, search, filter, sort and plan my tasks in list or calendar form and follow up tasks I delegated so that I focus on the most urgent work.",
+      "description": "«مهامي» is the single inbox for all task types: manual tasks, meetings, application tasks and payment tasks. Users switch between a list and a monthly calendar, search, filter by task type, sort by due date or newest, see overdue items highlighted and switch to the tasks they assigned to others. Users can save their preferred layout, and open-task counts are shown on the main menu.",
+      "actors": [
+        "Reviewer",
+        "Committee Secretary",
+        "Grants Manager",
+        "Project Manager",
+        "Finance Officer",
+        "CEO / Executive Approver",
+        "System Administrator",
+        "System"
+      ],
+      "preconditions": [
+        "The user is signed in with a staff role."
+      ],
+      "trigger": "The user opens «مهامي» (the default home page for most staff roles).",
+      "scenario": [
+        "The system shows the header with the number of open and completed tasks.",
+        "The system lists the user's tasks with type, assignee, title, automatic marker, type details, amount and score (for applications), due date or overdue indicator («متأخرة N أيام») and actions.",
+        "The user searches by title, description or reference.",
+        "The user filters by type: الكل / يدوية / المواعيد / طلبات المنح / الدفعات (each tab shows its count).",
+        "The user sorts by «الأقرب استحقاقاً» or «الأحدث إضافة».",
+        "The user switches to «تقويم» to see tasks by due date in a monthly calendar and the «مهام بلا موعد» section.",
+        "The user switches scope to «أسندتُها لغيري» to follow up tasks assigned to colleagues.",
+        "The user saves the current view, type filter, scope and sort as the default view.",
+        "Open-task counts are shown on the menu items for tasks, grant applications and projects."
+      ],
+      "alternative_flows": [
+        "If the user has no tasks, then the system shows «لا توجد مهام لديك الآن» with a shortcut to delegated tasks.",
+        "If a search or filter returns nothing, then the system shows «لا توجد مهام مطابقة» while keeping the search and filters available to change.",
+        "If a calendar day has more than three tasks, then the system shows three and «+N أخرى»."
+      ],
+      "business_requirements": [
+        "The system must provide a single inbox combining manual tasks, meetings, application tasks and payment tasks.",
+        "The system must offer list and monthly calendar views; the calendar must show undated tasks separately.",
+        "The system must allow searching by title, description and reference, and filtering by task type with counts.",
+        "The system must allow sorting by nearest due date (undated last) or newest added.",
+        "The system must highlight overdue open tasks and show the number of days late, using Saudi (Riyadh) local date.",
+        "The system must provide the scopes «مهامي» (tasks assigned to me, meetings I attend and system tasks) and «أسندتُها لغيري» (manual tasks I created for others).",
+        "The system should let each user save the view, type filter, scope and sort as a personal default (search text is not saved).",
+        "The system must keep search and filters available when they return no results so the user can clear them.",
+        "The system should show open-task counts on the relevant menu items, consistent with the inbox.",
+        "The system must show an explicit error when tasks cannot be loaded.",
+        "The system should offer a board (Kanban) view if required (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Manual tasks cannot be loaded",
+          "description": "The system shows «تعذر تحميل المهام اليدوية. حاول تحديث الصفحة.»"
+        },
+        {
+          "name": "No matching tasks",
+          "description": "The system shows «لا توجد مهام مطابقة» and keeps the filters editable."
+        }
+      ],
+      "postconditions": "The user sees and prioritises their workload; their saved view is restored on the next visit.",
+      "fields": [
+        {
+          "en": "Search",
+          "ar": "بحث في المهام",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Title, description or reference."
+        },
+        {
+          "en": "Scope",
+          "ar": "نطاق المهام",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "مهامي / أسندتُها لغيري."
+        },
+        {
+          "en": "Task type",
+          "ar": "النوع",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "الكل / يدوية / المواعيد / طلبات المنح / الدفعات."
+        },
+        {
+          "en": "Sort",
+          "ar": "ترتيب المهام",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "الأقرب استحقاقاً / الأحدث إضافة."
+        },
+        {
+          "en": "View",
+          "ar": "طريقة العرض",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "قائمة / تقويم."
+        }
+      ],
+      "trace": [
+        "US-TSK-005",
+        "US-TSK-006",
+        "US-TSK-007",
+        "US-TSK-008",
+        "US-TSK-009",
+        "FR-TSK-008",
+        "FR-TSK-009",
+        "FR-TSK-010",
+        "FR-TSK-011",
+        "FR-TSK-012",
+        "FR-TSK-013",
+        "FR-TSK-014",
+        "FR-TSK-015",
+        "FR-TSK-016"
+      ]
+    },
+    {
+      "key": "TSK-4",
+      "name": "Create, assign and edit a manual task",
+      "title": "As a staff member, I want to create a task, assign it to a colleague with a due date and keep it up to date so that ad-hoc work is tracked alongside the formal workflow.",
+      "description": "Besides system-generated work, staff create manual tasks for themselves or colleagues. The AI Assistant can propose the task details from a free-text description. The assignee must be an active member of the same organization. The original creator is preserved when the task is edited or reassigned.",
+      "actors": [
+        "Any staff member",
+        "AI Assistant",
+        "System"
+      ],
+      "preconditions": [
+        "The user is signed in with a staff role.",
+        "The assignee is an active member of the organization."
+      ],
+      "trigger": "The user selects «مهمة جديدة» or the edit icon «تعديل المهمة» on a manual task.",
+      "scenario": [
+        "The user opens «مهمة أو موعد جديد» and selects the type «مهمة».",
+        "Optionally, the user describes the task in free text and the AI Assistant proposes the type, title, description, assignee, date, time and location.",
+        "The user reviews and enters the title, description, assignee (default: me), due date and status.",
+        "The user saves; the system validates the title and that the assignee is an active member.",
+        "The system saves the task, confirms «تم إنشاء المهمة» and shows it to the assignee.",
+        "Later, the creator or assignee edits the task (e.g. reassigns it); the system confirms «تم تحديث المهمة» and keeps the original creator."
+      ],
+      "alternative_flows": [
+        "If the AI proposal is not accepted, then nothing is saved until the user clicks save.",
+        "If the task is reassigned, then the new assignee sees it and the creator sees it under «أسندتُها لغيري»."
+      ],
+      "business_requirements": [
+        "The system must require a task title of 1 to 200 characters.",
+        "The system must require an assignee who is an active member of the user's organization and default the assignee to the current user.",
+        "The system must allow an optional description, due date and initial status.",
+        "The system must preserve the original creator when a task is edited or reassigned.",
+        "The system must restrict editing a manual task to its creator and assignee (To be confirmed).",
+        "The system must list only active members of the organization as assignable colleagues.",
+        "The system should allow the AI Assistant to propose task fields from free text without saving automatically.",
+        "The system should support comments and attachments on manual tasks (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Invalid title",
+          "description": "The system shows «عنوان المهمة مطلوب ويجب ألا يتجاوز 200 حرف»; save is disabled while the title is empty."
+        },
+        {
+          "name": "Invalid assignee",
+          "description": "The system shows «اختر مستخدماً مرتبطاً بالجهة الحالية»."
+        }
+      ],
+      "postconditions": "The manual task is stored and visible to the assignee (and to the creator as a delegated task).",
+      "fields": [
+        {
+          "en": "Type",
+          "ar": "النوع",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "مهمة / موعد."
+        },
+        {
+          "en": "Task title",
+          "ar": "عنوان المهمة",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "1–200 characters."
+        },
+        {
+          "en": "Description",
+          "ar": "الوصف",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Assignee",
+          "ar": "المكلّف",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Active member of the organization; default me."
+        },
+        {
+          "en": "Due date",
+          "ar": "تاريخ الاستحقاق",
+          "type": "Date",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Status",
+          "ar": "الحالة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "بانتظار التنفيذ / جارٍ العمل / منجزة; default بانتظار التنفيذ."
+        }
+      ],
+      "trace": [
+        "US-TSK-010",
+        "US-TSK-011",
+        "US-TSK-012",
+        "FR-TSK-017",
+        "FR-TSK-018",
+        "FR-TSK-019",
+        "FR-TSK-020"
+      ]
+    },
+    {
+      "key": "TSK-5",
+      "name": "Schedule a meeting",
+      "title": "As a staff member, I want to schedule a meeting with a time, place or link and invited colleagues so that all invitees see it in their tasks and calendar.",
+      "description": "A meeting («موعد») is a manual task with a date, start time, location or online link and a list of invited colleagues. Invitees see the meeting in their own inbox under «المواعيد» and in the calendar. Meetings are not processed in focus mode.",
+      "actors": [
+        "Any staff member",
+        "AI Assistant",
+        "System"
+      ],
+      "preconditions": [
+        "The user is signed in with a staff role."
+      ],
+      "trigger": "The user selects «مهمة جديدة» and the type «موعد».",
+      "scenario": [
+        "The user selects the type «موعد».",
+        "The user enters the title, description, responsible person, date, time and «المكان أو الرابط».",
+        "The user selects the invitees from active colleagues (the responsible person is excluded from the list).",
+        "The user saves; the system stores the meeting.",
+        "The meeting appears for the responsible person and every invitee as «موعد · HH:MM» under «المواعيد» and on its calendar day."
+      ],
+      "alternative_flows": [
+        "If the user switches the type back to «مهمة» before saving, then time, location and invitees are cleared."
+      ],
+      "business_requirements": [
+        "The system must allow a meeting to carry date, start time, location or link and invited colleagues.",
+        "The system must save time, location and invitees only for meetings.",
+        "The system must show the meeting to the responsible person and all invitees.",
+        "The system must display meetings with their time and group them under «المواعيد», separate from plain manual tasks.",
+        "The system must exclude meetings from focus mode.",
+        "The system must allow the creator to cancel a meeting and inform invitees (Recommended).",
+        "The system should integrate meetings with external calendars and allow partner attendees (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Invalid title or assignee",
+          "description": "Same validations as TSK-4."
+        }
+      ],
+      "postconditions": "The meeting is visible to all participants in their inbox and calendar.",
+      "fields": [
+        {
+          "en": "Meeting title",
+          "ar": "عنوان المهمة",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "1–200 characters."
+        },
+        {
+          "en": "Date",
+          "ar": "تاريخ الاستحقاق",
+          "type": "Date",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Time",
+          "ar": "الوقت",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "HH:MM."
+        },
+        {
+          "en": "Location or link",
+          "ar": "المكان أو الرابط",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Invitees",
+          "ar": "المدعوون",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Active colleagues, excluding the responsible person."
+        }
+      ],
+      "trace": [
+        "US-TSK-013",
+        "FR-TSK-021",
+        "FR-TSK-022"
+      ]
+    },
+    {
+      "key": "TSK-6",
+      "name": "Track progress and close a manual task",
+      "title": "As an assignee, I want to update the status of my task and, as its creator, cancel or delete obsolete tasks so that others see progress and lists stay clean.",
+      "description": "Manual tasks move between «بانتظار التنفيذ», «جارٍ العمل» and «منجزة»; a completed task can be reopened. Status change times are kept so that completion time can be measured on the staff profile. Creators should be able to cancel or delete tasks and meetings that are no longer needed.",
+      "actors": [
+        "Any staff member",
+        "System"
+      ],
+      "preconditions": [
+        "A manual task or meeting exists that the user is allowed to change."
+      ],
+      "trigger": "The user selects a status button on the task, changes the status in the editor, or completes it in focus mode.",
+      "scenario": [
+        "The assignee selects «جارٍ العمل» when starting the work.",
+        "The assignee selects «منجزة» when finished.",
+        "The system saves the status, records the time and confirms «تم تحديث حالة المهمة».",
+        "The system updates the open/completed counts and the staff performance indicators.",
+        "If the task becomes obsolete, the creator cancels or deletes it after confirmation (Recommended)."
+      ],
+      "alternative_flows": [
+        "If a completed task needs more work, then the assignee sets it back to «بانتظار التنفيذ» or «جارٍ العمل»."
+      ],
+      "business_requirements": [
+        "The system must support the statuses «بانتظار التنفيذ», «جارٍ العمل» and «منجزة», with reopening allowed.",
+        "The system must record creation and last-change times so that completion time can be measured.",
+        "Only the assignee (and the creator) may change a task's status; invitees may only view it (To be confirmed).",
+        "The system must allow the creator to cancel or delete a manual task or meeting, removing it for the assignee and invitees (Recommended).",
+        "The system must reflect completed tasks in staff performance indicators.",
+        "The system must enforce these permissions for every way of changing a task, not only in the screen."
+      ],
+      "errors": [
+        {
+          "name": "Status not saved",
+          "description": "The system shows the error and keeps the previous status."
+        }
+      ],
+      "postconditions": "The task status is up to date and visible to the creator and assignee; obsolete tasks are removed.",
+      "fields": [
+        {
+          "en": "Status",
+          "ar": "الحالة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "بانتظار التنفيذ / جارٍ العمل / منجزة."
+        }
+      ],
+      "trace": [
+        "US-TSK-014",
+        "US-TSK-015",
+        "FR-TSK-023",
+        "FR-TSK-024",
+        "FR-TSK-025"
+      ]
+    },
+    {
+      "key": "TSK-7",
+      "name": "Take a decision directly from a task",
+      "title": "As an approver, I want to approve, return or reject an application or payment directly from my task, with a summary and risk warning, so that I decide quickly but safely.",
+      "description": "Application and payment tasks carry quick actions. Approving opens a summary (partner, amount, AI score, recommendation and summary) and warns when the AI does not recommend the application or its score is below the pass score; in that case a justification is mandatory. Return and reject always require a reason. Decisions follow exactly the same rules as on the application or payment record.",
+      "actors": [
+        "Reviewer",
+        "Committee Secretary",
+        "Grants Manager",
+        "Project Manager",
+        "CEO / Executive Approver",
+        "System Administrator",
+        "System"
+      ],
+      "preconditions": [
+        "The user has an open application or payment task and is the authorised decision-maker for that stage or step."
+      ],
+      "trigger": "The user selects «اعتماد», «إرجاع للتعديل» or «رفض» on a task.",
+      "scenario": [
+        "The user selects «اعتماد» on the task.",
+        "The system shows the approval summary «اعتماد — <task>» with partner, amount, AI score, recommendation and summary, and a link «فتح الطلب كاملاً».",
+        "If the AI recommendation is «لا يوصى بالموافقة» or the score is below the pass score, the system shows a warning and requires a justification note.",
+        "The user confirms «تأكيد الاعتماد».",
+        "The system executes the decision under the application or payment rules (see REV-4 and FIN).",
+        "The system confirms «تم اعتماد: <task>», refreshes the inbox and the task disappears."
+      ],
+      "alternative_flows": [
+        "If the user selects «إرجاع للتعديل» (applications) or «رفض», then the system requires a reason (up to 1000 characters) before «تأكيد …».",
+        "For payments, only approve and reject are offered; rejection sends the payment back to the start of the approval chain (To be confirmed whether return-for-correction is a distinct outcome)."
+      ],
+      "business_requirements": [
+        "The system must offer approve, return and reject on application tasks and approve and reject on payment tasks.",
+        "The system must require a reason (up to 1000 characters) for every return or rejection.",
+        "The system must show a decision summary (partner, amount, AI score, recommendation, summary) before approval.",
+        "The system must warn and require a justification when approving an application that the AI does not recommend or whose score is below the pass score.",
+        "Decisions taken from tasks must apply exactly the same rules as on the record itself (authorisation, pass-score gate, pending edits and conditions).",
+        "The system must confirm the decision, refresh the inbox and remove the decided task.",
+        "The system must clearly label each payment action with its real outcome."
+      ],
+      "errors": [
+        {
+          "name": "Missing reason",
+          "description": "Confirmation is disabled until a reason is entered."
+        },
+        {
+          "name": "Missing justification for risky approval",
+          "description": "«تأكيد الاعتماد» stays disabled until the mandatory note is entered."
+        },
+        {
+          "name": "Decision refused",
+          "description": "When a workflow or payment rule blocks the decision, the system shows the rule's message and the task remains."
+        }
+      ],
+      "postconditions": "The application or payment has moved on under its own rules and the task is removed from the inbox.",
+      "fields": [
+        {
+          "en": "Decision",
+          "ar": "القرار",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "اعتماد / إرجاع للتعديل / رفض."
+        },
+        {
+          "en": "Reason",
+          "ar": "السبب",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Return and reject; up to 1000 characters."
+        },
+        {
+          "en": "Approval note",
+          "ar": "ملاحظة (اختيارية) / ملاحظة (إلزامية)",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Mandatory when the approval is risky."
+        }
+      ],
+      "trace": [
+        "US-TSK-016",
+        "US-TSK-017",
+        "FR-TSK-026",
+        "FR-TSK-027",
+        "FR-TSK-028",
+        "FR-TSK-029"
+      ]
+    },
+    {
+      "key": "TSK-8",
+      "name": "Decide several committee items with one minute",
+      "title": "As a Committee Secretary, I want to select several applications of my committee at the same stage from my tasks and record one minute decision so that committee outcomes are documented once.",
+      "description": "Tasks of committee stages where the user is the configured secretary can be selected together, provided they belong to the same committee and stage. A selection bar shows the count and opens the committee minute decision (see REV-6).",
+      "actors": [
+        "Committee Secretary",
+        "System"
+      ],
+      "preconditions": [
+        "The user is the committee secretary of the stage of the selected application tasks."
+      ],
+      "trigger": "The secretary ticks the selection box on a committee task.",
+      "scenario": [
+        "The secretary ticks the first committee task; tasks from other committees or stages become unselectable.",
+        "The secretary ticks further compatible tasks.",
+        "The selection bar shows «تم اختيار N طلب» with «قرار بمحضر» and «إلغاء الاختيار».",
+        "The secretary selects «قرار بمحضر» and completes the minute decision (REV-6).",
+        "The system applies the decision, clears the selection and refreshes the inbox."
+      ],
+      "alternative_flows": [
+        "If the secretary selects «إلغاء الاختيار», then the selection is cleared."
+      ],
+      "business_requirements": [
+        "The system must offer multi-selection only on committee-stage tasks where the user is the configured secretary.",
+        "The system must allow only tasks of the same committee and stage in one selection.",
+        "The system must show the selection count with the minute-decision and clear-selection actions.",
+        "The system must clear the selection and refresh the inbox after the decision.",
+        "The system should support minute decisions for payment approvals only if confirmed by the business (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Incompatible selection",
+          "description": "Tasks of another committee or stage cannot be selected."
+        }
+      ],
+      "postconditions": "All selected committee items have been decided under one minute and removed from the inbox.",
+      "fields": [
+        {
+          "en": "Selected items",
+          "ar": "تم اختيار N طلب",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Same committee and stage."
+        }
+      ],
+      "trace": [
+        "US-TSK-018",
+        "FR-TSK-030",
+        "FR-TSK-031",
+        "FR-TSK-032"
+      ]
+    },
+    {
+      "key": "TSK-9",
+      "name": "Process tasks in focus mode",
+      "title": "As a staff member, I want a focus mode that shows one task at a time with a timer so that I can clear my queue without distraction while the same decision controls apply.",
+      "description": "Focus mode («وضع التركيز») presents the user's open tasks (excluding meetings) one at a time, ordered by due date, with the Riyadh time and Hijri/Gregorian date, the number of tasks completed today, time spent on the current task and tasks remaining. The user can skip, complete manual tasks or decide on system tasks. Leaving focus mode to look at details keeps the session running with a floating indicator.",
+      "actors": [
+        "Any staff member",
+        "System"
+      ],
+      "preconditions": [
+        "The user has open tasks."
+      ],
+      "trigger": "The user selects «وضع التركيز» in «مهامي».",
+      "scenario": [
+        "The system opens a full-screen view with the first open task by due date.",
+        "The system shows the clock, «أنجزت اليوم N», «الوقت في المهمة mm:ss» (with pause/resume) and «المتبقي N».",
+        "The user optionally filters the queue by task type.",
+        "For a manual task, the user selects «إنجاز المهمة»; the system marks it done and increments the daily count.",
+        "For a system task, the user selects «اعتماد», «إعادة بملاحظة» or «رفض» under the same rules as the inbox (TSK-7).",
+        "The user selects «تخطي» to move the current task to the end of the queue (marked «(تخطيتها سابقاً)»).",
+        "The user selects «خروج» or opens «فتح التفاصيل الكاملة»; the session keeps running and a floating indicator with the task and timer offers «العودة للتركيز».",
+        "The user selects «إنهاء وضع التركيز» to end the session."
+      ],
+      "alternative_flows": [
+        "If no task remains, then the system shows «لا مهام متبقية» and «أنجزت N مهمة اليوم.»",
+        "If the selected type has no tasks, then the system shows «لا مهام في هذا التصنيف».",
+        "If only one task remains, then skip is not available."
+      ],
+      "business_requirements": [
+        "The system must present open tasks one at a time ordered by due date, excluding meetings and including manual tasks only when assigned to the user.",
+        "The system must allow skipping a task to the end of the queue when at least two tasks remain.",
+        "The system must allow completing manual tasks and approving, returning or rejecting system tasks in focus mode.",
+        "Focus-mode decisions must enforce exactly the same rules as the inbox, including the mandatory reason for return/reject and the justification for risky approvals.",
+        "For payment tasks, focus mode must label the non-approval action as rejection («رفض»), reflecting its real outcome.",
+        "The system must show time spent on the current task (excluding pauses), tasks completed today and tasks remaining.",
+        "The system must keep the focus session running when the user leaves the view, opens details or refreshes the page, until the user ends it.",
+        "The system should store focus time and completions for productivity reporting if required (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Return without note",
+          "description": "The system shows «اكتب السبب في الملاحظة»."
+        },
+        {
+          "name": "Decision refused",
+          "description": "When a rule blocks the decision, the system shows the message and keeps the task in the queue."
+        }
+      ],
+      "postconditions": "Tasks handled in focus mode are completed or decided under the normal rules; the session continues or ends at the user's choice.",
+      "fields": [
+        {
+          "en": "Task type filter",
+          "ar": "النوع",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Meetings excluded."
+        },
+        {
+          "en": "Decision note",
+          "ar": "ملاحظة (إلزامية عند الإرجاع)",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Mandatory for return and reject."
+        },
+        {
+          "en": "Time on task",
+          "ar": "الوقت في المهمة",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Minutes:seconds; pauses excluded."
+        },
+        {
+          "en": "Completed today",
+          "ar": "أنجزت اليوم",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        }
+      ],
+      "trace": [
+        "US-TSK-019",
+        "US-TSK-020",
+        "US-TSK-021",
+        "US-TSK-022",
+        "FR-TSK-033",
+        "FR-TSK-034",
+        "FR-TSK-035",
+        "FR-TSK-036",
+        "FR-TSK-037",
+        "FR-TSK-038",
+        "FR-TSK-039",
+        "FR-TSK-040"
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "type": "Information",
+      "en": "You have no tasks right now",
+      "ar": "لا توجد مهام لديك الآن",
+      "use_case": "TSK-3"
+    },
+    {
+      "type": "Information",
+      "en": "No matching tasks",
+      "ar": "لا توجد مهام مطابقة",
+      "use_case": "TSK-3"
+    },
+    {
+      "type": "Error",
+      "en": "Manual tasks could not be loaded. Try refreshing the page.",
+      "ar": "تعذر تحميل المهام اليدوية. حاول تحديث الصفحة.",
+      "use_case": "TSK-3"
+    },
+    {
+      "type": "Information",
+      "en": "N open tasks · M completed",
+      "ar": "N مهمة مفتوحة · M منجزة",
+      "use_case": "TSK-3"
+    },
+    {
+      "type": "Warning",
+      "en": "Overdue by N days",
+      "ar": "متأخرة N أيام",
+      "use_case": "TSK-3"
+    },
+    {
+      "type": "Information",
+      "en": "No tasks on this day",
+      "ar": "لا توجد مهام في هذا اليوم",
+      "use_case": "TSK-3"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Task created",
+      "ar": "تم إنشاء المهمة",
+      "use_case": "TSK-4"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Task updated",
+      "ar": "تم تحديث المهمة",
+      "use_case": "TSK-4"
+    },
+    {
+      "type": "Error",
+      "en": "Task title is required and must not exceed 200 characters",
+      "ar": "عنوان المهمة مطلوب ويجب ألا يتجاوز 200 حرف",
+      "use_case": "TSK-4"
+    },
+    {
+      "type": "Error",
+      "en": "Select a user linked to the current organization",
+      "ar": "اختر مستخدماً مرتبطاً بالجهة الحالية",
+      "use_case": "TSK-4"
+    },
+    {
+      "type": "Notification",
+      "en": "Recommended: notify invitees when a meeting is created, changed or cancelled",
+      "ar": "إشعار المدعوين بإنشاء الموعد أو تعديله أو إلغائه (مقترح)",
+      "use_case": "TSK-5"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Task status updated",
+      "ar": "تم تحديث حالة المهمة",
+      "use_case": "TSK-6"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Task completed",
+      "ar": "تم إنجاز المهمة",
+      "use_case": "TSK-6"
+    },
+    {
+      "type": "Confirmation",
+      "en": "<Decision> done: <task>",
+      "ar": "تم <اعتماد / إرجاع للتعديل / رفض>: <المهمة>",
+      "use_case": "TSK-7"
+    },
+    {
+      "type": "Warning",
+      "en": "Alert: recommendation «not recommended for approval» / score below the pass score — write the approval justification.",
+      "ar": "تنبيه: التوصية «لا يوصى بالموافقة» / التقييم أقل من درجة النجاح — اكتب مبرر الاعتماد.",
+      "use_case": "TSK-7"
+    },
+    {
+      "type": "Notification",
+      "en": "Recommended: notify the responsible person when a new task arrives or a task becomes overdue",
+      "ar": "إشعار المسؤول بوصول مهمة جديدة أو تأخرها (مقترح)",
+      "use_case": "TSK-1"
+    },
+    {
+      "type": "Information",
+      "en": "Only applications of the same stage or payments can be selected",
+      "ar": "يمكن اختيار طلبات المرحلة نفسها أو دفعات فقط",
+      "use_case": "TSK-8"
+    },
+    {
+      "type": "Error",
+      "en": "Write the reason in the note",
+      "ar": "اكتب السبب في الملاحظة",
+      "use_case": "TSK-9"
+    },
+    {
+      "type": "Information",
+      "en": "No tasks remaining",
+      "ar": "لا مهام متبقية",
+      "use_case": "TSK-9"
+    },
+    {
+      "type": "Information",
+      "en": "You completed N tasks today.",
+      "ar": "أنجزت N مهمة اليوم.",
+      "use_case": "TSK-9"
+    },
+    {
+      "type": "Information",
+      "en": "No tasks in this category",
+      "ar": "لا مهام في هذا التصنيف",
+      "use_case": "TSK-9"
+    }
+  ],
+  "business_rules": [
+    {
+      "rule": "Application and payment tasks are generated from the live state of the application or payment and are never maintained separately; they disappear automatically when the item moves on.",
+      "use_case": "TSK-1"
+    },
+    {
+      "rule": "An application task exists while the application is pending at a stage and not awaiting partner edits.",
+      "use_case": "TSK-1"
+    },
+    {
+      "rule": "An application task is assigned to the stage's configured supervisors and committee secretary; Grants Managers and System Administrators oversee all stage tasks of their organization.",
+      "use_case": "TSK-1"
+    },
+    {
+      "rule": "Application task due date = stage entry date + stage service level (default 3 days).",
+      "use_case": "TSK-1"
+    },
+    {
+      "rule": "A payment task is assigned to the owner of the current approval step: the project's own manager, then Grants Managers, then the CEO.",
+      "use_case": "TSK-2"
+    },
+    {
+      "rule": "Payment task due date = the payment due date.",
+      "use_case": "TSK-2"
+    },
+    {
+      "rule": "Users only see tasks of their own organization.",
+      "use_case": "TSK-3"
+    },
+    {
+      "rule": "A task is overdue when it is not done and its due date has passed (Saudi local date).",
+      "use_case": "TSK-3"
+    },
+    {
+      "rule": "«مهامي» shows system tasks, tasks assigned to me and meetings I attend; «أسندتُها لغيري» shows manual tasks I created for others.",
+      "use_case": "TSK-3"
+    },
+    {
+      "rule": "Task types are mutually exclusive in filters: meetings are counted only under «المواعيد».",
+      "use_case": "TSK-3"
+    },
+    {
+      "rule": "A manual task requires a title of 1–200 characters and an assignee who is an active member of the organization.",
+      "use_case": "TSK-4"
+    },
+    {
+      "rule": "The original creator of a manual task is preserved on edit and reassignment.",
+      "use_case": "TSK-4"
+    },
+    {
+      "rule": "Meeting time, location and invitees apply only to meetings; the responsible person is not listed as an invitee.",
+      "use_case": "TSK-5"
+    },
+    {
+      "rule": "Manual task statuses are «بانتظار التنفيذ», «جارٍ العمل» and «منجزة»; completed tasks can be reopened.",
+      "use_case": "TSK-6"
+    },
+    {
+      "rule": "Only the assignee and creator may change a manual task (To be confirmed).",
+      "use_case": "TSK-6"
+    },
+    {
+      "rule": "Return and reject decisions from a task always require a reason of up to 1000 characters.",
+      "use_case": "TSK-7"
+    },
+    {
+      "rule": "Approving an application that the AI does not recommend, or whose score is below the pass score, requires a justification.",
+      "use_case": "TSK-7"
+    },
+    {
+      "rule": "Payment tasks offer approve or reject only; rejection returns the payment to the start of the approval chain.",
+      "use_case": "TSK-7"
+    },
+    {
+      "rule": "Bulk minute selection is limited to the committee secretary and to tasks of the same committee and stage.",
+      "use_case": "TSK-8"
+    },
+    {
+      "rule": "Focus mode excludes meetings, orders tasks by due date and enforces the same decision rules as the inbox.",
+      "use_case": "TSK-9"
+    },
+    {
+      "rule": "A focus session continues across navigation and page refresh until the user ends it.",
+      "use_case": "TSK-9"
+    }
+  ],
+  "kpis": [
+    {
+      "name": "Open tasks per user",
+      "definition": "Number of open tasks in the user's «مهامي» scope, by type (manual, meeting, application, payment)."
+    },
+    {
+      "name": "Overdue tasks",
+      "definition": "Number and percentage of open tasks whose due date has passed, per user and per type."
+    },
+    {
+      "name": "Completed tasks",
+      "definition": "Number of manual tasks marked «منجزة» in the period, per user."
+    },
+    {
+      "name": "Average task completion time",
+      "definition": "Average time from creation to completion of manual tasks, per user (shown on the staff profile)."
+    },
+    {
+      "name": "Stage SLA adherence",
+      "definition": "Percentage of application tasks decided on or before their due date."
+    },
+    {
+      "name": "Payment approval lead time",
+      "definition": "Average days a payment spends at each approval step."
+    },
+    {
+      "name": "Tasks completed today (focus mode)",
+      "definition": "Number of tasks completed or decided in focus mode by the user today."
+    }
+  ],
+  "gaps": [
+    {
+      "area": "Focus-mode decision controls",
+      "gap": "Approving in focus mode does not require the justification for risky approvals that the inbox requires.",
+      "impact": "Controls can be bypassed by using focus mode.",
+      "recommendation": "Apply the same decision rules centrally for all screens.",
+      "priority": "High"
+    },
+    {
+      "area": "Payment action labelling",
+      "gap": "Focus mode labels the second payment action as a return with note, but it actually rejects the payment and restarts the approval chain.",
+      "impact": "Approvers may reject payments unintentionally.",
+      "recommendation": "Label it «رفض» or implement a distinct return-for-correction outcome.",
+      "priority": "High"
+    },
+    {
+      "area": "Focus-mode reject",
+      "gap": "Focus mode offers no reject action for applications.",
+      "impact": "Inconsistent experience; users must leave focus mode to reject.",
+      "recommendation": "Add reject with mandatory reason or document the omission.",
+      "priority": "Low"
+    },
+    {
+      "area": "Manual task permissions",
+      "gap": "Anyone who can see a manual task (creator, invitee) can edit it or change its status.",
+      "impact": "Unauthorised changes to colleagues' tasks.",
+      "recommendation": "Define and enforce edit rights.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Cancel / delete",
+      "gap": "Manual tasks and meetings cannot be cancelled or deleted.",
+      "impact": "Obsolete items clutter inboxes and distort counts.",
+      "recommendation": "Add cancel/delete for the creator.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Empty search",
+      "gap": "When a search returns nothing, the search box disappears and the user cannot clear it without refreshing.",
+      "impact": "Users appear to have no tasks.",
+      "recommendation": "Keep the toolbar visible for empty search results.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Data scoping and performance",
+      "gap": "Task data for all organizations is loaded and filtered on the user's screen.",
+      "impact": "Data exposure risk and slow pages as volumes grow.",
+      "recommendation": "Compute tasks on the server per user and organization.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Finance tasks",
+      "gap": "Finance receives no tasks for payments awaiting transfer or receipt follow-up.",
+      "impact": "Approved payments can wait unnoticed.",
+      "recommendation": "Generate finance execution tasks.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Notifications",
+      "gap": "No notifications or reminders for new, overdue or service-level-breaching tasks.",
+      "impact": "Reliance on users checking the inbox; SLA breaches.",
+      "recommendation": "Confirm and implement notification requirements.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Oversight view",
+      "gap": "Grants Managers and Administrators see every stage task as their own, hiding the actual responsible owners and inflating their counts.",
+      "impact": "Misleading workload and accountability.",
+      "recommendation": "Show actual owners and provide a separate oversight view.",
+      "priority": "Low"
+    },
+    {
+      "area": "Bulk payment minutes",
+      "gap": "Payment minute decisions are partly built but cannot be reached, while the hint suggests payments can be selected.",
+      "impact": "Confusing guidance.",
+      "recommendation": "Decide whether payment minutes are needed; enable or remove.",
+      "priority": "Low"
+    },
+    {
+      "area": "Date handling",
+      "gap": "Overdue status and 'today' are not consistently based on Saudi local time.",
+      "impact": "Wrong overdue state around midnight.",
+      "recommendation": "Use Riyadh local time everywhere.",
+      "priority": "Low"
+    },
+    {
+      "area": "Sorting of payment tasks",
+      "gap": "'Newest added' sorting for payment tasks uses the due date.",
+      "impact": "Misleading order.",
+      "recommendation": "Use the time the payment reached the current step.",
+      "priority": "Low"
+    },
+    {
+      "area": "Focus statistics",
+      "gap": "Focus time and daily completions are kept only on the user's device.",
+      "impact": "Not reportable or attributable.",
+      "recommendation": "Store centrally if used for performance reporting.",
+      "priority": "Low"
+    },
+    {
+      "area": "Assignable users",
+      "gap": "The assignee list may include users who then fail the active-membership check on save.",
+      "impact": "Confusing save errors.",
+      "recommendation": "Use one source for assignable users.",
+      "priority": "Low"
+    },
+    {
+      "area": "Unused options",
+      "gap": "References to a board (Kanban) view and a menu count for a non-existent finance item.",
+      "impact": "Inconsistent configuration.",
+      "recommendation": "Remove or implement.",
+      "priority": "Low"
+    }
+  ],
+  "open_questions": [
+    "Should manual tasks and meetings support cancel/delete, comments and attachments?",
+    "Who may edit a manual task or change its status: creator, assignee, invitees?",
+    "Should Grants Managers and Administrators see all stage tasks as their own, or in a separate oversight view?",
+    "For payments, are 'return for correction' and 'reject' different outcomes?",
+    "Is the 3-day default service level correct, and should service levels be measured in Saudi working days?",
+    "Should focus mode offer reject and enforce the risky-approval justification?",
+    "Are email or push notifications and reminders required for new and overdue tasks?",
+    "Which payment steps after approval (transfer, receipt confirmation) should create tasks, and for whom?",
+    "Should meetings integrate with external calendars and allow partner (external) attendees?",
+    "Should committee minutes also be possible for payment approvals from tasks?",
+    "Is a board (Kanban) view required?",
+    "Should focus-mode time and completions be stored for productivity reporting?"
+  ]
+}

@@ -1,0 +1,1451 @@
+{
+  "module": "FIN",
+  "title": "Payments, Disbursement & Financial Reporting",
+  "summary": "This capability controls how grant money leaves the foundation: every project payment becomes due only when earned, passes a three-level approval chain, is authorised through a printed disbursement order, is transferred by Finance and is closed only when the partner organization returns a signed receipt voucher. Around this journey it gives Finance and management a live payments register, a clear split of every budget into paid, due, approved and available amounts, partner commitment tracking, an executive indicators dashboard and ready-made, exportable reports. The value is disciplined, auditable disbursement and a single trusted picture of financial commitments and spend.",
+  "process": {
+    "title": "Payment journey: from due to receipt",
+    "mermaid": "flowchart LR\n  A[\"Payment scheduled\"] --> B{\"Milestone approved or due date reached?\"}\n  B -->|\"Yes\"| C[\"Payment due\"]\n  C --> D[\"Submitted for approval\"]\n  D --> E[\"Approval 1: Project Manager\"]\n  E --> F[\"Approval 2: Grants Manager\"]\n  F --> G[\"Approval 3: CEO\"]\n  E -->|\"Rejected with reason\"| C\n  F -->|\"Rejected with reason\"| C\n  G -->|\"Rejected with reason\"| C\n  G -->|\"Approved\"| H[\"Disbursement order issued to Finance\"]\n  H --> I[\"Finance confirms payee and executes bank transfer\"]\n  I --> J[\"Transfer notice uploaded\"]\n  J --> K[\"Partner uploads receipt voucher\"]\n  K --> L[\"Payment closed as paid\"]"
+  },
+  "use_cases": [
+    {
+      "key": "FIN-1",
+      "name": "Monitor the payments register",
+      "title": "As a Finance Officer, I want to see all project payments with their status, due date, amount and who they are waiting on so that I can follow up delays and manage my own work queue.",
+      "description": "The payments register gives Finance and management one list of every project payment. Summary cards show the total value of overdue, open, in-approval, awaiting-transfer and paid payments, and act as filters. Each payment shows how close it is to its due date and who must act next. The list can be exported for reconciliation.",
+      "actors": [
+        "Finance Officer",
+        "Grants Manager",
+        "Project Manager",
+        "CEO / Executive Approver",
+        "System"
+      ],
+      "preconditions": [
+        "Payments exist for the organization's projects.",
+        "The user is authorised to view financial data."
+      ],
+      "trigger": "The user opens the payments register.",
+      "scenario": [
+        "The user opens the payments register.",
+        "The system shows five summary cards with total amounts: overdue (with count), new/due, awaiting approval, awaiting transfer/receipt and paid.",
+        "The system lists the payments by due date with reference, project, partner, payment title, amount, due date and how soon it is due, status, who it is waiting on and the next action.",
+        "The user clicks a card or selects a status to filter the list, and may save the filter as a personal view.",
+        "The user opens a project or acts on a payment directly from the list.",
+        "The user exports the filtered list."
+      ],
+      "alternative_flows": [
+        "If the user clicks the active card again, the card filter is cleared.",
+        "If the user selects a status from the list, the card filter is cleared."
+      ],
+      "business_requirements": [
+        "The system must list all project payments of the user's organization ordered by due date.",
+        "The system must show the total amount per status group on five clickable summary cards, with the number of overdue payments.",
+        "The system must show for each unpaid payment how many days it is overdue or how soon it falls due (today, within 7 days, within 30 days, more than a month).",
+        "The system must show who each payment is waiting on (partner/Project Manager, the current approver, Finance for transfer, or the partner for the receipt).",
+        "The system must allow filtering by status and saving the filter as a personal view.",
+        "The system must allow exporting the filtered list to a spreadsheet file (Excel or CSV, correctly labelled).",
+        "The system must restrict the register and its totals to the user's organization and to roles authorised to view financial data.",
+        "The system must show a clear message when data cannot be loaded or no payments exist (Recommended).",
+        "The system should restrict Project Managers to the payments of their own projects (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Data not loaded",
+          "description": "The register cannot be loaded; the system shows an error message instead of an empty list (Recommended)."
+        }
+      ],
+      "postconditions": "The user knows the status and next actor of each payment and can act or export.",
+      "fields": [
+        {
+          "en": "Payment number",
+          "ar": "رقم الدفعة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "System-generated reference."
+        },
+        {
+          "en": "Project",
+          "ar": "المشروع",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Link to the project."
+        },
+        {
+          "en": "Partner organization",
+          "ar": "الجهة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Payment title",
+          "ar": "الدفعة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "e.g. advance, milestone 2, retention."
+        },
+        {
+          "en": "Amount",
+          "ar": "المبلغ",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Due date",
+          "ar": "الاستحقاق",
+          "type": "Date",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "With due band (overdue N days, today, within N days)."
+        },
+        {
+          "en": "Status",
+          "ar": "الحالة",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "جديدة / مستحقة / بانتظار الاعتماد / بانتظار التحويل / بانتظار سند القبض / مدفوعة / ملغاة."
+        },
+        {
+          "en": "Waiting on",
+          "ar": "بانتظار",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Next responsible party."
+        }
+      ],
+      "trace": [
+        "US-FIN-001",
+        "US-FIN-002",
+        "FR-FIN-001",
+        "FR-FIN-002",
+        "FR-FIN-003",
+        "FR-FIN-004",
+        "FR-FIN-005",
+        "FR-FIN-006",
+        "FR-FIN-007"
+      ]
+    },
+    {
+      "key": "FIN-2",
+      "name": "Make a payment due and submit it for approval",
+      "title": "As a Project Manager, I want a payment to become due when the related work is delivered and then submit it for approval so that only earned payments enter the approval chain.",
+      "description": "Payments are scheduled when a grant becomes a project. A milestone payment becomes due automatically when the milestone is approved; advance and other scheduled payments are marked due by authorised staff. The Project Manager then submits the due payment to start the approval chain.",
+      "actors": [
+        "Project Manager",
+        "Finance Officer",
+        "System"
+      ],
+      "preconditions": [
+        "The payment exists in 'New' status for a project in execution."
+      ],
+      "trigger": "A milestone is approved, or an authorised user reviews a scheduled payment.",
+      "scenario": [
+        "The system schedules the project's payments when the grant is transferred to a project.",
+        "When a milestone is approved, the system makes its linked payment due automatically.",
+        "For a payment not linked to a milestone (e.g. advance), an authorised user marks it as due.",
+        "The Project Manager reviews the due payment.",
+        "The Project Manager submits it for approval.",
+        "The system starts the approval chain at the first level and creates an approval task for the eligible approver."
+      ],
+      "alternative_flows": [
+        "If a milestone payment's conditions are not met (tasks, evidence or report not approved), the payment stays on hold and shows the missing conditions."
+      ],
+      "business_requirements": [
+        "The system must create a project's scheduled payments when an approved grant is transferred to a project.",
+        "The system must make a milestone payment due automatically when the milestone is approved.",
+        "The system must keep a milestone payment on hold until its tasks, evidence and milestone report are approved, on every screen where the payment can be acted on.",
+        "The system must allow only authorised roles to mark a payment as due and to submit it for approval (To be confirmed).",
+        "The system must start the approval chain at the first level when a payment is submitted.",
+        "The system must notify the first eligible approver through their task inbox.",
+        "The system should allow advance and retention payments to become due by date or by closure, according to agreed policy (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Milestone conditions not met",
+          "description": "The milestone has unapproved tasks, evidence or report; the system keeps the payment on hold and lists what is missing."
+        }
+      ],
+      "postconditions": "The payment is awaiting approval at level 1 of 3.",
+      "fields": [
+        {
+          "en": "Payment status",
+          "ar": "الحالة",
+          "type": "List",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "New → Due → Awaiting approval."
+        },
+        {
+          "en": "Linked milestone",
+          "ar": "المرحلة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Present for milestone payments."
+        },
+        {
+          "en": "Due date",
+          "ar": "الاستحقاق",
+          "type": "Date",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        }
+      ],
+      "trace": [
+        "US-FIN-003",
+        "US-FIN-004",
+        "FR-FIN-008",
+        "FR-FIN-009",
+        "FR-FIN-010",
+        "FR-FIN-011",
+        "FR-FIN-012"
+      ]
+    },
+    {
+      "key": "FIN-3",
+      "name": "Approve or reject a payment",
+      "title": "As an approver (Project Manager, Grants Manager or CEO), I want to review and approve or reject a payment at my level so that only properly authorised payments reach Finance.",
+      "description": "Each payment passes three sequential approvals: the project's own Project Manager, then the Grants Manager, then the CEO. Each approver sees the payment, its amount, due date, approval level and an advisory AI opinion on the supporting evidence. A rejection, with a reason, returns the payment to 'Due' and the chain restarts. The final approval issues the disbursement order to Finance.",
+      "actors": [
+        "Project Manager",
+        "Grants Manager",
+        "CEO / Executive Approver",
+        "Committee Secretary",
+        "System"
+      ],
+      "preconditions": [
+        "The payment is awaiting approval.",
+        "The user is the eligible approver for the current level."
+      ],
+      "trigger": "The approver opens the approval task in their inbox or the payment in the register or project.",
+      "scenario": [
+        "The approver opens the payment approval task.",
+        "The system shows the payment title, amount, due date, approval level (n of 3 and role) and the advisory AI opinion on the evidence.",
+        "The system warns if any related evidence was flagged by the AI check.",
+        "The approver approves the payment.",
+        "The system records the decision with approver and date and moves the payment to the next level.",
+        "At level 3, the CEO approves and the system issues the disbursement order with a unique number and date and forwards it to Finance."
+      ],
+      "alternative_flows": [
+        "If the approver rejects the payment, they enter a reason; the system records it and returns the payment to 'Due' for correction and resubmission from level 1.",
+        "If payments are decided by committee, the Committee Secretary records several payment decisions in a single committee minute (To be confirmed)."
+      ],
+      "business_requirements": [
+        "The system must apply a three-level sequential approval chain: Project Manager, then Grants Manager, then CEO.",
+        "Only the project's assigned Project Manager may approve at level 1; only a Grants Manager at level 2; only the CEO at level 3.",
+        "The system must prevent the same person from approving more than one level of the same payment.",
+        "The system must restrict any administrator override of approval levels (To be confirmed).",
+        "The system must require a reason for every rejection, in every place where a payment can be rejected.",
+        "The system must return a rejected payment to 'Due' and restart the chain from level 1 on resubmission.",
+        "The system must record every approval and rejection with level, approver, date, decision and reason, and keep this history visible on the payment.",
+        "The system must never advance a payment without recording the decision in the approval history.",
+        "The system must show the advisory AI opinion on the milestone evidence at approval and warn, without blocking, when evidence was flagged.",
+        "The system must issue a uniquely numbered disbursement order to Finance at final approval.",
+        "The system must create an approval task for the eligible approver of each payment awaiting approval and show the count in navigation.",
+        "The system should allow approval thresholds or committee approval for large payments (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Not eligible",
+          "description": "A user who is not the eligible approver for the current level tries to act; the system refuses."
+        },
+        {
+          "name": "Missing rejection reason",
+          "description": "The approver rejects without a reason; the system asks for the reason."
+        },
+        {
+          "name": "AI-flagged evidence",
+          "description": "Related evidence was flagged by the AI check; the system asks for confirmation before approving."
+        }
+      ],
+      "postconditions": "The payment is approved and awaiting transfer with a disbursement order, or returned to 'Due' with a recorded reason.",
+      "fields": [
+        {
+          "en": "Approval level",
+          "ar": "مستوى الاعتماد",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "n of 3 with role."
+        },
+        {
+          "en": "AI evidence opinion",
+          "ar": "رأي الذكاء الاصطناعي في الشواهد (استشاري)",
+          "type": "Long text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Advisory only."
+        },
+        {
+          "en": "Decision",
+          "ar": "القرار",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Approve / reject."
+        },
+        {
+          "en": "Rejection reason",
+          "ar": "السبب",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Mandatory when rejecting; up to 1,000 characters."
+        }
+      ],
+      "trace": [
+        "US-FIN-005",
+        "US-FIN-006",
+        "US-FIN-007",
+        "US-FIN-008",
+        "US-FIN-009",
+        "FR-FIN-013",
+        "FR-FIN-014",
+        "FR-FIN-015",
+        "FR-FIN-016",
+        "FR-FIN-017",
+        "FR-FIN-018",
+        "FR-FIN-019",
+        "FR-FIN-020",
+        "FR-FIN-021",
+        "FR-FIN-022"
+      ]
+    },
+    {
+      "key": "FIN-4",
+      "name": "Issue the disbursement order and confirm the payee",
+      "title": "As a Finance Officer, I want an authorised disbursement order with complete beneficiary and bank details, and to direct the payment to a third party when justified, so that I transfer the correct amount to the correct account.",
+      "description": "After final approval, the disbursement order is Finance's authorised instruction to pay. It shows the beneficiary, project and payment data, bank account and all approvals, and can be printed. By default the partner organization is paid; in justified cases (e.g. an agreement with a government body) the payment can be directed to a third party such as an operator or supplier.",
+      "actors": [
+        "Finance Officer",
+        "Grants Manager",
+        "System"
+      ],
+      "preconditions": [
+        "The payment has received all three approvals."
+      ],
+      "trigger": "The Finance Officer opens the disbursement order of an approved payment.",
+      "scenario": [
+        "The Finance Officer opens the disbursement order.",
+        "The system shows the order number and date, addressed to the Finance department.",
+        "The system shows the beneficiary data (organization, licence number, unified number, region, representative, mobile, email).",
+        "The system shows the project data (number, name, responsible manager, region, field, plan item) and payment data (bank, account name, IBAN, purpose, payment number, amount, tax applicability).",
+        "The system shows each approval level with approver name and date.",
+        "The Finance Officer prints the order."
+      ],
+      "alternative_flows": [
+        "If the payment must go to a third party, the payee is set to 'Third party' with account name, bank, IBAN and justification; the order then shows the third party's bank details and the reason.",
+        "If the payee changes after any approval has been given, the payment returns to the approval chain (Recommended)."
+      ],
+      "business_requirements": [
+        "The system must make the disbursement order available only after final approval.",
+        "The system must give each disbursement order a unique sequential number and the date of final approval.",
+        "The disbursement order must show beneficiary, project and payment data, bank account details and every approval with approver name and date.",
+        "The disbursement order must show only the approvals of the latest approval cycle.",
+        "The system must allow the disbursement order to be printed without editing controls.",
+        "The system must pay the partner organization (or the project's executing organization) by default.",
+        "The system must allow a third-party payee only with account name, IBAN and a justification.",
+        "The system must validate the IBAN format (Saudi IBAN: SA followed by 22 digits).",
+        "The system must capture the payee before the approval chain starts so that approvers see the actual recipient (To be confirmed).",
+        "The system must record every payee change with user and time and require re-approval if the payee changes after any approval.",
+        "The system must not allow payee changes once the transfer has been confirmed.",
+        "The system must define the tax (VAT) treatment and capture whether tax applies to the payment (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Incomplete third-party details",
+          "description": "Account name, IBAN or reason is missing; the system asks the user to complete them and does not save."
+        },
+        {
+          "name": "Invalid IBAN",
+          "description": "The IBAN does not match the Saudi format; the system rejects it (Recommended)."
+        }
+      ],
+      "postconditions": "A complete, printable disbursement order with the confirmed payee is available to Finance.",
+      "fields": [
+        {
+          "en": "Order number",
+          "ar": "رقم الإذن",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Unique, generated at final approval."
+        },
+        {
+          "en": "Order date",
+          "ar": "تاريخ الإذن",
+          "type": "Date-time",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Date of final approval."
+        },
+        {
+          "en": "Organization name",
+          "ar": "اسم الجهة",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Licence number",
+          "ar": "رقم الترخيص",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Unified number (700)",
+          "ar": "الرقم الموحد (700)",
+          "type": "Text",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Payee",
+          "ar": "المستفيد من الصرف",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "الجهة الشريكة (default) / طرف ثالث."
+        },
+        {
+          "en": "Account name",
+          "ar": "مسمى الحساب",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Mandatory for third party."
+        },
+        {
+          "en": "Bank",
+          "ar": "المصرف",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "IBAN",
+          "ar": "رقم الآيبان",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "SA + 22 digits."
+        },
+        {
+          "en": "Reason for third-party payment",
+          "ar": "سبب الصرف لطرف ثالث",
+          "type": "Long text",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "Mandatory for third party, e.g. agreement with a government body."
+        },
+        {
+          "en": "Amount",
+          "ar": "المبلغ",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": ""
+        },
+        {
+          "en": "Tax applicable?",
+          "ar": "هل يوجد ضريبة؟",
+          "type": "Yes/No",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Treatment to be confirmed."
+        }
+      ],
+      "trace": [
+        "US-FIN-010",
+        "US-FIN-011",
+        "FR-FIN-023",
+        "FR-FIN-024",
+        "FR-FIN-025",
+        "FR-FIN-026",
+        "FR-FIN-027",
+        "FR-FIN-028",
+        "FR-FIN-029",
+        "FR-FIN-030",
+        "FR-FIN-031"
+      ]
+    },
+    {
+      "key": "FIN-5",
+      "name": "Record the bank transfer",
+      "title": "As a Finance Officer, I want to attach the bank transfer notice and confirm the transfer so that the payment is evidenced and the partner is asked for the receipt voucher.",
+      "description": "Finance executes the bank transfer outside the system (bank or ERP), following the disbursement order. Finance then uploads the bank transfer notice, optionally enters the transfer reference, and confirms. The payment moves to 'Awaiting receipt' and the partner is asked to upload a receipt voucher.",
+      "actors": [
+        "Finance Officer",
+        "System"
+      ],
+      "preconditions": [
+        "The payment is approved and awaiting transfer.",
+        "The disbursement order has been issued."
+      ],
+      "trigger": "Finance has executed the bank transfer.",
+      "scenario": [
+        "The Finance Officer executes the transfer in the bank according to the disbursement order.",
+        "The Finance Officer opens the payment and uploads the bank transfer notice.",
+        "The Finance Officer enters the transfer reference (optional).",
+        "The Finance Officer confirms the transfer.",
+        "The system checks that a transfer notice is attached, records the transfer date and reference, and moves the payment to 'Awaiting receipt'.",
+        "The system notifies the partner organization to upload the receipt voucher."
+      ],
+      "alternative_flows": [
+        "Other staff see the transfer step as 'With Finance for transfer' and can view the notice read-only."
+      ],
+      "business_requirements": [
+        "The system must allow only Finance Officers to upload the transfer notice and confirm the transfer.",
+        "The system must require at least one bank transfer notice before the transfer can be confirmed.",
+        "The system must record the transfer date and optional transfer reference.",
+        "The system must move the payment to 'Awaiting receipt' on confirmation.",
+        "The system must warn, without blocking, if the AI check flagged the transfer notice.",
+        "The system must warn or block the transfer when the partner's bank account has not been verified (To be confirmed).",
+        "The system should require the transfer reference and capture the actual transferred amount and date to support partial transfers (To be confirmed).",
+        "The system should support a bank payment file or ERP integration instead of manual recording (To be confirmed)."
+      ],
+      "errors": [
+        {
+          "name": "Transfer notice missing",
+          "description": "No transfer notice is attached; the system asks the user to attach the 'bank transfer notice' first."
+        }
+      ],
+      "postconditions": "The payment is awaiting the partner's receipt voucher, with the transfer evidenced.",
+      "fields": [
+        {
+          "en": "Bank transfer notice",
+          "ar": "إشعار الحوالة البنكية",
+          "type": "File",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "At least one file."
+        },
+        {
+          "en": "Transfer reference",
+          "ar": "رقم الحوالة (اختياري)",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Mandatory status to be confirmed."
+        },
+        {
+          "en": "Transfer date",
+          "ar": "تاريخ التحويل",
+          "type": "Date-time",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Recorded on confirmation."
+        }
+      ],
+      "trace": [
+        "US-FIN-012",
+        "FR-FIN-032",
+        "FR-FIN-033",
+        "FR-FIN-034"
+      ]
+    },
+    {
+      "key": "FIN-6",
+      "name": "Confirm receipt and close the payment",
+      "title": "As a Partner Organization, I want to see the transfer notice and upload my receipt voucher so that the payment is formally closed.",
+      "description": "The partner sees that the payment was transferred, views the bank transfer notice and uploads its signed receipt voucher. Confirming receipt closes the payment as paid. Staff can then view the full evidence trail (order, transfer notice, receipt) for audit.",
+      "actors": [
+        "Partner Organization",
+        "Finance Officer",
+        "System"
+      ],
+      "preconditions": [
+        "The payment is awaiting receipt."
+      ],
+      "trigger": "The partner opens its project and sees a payment awaiting receipt.",
+      "scenario": [
+        "The partner opens the payment on its project page.",
+        "The system shows the bank transfer notice (read-only).",
+        "The partner uploads the receipt voucher and optionally enters its number.",
+        "The partner confirms receipt.",
+        "The system checks that a receipt voucher is attached, records the receipt date and number, and closes the payment as paid.",
+        "Finance and staff view the disbursement order, transfer notice and receipt voucher of the settled payment."
+      ],
+      "alternative_flows": [
+        "If the payment went to a third party, the receipt is provided according to the agreed rule (partner or third party) (To be confirmed)."
+      ],
+      "business_requirements": [
+        "The system must show payment actions to the partner only when the payment is awaiting receipt or paid.",
+        "The system must allow only the partner organization that owns the project to upload the receipt voucher and confirm receipt.",
+        "The system must require at least one receipt voucher before receipt can be confirmed.",
+        "The system must record the receipt date and optional receipt number and close the payment as paid.",
+        "The system must keep the disbursement order, transfer notice and receipt voucher viewable, read-only, for settled payments.",
+        "The system must remind the partner when a receipt voucher is outstanding beyond an agreed period (Recommended)."
+      ],
+      "errors": [
+        {
+          "name": "Receipt voucher missing",
+          "description": "No receipt voucher is attached; the system asks the partner to attach the 'receipt voucher' first."
+        }
+      ],
+      "postconditions": "The payment is paid and fully evidenced.",
+      "fields": [
+        {
+          "en": "Receipt voucher",
+          "ar": "سند القبض",
+          "type": "File",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "At least one file."
+        },
+        {
+          "en": "Receipt voucher number",
+          "ar": "رقم سند القبض (اختياري)",
+          "type": "Text",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Receipt date",
+          "ar": "تاريخ الاستلام",
+          "type": "Date-time",
+          "editable": "No",
+          "mandatory": "Yes",
+          "notes": "Recorded on confirmation."
+        }
+      ],
+      "trace": [
+        "US-FIN-013",
+        "US-FIN-014",
+        "FR-FIN-035",
+        "FR-FIN-036",
+        "FR-FIN-037"
+      ]
+    },
+    {
+      "key": "FIN-7",
+      "name": "Monitor financial position and partner commitments",
+      "title": "As a Finance Officer or Grants Manager, I want to see how each project, plan and plan item budget splits into paid, due, approved and available amounts, and each partner's planned versus paid amounts, so that I can control budget consumption and commitments.",
+      "description": "Every budget (project, strategic plan or plan item) is shown as a split into paid, due, approved-not-yet-due and available amounts, with a separate indication of amounts under review. Spend rates show how much of the budget and of approved commitments has actually been paid. For each partner, a monthly chart compares planned against paid amounts and highlights arrears.",
+      "actors": [
+        "Finance Officer",
+        "Grants Manager",
+        "Project Manager",
+        "CEO / Executive Approver",
+        "System"
+      ],
+      "preconditions": [
+        "Projects with payments exist under the plan or partner."
+      ],
+      "trigger": "The user opens a project, a plan summary, a plan item or a partner profile.",
+      "scenario": [
+        "The user opens a project, plan or plan item.",
+        "The system shows the value split as a bar: paid, due, approved and available, with amounts under review shown separately.",
+        "The system shows the spend rate from budget and the spend rate from approved commitments.",
+        "The user opens a partner profile.",
+        "The system shows the partner's total commitments, paid, remaining and due-and-overdue amounts.",
+        "The system shows a monthly chart of planned against paid amounts."
+      ],
+      "alternative_flows": [
+        "If a project is funded by several initiatives, its amounts are attributed to each initiative by funding share, without double counting.",
+        "If the partner has no scheduled payments, the system shows an empty-state message."
+      ],
+      "business_requirements": [
+        "The system must split every budget into paid, due, approved-not-yet-due and available amounts.",
+        "The system must use a single, agreed definition of 'paid' (at transfer or at receipt) in all splits, cards, dashboards and reports (To be confirmed).",
+        "The system must show amounts of applications under review separately, without reducing the available budget.",
+        "The system must highlight a negative available amount (over-commitment).",
+        "The system must attribute projects funded by several initiatives to each initiative by its funding share, without double counting.",
+        "The system must calculate the spend rate from budget and from approved commitments, capped at 100%.",
+        "The system must show for each partner total commitments, paid, remaining and due-and-overdue amounts, excluding cancelled payments.",
+        "The system must chart each partner's planned (by due month) against paid (by payment month) amounts.",
+        "The system must apply a single overdue rule everywhere: unpaid, not cancelled and due date before today."
+      ],
+      "errors": [],
+      "postconditions": "The user has a consistent view of budget consumption and partner commitments.",
+      "fields": [
+        {
+          "en": "Paid",
+          "ar": "المصروف",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Per agreed definition of paid."
+        },
+        {
+          "en": "Due",
+          "ar": "المستحق",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Due, in approval or awaiting transfer."
+        },
+        {
+          "en": "Approved",
+          "ar": "المعتمد",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Committed but not yet due."
+        },
+        {
+          "en": "Available",
+          "ar": "المتاح",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Red when negative."
+        },
+        {
+          "en": "Under review (provisional)",
+          "ar": "محجوز مؤقتاً",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Informational; does not reduce available."
+        },
+        {
+          "en": "Total commitments",
+          "ar": "إجمالي الالتزامات",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Partner view."
+        },
+        {
+          "en": "Remaining",
+          "ar": "المتبقي",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Partner view."
+        },
+        {
+          "en": "Due and overdue",
+          "ar": "مستحق ومتأخر",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Partner view."
+        }
+      ],
+      "trace": [
+        "US-FIN-015",
+        "US-FIN-016",
+        "US-FIN-017",
+        "FR-FIN-038",
+        "FR-FIN-039",
+        "FR-FIN-040",
+        "FR-FIN-041",
+        "FR-FIN-042",
+        "FR-FIN-043"
+      ]
+    },
+    {
+      "key": "FIN-8",
+      "name": "View the executive indicators dashboard",
+      "title": "As the CEO, I want a dashboard of key indicators and status charts across applications, projects and payments so that I can monitor the whole grant cycle from application to disbursement.",
+      "description": "The dashboard gives executives a one-page view: total applications, approved amounts, active projects and actual spend, with charts of applications, projects and payments by status, pending applications by stage, applications by region, and a comparison table of grant opportunities.",
+      "actors": [
+        "CEO / Executive Approver",
+        "Grants Manager",
+        "Finance Officer",
+        "Reviewer",
+        "Committee Secretary",
+        "System"
+      ],
+      "preconditions": [
+        "The user is authorised to view the dashboard."
+      ],
+      "trigger": "The user opens the dashboard (home page for the CEO and Committee Secretary).",
+      "scenario": [
+        "The user opens the indicators dashboard.",
+        "The system shows four headline indicators: total applications, approved amounts, active projects and actual spend.",
+        "The system shows charts of applications by status, pending applications by stage, projects by status, payments by status and applications by region.",
+        "The system shows the grant opportunities table with budget, applications, approvals, approval rate, approved value and budget consumption.",
+        "The user exports the grant opportunities table."
+      ],
+      "alternative_flows": [
+        "If a chart has no data, the system shows 'No data'."
+      ],
+      "business_requirements": [
+        "The system must show the headline indicators: total applications (with number pending), approved amounts, active projects and actual spend (with spend rate from approved).",
+        "The system must chart applications, projects and payments by status.",
+        "The system must chart pending applications by review stage, using the stages configured in the review workflow.",
+        "The system must chart applications by execution region.",
+        "The system must show per grant opportunity: budget, applications, approved applications, approval rate, approved value and budget consumption, and allow export.",
+        "The system must scope all dashboard indicators to the user's organization.",
+        "The system must use the same definition of 'paid' as the financial splits.",
+        "The system should allow filtering the dashboard by plan year or date range (To be confirmed).",
+        "The system should base 'approved amounts' on contract values rather than requested amounts (To be confirmed)."
+      ],
+      "errors": [],
+      "postconditions": "Executives have a current, organization-scoped view of the grant cycle.",
+      "fields": [
+        {
+          "en": "Total applications",
+          "ar": "إجمالي الطلبات",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Approved amounts",
+          "ar": "المبالغ المعتمدة",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Active projects",
+          "ar": "المشاريع القائمة",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Actual spend",
+          "ar": "المصروف فعلياً",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Budget consumption",
+          "ar": "استهلاك الميزانية",
+          "type": "Percentage",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Per grant opportunity."
+        }
+      ],
+      "trace": [
+        "US-FIN-018",
+        "US-FIN-019",
+        "FR-FIN-044",
+        "FR-FIN-045",
+        "FR-FIN-046",
+        "FR-FIN-047",
+        "FR-FIN-048",
+        "FR-FIN-049"
+      ]
+    },
+    {
+      "key": "FIN-9",
+      "name": "Produce operational and financial reports",
+      "title": "As a Finance Officer or Grants Manager, I want ready-made reports on plan execution, applications, overdue tasks, project payments and partners so that I can export, print and present them.",
+      "description": "The reports center provides five standard reports: plan and budget execution, applications by stage, overdue tasks, projects and payments, and partner organizations. Each report can be searched, its columns chosen, saved as a personal view, exported to Excel or CSV and printed.",
+      "actors": [
+        "Finance Officer",
+        "Grants Manager",
+        "CEO / Executive Approver",
+        "System"
+      ],
+      "preconditions": [
+        "The user is authorised to view reports."
+      ],
+      "trigger": "The user opens the reports center.",
+      "scenario": [
+        "The user opens the reports center.",
+        "The user selects a report.",
+        "For the plan execution report, the user selects the plan (default: the active plan).",
+        "The system shows the report rows for the user's organization.",
+        "The user searches, chooses columns and saves the view.",
+        "The user opens a record (application, project or partner) from a row.",
+        "The user exports the report or prints it with its title."
+      ],
+      "alternative_flows": [
+        "If a report has no rows, the system shows 'No data' (or 'No overdue tasks')."
+      ],
+      "business_requirements": [
+        "The system must provide five reports: plan and budget execution, applications by stage, overdue tasks, projects and payments, and partner organizations.",
+        "The plan execution report must show per plan item: code, name, approved amount, used, available, paid, spend from budget and spend from approved.",
+        "The applications by stage report must show reference, project, partner, stage, days in stage, status and requested value.",
+        "The overdue tasks report must show open tasks past due with assignee, due date and days late.",
+        "The projects and payments report must show per project: reference, title, budget, paid amount and number of payments awaiting approval.",
+        "The partners report must show per partner: name, type, region, number of applications and approved value.",
+        "The system must allow search, column selection, saved views, pagination, export to Excel and CSV, and printing on every report.",
+        "The system must restrict every report to the user's organization.",
+        "The system must use the same definition of 'paid' in reports as in the financial splits."
+      ],
+      "errors": [],
+      "postconditions": "The user has an exported or printed report.",
+      "fields": [
+        {
+          "en": "Report",
+          "ar": "التقرير",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "Yes",
+          "notes": "تنفيذ الخطة والموازنة / الطلبات حسب المرحلة / تأخر المهام / المشاريع والدفعات / الجهات الشريكة."
+        },
+        {
+          "en": "Plan",
+          "ar": "الخطة",
+          "type": "List",
+          "editable": "Yes",
+          "mandatory": "No",
+          "notes": "Plan execution report only; defaults to active plan."
+        },
+        {
+          "en": "Used",
+          "ar": "المستخدم",
+          "type": "Amount (SAR)",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Days in stage",
+          "ar": "أيام في المرحلة",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": "Pending applications only."
+        },
+        {
+          "en": "Days late",
+          "ar": "أيام التأخير",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        },
+        {
+          "en": "Payments awaiting approval",
+          "ar": "دفعات قيد الاعتماد",
+          "type": "Number",
+          "editable": "No",
+          "mandatory": "No",
+          "notes": ""
+        }
+      ],
+      "trace": [
+        "US-FIN-020",
+        "US-FIN-021",
+        "US-FIN-022",
+        "FR-FIN-050",
+        "FR-FIN-051",
+        "FR-FIN-052",
+        "FR-FIN-053",
+        "FR-FIN-054",
+        "FR-FIN-055",
+        "FR-FIN-056"
+      ]
+    }
+  ],
+  "messages": [
+    {
+      "type": "Confirmation",
+      "en": "The payment is now due",
+      "ar": "أصبحت الدفعة مستحقة",
+      "use_case": "FIN-2"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Payment submitted for approval",
+      "ar": "تم رفع الدفعة للاعتماد",
+      "use_case": "FIN-2"
+    },
+    {
+      "type": "Information",
+      "en": "On hold — missing approvals: {conditions}",
+      "ar": "معلقة",
+      "use_case": "FIN-2"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Approved",
+      "ar": "تم الاعتماد",
+      "use_case": "FIN-3"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Approved and disbursement order issued to Finance",
+      "ar": "اعتُمدت وصدر إذن الصرف للمالية",
+      "use_case": "FIN-3"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Payment rejected",
+      "ar": "تم رفض الدفعة",
+      "use_case": "FIN-3"
+    },
+    {
+      "type": "Error",
+      "en": "Write the reason in the note",
+      "ar": "اكتب السبب في الملاحظة",
+      "use_case": "FIN-3"
+    },
+    {
+      "type": "Information",
+      "en": "After approval the disbursement order is issued and referred to the Finance department.",
+      "ar": "بعد الاعتماد يصدر إذن الصرف ويُحال للإدارة المالية.",
+      "use_case": "FIN-3"
+    },
+    {
+      "type": "Warning",
+      "en": "The AI pre-check found non-compliant files. Do you want to continue anyway?",
+      "ar": "الفحص الأولي بالذكاء الاصطناعي وجد ملفات غير مطابقة… هل تريد المتابعة رغم ذلك؟",
+      "use_case": "FIN-3"
+    },
+    {
+      "type": "Notification",
+      "en": "Payment approval awaiting your decision (task inbox)",
+      "ar": "اعتماد صرف دفعة",
+      "use_case": "FIN-3"
+    },
+    {
+      "type": "Error",
+      "en": "Complete the payee name, IBAN and reason",
+      "ar": "أكمل اسم المستفيد والآيبان والسبب",
+      "use_case": "FIN-4"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Payee saved",
+      "ar": "حُفظ المستفيد من الصرف",
+      "use_case": "FIN-4"
+    },
+    {
+      "type": "Information",
+      "en": "Not approved",
+      "ar": "لم يعتمد",
+      "use_case": "FIN-4"
+    },
+    {
+      "type": "Error",
+      "en": "Invalid IBAN — must start with SA followed by 22 digits (recommended)",
+      "ar": "رقم الآيبان غير صحيح",
+      "use_case": "FIN-4"
+    },
+    {
+      "type": "Information",
+      "en": "Execute the transfer, then attach the transfer notice",
+      "ar": "نفّذ التحويل ثم أرفق الحوالة",
+      "use_case": "FIN-5"
+    },
+    {
+      "type": "Information",
+      "en": "With the Finance department for transfer",
+      "ar": "لدى الإدارة المالية للتحويل",
+      "use_case": "FIN-5"
+    },
+    {
+      "type": "Error",
+      "en": "Attach «{document}» first (e.g. bank transfer notice)",
+      "ar": "أرفق «{المستند}» أولاً",
+      "use_case": "FIN-5"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Transfer recorded — awaiting the partner's receipt voucher",
+      "ar": "سُجل التحويل — بانتظار سند القبض من الجهة",
+      "use_case": "FIN-5"
+    },
+    {
+      "type": "Information",
+      "en": "Awaiting the receipt voucher from the partner organization",
+      "ar": "بانتظار سند القبض من الجهة الشريكة",
+      "use_case": "FIN-6"
+    },
+    {
+      "type": "Confirmation",
+      "en": "Payment closed",
+      "ar": "أُغلقت الدفعة",
+      "use_case": "FIN-6"
+    },
+    {
+      "type": "Notification",
+      "en": "Your payment has been transferred — please upload the receipt voucher (recommended)",
+      "ar": "تم تحويل الدفعة — يرجى رفع سند القبض",
+      "use_case": "FIN-6"
+    },
+    {
+      "type": "Information",
+      "en": "No scheduled payments",
+      "ar": "لا توجد دفعات مجدولة",
+      "use_case": "FIN-7"
+    },
+    {
+      "type": "Information",
+      "en": "Has pending approvals — does not count against the item ceiling and is not deducted from available",
+      "ar": "عليه موافقات — لا يلتزم بسقف البند ولا يُخصم من المتاح",
+      "use_case": "FIN-7"
+    },
+    {
+      "type": "Information",
+      "en": "No data",
+      "ar": "لا توجد بيانات",
+      "use_case": "FIN-8"
+    },
+    {
+      "type": "Information",
+      "en": "No overdue tasks",
+      "ar": "لا توجد مهام متأخرة",
+      "use_case": "FIN-9"
+    }
+  ],
+  "business_rules": [
+    {
+      "rule": "A payment moves through the statuses: New → Due → Awaiting approval → Awaiting transfer → Awaiting receipt → Paid (Cancelled where authorised).",
+      "use_case": "FIN-1"
+    },
+    {
+      "rule": "Scheduled payments are created when a grant becomes a project: one per schedule line, amount = project budget × percentage, due a set number of days after transfer.",
+      "use_case": "FIN-2"
+    },
+    {
+      "rule": "A milestone payment becomes due only when its milestone (tasks, evidence and report) is approved.",
+      "use_case": "FIN-2"
+    },
+    {
+      "rule": "Payments already in process cannot be changed by a project plan revision.",
+      "use_case": "FIN-2"
+    },
+    {
+      "rule": "Every payment requires three sequential approvals: the project's own Project Manager, a Grants Manager, then the CEO.",
+      "use_case": "FIN-3"
+    },
+    {
+      "rule": "The same person may not approve more than one level of the same payment.",
+      "use_case": "FIN-3"
+    },
+    {
+      "rule": "A rejection at any level requires a reason and returns the payment to 'Due'; resubmission restarts the chain from level 1.",
+      "use_case": "FIN-3"
+    },
+    {
+      "rule": "Every approval and rejection is recorded with level, approver, date, decision and reason.",
+      "use_case": "FIN-3"
+    },
+    {
+      "rule": "AI checks of evidence and payment documents are advisory: they trigger a warning but never block or approve.",
+      "use_case": "FIN-3"
+    },
+    {
+      "rule": "Final approval issues a uniquely numbered disbursement order addressed to the Finance department.",
+      "use_case": "FIN-4"
+    },
+    {
+      "rule": "The partner (or the project's executing organization) is the default payee; a third-party payee requires account name, IBAN and justification.",
+      "use_case": "FIN-4"
+    },
+    {
+      "rule": "The payee cannot be changed after the transfer is confirmed; a payee change after any approval requires re-approval.",
+      "use_case": "FIN-4"
+    },
+    {
+      "rule": "A transfer can be confirmed only by Finance and only with an attached bank transfer notice.",
+      "use_case": "FIN-5"
+    },
+    {
+      "rule": "The bank transfer is executed outside the system; the system records evidence, reference and date.",
+      "use_case": "FIN-5"
+    },
+    {
+      "rule": "A payment is closed as paid only when the partner uploads a receipt voucher and confirms receipt.",
+      "use_case": "FIN-6"
+    },
+    {
+      "rule": "The partner sees and acts on a payment only when it is awaiting receipt or paid.",
+      "use_case": "FIN-6"
+    },
+    {
+      "rule": "A payment is overdue when it is not paid, not cancelled and its due date is before today.",
+      "use_case": "FIN-1"
+    },
+    {
+      "rule": "Budget split: Paid = transferred/receipted; Due = due, in approval or awaiting transfer; Approved = committed but not yet due; Available = total − approved − due − paid.",
+      "use_case": "FIN-7"
+    },
+    {
+      "rule": "Amounts of applications under review are shown as provisional and never reduce the available budget.",
+      "use_case": "FIN-7"
+    },
+    {
+      "rule": "Projects funded by several initiatives are attributed to each initiative by funding share, counted once.",
+      "use_case": "FIN-7"
+    },
+    {
+      "rule": "Spend rate from budget = paid ÷ budget; spend rate from approved = paid ÷ (approved + due + paid); both capped at 100%.",
+      "use_case": "FIN-7"
+    },
+    {
+      "rule": "Partner commitments exclude cancelled payments; planned amounts are placed by due month and paid amounts by payment month.",
+      "use_case": "FIN-7"
+    },
+    {
+      "rule": "All financial registers, dashboards and reports show only the user's organization's data.",
+      "use_case": "FIN-8"
+    },
+    {
+      "rule": "Approval rate per grant opportunity = approved applications ÷ total applications.",
+      "use_case": "FIN-8"
+    }
+  ],
+  "kpis": [
+    {
+      "name": "Overdue payments",
+      "definition": "Total value (and number) of payments not yet paid whose due date has passed. Shows money the foundation owes partners late."
+    },
+    {
+      "name": "New / due payments",
+      "definition": "Total value of payments that are scheduled or due but not yet submitted for approval."
+    },
+    {
+      "name": "Payments awaiting approval",
+      "definition": "Total value of payments currently in the three-level approval chain."
+    },
+    {
+      "name": "Payments awaiting transfer / receipt",
+      "definition": "Total value of approved payments that Finance has not yet transferred, or that are transferred but awaiting the partner's receipt voucher."
+    },
+    {
+      "name": "Paid payments",
+      "definition": "Total value of payments fully closed with a receipt voucher."
+    },
+    {
+      "name": "Paid (spent)",
+      "definition": "Money that has actually left the foundation for a project, plan or plan item (transferred or receipted, per the agreed definition)."
+    },
+    {
+      "name": "Due",
+      "definition": "Money that partners have earned and that is in approval or waiting to be transferred."
+    },
+    {
+      "name": "Approved (committed)",
+      "definition": "Money promised under approved grants or projects that is not yet due."
+    },
+    {
+      "name": "Available",
+      "definition": "Budget still free to commit: total budget minus approved, due and paid amounts. A negative value means over-commitment."
+    },
+    {
+      "name": "Provisional (under review)",
+      "definition": "Value of applications still under review; shown for information only and not deducted from the available budget."
+    },
+    {
+      "name": "Spend rate from budget",
+      "definition": "Percentage of the plan budget that has actually been paid out."
+    },
+    {
+      "name": "Spend rate from approved",
+      "definition": "Percentage of approved commitments that has actually been paid out; shows how fast commitments turn into payments."
+    },
+    {
+      "name": "Total applications",
+      "definition": "Number of grant applications received, with the number still pending."
+    },
+    {
+      "name": "Approved amounts",
+      "definition": "Total value of approved grant applications, compared with the total budget of grant opportunities."
+    },
+    {
+      "name": "Active projects",
+      "definition": "Number of projects in planning or in execution."
+    },
+    {
+      "name": "Actual spend",
+      "definition": "Total value of payments paid across all projects."
+    },
+    {
+      "name": "Approval rate (per opportunity)",
+      "definition": "Share of applications to a grant opportunity that were approved."
+    },
+    {
+      "name": "Budget consumption (per opportunity)",
+      "definition": "Approved value of an opportunity's applications as a percentage of the opportunity's budget (a commitment measure, not actual spend)."
+    },
+    {
+      "name": "Partner total commitments",
+      "definition": "Total value of all non-cancelled payments scheduled for a partner's projects."
+    },
+    {
+      "name": "Partner remaining",
+      "definition": "Partner total commitments minus the amount already paid."
+    },
+    {
+      "name": "Partner due and overdue",
+      "definition": "Value of a partner's unpaid payments whose due date has passed."
+    },
+    {
+      "name": "Planned vs paid by month",
+      "definition": "For each month, amounts scheduled to fall due compared with amounts actually paid to the partner."
+    },
+    {
+      "name": "Days in stage",
+      "definition": "Number of days a pending application has spent in its current review stage."
+    },
+    {
+      "name": "Days late (tasks)",
+      "definition": "Number of days an open task is past its due date."
+    }
+  ],
+  "gaps": [
+    {
+      "area": "Approval control",
+      "gap": "Approval authority, transfer and receipt confirmation are protected only by what the screen shows; status changes can be made without role or state checks.",
+      "impact": "Payments could be approved, transferred or closed by unauthorised people; serious financial control and audit risk.",
+      "recommendation": "Enforce approval authority, state checks and per-user identity centrally in the system.",
+      "priority": "High"
+    },
+    {
+      "area": "Payee changes",
+      "gap": "The payee and third-party IBAN can be changed after all three approvals, by any staff member, with no log, no re-approval and no IBAN validation.",
+      "impact": "High fraud risk: approved funds could be redirected to another account.",
+      "recommendation": "Capture the payee before approval, validate the IBAN, log every change and require re-approval after any change.",
+      "priority": "High"
+    },
+    {
+      "area": "Segregation of duties",
+      "gap": "Nothing prevents one person from approving several levels, and the administrator can approve every level.",
+      "impact": "The three-level control can be reduced to a single person.",
+      "recommendation": "Block multiple approvals by one person per payment and restrict the administrator override.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Rejection reason",
+      "gap": "Rejection from the payments register or project page records no reason, unlike rejection from the task inbox.",
+      "impact": "Project teams do not know what to correct; weak audit trail.",
+      "recommendation": "Require a reason for every rejection.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Definition of 'paid'",
+      "gap": "Some views count a payment as paid when transferred, others only when receipted.",
+      "impact": "The same payment appears paid in one report and unpaid in another; inconsistent figures for management.",
+      "recommendation": "Agree one definition of paid and apply it everywhere, labelling any alternative explicitly.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Provisional amounts",
+      "gap": "The 'under review' amount is always zero because it does not recognise the current application statuses.",
+      "impact": "Management cannot see the pipeline of pending commitments.",
+      "recommendation": "Calculate provisional amounts from applications actually under review.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Organization scoping",
+      "gap": "The payments register and dashboard show and total data of all organizations; the partners report is not filtered.",
+      "impact": "Disclosure of other organizations' data and wrong totals.",
+      "recommendation": "Restrict all financial views to the user's organization.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Milestone gating",
+      "gap": "From the payments register, staff can make a milestone payment due and submit it without the milestone being approved.",
+      "impact": "Payments could be released for undelivered work.",
+      "recommendation": "Apply milestone conditions wherever a payment can be acted on.",
+      "priority": "Medium"
+    },
+    {
+      "area": "Bank verification",
+      "gap": "The partner's bank account verification status is not checked before approval or transfer.",
+      "impact": "Transfers to unverified accounts.",
+      "recommendation": "Warn or block transfer when the bank account is not verified (to be confirmed).",
+      "priority": "Medium"
+    },
+    {
+      "area": "Audit trail integrity",
+      "gap": "A payment can advance even if recording the approval decision fails.",
+      "impact": "Approvals without an audit record.",
+      "recommendation": "Record the decision and change the status as one operation.",
+      "priority": "Medium"
+    },
+    {
+      "area": "AI opinion at approval",
+      "gap": "The AI evidence opinion in the approval window is never displayed, and payment documents are only attached after approval.",
+      "impact": "Approvers lack the intended decision support.",
+      "recommendation": "Show the milestone evidence AI results at approval.",
+      "priority": "Low"
+    },
+    {
+      "area": "Approval history",
+      "gap": "Payment approval history, including rejections, is not shown to users; the disbursement order may show approvals from an earlier, rejected cycle.",
+      "impact": "Incomplete audit view and misleading order.",
+      "recommendation": "Show the approval history per payment and only the latest cycle on the order.",
+      "priority": "Low"
+    },
+    {
+      "area": "Committee decisions",
+      "gap": "Bulk payment decisions through a committee minute exist but cannot be reached.",
+      "impact": "Unclear governance for committee-approved payments.",
+      "recommendation": "Confirm whether payments go to committee and enable or remove the path.",
+      "priority": "Low"
+    },
+    {
+      "area": "Cancellation",
+      "gap": "A 'Cancelled' status exists but no one can cancel a payment.",
+      "impact": "Obsolete payments remain open and distort totals.",
+      "recommendation": "Define who may cancel a payment and when.",
+      "priority": "Low"
+    },
+    {
+      "area": "Tax",
+      "gap": "The disbursement order shows whether tax applies but no screen captures it; VAT treatment is undefined.",
+      "impact": "Incorrect or incomplete tax handling.",
+      "recommendation": "Define tax rules and capture tax applicability and amount.",
+      "priority": "Low"
+    },
+    {
+      "area": "Export labelling",
+      "gap": "Export buttons labelled 'Excel' produce CSV files.",
+      "impact": "User confusion.",
+      "recommendation": "Rename to CSV or provide genuine Excel export.",
+      "priority": "Low"
+    },
+    {
+      "area": "Overdue rule",
+      "gap": "Overdue is calculated differently in the register and in the partner commitments view.",
+      "impact": "Inconsistent overdue figures.",
+      "recommendation": "Use one overdue rule everywhere.",
+      "priority": "Low"
+    },
+    {
+      "area": "KPI wording",
+      "gap": "'Budget consumption' per opportunity measures approved commitments, not spend; approved amounts use requested rather than contract values; the stage chart is fixed to three stages.",
+      "impact": "KPIs may be misread by executives.",
+      "recommendation": "Rename or redefine these KPIs and derive stages from configuration.",
+      "priority": "Low"
+    },
+    {
+      "area": "Access to finance pages",
+      "gap": "There is no access restriction on the payments, dashboard and reports pages, and Finance has no direct menu entry.",
+      "impact": "Over-exposure of financial data; poor navigation for Finance.",
+      "recommendation": "Restrict pages by role and add a Finance menu entry (to be confirmed).",
+      "priority": "Low"
+    }
+  ],
+  "open_questions": [
+    "Who is authorised to mark a payment due and submit it for approval (Project Manager only, Finance, or at the partner's request)?",
+    "Must every payment be linked to a milestone, or are advance and retention payments due by date or at closure?",
+    "Is the three-level approval chain fixed for all amounts, or should thresholds or committee approval apply to large payments?",
+    "Should the administrator be allowed to approve on behalf of any level?",
+    "After a rejection, should the chain restart from level 1 or resume at the rejecting level?",
+    "Who may cancel a payment, and should cancelled payments appear in register totals?",
+    "What format and numbering must the disbursement order follow, and should it be archived as a signed PDF?",
+    "Is a bank payment file or ERP integration required instead of manual transfer recording?",
+    "In which cases is a third-party payee allowed, who approves it and which documents justify it?",
+    "Should the payee be fixed before the approval chain starts so approvers see the actual recipient?",
+    "Which roles may view the payments register, dashboard and reports, and should Project Managers see only their own projects?",
+    "Must the transfer reference be mandatory, and must the transferred amount and date be captured separately (partial transfers)?",
+    "When a third party is paid, who uploads the receipt voucher — the partner or the third party?",
+    "What is the official definition of 'paid / spent': at bank transfer or at receipt?",
+    "Should dashboard indicators be filterable by plan year or date range, and should 'approved amounts' use contract values?",
+    "What VAT rules apply to grant payments and third-party payments?"
+  ]
+}
