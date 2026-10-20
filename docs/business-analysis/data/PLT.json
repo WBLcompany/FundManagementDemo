@@ -1,0 +1,3057 @@
+{
+  "module": {
+    "code": "PLT",
+    "name": "Platform: Shell, Navigation, Personas & Shared UI"
+  },
+  "screens": [
+    {
+      "id": "SCR-PLT-01",
+      "name": "Public landing page (الصفحة الرئيسية — منصة منح)",
+      "route": "/",
+      "roles": [
+        "public visitor",
+        "all personas"
+      ]
+    },
+    {
+      "id": "SCR-PLT-02",
+      "name": "Login (تسجيل الدخول)",
+      "route": "/login",
+      "roles": [
+        "public visitor",
+        "all personas"
+      ]
+    },
+    {
+      "id": "SCR-PLT-03",
+      "name": "Partner organization registration (تسجيل جهة شريكة / سجّل جهتك)",
+      "route": "/register-tenant",
+      "roles": [
+        "public visitor (partner representative)"
+      ]
+    },
+    {
+      "id": "SCR-PLT-04",
+      "name": "Invitation landing (دعوة للتقديم)",
+      "route": "/invite/$token",
+      "roles": [
+        "invited partner (applicant)"
+      ]
+    },
+    {
+      "id": "SCR-PLT-05",
+      "name": "Application shell (sidebar + header) (القائمة / الإطار العام)",
+      "route": "all routes (components/AppShell.tsx)",
+      "roles": [
+        "all staff roles",
+        "applicant (header-only layout)"
+      ]
+    },
+    {
+      "id": "SCR-PLT-06",
+      "name": "Persona switcher (demo mode) (وضع العرض — اختر شخصية)",
+      "route": "dropdown in AppShell",
+      "roles": [
+        "all personas (demo)"
+      ]
+    },
+    {
+      "id": "SCR-PLT-07",
+      "name": "Global search (command palette) (البحث (Ctrl+K))",
+      "route": "dialog in header",
+      "roles": [
+        "all signed-in personas incl. applicant"
+      ]
+    },
+    {
+      "id": "SCR-PLT-08",
+      "name": "AI Copilot panel (رفيق المنح)",
+      "route": "side sheet in header",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer",
+        "committee_secretary",
+        "project_manager",
+        "finance",
+        "ceo"
+      ]
+    },
+    {
+      "id": "SCR-PLT-09",
+      "name": "Demo guide panel (دليل العرض — عند من واقف الإجراء؟)",
+      "route": "side sheet in header",
+      "roles": [
+        "all staff roles (sidebar layout)"
+      ]
+    },
+    {
+      "id": "SCR-PLT-10",
+      "name": "Interactive demo controls bar (وضع العرض التفاعلي)",
+      "route": "/projects/<DEMO_PROJECT_ID> (embedded)",
+      "roles": [
+        "any persona viewing the demo project"
+      ]
+    },
+    {
+      "id": "SCR-PLT-11",
+      "name": "Platform admin — workshop deck tab (بوابة الآدمن ← عرض ورشة العمل)",
+      "route": "/admin (tab 'workshop')",
+      "roles": [
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PLT-12",
+      "name": "Appearance — colour palette (الإعدادات ← المظهر (التدرج اللوني))",
+      "route": "/settings?tab=appearance",
+      "roles": [
+        "all roles that reach Settings"
+      ]
+    },
+    {
+      "id": "SCR-PLT-13",
+      "name": "Not found page (الصفحة غير موجودة (404))",
+      "route": "any unknown route",
+      "roles": [
+        "all"
+      ]
+    },
+    {
+      "id": "SCR-PLT-14",
+      "name": "Error page / error boundary (تعذّر تحميل الصفحة)",
+      "route": "any route on uncaught error",
+      "roles": [
+        "all"
+      ]
+    }
+  ],
+  "epics": [
+    {
+      "id": "EP-PLT-01",
+      "name": "Identity, Session & Access Control",
+      "description": "Session establishment, login, personas/roles and (recommended) production-grade authentication and authorization."
+    },
+    {
+      "id": "EP-PLT-02",
+      "name": "Public Entry & Partner Onboarding",
+      "description": "Landing page, partner self-registration with registry lookup and OTP, delegate verification, invitation acceptance."
+    },
+    {
+      "id": "EP-PLT-03",
+      "name": "Workspace Shell & Navigation",
+      "description": "Role-based sidebar, header tools, global search, theme/palette, RTL and digit localization."
+    },
+    {
+      "id": "EP-PLT-04",
+      "name": "AI Copilot",
+      "description": "Read-only conversational assistant over tenant data that proposes actions for human confirmation."
+    },
+    {
+      "id": "EP-PLT-05",
+      "name": "Demo & Workshop Enablement",
+      "description": "Contextual demo guide, scripted demo controls and the requirements-workshop deck."
+    },
+    {
+      "id": "EP-PLT-06",
+      "name": "Shared UI Framework",
+      "description": "Reusable list, view-preference, loading/error, guided-dialog and help patterns used by all modules."
+    }
+  ],
+  "features": [
+    {
+      "id": "FT-PLT-01",
+      "epic": "EP-PLT-01",
+      "name": "Session establishment & login",
+      "description": "Ensures a Supabase session before rendering; provides a login page (cosmetic in the prototype) and bearer-token authentication for server functions.",
+      "roles": [
+        "all"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLT-02",
+        "SCR-PLT-05"
+      ],
+      "requirements": [
+        "FR-PLT-001",
+        "FR-PLT-002",
+        "FR-PLT-003"
+      ],
+      "stories": [
+        "US-PLT-001",
+        "US-PLT-002"
+      ],
+      "rules": [
+        "BR-PLT-01"
+      ],
+      "dependencies": [
+        "Supabase Auth",
+        "lib/persona.tsx"
+      ],
+      "acceptance_criteria": [
+        "No page content renders before a session exists.",
+        "Submitting the login form lands the user on their role's home page.",
+        "Server functions reject requests without a valid bearer JWT."
+      ],
+      "open_questions": [
+        "OQ-PLT-01"
+      ]
+    },
+    {
+      "id": "FT-PLT-02",
+      "epic": "EP-PLT-01",
+      "name": "Persona & role model with demo switcher",
+      "description": "Loads personas, keeps a current persona per browser and lets a presenter switch persona; defines role labels and role home pages.",
+      "roles": [
+        "all (demo presenter)"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLT-06",
+        "SCR-PLT-05"
+      ],
+      "requirements": [
+        "FR-PLT-007",
+        "FR-PLT-008",
+        "FR-PLT-009"
+      ],
+      "stories": [
+        "US-PLT-005"
+      ],
+      "rules": [
+        "BR-PLT-02",
+        "BR-PLT-03"
+      ],
+      "dependencies": [
+        "personas table"
+      ],
+      "acceptance_criteria": [
+        "Switching persona updates sidebar, header and lands on the role home.",
+        "The selected persona survives a page reload on the same browser."
+      ],
+      "open_questions": [
+        "OQ-PLT-02",
+        "OQ-PLT-03"
+      ]
+    },
+    {
+      "id": "FT-PLT-03",
+      "epic": "EP-PLT-03",
+      "name": "Role-based navigation & page gates",
+      "description": "Role-specific sidebar with active-state, grouped sub-routes, open-task badges, header breadcrumb, mobile drawer; page-level gates for /admin, /portal and settings tabs.",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer",
+        "committee_secretary",
+        "project_manager",
+        "finance",
+        "ceo",
+        "applicant"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLT-05",
+        "SCR-PLT-11"
+      ],
+      "requirements": [
+        "FR-PLT-010",
+        "FR-PLT-011",
+        "FR-PLT-012",
+        "FR-PLT-013",
+        "FR-PLT-014",
+        "FR-PLT-015",
+        "FR-PLT-016"
+      ],
+      "stories": [
+        "US-PLT-006",
+        "US-PLT-007",
+        "US-PLT-008"
+      ],
+      "rules": [
+        "BR-PLT-03",
+        "BR-PLT-04",
+        "BR-PLT-05",
+        "BR-PLT-06",
+        "BR-PLT-07",
+        "BR-PLT-26"
+      ],
+      "dependencies": [
+        "TSK (task derivation for badges)",
+        "CFG (settings tabs)"
+      ],
+      "acceptance_criteria": [
+        "Each role sees exactly its configured sidebar items.",
+        "Badge counts equal the open items on 'My tasks'.",
+        "A non-admin opening /admin sees the restriction message."
+      ],
+      "open_questions": [
+        "OQ-PLT-04",
+        "OQ-PLT-13"
+      ]
+    },
+    {
+      "id": "FT-PLT-04",
+      "epic": "EP-PLT-02",
+      "name": "Public landing page",
+      "description": "Hero with calls to action, three capability cards and cards for active grant programs.",
+      "roles": [
+        "public visitor"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PLT-01"
+      ],
+      "requirements": [
+        "FR-PLT-017",
+        "FR-PLT-018"
+      ],
+      "stories": [
+        "US-PLT-009"
+      ],
+      "rules": [],
+      "dependencies": [
+        "grant_programs (PRG)"
+      ],
+      "acceptance_criteria": [
+        "Active programs are listed newest first with budget and deadline.",
+        "CTAs navigate to /portal and /register-tenant."
+      ],
+      "open_questions": [
+        "OQ-PLT-07"
+      ]
+    },
+    {
+      "id": "FT-PLT-05",
+      "epic": "EP-PLT-02",
+      "name": "Partner self-registration (license lookup, registry prefill, OTP)",
+      "description": "A partner representative selects an applicant type, looks up the license/ID, completes registry-prefilled fields, verifies contact channels by OTP and submits for platform review.",
+      "roles": [
+        "public visitor (partner representative)"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLT-03"
+      ],
+      "requirements": [
+        "FR-PLT-019",
+        "FR-PLT-020",
+        "FR-PLT-021",
+        "FR-PLT-022",
+        "FR-PLT-023",
+        "FR-PLT-024"
+      ],
+      "stories": [
+        "US-PLT-010",
+        "US-PLT-011",
+        "US-PLT-012"
+      ],
+      "rules": [
+        "BR-PLT-14",
+        "BR-PLT-15",
+        "BR-PLT-16",
+        "BR-PLT-17",
+        "BR-PLT-18",
+        "BR-PLT-19"
+      ],
+      "dependencies": [
+        "lib/registrations.ts",
+        "lib/applicantTypes.ts",
+        "BEN (RegistrationReview)"
+      ],
+      "acceptance_criteria": [
+        "A new license produces a form prefilled from the registry where available.",
+        "Submission is blocked until filled OTP fields are verified.",
+        "A successful submission creates a pending entity_registrations row."
+      ],
+      "open_questions": [
+        "OQ-PLT-08",
+        "OQ-PLT-12"
+      ]
+    },
+    {
+      "id": "FT-PLT-06",
+      "epic": "EP-PLT-02",
+      "name": "Existing-entity delegate verification & delegate change request",
+      "description": "For an already-registered license, shows masked delegates, lets the user verify affiliation by OTP to the delegate, or request a delegate change for platform review.",
+      "roles": [
+        "public visitor (staff of a registered partner)"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PLT-03"
+      ],
+      "requirements": [
+        "FR-PLT-025",
+        "FR-PLT-026",
+        "FR-PLT-027"
+      ],
+      "stories": [
+        "US-PLT-013",
+        "US-PLT-014"
+      ],
+      "rules": [
+        "BR-PLT-15",
+        "BR-PLT-18"
+      ],
+      "dependencies": [
+        "lib/registrations.ts",
+        "BEN"
+      ],
+      "acceptance_criteria": [
+        "Delegates are displayed masked.",
+        "A delegate-change request is stored for platform review."
+      ],
+      "open_questions": [
+        "OQ-PLT-08"
+      ]
+    },
+    {
+      "id": "FT-PLT-07",
+      "epic": "EP-PLT-02",
+      "name": "Invitation acceptance",
+      "description": "Token-based invitation page showing the opportunity, with activate-and-apply, apply, or decline paths.",
+      "roles": [
+        "invited partner (applicant)"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PLT-04"
+      ],
+      "requirements": [
+        "FR-PLT-028",
+        "FR-PLT-029",
+        "FR-PLT-030",
+        "FR-PLT-031",
+        "FR-PLT-032",
+        "FR-PLT-033"
+      ],
+      "stories": [
+        "US-PLT-015",
+        "US-PLT-016",
+        "US-PLT-017"
+      ],
+      "rules": [
+        "BR-PLT-20",
+        "BR-PLT-21"
+      ],
+      "dependencies": [
+        "program_invitations",
+        "lib/rfp.ts",
+        "PTL portal"
+      ],
+      "acceptance_criteria": [
+        "An unknown token shows 'invalid invitation link'.",
+        "First view of a 'sent' invitation sets it to 'opened'.",
+        "Proceeding opens the portal application for that program."
+      ],
+      "open_questions": [
+        "OQ-PLT-09"
+      ]
+    },
+    {
+      "id": "FT-PLT-08",
+      "epic": "EP-PLT-03",
+      "name": "Global search",
+      "description": "Command-palette search across partners, applications, projects/initiatives, payments, programs, plans and staff plus page shortcuts and recent items.",
+      "roles": [
+        "all signed-in personas"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PLT-07"
+      ],
+      "requirements": [
+        "FR-PLT-034",
+        "FR-PLT-035",
+        "FR-PLT-036",
+        "FR-PLT-037"
+      ],
+      "stories": [
+        "US-PLT-018",
+        "US-PLT-019"
+      ],
+      "rules": [
+        "BR-PLT-11",
+        "BR-PLT-12",
+        "BR-PLT-13"
+      ],
+      "dependencies": [
+        "All entity tables"
+      ],
+      "acceptance_criteria": [
+        "Typing ≥2 characters returns grouped results within the tenant.",
+        "Selecting a result navigates and adds it to recent items."
+      ],
+      "open_questions": [
+        "OQ-PLT-05"
+      ]
+    },
+    {
+      "id": "FT-PLT-09",
+      "epic": "EP-PLT-03",
+      "name": "Theme, palette, RTL & digit localization",
+      "description": "Light/dark mode, three colour palettes, Arabic RTL document with Radix direction provider, Western-digit normalisation.",
+      "roles": [
+        "all"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLT-05",
+        "SCR-PLT-12"
+      ],
+      "requirements": [
+        "FR-PLT-038",
+        "FR-PLT-039",
+        "FR-PLT-040",
+        "FR-PLT-041"
+      ],
+      "stories": [
+        "US-PLT-020",
+        "US-PLT-021"
+      ],
+      "rules": [
+        "BR-PLT-24",
+        "BR-PLT-28"
+      ],
+      "dependencies": [
+        "styles.css tokens"
+      ],
+      "acceptance_criteria": [
+        "Theme and palette persist across reloads on the same device.",
+        "Eastern Arabic digits never appear in rendered labels."
+      ],
+      "open_questions": [
+        "OQ-PLT-10"
+      ]
+    },
+    {
+      "id": "FT-PLT-10",
+      "epic": "EP-PLT-04",
+      "name": "AI Copilot (read-only assistant)",
+      "description": "Side-panel chat that answers questions using read-only tools over tenant data and proposes changes as link cards.",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer",
+        "committee_secretary",
+        "project_manager",
+        "finance",
+        "ceo"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PLT-08"
+      ],
+      "requirements": [
+        "FR-PLT-042",
+        "FR-PLT-043",
+        "FR-PLT-044",
+        "FR-PLT-045",
+        "FR-PLT-046",
+        "FR-PLT-047"
+      ],
+      "stories": [
+        "US-PLT-022",
+        "US-PLT-023"
+      ],
+      "rules": [
+        "BR-PLT-08",
+        "BR-PLT-09",
+        "BR-PLT-10"
+      ],
+      "dependencies": [
+        "Lovable AI gateway (LOVABLE_API_KEY)",
+        "Supabase"
+      ],
+      "acceptance_criteria": [
+        "Answers use live data from tools.",
+        "Any change request yields a link card, never a data write.",
+        "Requests without a valid session get 401."
+      ],
+      "open_questions": [
+        "OQ-PLT-06"
+      ]
+    },
+    {
+      "id": "FT-PLT-11",
+      "epic": "EP-PLT-05",
+      "name": "Contextual demo guide",
+      "description": "Help sheet with page-specific walkthrough steps; on project pages it identifies the pending payment step and the persona to switch to.",
+      "roles": [
+        "demo presenter (any staff persona)"
+      ],
+      "priority": "Could",
+      "screens": [
+        "SCR-PLT-09"
+      ],
+      "requirements": [
+        "FR-PLT-048",
+        "FR-PLT-049"
+      ],
+      "stories": [
+        "US-PLT-024"
+      ],
+      "rules": [],
+      "dependencies": [
+        "payments, projects tables",
+        "FT-PLT-02"
+      ],
+      "acceptance_criteria": [
+        "On a project with a payment awaiting transfer, the guide proposes the finance persona.",
+        "Pages without a guide show a generic hint."
+      ],
+      "open_questions": [
+        "OQ-PLT-11"
+      ]
+    },
+    {
+      "id": "FT-PLT-12",
+      "epic": "EP-PLT-05",
+      "name": "Scripted demo controls",
+      "description": "Advance/undo/reset a 7-step scenario on the demo project by writing predefined states to the database.",
+      "roles": [
+        "demo presenter"
+      ],
+      "priority": "Won't",
+      "screens": [
+        "SCR-PLT-10"
+      ],
+      "requirements": [
+        "FR-PLT-050"
+      ],
+      "stories": [
+        "US-PLT-025"
+      ],
+      "rules": [
+        "BR-PLT-27"
+      ],
+      "dependencies": [
+        "project_activities, project_reports, payments, projects"
+      ],
+      "acceptance_criteria": [
+        "'Advance' applies the next scripted state and refreshes the page data.",
+        "'Reset' returns the project to its initial state."
+      ],
+      "open_questions": [
+        "OQ-PLT-11"
+      ]
+    },
+    {
+      "id": "FT-PLT-13",
+      "epic": "EP-PLT-05",
+      "name": "Requirements-workshop deck with notes",
+      "description": "11-slide 16:9 presentation inside /admin with agenda, method, six sessions (goal, points, comparison questions, deep links) and note boxes, a parking lot and a summary.",
+      "roles": [
+        "admin (facilitator)"
+      ],
+      "priority": "Could",
+      "screens": [
+        "SCR-PLT-11"
+      ],
+      "requirements": [
+        "FR-PLT-051",
+        "FR-PLT-052",
+        "FR-PLT-053"
+      ],
+      "stories": [
+        "US-PLT-026",
+        "US-PLT-027"
+      ],
+      "rules": [
+        "BR-PLT-29"
+      ],
+      "dependencies": [
+        "browser storage"
+      ],
+      "acceptance_criteria": [
+        "Arrow keys/space navigate slides when not typing.",
+        "Notes typed in a session reappear in the summary slide."
+      ],
+      "open_questions": [
+        "OQ-PLT-11"
+      ]
+    },
+    {
+      "id": "FT-PLT-14",
+      "epic": "EP-PLT-06",
+      "name": "Data table & saved views",
+      "description": "Reusable list component with search, column chooser, pagination, export and per-user pinned views, plus a secondary-filter popover with chips.",
+      "roles": [
+        "all staff roles"
+      ],
+      "priority": "Must",
+      "screens": [
+        "(used by list screens in other modules)"
+      ],
+      "requirements": [
+        "FR-PLT-054",
+        "FR-PLT-055",
+        "FR-PLT-056",
+        "FR-PLT-057"
+      ],
+      "stories": [
+        "US-PLT-028",
+        "US-PLT-029"
+      ],
+      "rules": [
+        "BR-PLT-22",
+        "BR-PLT-23"
+      ],
+      "dependencies": [
+        "user_view_prefs",
+        "xlsx library"
+      ],
+      "acceptance_criteria": [
+        "Export contains only visible exportable columns of all filtered rows.",
+        "A pinned view is restored on next visit for the same persona."
+      ],
+      "open_questions": [
+        "OQ-PLT-14"
+      ]
+    },
+    {
+      "id": "FT-PLT-15",
+      "epic": "EP-PLT-06",
+      "name": "Page scaffolding, loading and error handling",
+      "description": "Page container and header, page-shaped skeleton that turns into an error-with-retry, 404 page, root error boundary, telemetry reporting and SSR error capture.",
+      "roles": [
+        "all"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLT-13",
+        "SCR-PLT-14"
+      ],
+      "requirements": [
+        "FR-PLT-058",
+        "FR-PLT-059",
+        "FR-PLT-060"
+      ],
+      "stories": [
+        "US-PLT-030"
+      ],
+      "rules": [],
+      "dependencies": [
+        "React Query cache",
+        "Lovable telemetry"
+      ],
+      "acceptance_criteria": [
+        "A failed query on a loading page shows 'تعذّر تحميل البيانات' with retry.",
+        "Unknown URLs show the 404 page."
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-PLT-16",
+      "epic": "EP-PLT-06",
+      "name": "Guided actions, concept help & layout helpers",
+      "description": "SmartFlow step dialog, auto-stepping long dialogs, InfoTip concept glossary, SectionTabs, StatCard (clickable filter), Pill, Field, StageTracker.",
+      "roles": [
+        "all staff roles"
+      ],
+      "priority": "Should",
+      "screens": [
+        "(embedded in other modules)"
+      ],
+      "requirements": [
+        "FR-PLT-061",
+        "FR-PLT-062",
+        "FR-PLT-063",
+        "FR-PLT-064",
+        "FR-PLT-065"
+      ],
+      "stories": [
+        "US-PLT-031",
+        "US-PLT-032"
+      ],
+      "rules": [
+        "BR-PLT-25"
+      ],
+      "dependencies": [
+        "components/ui/useAutoSteps.tsx"
+      ],
+      "acceptance_criteria": [
+        "SmartFlow shows a stepper only when there is more than one step.",
+        "Clicking a StatCard toggles its table filter and shows an active ring."
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-PLT-17",
+      "epic": "EP-PLT-01",
+      "name": "Production identity & authorization (recommended)",
+      "description": "Replace the shared demo account and client-side persona with per-user authentication, server-side role/tenant authorization and tenant-scoped RLS.",
+      "roles": [
+        "all"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PLT-02"
+      ],
+      "requirements": [
+        "FR-PLT-004",
+        "FR-PLT-005",
+        "FR-PLT-006"
+      ],
+      "stories": [
+        "US-PLT-003",
+        "US-PLT-004"
+      ],
+      "rules": [
+        "BR-PLT-30"
+      ],
+      "dependencies": [
+        "CFG (roles & permissions, memberships)"
+      ],
+      "acceptance_criteria": [
+        "A user can only read and write rows of their own tenant permitted by their role.",
+        "Demo credentials and switchers are absent from production builds."
+      ],
+      "open_questions": [
+        "OQ-PLT-01",
+        "OQ-PLT-02",
+        "OQ-PLT-03",
+        "OQ-PLT-04"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "FR-PLT-001",
+      "feature": "FT-PLT-01",
+      "stories": [
+        "US-PLT-001"
+      ],
+      "statement": "The system shall establish an authenticated session before rendering any page.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/DemoSession.tsx:8-22",
+      "acceptance_criteria": [
+        "Given no session, when the app loads, then a loading message shows until a session exists and the page renders.",
+        "Given an existing session, when the app loads, then no new sign-in occurs."
+      ]
+    },
+    {
+      "id": "FR-PLT-002",
+      "feature": "FT-PLT-01",
+      "stories": [
+        "US-PLT-002"
+      ],
+      "statement": "The system shall provide a login page with email and password fields that forwards the user to the home page of the active role.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "routes/login.tsx:29-103",
+      "acceptance_criteria": [
+        "Given the login page, when the user submits, then they land on their role home.",
+        "Given the login page, when the user clicks anywhere, then the demo credentials are filled once."
+      ]
+    },
+    {
+      "id": "FR-PLT-003",
+      "feature": "FT-PLT-01",
+      "stories": [
+        "US-PLT-001"
+      ],
+      "statement": "The system shall require a valid bearer JWT on authenticated server functions and execute their database calls under the caller's token.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "integrations/supabase/auth-middleware.ts:34-111; auth-attacher.ts; lib/*.functions.ts",
+      "acceptance_criteria": [
+        "Given a request without Authorization, when a protected server function is called, then it fails with 'Unauthorized'.",
+        "Given a valid token, when called, then the function receives userId and a user-scoped client."
+      ]
+    },
+    {
+      "id": "FR-PLT-004",
+      "feature": "FT-PLT-17",
+      "stories": [
+        "US-PLT-003"
+      ],
+      "statement": "The system shall authenticate each person with individual credentials and bind the session to exactly one user record (persona) per tenant membership.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "Analyst (gap vs DemoSession.tsx, persona.tsx)",
+      "acceptance_criteria": [
+        "Given two different users, when they sign in, then each sees only their own persona and role.",
+        "Given an unauthenticated visitor, when they open a staff page, then they are redirected to login."
+      ]
+    },
+    {
+      "id": "FR-PLT-005",
+      "feature": "FT-PLT-17",
+      "stories": [
+        "US-PLT-004"
+      ],
+      "statement": "The system shall enforce tenant isolation and role permissions in database policies and server functions.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "Analyst (gap vs migration 20261006140739, chat.ts:33)",
+      "acceptance_criteria": [
+        "Given a reviewer, when they call an update on payments directly, then the database rejects it.",
+        "Given a user of tenant A, when they query tenant B rows, then none are returned."
+      ]
+    },
+    {
+      "id": "FR-PLT-006",
+      "feature": "FT-PLT-17",
+      "stories": [
+        "US-PLT-003"
+      ],
+      "statement": "The system shall exclude demo artefacts (shared credentials, persona switcher, demo guide, demo controls, demo OTP display) from production builds.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "Analyst",
+      "acceptance_criteria": [
+        "Given a production build, when any page loads, then no persona switcher or demo bar is rendered.",
+        "Given the production bundle, when inspected, then it contains no hard-coded passwords."
+      ]
+    },
+    {
+      "id": "FR-PLT-007",
+      "feature": "FT-PLT-02",
+      "stories": [
+        "US-PLT-005"
+      ],
+      "statement": "The system shall load the persona list and maintain a current persona persisted in the browser, defaulting to the first persona.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "lib/persona.tsx:48-89",
+      "acceptance_criteria": [
+        "Given a stored persona id, when the app reloads, then that persona is active.",
+        "Given no stored id, when personas load, then the first persona becomes active and is stored."
+      ]
+    },
+    {
+      "id": "FR-PLT-008",
+      "feature": "FT-PLT-02",
+      "stories": [
+        "US-PLT-005"
+      ],
+      "statement": "The system shall define a display label and a home route for each of the 8 roles.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "lib/persona.tsx:95-115",
+      "acceptance_criteria": [
+        "Given any role, when displayed, then its Arabic label is shown.",
+        "Given a persona switch, when completed, then navigation goes to ROLE_HOME of the new role."
+      ]
+    },
+    {
+      "id": "FR-PLT-009",
+      "feature": "FT-PLT-02",
+      "stories": [
+        "US-PLT-005"
+      ],
+      "statement": "The system shall let the user switch persona from a 'demo mode' menu listing all personas with initials, name, role and current marker.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/AppShell.tsx:89-139",
+      "acceptance_criteria": [
+        "Given the menu, when a persona is chosen, then it becomes current and the user lands on its home.",
+        "Given the menu, when opened, then the current persona shows a check mark."
+      ]
+    },
+    {
+      "id": "FR-PLT-010",
+      "feature": "FT-PLT-03",
+      "stories": [
+        "US-PLT-006"
+      ],
+      "statement": "The system shall show a sidebar whose items depend on the current role (NAV_BY_ROLE).",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/AppShell.tsx:40-62,141-170",
+      "acceptance_criteria": [
+        "Given role reviewer, when the shell renders, then the sidebar shows exactly Data & reports, My tasks, Grant applications, Partner organizations.",
+        "Given role project_manager, then only My tasks and Projects are shown."
+      ]
+    },
+    {
+      "id": "FR-PLT-011",
+      "feature": "FT-PLT-03",
+      "stories": [
+        "US-PLT-006"
+      ],
+      "statement": "The system shall highlight the active sidebar item, including grouped sub-routes, and show its icon and label in the header.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/AppShell.tsx:90-92,218-225",
+      "acceptance_criteria": [
+        "Given /programs/123, when rendered for grants_manager, then 'طلبات المنح' is active.",
+        "Given a route not in the role's sidebar, then no item is active and the header label is empty."
+      ]
+    },
+    {
+      "id": "FR-PLT-012",
+      "feature": "FT-PLT-03",
+      "stories": [
+        "US-PLT-006"
+      ],
+      "statement": "The system shall display open-task count badges on sidebar items.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "lib/navCounts.ts:7-21; components/AppShell.tsx:146,163",
+      "acceptance_criteria": [
+        "Given 3 open application tasks, when the sidebar renders, then 'طلبات المنح' shows 3.",
+        "Given no open tasks, then no badge is shown."
+      ]
+    },
+    {
+      "id": "FR-PLT-013",
+      "feature": "FT-PLT-03",
+      "stories": [
+        "US-PLT-007"
+      ],
+      "statement": "The system shall render a header-only layout for public pages and the applicant role.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/AppShell.tsx:172-199",
+      "acceptance_criteria": [
+        "Given an applicant persona, when any page renders, then no sidebar is shown.",
+        "Given /login, when rendered, then login and register buttons appear in the header."
+      ]
+    },
+    {
+      "id": "FR-PLT-014",
+      "feature": "FT-PLT-03",
+      "stories": [
+        "US-PLT-007"
+      ],
+      "statement": "The system shall provide the sidebar as a slide-in drawer on small screens.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/AppShell.tsx:215-217,241-248",
+      "acceptance_criteria": [
+        "Given a mobile viewport, when the menu button is tapped, then the drawer opens with role items.",
+        "Given the drawer, when an item is chosen, then the drawer closes and navigation occurs."
+      ]
+    },
+    {
+      "id": "FR-PLT-015",
+      "feature": "FT-PLT-03",
+      "stories": [
+        "US-PLT-008"
+      ],
+      "statement": "The system shall restrict the platform admin page (/admin) to the admin role.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "routes/admin.tsx:58-71",
+      "acceptance_criteria": [
+        "Given a grants_manager, when opening /admin, then the restriction message and Team link are shown.",
+        "Given admin, when opening /admin, then the tabs render."
+      ]
+    },
+    {
+      "id": "FR-PLT-016",
+      "feature": "FT-PLT-03",
+      "stories": [
+        "US-PLT-008"
+      ],
+      "statement": "The system shall filter Settings section tabs by platform vs tenant scope.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/SectionTabs.tsx:8-34",
+      "acceptance_criteria": [
+        "Given admin, when Settings renders, then 'الجهات والمستخدمون' is shown and 'فريق العمل' is hidden.",
+        "Given grants_manager, then the reverse holds."
+      ]
+    },
+    {
+      "id": "FR-PLT-017",
+      "feature": "FT-PLT-04",
+      "stories": [
+        "US-PLT-009"
+      ],
+      "statement": "The system shall show a landing page with hero text, calls to action and three capability cards.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "routes/index.tsx:52-109",
+      "acceptance_criteria": [
+        "Given the landing page, when 'تصفح برامج المنح' is clicked, then /portal opens.",
+        "Given the landing page, then three capability cards are shown."
+      ]
+    },
+    {
+      "id": "FR-PLT-018",
+      "feature": "FT-PLT-04",
+      "stories": [
+        "US-PLT-009"
+      ],
+      "statement": "The system shall list active grant programs on the landing page with title, description, budget and deadline.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "routes/index.tsx:38-50,111-140",
+      "acceptance_criteria": [
+        "Given two active programs, when the landing renders, then both appear newest first.",
+        "Given a closed program, then it is not listed."
+      ]
+    },
+    {
+      "id": "FR-PLT-019",
+      "feature": "FT-PLT-05",
+      "stories": [
+        "US-PLT-010"
+      ],
+      "statement": "The system shall let the representative choose an applicant type from the portal-enabled, open types of the tenant.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "routes/register-tenant.tsx:33-44,87-92; lib/applicantTypes.ts:7-30",
+      "acceptance_criteria": [
+        "Given the tenant closed 'company', when the page loads, then the 'شركة' chip is absent.",
+        "Given 'فرد' is chosen, then the ID placeholder reads 'رقم الهوية الوطنية / الإقامة'."
+      ]
+    },
+    {
+      "id": "FR-PLT-020",
+      "feature": "FT-PLT-05",
+      "stories": [
+        "US-PLT-010"
+      ],
+      "statement": "The system shall look up the entered license/ID and classify it as registered, pending or new.",
+      "type": "Integration",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "lib/registrations.ts:48-67; routes/register-tenant.tsx:46-55,93-105",
+      "acceptance_criteria": [
+        "Given license 1234, when 'تحقق' is pressed, then the registered card is shown.",
+        "Given a license with a pending request, then the masked applicant name and mobile are shown."
+      ]
+    },
+    {
+      "id": "FR-PLT-021",
+      "feature": "FT-PLT-05",
+      "stories": [
+        "US-PLT-011"
+      ],
+      "statement": "The system shall prefill registration fields from the official registry and mark each field's provenance.",
+      "type": "Integration",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "routes/register-tenant.tsx:53,107-136; lib/registrations.ts:27-32",
+      "acceptance_criteria": [
+        "Given license 7781, when looked up, then name, unified number, region, city, classification, phone and delegate name are prefilled and tagged 'من السجل'.",
+        "Given a prefilled field is edited, then its tag changes to 'معدّل عن السجل'."
+      ]
+    },
+    {
+      "id": "FR-PLT-022",
+      "feature": "FT-PLT-05",
+      "stories": [
+        "US-PLT-011"
+      ],
+      "statement": "The system shall collect the registration field set with required-field validation, adapting it for individuals.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "lib/registrations.ts:11-25; routes/register-tenant.tsx:56-57",
+      "acceptance_criteria": [
+        "Given an empty required field, when submitting, then the browser blocks submission.",
+        "Given type 'فرد', then only personal fields are displayed."
+      ]
+    },
+    {
+      "id": "FR-PLT-023",
+      "feature": "FT-PLT-05",
+      "stories": [
+        "US-PLT-012"
+      ],
+      "statement": "The system shall verify email, entity phone and delegate mobile by one-time code before submission.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/OtpVerifiedInput.tsx; routes/register-tenant.tsx:30,58-62",
+      "acceptance_criteria": [
+        "Given an unverified mobile, when submitting, then a toast 'تحقق أولاً من: …' appears.",
+        "Given a wrong code, when confirming, then 'الرمز غير صحيح' is shown."
+      ]
+    },
+    {
+      "id": "FR-PLT-024",
+      "feature": "FT-PLT-05",
+      "stories": [
+        "US-PLT-011"
+      ],
+      "statement": "The system shall submit the registration as a pending request for platform review and confirm it to the user.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "lib/registrations.ts:69-77; routes/register-tenant.tsx:63-76",
+      "acceptance_criteria": [
+        "Given a valid form, when submitted, then a pending registration exists and the confirmation card is shown.",
+        "Given a database error, then a toast shows the error and the form stays."
+      ]
+    },
+    {
+      "id": "FR-PLT-025",
+      "feature": "FT-PLT-06",
+      "stories": [
+        "US-PLT-013"
+      ],
+      "statement": "The system shall let a user of a registered entity verify affiliation with a code sent to the current delegate.",
+      "type": "Security",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "routes/register-tenant.tsx:148-204; lib/registrations.ts:79-83",
+      "acceptance_criteria": [
+        "Given a registered entity with a delegate, when the correct code is entered, then 'تم التحقق من صلتك بالجهة' appears.",
+        "Given a wrong code, then a toast error appears."
+      ]
+    },
+    {
+      "id": "FR-PLT-026",
+      "feature": "FT-PLT-06",
+      "stories": [
+        "US-PLT-014"
+      ],
+      "statement": "The system shall accept a delegate-change request (new delegate name, national ID, mobile, reason) for platform review.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "routes/register-tenant.tsx:164-171,206-226; lib/registrations.ts:85-97",
+      "acceptance_criteria": [
+        "Given all four fields, when submitted, then 'أُرسل طلب تغيير المفوض' is shown.",
+        "Given an empty field, then the browser blocks submission."
+      ]
+    },
+    {
+      "id": "FR-PLT-027",
+      "feature": "FT-PLT-06",
+      "stories": [
+        "US-PLT-013"
+      ],
+      "statement": "The system shall create a pending team-join request linked to the entity when a user successfully verifies affiliation through the delegate.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Recommended",
+      "source": "Analyst (gap at routes/register-tenant.tsx:198-203)",
+      "acceptance_criteria": [
+        "Given successful delegate verification, when the user signs in, then a join request is visible to the delegate.",
+        "Given the delegate rejects, then the user is notified."
+      ]
+    },
+    {
+      "id": "FR-PLT-028",
+      "feature": "FT-PLT-07",
+      "stories": [
+        "US-PLT-015"
+      ],
+      "statement": "The system shall resolve an invitation by its token and show an invalid-link message when not found.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "routes/invite.$token.tsx:35-41",
+      "acceptance_criteria": [
+        "Given an unknown token, then 'رابط الدعوة غير صالح' is shown.",
+        "Given a valid token, then the invited entity name and opportunity are shown."
+      ]
+    },
+    {
+      "id": "FR-PLT-029",
+      "feature": "FT-PLT-07",
+      "stories": [
+        "US-PLT-015"
+      ],
+      "statement": "The system shall record the first opening of an invitation.",
+      "type": "Data",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "routes/invite.$token.tsx:39; lib/rfp.ts:43-51",
+      "acceptance_criteria": [
+        "Given status 'sent', when the page loads, then status becomes 'opened'.",
+        "Given status 'opened', then it is unchanged."
+      ]
+    },
+    {
+      "id": "FR-PLT-030",
+      "feature": "FT-PLT-07",
+      "stories": [
+        "US-PLT-015"
+      ],
+      "statement": "The system shall display the invited opportunity's kind, ceiling, closing date, duration, description, scope and deliverables.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "routes/invite.$token.tsx:62-79",
+      "acceptance_criteria": [
+        "Given an RFP with scope and deliverables, then both sections are shown.",
+        "Given no duration, then the duration label is hidden."
+      ]
+    },
+    {
+      "id": "FR-PLT-031",
+      "feature": "FT-PLT-07",
+      "stories": [
+        "US-PLT-015",
+        "US-PLT-016"
+      ],
+      "statement": "The system shall let an invited partner proceed to the application for the invited program.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "routes/invite.$token.tsx:46-56,82-83",
+      "acceptance_criteria": [
+        "Given an active account, when 'الانتقال للتقديم' is clicked, then the portal opens with the program's application.",
+        "Given status 'applied', then a 'track from portal' message replaces the actions."
+      ]
+    },
+    {
+      "id": "FR-PLT-032",
+      "feature": "FT-PLT-07",
+      "stories": [
+        "US-PLT-016"
+      ],
+      "statement": "The system shall activate an inactive partner account from the invitation before proceeding.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "routes/invite.$token.tsx:50,84-97",
+      "acceptance_criteria": [
+        "Given an inactive account, when the form is submitted, then the account becomes active and the portal opens.",
+        "Given a missing field, then the browser blocks submission."
+      ]
+    },
+    {
+      "id": "FR-PLT-033",
+      "feature": "FT-PLT-07",
+      "stories": [
+        "US-PLT-017"
+      ],
+      "statement": "The system shall let an invited partner decline an invitation.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "routes/invite.$token.tsx:57-60,80",
+      "acceptance_criteria": [
+        "Given an open invitation, when 'اعتذار' is clicked, then status becomes 'declined'.",
+        "Given a declined invitation on reload, then only the declined message is shown."
+      ]
+    },
+    {
+      "id": "FR-PLT-034",
+      "feature": "FT-PLT-08",
+      "stories": [
+        "US-PLT-018"
+      ],
+      "statement": "The system shall open global search from a header button or Ctrl/Cmd+K.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/GlobalSearch.tsx:45-52,97-101",
+      "acceptance_criteria": [
+        "Given any shell page, when Ctrl+K is pressed, then the search dialog toggles.",
+        "Given the dialog, when Esc is pressed, then it closes."
+      ]
+    },
+    {
+      "id": "FR-PLT-035",
+      "feature": "FT-PLT-08",
+      "stories": [
+        "US-PLT-018"
+      ],
+      "statement": "The system shall search partners, applications, projects/initiatives, payments, programs, plans and staff within the current tenant.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/GlobalSearch.tsx:54-80",
+      "acceptance_criteria": [
+        "Given 'سند', when typed, then partners named 'جمعية سند…' appear under 'الجهات الشريكة'.",
+        "Given a 1-character term, then 'اكتب حرفين على الأقل' is shown."
+      ]
+    },
+    {
+      "id": "FR-PLT-036",
+      "feature": "FT-PLT-08",
+      "stories": [
+        "US-PLT-018"
+      ],
+      "statement": "The system shall match page shortcuts by normalised title and navigate on selection, recording recent items.",
+      "type": "Functional",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "components/GlobalSearch.tsx:11-17,82-93",
+      "acceptance_criteria": [
+        "Given 'مالية', then the 'المالية' page shortcut is listed.",
+        "Given an empty query after previous use, then 'آخر ما فتحته' lists recent items."
+      ]
+    },
+    {
+      "id": "FR-PLT-037",
+      "feature": "FT-PLT-08",
+      "stories": [
+        "US-PLT-019"
+      ],
+      "statement": "The system shall restrict search results and page shortcuts to entities and pages the user's role may access; applicants shall only find their own organization's records.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "Analyst (gap: AppShell.tsx:188, GlobalSearch.tsx:11-17,59-66)",
+      "acceptance_criteria": [
+        "Given an applicant, when searching another partner's name, then no result is returned.",
+        "Given a reviewer, then '/admin' is not offered as a shortcut."
+      ]
+    },
+    {
+      "id": "FR-PLT-038",
+      "feature": "FT-PLT-09",
+      "stories": [
+        "US-PLT-020"
+      ],
+      "statement": "The system shall offer a light/dark theme toggle persisted on the device and applied before first paint.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/ThemeToggle.tsx; routes/__root.tsx:122-127",
+      "acceptance_criteria": [
+        "Given dark selected, when reloading, then the page renders dark without flashing light.",
+        "Given no stored choice and OS dark mode, then dark is used."
+      ]
+    },
+    {
+      "id": "FR-PLT-039",
+      "feature": "FT-PLT-09",
+      "stories": [
+        "US-PLT-020"
+      ],
+      "statement": "The system shall let the user choose a colour palette (clay default, teal, lavender) stored on the device.",
+      "type": "UI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "components/PalettePicker.tsx; routes/settings.tsx:68",
+      "acceptance_criteria": [
+        "Given 'أخضر مائي' is chosen, then the UI switches palette immediately and after reload.",
+        "Given 'طيني', then the data-palette attribute is removed."
+      ]
+    },
+    {
+      "id": "FR-PLT-040",
+      "feature": "FT-PLT-09",
+      "stories": [
+        "US-PLT-021"
+      ],
+      "statement": "The system shall render the application in Arabic, right-to-left, with portaled menus and dialogs following RTL.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "routes/__root.tsx:117-155; AGENTS.md",
+      "acceptance_criteria": [
+        "Given any dropdown or dialog, when opened, then its content aligns right-to-left.",
+        "Given the document, then lang='ar' and dir='rtl'."
+      ]
+    },
+    {
+      "id": "FR-PLT-041",
+      "feature": "FT-PLT-09",
+      "stories": [
+        "US-PLT-021"
+      ],
+      "statement": "The system shall display all numbers with Western digits (0-9) without altering form inputs or exported data.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/LatinDigits.tsx; lib/data.ts:377-390",
+      "acceptance_criteria": [
+        "Given an amount, then it renders like '1,250,000 ر.س' with Western digits.",
+        "Given a textarea containing Eastern digits, then its value is not changed."
+      ]
+    },
+    {
+      "id": "FR-PLT-042",
+      "feature": "FT-PLT-10",
+      "stories": [
+        "US-PLT-022"
+      ],
+      "statement": "The system shall provide the AI Copilot to non-applicant personas in an expandable side panel.",
+      "type": "AI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/Copilot.tsx:148-173",
+      "acceptance_criteria": [
+        "Given an applicant persona, then the Copilot button is not rendered.",
+        "Given a staff persona, when the expand icon is clicked, then the panel widens."
+      ]
+    },
+    {
+      "id": "FR-PLT-043",
+      "feature": "FT-PLT-10",
+      "stories": [
+        "US-PLT-022"
+      ],
+      "statement": "The system shall offer suggested prompts based on the current section.",
+      "type": "AI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "components/Copilot.tsx:13-19,65-79",
+      "acceptance_criteria": [
+        "Given /finance with an empty chat, then prompts about due payments are shown.",
+        "Given a prompt is clicked, then it is sent as a message."
+      ]
+    },
+    {
+      "id": "FR-PLT-044",
+      "feature": "FT-PLT-10",
+      "stories": [
+        "US-PLT-022"
+      ],
+      "statement": "The system shall authenticate Copilot requests and answer using read-only tools over the tenant's data.",
+      "type": "AI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "routes/api/chat.ts:12-131",
+      "acceptance_criteria": [
+        "Given no token, when posting to /api/chat, then 401 is returned.",
+        "Given 'ما الطلبات التي تنتظر قراراً؟', then the answer is based on list_applications results."
+      ]
+    },
+    {
+      "id": "FR-PLT-045",
+      "feature": "FT-PLT-10",
+      "stories": [
+        "US-PLT-023"
+      ],
+      "statement": "The system shall present any requested change as a proposed-action card linking to the page where the user confirms it.",
+      "type": "AI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "routes/api/chat.ts:121-129,137; components/Copilot.tsx:86-97",
+      "acceptance_criteria": [
+        "Given 'اعتمد الدفعة X', then a card links to the relevant page and no data changes.",
+        "Given the card link is clicked, then the panel closes and the page opens."
+      ]
+    },
+    {
+      "id": "FR-PLT-046",
+      "feature": "FT-PLT-10",
+      "stories": [
+        "US-PLT-022"
+      ],
+      "statement": "The system shall keep the conversation per persona on the device and allow stopping a response and starting a new conversation.",
+      "type": "AI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "components/Copilot.tsx:47-58,128-143,168",
+      "acceptance_criteria": [
+        "Given a reload, when the panel reopens, then previous messages for that persona are shown.",
+        "Given 'محادثة جديدة', then messages are cleared."
+      ]
+    },
+    {
+      "id": "FR-PLT-047",
+      "feature": "FT-PLT-10",
+      "stories": [
+        "US-PLT-023"
+      ],
+      "statement": "The system shall derive the Copilot's tenant scope from the authenticated user on the server and log each request for audit.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "Analyst (gap: chat.ts:33-34,107)",
+      "acceptance_criteria": [
+        "Given a body with another tenant's id, then results remain limited to the caller's tenant.",
+        "Given any Copilot call, then an audit record with user, time and tools used exists."
+      ]
+    },
+    {
+      "id": "FR-PLT-048",
+      "feature": "FT-PLT-11",
+      "stories": [
+        "US-PLT-024"
+      ],
+      "statement": "The system shall show page-specific demo walkthrough steps in a help panel.",
+      "type": "UI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "components/DemoGuide.tsx:11-63,111-190",
+      "acceptance_criteria": [
+        "Given /tasks, when the guide opens, then 'وضع التركيز' and 'المهام المتخطاة' steps are listed.",
+        "Given a page without a guide, then the generic hint is shown."
+      ]
+    },
+    {
+      "id": "FR-PLT-049",
+      "feature": "FT-PLT-11",
+      "stories": [
+        "US-PLT-024"
+      ],
+      "statement": "The system shall identify the pending payment step on a project and offer to switch to the responsible persona.",
+      "type": "Functional",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "components/DemoGuide.tsx:65-109,132-175",
+      "acceptance_criteria": [
+        "Given a payment awaiting receipt, then the guide proposes the beneficiary's applicant persona.",
+        "Given all payments paid, then 'كل الدفعات مكتملة' is shown."
+      ]
+    },
+    {
+      "id": "FR-PLT-050",
+      "feature": "FT-PLT-12",
+      "stories": [
+        "US-PLT-025"
+      ],
+      "statement": "The system shall provide advance, undo and reset controls that apply predefined scenario states to the demo project.",
+      "type": "Functional",
+      "priority": "Won't",
+      "evidence": "Observed",
+      "source": "components/DemoControls.tsx; lib/demoScript.ts",
+      "acceptance_criteria": [
+        "Given step 4, when 'تقدّم' is clicked, then the disbursement order exists and the bar shows step 5 of 7.",
+        "Given any step, when 'تصفير' is clicked, then the project returns to its initial state."
+      ]
+    },
+    {
+      "id": "FR-PLT-051",
+      "feature": "FT-PLT-13",
+      "stories": [
+        "US-PLT-026"
+      ],
+      "statement": "The system shall present the workshop deck with slide navigation, progress, keyboard shortcuts and fullscreen.",
+      "type": "UI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "components/WorkshopDeck.tsx:80-188; routes/admin.tsx:150-159",
+      "acceptance_criteria": [
+        "Given slide 1, when space is pressed, then slide 2 shows and progress updates.",
+        "Given F, then the deck enters fullscreen."
+      ]
+    },
+    {
+      "id": "FR-PLT-052",
+      "feature": "FT-PLT-13",
+      "stories": [
+        "US-PLT-027"
+      ],
+      "statement": "The system shall capture notes per session in three categories and aggregate them on the summary slide.",
+      "type": "Functional",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "components/WorkshopDeck.tsx:49-78,115-148",
+      "acceptance_criteria": [
+        "Given a note in session 3 'challenges', then the summary slide lists it under 'تحديات ومتطلبات' with the session title.",
+        "Given a reload on the same device, then notes persist."
+      ]
+    },
+    {
+      "id": "FR-PLT-053",
+      "feature": "FT-PLT-13",
+      "stories": [
+        "US-PLT-027"
+      ],
+      "statement": "The system shall allow exporting or sharing workshop notes.",
+      "type": "Reporting",
+      "priority": "Could",
+      "evidence": "Recommended",
+      "source": "Analyst",
+      "acceptance_criteria": [
+        "Given notes, when 'export' is chosen, then a document with all sessions' notes downloads.",
+        "Given another facilitator device, then shared notes are visible."
+      ]
+    },
+    {
+      "id": "FR-PLT-054",
+      "feature": "FT-PLT-14",
+      "stories": [
+        "US-PLT-028"
+      ],
+      "statement": "The system shall provide a reusable data table with free-text search, column visibility, pagination and row navigation.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/DataTable.tsx:17-155",
+      "acceptance_criteria": [
+        "Given 40 rows and size 15, then 3 pages are available.",
+        "Given a search term, then only rows whose exported values contain it are shown and paging resets to page 1."
+      ]
+    },
+    {
+      "id": "FR-PLT-055",
+      "feature": "FT-PLT-14",
+      "stories": [
+        "US-PLT-028"
+      ],
+      "statement": "The system shall export the filtered table to XLSX and CSV.",
+      "type": "Reporting",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/DataTable.tsx:64-78,111-119; lib/data.ts:411-423",
+      "acceptance_criteria": [
+        "Given a filter leaving 22 rows across 2 pages, when exporting CSV, then the file has 22 data rows.",
+        "Given a hidden column, then it is not exported."
+      ]
+    },
+    {
+      "id": "FR-PLT-056",
+      "feature": "FT-PLT-14",
+      "stories": [
+        "US-PLT-029"
+      ],
+      "statement": "The system shall let each user pin the current view as their default and restore the original.",
+      "type": "Data",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "lib/viewPrefs.tsx:23-88",
+      "acceptance_criteria": [
+        "Given hidden columns changed, when 'حفظ كعرض افتراضي' is chosen, then the next visit restores them.",
+        "Given a saved view, when 'استعادة العرض الأصلي' is chosen, then defaults return."
+      ]
+    },
+    {
+      "id": "FR-PLT-057",
+      "feature": "FT-PLT-14",
+      "stories": [
+        "US-PLT-028"
+      ],
+      "statement": "The system shall group secondary filters behind a 'تصفية' popover showing the active count and removable chips.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/FilterBar.tsx",
+      "acceptance_criteria": [
+        "Given two active secondary filters, then the button shows 2 and two chips appear.",
+        "Given a chip's ×, then that filter clears."
+      ]
+    },
+    {
+      "id": "FR-PLT-058",
+      "feature": "FT-PLT-15",
+      "stories": [
+        "US-PLT-030"
+      ],
+      "statement": "The system shall show a page-shaped loading skeleton that switches to an error message with retry when an active query fails.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/PageSkeleton.tsx",
+      "acceptance_criteria": [
+        "Given a failing query, then 'تعذّر تحميل البيانات' with 'إعادة المحاولة' is shown.",
+        "Given retry succeeds, then the page renders."
+      ]
+    },
+    {
+      "id": "FR-PLT-059",
+      "feature": "FT-PLT-15",
+      "stories": [
+        "US-PLT-030"
+      ],
+      "statement": "The system shall show a 404 page for unknown routes and an error page with retry and home actions for uncaught errors, reporting them to telemetry.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "routes/__root.tsx:22-82; lib/lovable-error-reporting.ts; lib/error-capture.ts; lib/error-page.ts",
+      "acceptance_criteria": [
+        "Given /unknown, then 'الصفحة غير موجودة' with 'العودة للرئيسية' is shown.",
+        "Given a render error, when 'حاول مجدداً' is clicked, then the route reloads."
+      ]
+    },
+    {
+      "id": "FR-PLT-060",
+      "feature": "FT-PLT-15",
+      "stories": [
+        "US-PLT-030"
+      ],
+      "statement": "The system shall provide a standard page container and page header with optional concept help and actions.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/common.tsx:6-32",
+      "acceptance_criteria": [
+        "Given PageHeader with info='plan', then an info icon opens the plan concept.",
+        "Given actions, then they render aligned at the end of the header."
+      ]
+    },
+    {
+      "id": "FR-PLT-061",
+      "feature": "FT-PLT-16",
+      "stories": [
+        "US-PLT-031"
+      ],
+      "statement": "The system shall provide a guided 'smart path' dialog that walks the user through typed steps before a final action.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/SmartFlow.tsx",
+      "acceptance_criteria": [
+        "Given a 3-step flow, when on step 1, then later steps cannot be jumped to.",
+        "Given canNext=false, then the next/finish button is disabled."
+      ]
+    },
+    {
+      "id": "FR-PLT-062",
+      "feature": "FT-PLT-16",
+      "stories": [
+        "US-PLT-032"
+      ],
+      "statement": "The system shall explain key domain concepts in place through info popovers.",
+      "type": "UI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "components/InfoTip.tsx",
+      "acceptance_criteria": [
+        "Given the info icon next to 'الخطة السنوية', then its definition and example are shown.",
+        "Given a concept with empty example, then no example line is shown."
+      ]
+    },
+    {
+      "id": "FR-PLT-063",
+      "feature": "FT-PLT-16",
+      "stories": [
+        "US-PLT-031"
+      ],
+      "statement": "The system shall split long entry dialogs into steps of at most three fields automatically unless opted out.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/ui/useAutoSteps.tsx:5-30; AGENTS.md",
+      "acceptance_criteria": [
+        "Given a dialog with 7 fields, then it shows 3 steps with the submit button on the last.",
+        "Given autoSteps={false}, then all fields show at once."
+      ]
+    },
+    {
+      "id": "FR-PLT-064",
+      "feature": "FT-PLT-16",
+      "stories": [
+        "US-PLT-032"
+      ],
+      "statement": "The system shall provide link tabs that group related pages under one sidebar entry.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/SectionTabs.tsx",
+      "acceptance_criteria": [
+        "Given /contracts, then 'العقود' is active within PROJECT_TABS.",
+        "Given /settings without tab, then the first settings tab for the role is active."
+      ]
+    },
+    {
+      "id": "FR-PLT-065",
+      "feature": "FT-PLT-16",
+      "stories": [
+        "US-PLT-028"
+      ],
+      "statement": "The system shall provide KPI cards that can act as accessible table filters, and standard Pill, Field and StageTracker display elements.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/common.tsx:34-142; components/StatCard.tsx",
+      "acceptance_criteria": [
+        "Given a clickable StatCard, when Enter is pressed, then its filter applies and the card shows an active ring.",
+        "Given Field value 0, then nothing renders."
+      ]
+    }
+  ],
+  "stories": [
+    {
+      "id": "US-PLT-001",
+      "epic": "EP-PLT-01",
+      "feature": "FT-PLT-01",
+      "role": "Any user",
+      "story": "As any user, I want the platform to establish my authenticated session before showing data so that records are never readable anonymously.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLT-001",
+        "FR-PLT-003"
+      ],
+      "acceptance_criteria": [
+        "Given no session, When the app loads, Then 'جارٍ التحميل…' shows until the session exists.",
+        "Given a valid session, When a server function is called, Then it runs with the caller's token.",
+        "Given a call without token, When a protected server function runs, Then it fails 'Unauthorized'."
+      ],
+      "dependencies": [
+        "Supabase Auth"
+      ],
+      "open_questions": [
+        "OQ-PLT-01"
+      ]
+    },
+    {
+      "id": "US-PLT-002",
+      "epic": "EP-PLT-01",
+      "feature": "FT-PLT-01",
+      "role": "Staff user / partner user",
+      "story": "As a returning user, I want to sign in from a login page so that I reach my workspace.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLT-002"
+      ],
+      "acceptance_criteria": [
+        "Given the login page, When the form is submitted, Then the user lands on ROLE_HOME of the active persona.",
+        "Given required fields are empty, When submitting, Then the browser blocks submission."
+      ],
+      "dependencies": [
+        "FR-PLT-008"
+      ],
+      "open_questions": [
+        "OQ-PLT-01"
+      ]
+    },
+    {
+      "id": "US-PLT-003",
+      "epic": "EP-PLT-01",
+      "feature": "FT-PLT-17",
+      "role": "Platform administrator",
+      "story": "As a platform administrator, I want each person to sign in with individual credentials and no demo shortcuts in production so that every action is attributable.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLT-004",
+        "FR-PLT-006"
+      ],
+      "acceptance_criteria": [
+        "Given two users, When each signs in, Then audit records show their own identity.",
+        "Given a production build, When any page loads, Then no persona switcher, demo guide or demo bar is visible."
+      ],
+      "dependencies": [
+        "Identity provider; CFG memberships"
+      ],
+      "open_questions": [
+        "OQ-PLT-01",
+        "OQ-PLT-02",
+        "OQ-PLT-03"
+      ]
+    },
+    {
+      "id": "US-PLT-004",
+      "epic": "EP-PLT-01",
+      "feature": "FT-PLT-17",
+      "role": "Tenant administrator",
+      "story": "As a tenant administrator, I want data access enforced by tenant and role on the server so that users cannot see or change data outside their remit.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLT-005"
+      ],
+      "acceptance_criteria": [
+        "Given a reviewer, When attempting to update a payment via API, Then the request is rejected.",
+        "Given a user of tenant A, When listing applications, Then no tenant B rows are returned."
+      ],
+      "dependencies": [
+        "CFG roles & permissions"
+      ],
+      "open_questions": [
+        "OQ-PLT-04"
+      ]
+    },
+    {
+      "id": "US-PLT-005",
+      "epic": "EP-PLT-01",
+      "feature": "FT-PLT-02",
+      "role": "Demo presenter",
+      "story": "As a demo presenter, I want to switch between personas so that I can show each role's experience from one browser.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLT-007",
+        "FR-PLT-008",
+        "FR-PLT-009"
+      ],
+      "acceptance_criteria": [
+        "Given the persona menu, When 'مدير المنح' persona is selected, Then the sidebar shows the grants-manager items and /tasks opens.",
+        "Given a reload, When the app starts, Then the same persona is active."
+      ],
+      "dependencies": [
+        "personas table"
+      ],
+      "open_questions": [
+        "OQ-PLT-03"
+      ]
+    },
+    {
+      "id": "US-PLT-006",
+      "epic": "EP-PLT-03",
+      "feature": "FT-PLT-03",
+      "role": "Staff user (any staff role)",
+      "story": "As a staff user, I want a sidebar showing only my role's sections with pending-work badges so that I can go straight to my work.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLT-010",
+        "FR-PLT-011",
+        "FR-PLT-012"
+      ],
+      "acceptance_criteria": [
+        "Given role finance, When the shell renders, Then items are Data & reports, Annual plan, My tasks, Projects.",
+        "Given 2 open payment tasks, When rendered, Then 'المشاريع' shows badge 2."
+      ],
+      "dependencies": [
+        "TSK"
+      ],
+      "open_questions": [
+        "OQ-PLT-13"
+      ]
+    },
+    {
+      "id": "US-PLT-007",
+      "epic": "EP-PLT-03",
+      "feature": "FT-PLT-03",
+      "role": "Applicant / mobile user",
+      "story": "As an applicant or mobile user, I want a layout suited to my context (header-only portal layout; navigation drawer on phones) so that the interface stays usable.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLT-013",
+        "FR-PLT-014"
+      ],
+      "acceptance_criteria": [
+        "Given an applicant persona, When any page renders, Then no sidebar is shown.",
+        "Given a phone viewport, When the menu is tapped, Then the role navigation opens in a drawer from the right."
+      ],
+      "dependencies": [
+        "—"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PLT-008",
+      "epic": "EP-PLT-03",
+      "feature": "FT-PLT-03",
+      "role": "Platform administrator",
+      "story": "As a platform administrator, I want platform-level pages and settings tabs hidden from tenant users so that tenant staff only manage their own organization.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLT-015",
+        "FR-PLT-016"
+      ],
+      "acceptance_criteria": [
+        "Given a grants_manager, When opening /admin, Then 'هذه الصفحة خاصة بإدارة المنصة' is shown.",
+        "Given admin, When opening Settings, Then 'فريق العمل' tab is not shown."
+      ],
+      "dependencies": [
+        "CFG"
+      ],
+      "open_questions": [
+        "OQ-PLT-04"
+      ]
+    },
+    {
+      "id": "US-PLT-009",
+      "epic": "EP-PLT-02",
+      "feature": "FT-PLT-04",
+      "role": "Public visitor",
+      "story": "As a prospective applicant, I want to see the platform's purpose and currently active grant programs so that I can decide to apply or register.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLT-017",
+        "FR-PLT-018"
+      ],
+      "acceptance_criteria": [
+        "Given active programs exist, When the landing loads, Then each shows title, description, budget and deadline.",
+        "Given 'تصفح برامج المنح', When clicked, Then /portal opens."
+      ],
+      "dependencies": [
+        "PRG"
+      ],
+      "open_questions": [
+        "OQ-PLT-07"
+      ]
+    },
+    {
+      "id": "US-PLT-010",
+      "epic": "EP-PLT-02",
+      "feature": "FT-PLT-05",
+      "role": "Partner representative",
+      "story": "As a partner representative, I want to choose my entity type and check my license/ID so that I know whether my entity is already registered.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLT-019",
+        "FR-PLT-020"
+      ],
+      "acceptance_criteria": [
+        "Given license 1234, When checked, Then '«…» مسجلة مسبقاً' with masked delegates appears.",
+        "Given a pending license, When checked, Then the masked applicant name and mobile are shown."
+      ],
+      "dependencies": [
+        "CFG applicant types"
+      ],
+      "open_questions": [
+        "OQ-PLT-08"
+      ]
+    },
+    {
+      "id": "US-PLT-011",
+      "epic": "EP-PLT-02",
+      "feature": "FT-PLT-05",
+      "role": "Partner representative",
+      "story": "As a representative of a new entity, I want the form prefilled from the official registry and to submit it for review so that registration is fast and accurate.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLT-021",
+        "FR-PLT-022",
+        "FR-PLT-024"
+      ],
+      "acceptance_criteria": [
+        "Given license 7781, When looked up, Then registry fields are prefilled and tagged 'من السجل'.",
+        "Given a complete verified form, When submitted, Then 'أُرسل الطلب للتدقيق' is shown and a pending registration exists."
+      ],
+      "dependencies": [
+        "BEN review"
+      ],
+      "open_questions": [
+        "OQ-PLT-08",
+        "OQ-PLT-12"
+      ]
+    },
+    {
+      "id": "US-PLT-012",
+      "epic": "EP-PLT-02",
+      "feature": "FT-PLT-05",
+      "role": "Partner representative",
+      "story": "As a partner representative, I want to confirm my email and mobile numbers with a one-time code so that the platform can trust the contact channels.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLT-023"
+      ],
+      "acceptance_criteria": [
+        "Given an unverified mobile, When submitting, Then 'تحقق أولاً من: جوال المفوض' appears.",
+        "Given the correct code, When confirming, Then the field shows a verified badge."
+      ],
+      "dependencies": [
+        "SMS/email gateway"
+      ],
+      "open_questions": [
+        "OQ-PLT-08"
+      ]
+    },
+    {
+      "id": "US-PLT-013",
+      "epic": "EP-PLT-02",
+      "feature": "FT-PLT-06",
+      "role": "Staff member of a registered partner",
+      "story": "As an employee of an already-registered entity, I want to prove my affiliation through the current delegate so that I can join my organization's team.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLT-025",
+        "FR-PLT-027"
+      ],
+      "acceptance_criteria": [
+        "Given the correct code, When verifying, Then 'تم التحقق من صلتك بالجهة' with a login button appears.",
+        "Given verification succeeded, When the delegate signs in, Then a pending join request is visible (recommended)."
+      ],
+      "dependencies": [
+        "BEN team"
+      ],
+      "open_questions": [
+        "OQ-PLT-08"
+      ]
+    },
+    {
+      "id": "US-PLT-014",
+      "epic": "EP-PLT-02",
+      "feature": "FT-PLT-06",
+      "role": "Staff member of a registered partner",
+      "story": "As a member of a registered entity, I want to request a change of delegate so that the organization's authorised contact stays current.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLT-026"
+      ],
+      "acceptance_criteria": [
+        "Given all fields, When submitted, Then 'أُرسل طلب تغيير المفوض' appears.",
+        "Given the request, When the platform opens registration review, Then it lists the delegate fields as pending (see BEN)."
+      ],
+      "dependencies": [
+        "BEN"
+      ],
+      "open_questions": [
+        "OQ-PLT-08"
+      ]
+    },
+    {
+      "id": "US-PLT-015",
+      "epic": "EP-PLT-02",
+      "feature": "FT-PLT-07",
+      "role": "Invited partner",
+      "story": "As an invited partner, I want to open my invitation link and go straight to the application so that I can respond to the opportunity quickly.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLT-028",
+        "FR-PLT-029",
+        "FR-PLT-030",
+        "FR-PLT-031"
+      ],
+      "acceptance_criteria": [
+        "Given a 'sent' invitation, When opened, Then status becomes 'opened'.",
+        "Given an active account, When proceeding, Then /portal?apply=<programId> opens under the partner's applicant persona."
+      ],
+      "dependencies": [
+        "PTL portal; PRG"
+      ],
+      "open_questions": [
+        "OQ-PLT-09"
+      ]
+    },
+    {
+      "id": "US-PLT-016",
+      "epic": "EP-PLT-02",
+      "feature": "FT-PLT-07",
+      "role": "Invited partner (inactive account)",
+      "story": "As an invited partner whose account is not yet active, I want to activate it from the invitation so that I can apply without a separate registration.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLT-031",
+        "FR-PLT-032"
+      ],
+      "acceptance_criteria": [
+        "Given an inactive account, When the activation form is submitted, Then account_status becomes 'active' and the toast 'تم تفعيل حساب الجهة' shows.",
+        "Given activation, When complete, Then the portal application opens."
+      ],
+      "dependencies": [
+        "FR-PLT-004 (real accounts)"
+      ],
+      "open_questions": [
+        "OQ-PLT-09"
+      ]
+    },
+    {
+      "id": "US-PLT-017",
+      "epic": "EP-PLT-02",
+      "feature": "FT-PLT-07",
+      "role": "Invited partner",
+      "story": "As an invited partner, I want to decline an invitation so that the donor knows we will not apply.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLT-033"
+      ],
+      "acceptance_criteria": [
+        "Given an open invitation, When 'اعتذار' is pressed, Then status 'declined' and responded_at are stored.",
+        "Given a declined invitation, When reopened, Then 'سجّلتم اعتذاركم عن هذه الفرصة' is shown."
+      ],
+      "dependencies": [
+        "PRG RFP tracking"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PLT-018",
+      "epic": "EP-PLT-03",
+      "feature": "FT-PLT-08",
+      "role": "Staff user",
+      "story": "As a staff user, I want to search across partners, applications, projects, payments, programs, plans and colleagues from anywhere so that I can open any record quickly.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLT-034",
+        "FR-PLT-035",
+        "FR-PLT-036"
+      ],
+      "acceptance_criteria": [
+        "Given 'اسرة' typed, When results return, Then 'جمعية سند الأسرية' is matched despite hamza/taa-marbuta differences.",
+        "Given a result is selected, When the dialog closes, Then the record page opens and appears first in recent items."
+      ],
+      "dependencies": [
+        "All modules' detail pages"
+      ],
+      "open_questions": [
+        "OQ-PLT-05"
+      ]
+    },
+    {
+      "id": "US-PLT-019",
+      "epic": "EP-PLT-03",
+      "feature": "FT-PLT-08",
+      "role": "Applicant / staff user",
+      "story": "As a data owner, I want search to return only records and pages the user is entitled to so that confidential partner data is not exposed.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLT-037"
+      ],
+      "acceptance_criteria": [
+        "Given an applicant, When searching another partner's name, Then no result is returned.",
+        "Given a reviewer, When typing 'الإدارة', Then no /admin shortcut is shown."
+      ],
+      "dependencies": [
+        "FR-PLT-005"
+      ],
+      "open_questions": [
+        "OQ-PLT-05"
+      ]
+    },
+    {
+      "id": "US-PLT-020",
+      "epic": "EP-PLT-03",
+      "feature": "FT-PLT-09",
+      "role": "Any user",
+      "story": "As a user, I want to choose light/dark mode and a colour palette so that the interface is comfortable for me.",
+      "priority": "Could",
+      "requirements": [
+        "FR-PLT-038",
+        "FR-PLT-039"
+      ],
+      "acceptance_criteria": [
+        "Given dark mode chosen, When reloading, Then the page renders dark from first paint.",
+        "Given palette 'خزامى', When selected, Then colours update immediately and persist."
+      ],
+      "dependencies": [
+        "styles.css"
+      ],
+      "open_questions": [
+        "OQ-PLT-10"
+      ]
+    },
+    {
+      "id": "US-PLT-021",
+      "epic": "EP-PLT-03",
+      "feature": "FT-PLT-09",
+      "role": "Any user",
+      "story": "As an Arabic-speaking user, I want a right-to-left interface with Western digits everywhere so that reading figures is consistent.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLT-040",
+        "FR-PLT-041"
+      ],
+      "acceptance_criteria": [
+        "Given any dialog or menu, When opened, Then it aligns right-to-left.",
+        "Given a date or amount, When displayed, Then it uses digits 0-9.",
+        "Given a text input with Eastern digits, Then its value is unchanged."
+      ],
+      "dependencies": [
+        "—"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PLT-022",
+      "epic": "EP-PLT-04",
+      "feature": "FT-PLT-10",
+      "role": "Grants staff (admin, grants manager, reviewer, secretary, PM, finance, CEO)",
+      "story": "As a grants staff member, I want to ask the Copilot questions about programs, applications, partners, projects, payments, plans and tasks in Arabic so that I get answers from live data without building reports.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLT-042",
+        "FR-PLT-043",
+        "FR-PLT-044",
+        "FR-PLT-046"
+      ],
+      "acceptance_criteria": [
+        "Given an applicant persona, Then the Copilot button is hidden.",
+        "Given 'ما الدفعات المستحقة هذا الشهر؟', When asked, Then the answer cites amounts from list_payments with Western digits.",
+        "Given 'محادثة جديدة', When clicked, Then history clears."
+      ],
+      "dependencies": [
+        "Lovable AI gateway"
+      ],
+      "open_questions": [
+        "OQ-PLT-06"
+      ]
+    },
+    {
+      "id": "US-PLT-023",
+      "epic": "EP-PLT-04",
+      "feature": "FT-PLT-10",
+      "role": "Grants staff",
+      "story": "As a grants staff member, I want the Copilot to propose actions as links I confirm on the real page so that no change happens without my explicit approval and evidence.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLT-045",
+        "FR-PLT-047"
+      ],
+      "acceptance_criteria": [
+        "Given a request to approve a payment, When answered, Then a card with 'فتح الصفحة للتأكيد' appears and no data changes.",
+        "Given a forged tenant id in the request, When tools run, Then results stay within the caller's tenant (recommended)."
+      ],
+      "dependencies": [
+        "Target module pages"
+      ],
+      "open_questions": [
+        "OQ-PLT-06"
+      ]
+    },
+    {
+      "id": "US-PLT-024",
+      "epic": "EP-PLT-05",
+      "feature": "FT-PLT-11",
+      "role": "Demo presenter",
+      "story": "As a demo presenter, I want a contextual guide that tells me who holds the pending action and lets me switch to that persona so that I can narrate the end-to-end flow.",
+      "priority": "Could",
+      "requirements": [
+        "FR-PLT-048",
+        "FR-PLT-049"
+      ],
+      "acceptance_criteria": [
+        "Given a payment awaiting transfer, When the guide opens on its project, Then the finance persona is proposed.",
+        "Given 'بدّل إليه', When clicked, Then the persona switches and the sheet closes."
+      ],
+      "dependencies": [
+        "FT-PLT-02"
+      ],
+      "open_questions": [
+        "OQ-PLT-11"
+      ]
+    },
+    {
+      "id": "US-PLT-025",
+      "epic": "EP-PLT-05",
+      "feature": "FT-PLT-12",
+      "role": "Demo presenter",
+      "story": "As a demo presenter, I want to advance, undo or reset a scripted scenario on the demo project so that I can replay the milestone-to-receipt flow reliably.",
+      "priority": "Won't",
+      "requirements": [
+        "FR-PLT-050"
+      ],
+      "acceptance_criteria": [
+        "Given step 0, When 'تقدّم' is pressed, Then the first activity has evidence 'العقد الموقع.pdf' and the bar shows step 1 of 7.",
+        "Given step 7, Then 'اكتملت كل خطوات العرض' is shown and 'تقدّم' is disabled."
+      ],
+      "dependencies": [
+        "Seed data IDs"
+      ],
+      "open_questions": [
+        "OQ-PLT-11"
+      ]
+    },
+    {
+      "id": "US-PLT-026",
+      "epic": "EP-PLT-05",
+      "feature": "FT-PLT-13",
+      "role": "Platform admin (workshop facilitator)",
+      "story": "As a workshop facilitator, I want to present the agenda and sessions from inside the platform so that I can switch between slides and live screens.",
+      "priority": "Could",
+      "requirements": [
+        "FR-PLT-051"
+      ],
+      "acceptance_criteria": [
+        "Given slide 4, When ArrowRight is pressed, Then slide 3 shows.",
+        "Given a session slide, When 'فرص المنح' link is clicked, Then /programs opens in a new tab."
+      ],
+      "dependencies": [
+        "FR-PLT-015"
+      ],
+      "open_questions": [
+        "OQ-PLT-11"
+      ]
+    },
+    {
+      "id": "US-PLT-027",
+      "epic": "EP-PLT-05",
+      "feature": "FT-PLT-13",
+      "role": "Platform admin (workshop facilitator)",
+      "story": "As a workshop facilitator, I want to capture notes per session and see them consolidated so that workshop outcomes are not lost.",
+      "priority": "Could",
+      "requirements": [
+        "FR-PLT-052",
+        "FR-PLT-053"
+      ],
+      "acceptance_criteria": [
+        "Given notes in sessions 1 and 5 under 'ميزات', When the summary slide opens, Then both appear with their session titles.",
+        "Given a reload, When the deck reopens, Then notes are restored."
+      ],
+      "dependencies": [
+        "—"
+      ],
+      "open_questions": [
+        "OQ-PLT-11"
+      ]
+    },
+    {
+      "id": "US-PLT-028",
+      "epic": "EP-PLT-06",
+      "feature": "FT-PLT-14",
+      "role": "Staff user",
+      "story": "As a staff user, I want lists with search, secondary filters, KPI-card filters, column selection, paging and Excel/CSV export so that I can analyse and share data consistently across modules.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLT-054",
+        "FR-PLT-055",
+        "FR-PLT-057",
+        "FR-PLT-065"
+      ],
+      "acceptance_criteria": [
+        "Given a search term, When typed, Then the table filters and returns to page 1.",
+        "Given hidden columns, When exporting XLSX, Then only visible exportable columns of all filtered rows are written in an RTL sheet."
+      ],
+      "dependencies": [
+        "xlsx"
+      ],
+      "open_questions": [
+        "OQ-PLT-14"
+      ]
+    },
+    {
+      "id": "US-PLT-029",
+      "epic": "EP-PLT-06",
+      "feature": "FT-PLT-14",
+      "role": "Staff user",
+      "story": "As a staff user, I want to pin my preferred columns, page size and filters as my default view so that lists open the way I work.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLT-056"
+      ],
+      "acceptance_criteria": [
+        "Given a pinned view, When the page is reopened, Then the saved columns and page size apply.",
+        "Given a reset, When completed, Then defaults return and the toast 'رجع العرض لشكله الأصلي' shows."
+      ],
+      "dependencies": [
+        "—"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PLT-030",
+      "epic": "EP-PLT-06",
+      "feature": "FT-PLT-15",
+      "role": "Any user",
+      "story": "As a user, I want clear loading, not-found and error states with retry so that I always know what is happening.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PLT-058",
+        "FR-PLT-059",
+        "FR-PLT-060"
+      ],
+      "acceptance_criteria": [
+        "Given a failed query, When the skeleton renders, Then 'تعذّر تحميل البيانات' and 'إعادة المحاولة' appear.",
+        "Given an unknown URL, Then the 404 page with 'العودة للرئيسية' is shown."
+      ],
+      "dependencies": [
+        "—"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PLT-031",
+      "epic": "EP-PLT-06",
+      "feature": "FT-PLT-16",
+      "role": "Staff user",
+      "story": "As a staff user, I want complex actions and long forms broken into short guided steps so that I can complete them without errors.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PLT-061",
+        "FR-PLT-063"
+      ],
+      "acceptance_criteria": [
+        "Given a 3-step smart path, When on step 2, Then 'السابق' returns to step 1 and step 3 is not clickable.",
+        "Given a 7-field dialog, When opened, Then fields are grouped into steps of at most 3."
+      ],
+      "dependencies": [
+        "PRG, FIN flows"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PLT-032",
+      "epic": "EP-PLT-06",
+      "feature": "FT-PLT-16",
+      "role": "New staff user",
+      "story": "As a new staff user, I want inline explanations of domain concepts and grouped section tabs so that I understand where I am and what terms mean.",
+      "priority": "Could",
+      "requirements": [
+        "FR-PLT-062",
+        "FR-PLT-064"
+      ],
+      "acceptance_criteria": [
+        "Given the info icon next to 'محرك سير الإجراء', When clicked, Then the definition and example 'استقبال ← دراسة ← لجنة' show.",
+        "Given /reports, Then the DATA_TABS tab 'التقارير التفصيلية' is active."
+      ],
+      "dependencies": [
+        "—"
+      ],
+      "open_questions": []
+    }
+  ],
+  "rules": [
+    {
+      "id": "BR-PLT-01",
+      "rule": "Every page renders only after an authenticated Supabase session exists; if none, the client signs into (or signs up) one shared demo account before rendering.",
+      "evidence": "Observed",
+      "source": "components/DemoSession.tsx:4-22"
+    },
+    {
+      "id": "BR-PLT-02",
+      "rule": "The active persona is chosen client-side and persisted in browser storage (key 'grants-poc-persona'); if none is stored, the first persona (ordered by role, then name) is used.",
+      "evidence": "Observed",
+      "source": "lib/persona.tsx:32,48-80"
+    },
+    {
+      "id": "BR-PLT-03",
+      "rule": "Each role has a fixed sidebar set (NAV_BY_ROLE) and a home route (ROLE_HOME); switching persona navigates to the role home.",
+      "evidence": "Observed",
+      "source": "components/AppShell.tsx:53-62,94-98; lib/persona.tsx:106-115"
+    },
+    {
+      "id": "BR-PLT-04",
+      "rule": "The sidebar is hidden on public pages ('/', '/login', '/register-tenant') and for the applicant role, which uses a header-only layout.",
+      "evidence": "Observed",
+      "source": "components/AppShell.tsx:85-87,172-199"
+    },
+    {
+      "id": "BR-PLT-05",
+      "rule": "/admin is available only to the 'admin' role; other roles see a message pointing to Settings > Team.",
+      "evidence": "Observed",
+      "source": "routes/admin.tsx:58-71"
+    },
+    {
+      "id": "BR-PLT-06",
+      "rule": "/portal content is available only to the 'applicant' role; other roles are asked to switch persona.",
+      "evidence": "Observed",
+      "source": "routes/portal.tsx:82-83"
+    },
+    {
+      "id": "BR-PLT-07",
+      "rule": "Settings section tabs flagged platformOnly are shown only to admin; tabs flagged tenantOnly are hidden from admin.",
+      "evidence": "Observed",
+      "source": "components/SectionTabs.tsx:11-12,23-34"
+    },
+    {
+      "id": "BR-PLT-08",
+      "rule": "The AI Copilot is not available to applicant personas.",
+      "evidence": "Observed",
+      "source": "components/Copilot.tsx:152"
+    },
+    {
+      "id": "BR-PLT-09",
+      "rule": "The Copilot never writes data: it uses read-only query tools and returns any change as a 'propose_action' link card that the employee confirms on the real page.",
+      "evidence": "Observed",
+      "source": "routes/api/chat.ts:7-8,121-129,137"
+    },
+    {
+      "id": "BR-PLT-10",
+      "rule": "The Copilot answers in Arabic plain text with Western digits and SAR amounts, uses tools instead of inventing figures, and is limited to 6 model/tool steps per answer.",
+      "evidence": "Observed",
+      "source": "routes/api/chat.ts:134-140"
+    },
+    {
+      "id": "BR-PLT-11",
+      "rule": "Global search runs only for terms of at least 2 characters, debounced 250 ms, scoped to the current persona's tenant, returning at most 5 hits per entity type.",
+      "evidence": "Observed",
+      "source": "components/GlobalSearch.tsx:54-80"
+    },
+    {
+      "id": "BR-PLT-12",
+      "rule": "Search matching treats hamza variants of alef, taa marbuta/haa, alef maqsura/yaa and Eastern/Western digits as equivalent.",
+      "evidence": "Observed",
+      "source": "components/GlobalSearch.tsx:30-33"
+    },
+    {
+      "id": "BR-PLT-13",
+      "rule": "The recent-items list keeps the last 6 opened results, de-duplicated by link.",
+      "evidence": "Observed",
+      "source": "components/GlobalSearch.tsx:82-88"
+    },
+    {
+      "id": "BR-PLT-14",
+      "rule": "Self-registration offers only applicant types flagged for the portal and not closed by the tenant; government entities are internal-only.",
+      "evidence": "Observed",
+      "source": "lib/applicantTypes.ts:7-15; routes/register-tenant.tsx:33-36"
+    },
+    {
+      "id": "BR-PLT-15",
+      "rule": "License lookup precedence: an existing beneficiary with that license → 'registered'; else a pending registration → 'pending'; else 'new' (with registry prefill when found).",
+      "evidence": "Observed",
+      "source": "lib/registrations.ts:48-67"
+    },
+    {
+      "id": "BR-PLT-16",
+      "rule": "Email, entity phone and delegate mobile must be OTP-verified when filled before a registration can be submitted.",
+      "evidence": "Observed",
+      "source": "routes/register-tenant.tsx:30,58-62"
+    },
+    {
+      "id": "BR-PLT-17",
+      "rule": "A registration is stored as a pending request with per-field source (registry / registry_edited / manual) and decision 'pending'; the partner organization is created only when the platform approves it (see BEN).",
+      "evidence": "Observed",
+      "source": "lib/registrations.ts:69-77,105-121; AGENTS.md"
+    },
+    {
+      "id": "BR-PLT-18",
+      "rule": "Delegate identity shown to anonymous users is masked: mobile shows only the last 4 digits; name shows initials plus the first 3 letters of the family name.",
+      "evidence": "Observed",
+      "source": "lib/registrations.ts:34-46"
+    },
+    {
+      "id": "BR-PLT-19",
+      "rule": "For the 'individual' type, organization-only fields (entity type, unified number, classification, entity phone, delegate name/ID) are hidden and labels are personalised.",
+      "evidence": "Observed",
+      "source": "routes/register-tenant.tsx:56-57"
+    },
+    {
+      "id": "BR-PLT-20",
+      "rule": "An invitation is marked 'opened' only when its status is still 'sent'; accept/decline set 'applied'/'declined' with a response timestamp.",
+      "evidence": "Observed",
+      "source": "lib/rfp.ts:43-51; routes/invite.$token.tsx:39,57-60"
+    },
+    {
+      "id": "BR-PLT-21",
+      "rule": "Proceeding from an invitation for an inactive partner account activates the account (account_status='active', activated_at).",
+      "evidence": "Observed",
+      "source": "routes/invite.$token.tsx:46-55"
+    },
+    {
+      "id": "BR-PLT-22",
+      "rule": "Saved views store only values the user explicitly pins (e.g. hidden columns, page size, page filters) per persona and view key; search text and page number are never saved.",
+      "evidence": "Observed",
+      "source": "lib/viewPrefs.tsx:23-66; AGENTS.md; migration 20261005054632 (UNIQUE persona_id, view_key)"
+    },
+    {
+      "id": "BR-PLT-23",
+      "rule": "List exports contain only visible columns that define an export value, for all filtered rows (not just the current page); CSV is UTF-8 with BOM, XLSX is right-to-left.",
+      "evidence": "Observed",
+      "source": "components/DataTable.tsx:64-78; lib/data.ts:411-423"
+    },
+    {
+      "id": "BR-PLT-24",
+      "rule": "Rendered labels and visible attributes are normalised to Western digits; inputs, textareas, code and [data-no-convert] are excluded; formatters use the '-u-nu-latn' locale extension.",
+      "evidence": "Observed",
+      "source": "components/LatinDigits.tsx:5-75; lib/data.ts:377-390"
+    },
+    {
+      "id": "BR-PLT-25",
+      "rule": "The Field display component hides empty, '—' and zero values.",
+      "evidence": "Observed",
+      "source": "components/common.tsx:97-106"
+    },
+    {
+      "id": "BR-PLT-26",
+      "rule": "Sidebar badges count open tasks from the same source as 'My tasks': total for /tasks, application tasks for /reviewer, payment tasks for /projects and /finance; manual tasks count only if assigned to or attended by the current persona.",
+      "evidence": "Observed",
+      "source": "lib/navCounts.ts:7-21"
+    },
+    {
+      "id": "BR-PLT-27",
+      "rule": "Demo controls appear only on the designated demo project; step k moves the scenario from state k to k+1 across 7 steps; reset returns to state 0.",
+      "evidence": "Observed",
+      "source": "lib/demoScript.ts:4,23-31; routes/projects.$id.tsx:170"
+    },
+    {
+      "id": "BR-PLT-28",
+      "rule": "A stored theme preference overrides the operating-system colour-scheme preference and is applied before hydration.",
+      "evidence": "Observed",
+      "source": "routes/__root.tsx:122-127; components/ThemeToggle.tsx"
+    },
+    {
+      "id": "BR-PLT-29",
+      "rule": "Workshop notes autosave to the presenting device; deck keyboard shortcuts are ignored while typing in a note.",
+      "evidence": "Observed",
+      "source": "components/WorkshopDeck.tsx:49-57,158-171"
+    },
+    {
+      "id": "BR-PLT-30",
+      "rule": "In production, every request must be authorised server-side by the authenticated user's tenant and role, not by a client-selected persona.",
+      "evidence": "Recommended",
+      "source": "Analyst — closes ISS-PLT-01..05"
+    }
+  ],
+  "issues": [
+    {
+      "id": "ISS-PLT-01",
+      "description": "Shared demo account: hard-coded e-mail/password in the client bundle with a sign-up fallback; every visitor is silently authenticated as the same user, so 'signed-in only' RLS is effectively public access and no action is attributable to a person.",
+      "severity": "High",
+      "location": "components/DemoSession.tsx:4-16",
+      "recommendation": "Replace with per-user authentication (FR-PLT-004); remove credentials from source; rotate the demo account password."
+    },
+    {
+      "id": "ISS-PLT-02",
+      "description": "RLS policies grant any authenticated user full SELECT/INSERT/UPDATE/DELETE on every public table and the attachments bucket; no tenant isolation, no role checks.",
+      "severity": "High",
+      "location": "supabase/migrations/20261006140739_*.sql",
+      "recommendation": "Tenant- and permission-scoped policies; append-only audit tables; storage paths scoped by tenant (FR-PLT-005)."
+    },
+    {
+      "id": "ISS-PLT-03",
+      "description": "Permissions are UI-only: the persona is chosen client-side (localStorage) so anyone can become 'admin'; only /admin and /portal have page gates; every other route is reachable by URL; the Settings › Roles permission matrix is declarative and enforced nowhere.",
+      "severity": "High",
+      "location": "lib/persona.tsx:48-80; routes/admin.tsx:61; routes/portal.tsx:82; routes/settings.tsx:156-181",
+      "recommendation": "Server-side authorization, route guards (beforeLoad) driven by the authenticated user's permissions."
+    },
+    {
+      "id": "ISS-PLT-04",
+      "description": "Applicant personas get Global Search in their header, which queries tenant-wide partners, applications, payments and staff — exposing other partners' data to an external user.",
+      "severity": "High",
+      "location": "components/AppShell.tsx:186-191; components/GlobalSearch.tsx:59-66",
+      "recommendation": "Hide or scope search for applicants to their own organization (FR-PLT-037)."
+    },
+    {
+      "id": "ISS-PLT-05",
+      "description": "Copilot tenant scope comes from the client request body (tenantId); omitted or forged values widen the scope; list_plan_levels is never tenant-scoped; no audit log or rate limit; reasoning is streamed to the client.",
+      "severity": "High",
+      "location": "routes/api/chat.ts:24-38,103-111,144",
+      "recommendation": "Derive tenant/role from the token server-side; scope every tool; log calls; quotas (FR-PLT-047)."
+    },
+    {
+      "id": "ISS-PLT-06",
+      "description": "Login is cosmetic: credentials are ignored and any pointer-down autofills 'demo@minah.sa / Demo1234', which is not even the account actually used by DemoSession.",
+      "severity": "Medium",
+      "location": "routes/login.tsx:36-47",
+      "recommendation": "Implement real sign-in; remove autofill."
+    },
+    {
+      "id": "ISS-PLT-07",
+      "description": "Shared query hooks and the persona list load rows of all tenants without a tenant filter; the persona switcher lists personas from every tenant.",
+      "severity": "Medium",
+      "location": "lib/queries.ts:4-92; lib/persona.tsx:54-65",
+      "recommendation": "Filter by the user's tenant in queries and RLS."
+    },
+    {
+      "id": "ISS-PLT-08",
+      "description": "Terminology/route mismatch: route '/register-tenant' and CTAs 'سجّل جهتك كمانحة' (register as donor) / 'جهة مانحة جديدة؟' lead to a page that registers partner (beneficiary) organizations; registration writes to a hard-coded TENANT_ID.",
+      "severity": "Medium",
+      "location": "routes/index.tsx:70-73; routes/login.tsx:94-97; routes/register-tenant.tsx:14-25; lib/data.ts:7; lib/registrations.ts:75",
+      "recommendation": "Rename route/labels to partner registration; resolve tenant from context (domain/invitation); decide whether donor (tenant) self-onboarding exists (OQ-PLT-12)."
+    },
+    {
+      "id": "ISS-PLT-09",
+      "description": "OTP codes are generated with Math.random in the browser and displayed on screen; verification is client-side only, so verification can be bypassed and is not recorded.",
+      "severity": "Medium",
+      "location": "components/OtpVerifiedInput.tsx:14-15; lib/registrations.ts:79-83; routes/register-tenant.tsx:155-163",
+      "recommendation": "Server-generated OTP via SMS/e-mail provider, expiry, attempt limits, verification stored with the registration."
+    },
+    {
+      "id": "ISS-PLT-10",
+      "description": "Successful delegate verification persists nothing: the user is told the delegate will add them, but no join request is created.",
+      "severity": "Medium",
+      "location": "routes/register-tenant.tsx:159-162,198-203",
+      "recommendation": "Create a pending membership/join request (FR-PLT-027)."
+    },
+    {
+      "id": "ISS-PLT-11",
+      "description": "Invitation activation form has hard-coded demo defaults (name, national ID, password 'demo1234') and stores none of the entered values; token links have no expiry and no check that the program is still open; the invite page renders inside whatever persona's shell is active (staff sidebar for the default admin).",
+      "severity": "Medium",
+      "location": "routes/invite.$token.tsx:46-56,84-97; components/AppShell.tsx:85",
+      "recommendation": "Persist delegate identity (ideally via national SSO), add expiry/open-window checks, treat /invite as a public layout."
+    },
+    {
+      "id": "ISS-PLT-12",
+      "description": "Declining an invitation does not refresh the query; the actions remain visible until reload.",
+      "severity": "Low",
+      "location": "routes/invite.$token.tsx:57-60",
+      "recommendation": "Invalidate the invite query after decline."
+    },
+    {
+      "id": "ISS-PLT-13",
+      "description": "Role home inconsistencies: committee_secretary's home is /analytics, which is not in its sidebar; admin's home is /tasks while the brand logo sends admin to /analytics.",
+      "severity": "Medium",
+      "location": "lib/persona.tsx:106-115; components/AppShell.tsx:53-62,204-206",
+      "recommendation": "Align ROLE_HOME with NAV_BY_ROLE (OQ-PLT-13)."
+    },
+    {
+      "id": "ISS-PLT-14",
+      "description": "Landing lists programs with status 'active' regardless of 'published' and open window (isPeriodOpen not applied), across all tenants, and shows the legacy 'deadline' field instead of close_at; 'Apply now' sends visitors to /portal, which for the default non-applicant persona only says 'switch persona'.",
+      "severity": "Medium",
+      "location": "routes/index.tsx:39-50,128-133; lib/data.ts:403-409",
+      "recommendation": "Use isPeriodOpen and close_at; route visitors to registration/login when not an applicant."
+    },
+    {
+      "id": "ISS-PLT-15",
+      "description": "Demo controls write directly to project/payment tables bypassing workflow/payment libraries, use payment status 'pending' (not in PAYMENT_STATUS_LABELS), are visible to every role, and keep the step pointer per device so it can desync from the database.",
+      "severity": "Medium",
+      "location": "lib/demoScript.ts:70-92,97-110; components/DemoControls.tsx:8-16; lib/data.ts:351-359",
+      "recommendation": "Keep demo-only behind a flag; derive step from DB state; align status values."
+    },
+    {
+      "id": "ISS-PLT-16",
+      "description": "Demo guide maps 'awaiting_approval' payments to grants_manager only, whereas the approval chain is project_manager → grants_manager → ceo.",
+      "severity": "Low",
+      "location": "components/DemoGuide.tsx:65-70; lib/data.ts:371-375",
+      "recommendation": "Derive the responsible role from approval_step (see FIN)."
+    },
+    {
+      "id": "ISS-PLT-17",
+      "description": "Two different StatCard components exist (common.tsx with tone/onClick and StatCard.tsx without).",
+      "severity": "Low",
+      "location": "components/common.tsx:34-75; components/StatCard.tsx",
+      "recommendation": "Consolidate into one shared component."
+    },
+    {
+      "id": "ISS-PLT-18",
+      "description": "StageTracker hard-codes three stages (استقبال، دراسة، اعتماد) while workflow stages are configurable per program/template.",
+      "severity": "Medium",
+      "location": "components/common.tsx:108-142",
+      "recommendation": "Render stages from workflow_stages (see PRG/REV)."
+    },
+    {
+      "id": "ISS-PLT-19",
+      "description": "Field hides zero values, so legitimate zeros (e.g. 0 SAR spent, 0%) disappear.",
+      "severity": "Low",
+      "location": "components/common.tsx:97-99",
+      "recommendation": "Hide only null/empty; let callers opt-in to hiding zero."
+    },
+    {
+      "id": "ISS-PLT-20",
+      "description": "LatinDigits starts after a 1 s delay and observes the whole DOM, causing a flash of Eastern digits and runtime cost.",
+      "severity": "Low",
+      "location": "components/LatinDigits.tsx:48-73",
+      "recommendation": "Format at source (-u-nu-latn) and keep the observer only as a fallback."
+    },
+    {
+      "id": "ISS-PLT-21",
+      "description": "The server-side error page is in English and LTR while the product is Arabic RTL.",
+      "severity": "Low",
+      "location": "lib/error-page.ts",
+      "recommendation": "Localise the SSR error page."
+    },
+    {
+      "id": "ISS-PLT-22",
+      "description": "Browser storage holds potentially sensitive data: Copilot transcripts per persona, recent-search items (one key shared by all personas on the device), workshop notes.",
+      "severity": "Low",
+      "location": "components/Copilot.tsx:47-55; components/GlobalSearch.tsx:34,83-85; components/WorkshopDeck.tsx:49-57",
+      "recommendation": "Store server-side per user or clear on sign-out; key recent items per user."
+    },
+    {
+      "id": "ISS-PLT-23",
+      "description": "Global-search page shortcuts are not filtered by role (e.g. /admin, /finance offered to reviewers).",
+      "severity": "Low",
+      "location": "components/GlobalSearch.tsx:11-17,91",
+      "recommendation": "Filter shortcuts by role permissions."
+    },
+    {
+      "id": "ISS-PLT-24",
+      "description": "Product naming is inconsistent: 'منصة منح' (page titles), 'مانح' (workshop deck), Noura Al-Mallahi Foundation logo in the shell, repository 'manih', demo e-mail domain 'minah.sa'.",
+      "severity": "Low",
+      "location": "routes/__root.tsx:90; components/WorkshopDeck.tsx:63; components/AppShell.tsx:68-78",
+      "recommendation": "Confirm product and brand names (OQ-PLT-15)."
+    },
+    {
+      "id": "ISS-PLT-25",
+      "description": "Authenticated server functions resolve userId to the shared demo account, and audit fields (changed_by, actor_id, sent_by) take persona ids supplied by the client — audit trails are not trustworthy.",
+      "severity": "Medium",
+      "location": "integrations/supabase/auth-middleware.ts:94-109; lib/registrations.ts:105-121",
+      "recommendation": "Derive actor from the token on the server (FR-PLT-004/005)."
+    },
+    {
+      "id": "ISS-PLT-26",
+      "description": "Unused navigation definitions (ALL.finance, ALL.reports) and a header label 'الإعدادات' on /admin while the page is titled 'بوابة الآدمن' in metadata.",
+      "severity": "Low",
+      "location": "components/AppShell.tsx:46-47; routes/admin.tsx:44,138",
+      "recommendation": "Clean up; align titles."
+    },
+    {
+      "id": "ISS-PLT-27",
+      "description": "Workshop deck content (client names, agenda times, questions) is hard-coded; notes cannot be exported or shared between facilitators.",
+      "severity": "Low",
+      "location": "components/WorkshopDeck.tsx:14-47",
+      "recommendation": "Externalise content; add export (FR-PLT-053) or remove after the workshop."
+    },
+    {
+      "id": "ISS-PLT-28",
+      "description": "Landing page queries and other list queries show no error UI (failures render empty lists).",
+      "severity": "Low",
+      "location": "routes/index.tsx:39-50",
+      "recommendation": "Use PageSkeleton error pattern."
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "OQ-PLT-01",
+      "question": "Which identity provider(s) will production use (e.g. national SSO such as Nafath for partner delegates, e-mail/password, corporate SSO for staff)? Is MFA required for any role?",
+      "related": [
+        "FT-PLT-01",
+        "FT-PLT-17"
+      ]
+    },
+    {
+      "id": "OQ-PLT-02",
+      "question": "Can one person hold several roles or organization memberships at once (persona_memberships / beneficiary_memberships), and how is the active role chosen in production?",
+      "related": [
+        "FT-PLT-02",
+        "FT-PLT-17"
+      ]
+    },
+    {
+      "id": "OQ-PLT-03",
+      "question": "Is any persona-switching/impersonation capability needed in production (e.g. support), or is it removed entirely?",
+      "related": [
+        "FT-PLT-02",
+        "FR-PLT-006"
+      ]
+    },
+    {
+      "id": "OQ-PLT-04",
+      "question": "Is the product a multi-tenant SaaS operated by a platform admin, or a single-donor deployment? What exactly may the 'admin' role see across tenants?",
+      "related": [
+        "FT-PLT-03",
+        "FT-PLT-17"
+      ]
+    },
+    {
+      "id": "OQ-PLT-05",
+      "question": "Should partner (applicant) users have global search, and over which records?",
+      "related": [
+        "FT-PLT-08"
+      ]
+    },
+    {
+      "id": "OQ-PLT-06",
+      "question": "Copilot: approved LLM provider and data-residency constraints, roles allowed, conversation retention/logging, and per-user quotas?",
+      "related": [
+        "FT-PLT-10"
+      ]
+    },
+    {
+      "id": "OQ-PLT-07",
+      "question": "Must the landing page be truly public (no session), and should it list only published, open opportunities — of which tenant(s)?",
+      "related": [
+        "FT-PLT-04"
+      ]
+    },
+    {
+      "id": "OQ-PLT-08",
+      "question": "Registry and OTP integration: which registry API (e.g. National Center for Non-Profit Sector) per applicant type, which SMS/e-mail provider, code length/expiry/attempt limits?",
+      "related": [
+        "FT-PLT-05",
+        "FT-PLT-06"
+      ]
+    },
+    {
+      "id": "OQ-PLT-09",
+      "question": "Invitation policy: link expiry, resend, who may activate the account, and what identity proof is required on activation?",
+      "related": [
+        "FT-PLT-07"
+      ]
+    },
+    {
+      "id": "OQ-PLT-10",
+      "question": "Should theme/palette/saved views be per user (server-side) or per device; is there organization-level branding?",
+      "related": [
+        "FT-PLT-09",
+        "FT-PLT-14"
+      ]
+    },
+    {
+      "id": "OQ-PLT-11",
+      "question": "Are the demo guide, demo controls and workshop deck retained after the analysis phase (e.g. as a training mode) or removed?",
+      "related": [
+        "FT-PLT-11",
+        "FT-PLT-12",
+        "FT-PLT-13"
+      ]
+    },
+    {
+      "id": "OQ-PLT-12",
+      "question": "Is self-service onboarding of donor organizations (tenants) in scope, or only partner registration? (Route is named register-tenant.)",
+      "related": [
+        "FT-PLT-05"
+      ]
+    },
+    {
+      "id": "OQ-PLT-13",
+      "question": "What should be the home page and dashboard access of the committee secretary (home is /analytics but it is not in its sidebar)?",
+      "related": [
+        "FT-PLT-03"
+      ]
+    },
+    {
+      "id": "OQ-PLT-14",
+      "question": "Which roles may export lists to Excel/CSV, and are exports to be logged or watermarked?",
+      "related": [
+        "FT-PLT-14"
+      ]
+    },
+    {
+      "id": "OQ-PLT-15",
+      "question": "What is the official product name and branding (منصة منح / مانح / Manih) and whose logo appears in the shell?",
+      "related": [
+        "ISS-PLT-24"
+      ]
+    }
+  ]
+}

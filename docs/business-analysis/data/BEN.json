@@ -1,0 +1,2288 @@
+{
+  "module": {
+    "code": "BEN",
+    "name": "Partner Organizations Management (Beneficiaries)"
+  },
+  "screens": [
+    {
+      "id": "SCR-BEN-01",
+      "name": "Partner Directory — الجهات الشريكة — دليل الجهات",
+      "route": "/beneficiaries (tab \"list\") — routes/beneficiaries.index.tsx",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer"
+      ]
+    },
+    {
+      "id": "SCR-BEN-02",
+      "name": "Partner Groups — المجموعات",
+      "route": "/beneficiaries (tab \"groups\") — components/PartnerGroups.tsx",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer"
+      ]
+    },
+    {
+      "id": "SCR-BEN-03",
+      "name": "Partner Organization Profile (staff 360) — ملف الجهة الشريكة",
+      "route": "/beneficiaries/$id — routes/beneficiaries.$id.tsx",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer"
+      ]
+    },
+    {
+      "id": "SCR-BEN-04",
+      "name": "Registration Requests Review — طلبات تسجيل الجهات",
+      "route": "/admin (tab \"registrations\") — components/RegistrationReview.tsx",
+      "roles": [
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-BEN-05",
+      "name": "Partner Team & Delegate Panel — فريق عمل الجمعية",
+      "route": "components/BeneficiaryTeam.tsx — embedded in SCR-BEN-03, in the Team dialog of SCR-BEN-01 (mode donor) and in SCR-BEN-06 (mode self)",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer",
+        "applicant"
+      ]
+    },
+    {
+      "id": "SCR-BEN-06",
+      "name": "Entity Profile (partner self-service) — البيانات الرسمية / بيانات التواصل والمقر / الحساب البنكي",
+      "route": "components/EntityProfile.tsx — rendered inside /portal (see module PTL)",
+      "roles": [
+        "applicant"
+      ]
+    }
+  ],
+  "epics": [
+    {
+      "id": "EP-BEN-01",
+      "name": "Partner Directory & 360 Profile",
+      "description": "Find, list, export and inspect partner organizations with their applications, projects, payments and statuses."
+    },
+    {
+      "id": "EP-BEN-02",
+      "name": "Partner Verification & Governance Decisions",
+      "description": "Staff decisions on entity status, bank account and official (license) data, all recorded in an attributable audit log."
+    },
+    {
+      "id": "EP-BEN-03",
+      "name": "Partner Onboarding",
+      "description": "Admin field-by-field approval of registration requests and invitation of approved partners to activate their accounts."
+    },
+    {
+      "id": "EP-BEN-04",
+      "name": "Partner Team & Delegation",
+      "description": "Management of a partner's team memberships and the single primary delegate, including transfer history."
+    },
+    {
+      "id": "EP-BEN-05",
+      "name": "Partner Segmentation",
+      "description": "Reusable partner groups for targeting grant opportunities."
+    },
+    {
+      "id": "EP-BEN-06",
+      "name": "Partner Self-Service Profile",
+      "description": "Partner-side view and maintenance of its own profile (contact data, official data and bank entry points)."
+    }
+  ],
+  "features": [
+    {
+      "id": "FT-BEN-01",
+      "epic": "EP-BEN-01",
+      "name": "Partner directory with KPIs, filters and export",
+      "description": "Tenant-wide list of partner organizations with status KPI cards, type/region/bank filters, free-text search, configurable columns, saved views and XLSX/CSV export.",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-BEN-01"
+      ],
+      "requirements": [
+        "FR-BEN-001",
+        "FR-BEN-002",
+        "FR-BEN-003",
+        "FR-BEN-004"
+      ],
+      "stories": [
+        "US-BEN-001"
+      ],
+      "rules": [
+        "BR-BEN-26"
+      ],
+      "dependencies": [
+        "DataTable / viewPrefs (see module PLT)",
+        "useBeneficiaries, useApplications (lib/queries.ts)"
+      ],
+      "acceptance_criteria": [
+        "KPI cards show total, confirmed, pending and inactive-account counts and filter the list on click.",
+        "Type, region and bank-status filters combine and each shows a removable chip.",
+        "Export produces XLSX/CSV of visible columns of the filtered rows."
+      ],
+      "open_questions": [
+        "OQ-BEN-03"
+      ]
+    },
+    {
+      "id": "FT-BEN-02",
+      "epic": "EP-BEN-01",
+      "name": "Manual partner creation (staff)",
+      "description": "Staff dialog to add a partner organization directly with optional AI-assisted prefill from pasted text or an attached certificate.",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer"
+      ],
+      "priority": "Could",
+      "screens": [
+        "SCR-BEN-01"
+      ],
+      "requirements": [
+        "FR-BEN-005",
+        "FR-BEN-006"
+      ],
+      "stories": [
+        "US-BEN-002"
+      ],
+      "rules": [
+        "BR-BEN-07"
+      ],
+      "dependencies": [
+        "AiAssist (see module PTL / PLT)",
+        "ACCOUNT_TYPES, REGIONS (lib/data.ts)"
+      ],
+      "acceptance_criteria": [
+        "A partner can be saved with only a name; it appears in the directory immediately.",
+        "AI assist only fills the form; nothing is saved until the user presses حفظ."
+      ],
+      "open_questions": [
+        "OQ-BEN-02"
+      ]
+    },
+    {
+      "id": "FT-BEN-03",
+      "epic": "EP-BEN-01",
+      "name": "Partner 360 profile",
+      "description": "Profile page combining header statuses, KPIs (applications, approved, approved amounts, paid, running projects), commitments chart, projects & payments table, applications table, entity data and bank card.",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-BEN-03"
+      ],
+      "requirements": [
+        "FR-BEN-007",
+        "FR-BEN-008",
+        "FR-BEN-009"
+      ],
+      "stories": [
+        "US-BEN-003"
+      ],
+      "rules": [],
+      "dependencies": [
+        "FIN CommitmentsChart (see module FIN)",
+        "PRJ initiativeProgress (see module PRJ)",
+        "REV application list (see module REV)"
+      ],
+      "acceptance_criteria": [
+        "Profile shows the 5 KPIs computed from the partner's applications, projects and paid payments.",
+        "Projects include those where the partner is beneficiary or executor.",
+        "Unknown id shows \"الجهة غير موجودة\"."
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "FT-BEN-04",
+      "epic": "EP-BEN-02",
+      "name": "Entity status decisions",
+      "description": "Staff confirm or block a partner organization; each change is logged with before/after values and actor.",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-BEN-03"
+      ],
+      "requirements": [
+        "FR-BEN-010",
+        "FR-BEN-011",
+        "FR-BEN-012"
+      ],
+      "stories": [
+        "US-BEN-004",
+        "US-BEN-005"
+      ],
+      "rules": [
+        "BR-BEN-01",
+        "BR-BEN-06",
+        "BR-BEN-27"
+      ],
+      "dependencies": [
+        "FT-BEN-07"
+      ],
+      "acceptance_criteria": [
+        "Confirm is hidden when already confirmed; Block hidden when already blocked.",
+        "Each status change creates a 'status' event with before/after and actor."
+      ],
+      "open_questions": [
+        "OQ-BEN-01",
+        "OQ-BEN-03"
+      ]
+    },
+    {
+      "id": "FT-BEN-05",
+      "epic": "EP-BEN-02",
+      "name": "Bank account verification",
+      "description": "Staff view bank name, IBAN and IBAN certificate and verify or reject the account (reason required); partner bank changes reset verification.",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-BEN-03",
+        "SCR-BEN-06"
+      ],
+      "requirements": [
+        "FR-BEN-013",
+        "FR-BEN-014",
+        "FR-BEN-015",
+        "FR-BEN-016"
+      ],
+      "stories": [
+        "US-BEN-006",
+        "US-BEN-007",
+        "US-BEN-008"
+      ],
+      "rules": [
+        "BR-BEN-01",
+        "BR-BEN-02",
+        "BR-BEN-03",
+        "BR-BEN-04",
+        "BR-BEN-05"
+      ],
+      "dependencies": [
+        "attachments storage bucket",
+        "Partner bank update dialog (see module PTL)",
+        "Payments use of bank_status (see module FIN) [To Confirm]"
+      ],
+      "acceptance_criteria": [
+        "Verify is disabled without IBAN or when verified; stamps date and verifier.",
+        "Reject requires a reason and clears verification stamps.",
+        "A partner IBAN/bank change sets status back to 'pending'."
+      ],
+      "open_questions": [
+        "OQ-BEN-04"
+      ]
+    },
+    {
+      "id": "FT-BEN-06",
+      "epic": "EP-BEN-02",
+      "name": "License / official data update review",
+      "description": "Partner license update requests are AI-checked; exact (100%) matches are applied automatically, others create a manual review task and appear on the partner profile for staff approve/reject with side-by-side comparison.",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-BEN-03"
+      ],
+      "requirements": [
+        "FR-BEN-017",
+        "FR-BEN-018",
+        "FR-BEN-019",
+        "FR-BEN-020",
+        "FR-BEN-021"
+      ],
+      "stories": [
+        "US-BEN-009",
+        "US-BEN-010",
+        "US-BEN-011"
+      ],
+      "rules": [
+        "BR-BEN-13",
+        "BR-BEN-14",
+        "BR-BEN-15",
+        "BR-BEN-16",
+        "BR-BEN-17"
+      ],
+      "dependencies": [
+        "entityUpdates.functions.ts / projectAi.server checkLicenseDoc",
+        "manual_tasks (see module TSK)",
+        "LicenseUpdateDialog (see module PTL)"
+      ],
+      "acceptance_criteria": [
+        "Only score 100 auto-approves.",
+        "Requests in 'review' show on the partner profile with current/requested/document values.",
+        "Rejecting requires a note; decisions close the linked task."
+      ],
+      "open_questions": [
+        "OQ-BEN-07"
+      ]
+    },
+    {
+      "id": "FT-BEN-07",
+      "epic": "EP-BEN-02",
+      "name": "Partner audit log (beneficiary_events)",
+      "description": "Append-only log of partner decisions shown as a timeline on the profile, merged with application submissions.",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-BEN-03"
+      ],
+      "requirements": [
+        "FR-BEN-022",
+        "FR-BEN-023",
+        "FR-BEN-024"
+      ],
+      "stories": [
+        "US-BEN-012"
+      ],
+      "rules": [
+        "BR-BEN-01",
+        "BR-BEN-27"
+      ],
+      "dependencies": [
+        "All decision features of this module"
+      ],
+      "acceptance_criteria": [
+        "Timeline lists events newest first with label, values, reason and actor.",
+        "beneficiary_events accepts only select/insert (no update/delete)."
+      ],
+      "open_questions": [
+        "OQ-BEN-11"
+      ]
+    },
+    {
+      "id": "FT-BEN-08",
+      "epic": "EP-BEN-03",
+      "name": "Registration request review & approval",
+      "description": "Admin reviews each registration field (with registry provenance), accepts/rejects individually or in bulk, and finalizes: all accepted creates the partner; any rejection returns the request.",
+      "roles": [
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-BEN-04"
+      ],
+      "requirements": [
+        "FR-BEN-025",
+        "FR-BEN-026",
+        "FR-BEN-027",
+        "FR-BEN-028",
+        "FR-BEN-029",
+        "FR-BEN-030",
+        "FR-BEN-031"
+      ],
+      "stories": [
+        "US-BEN-013",
+        "US-BEN-014",
+        "US-BEN-015",
+        "US-BEN-016"
+      ],
+      "rules": [
+        "BR-BEN-07",
+        "BR-BEN-08",
+        "BR-BEN-09",
+        "BR-BEN-10",
+        "BR-BEN-11",
+        "BR-BEN-12"
+      ],
+      "dependencies": [
+        "Partner registration (see module PTL)",
+        "Admin page (see module PLT/CFG)"
+      ],
+      "acceptance_criteria": [
+        "Finalize is disabled while any field is pending.",
+        "Any rejected field returns the request with a note; no partner is created.",
+        "All accepted creates the partner and links it to the request."
+      ],
+      "open_questions": [
+        "OQ-BEN-05",
+        "OQ-BEN-10"
+      ]
+    },
+    {
+      "id": "FT-BEN-09",
+      "epic": "EP-BEN-03",
+      "name": "Partner account activation invitation",
+      "description": "Staff invite a partner (not yet active) to activate its account using the official verified email; status becomes 'invited'.",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-BEN-01",
+        "SCR-BEN-03"
+      ],
+      "requirements": [
+        "FR-BEN-032",
+        "FR-BEN-033",
+        "FR-BEN-034"
+      ],
+      "stories": [
+        "US-BEN-017"
+      ],
+      "rules": [
+        "BR-BEN-21",
+        "BR-BEN-22"
+      ],
+      "dependencies": [
+        "Invitation landing / activation (see module PLT)"
+      ],
+      "acceptance_criteria": [
+        "Invite is offered only when account_status ≠ active.",
+        "Invitation stores email and time and logs an 'invited' event."
+      ],
+      "open_questions": [
+        "OQ-BEN-06"
+      ]
+    },
+    {
+      "id": "FT-BEN-10",
+      "epic": "EP-BEN-04",
+      "name": "Team membership management",
+      "description": "View a partner's team (primary delegate first), add members with role and national ID, deactivate non-primary members.",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer",
+        "applicant"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-BEN-05"
+      ],
+      "requirements": [
+        "FR-BEN-035",
+        "FR-BEN-036",
+        "FR-BEN-037"
+      ],
+      "stories": [
+        "US-BEN-018",
+        "US-BEN-019"
+      ],
+      "rules": [
+        "BR-BEN-18",
+        "BR-BEN-20",
+        "BR-BEN-25"
+      ],
+      "dependencies": [
+        "personas (see module PLT)",
+        "lib/memberships.ts"
+      ],
+      "acceptance_criteria": [
+        "New member requires name, email and a 10-digit national ID.",
+        "The primary delegate cannot be deactivated."
+      ],
+      "open_questions": [
+        "OQ-BEN-01"
+      ]
+    },
+    {
+      "id": "FT-BEN-11",
+      "epic": "EP-BEN-04",
+      "name": "Primary delegate transfer",
+      "description": "Transfer the primary delegation to another active member with a reason, keeping history in delegate_transfers and the audit log.",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer",
+        "applicant"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-BEN-05"
+      ],
+      "requirements": [
+        "FR-BEN-038",
+        "FR-BEN-039"
+      ],
+      "stories": [
+        "US-BEN-020"
+      ],
+      "rules": [
+        "BR-BEN-18",
+        "BR-BEN-19"
+      ],
+      "dependencies": [
+        "FT-BEN-10",
+        "FT-BEN-07"
+      ],
+      "acceptance_criteria": [
+        "Transfer requires a target and a reason.",
+        "History shows date, from, to, method (donor/self) and reason."
+      ],
+      "open_questions": [
+        "OQ-BEN-08"
+      ]
+    },
+    {
+      "id": "FT-BEN-12",
+      "epic": "EP-BEN-05",
+      "name": "Partner groups",
+      "description": "Create, edit and delete named groups of partners, shown as cards with member preview and number of opportunities using the group.",
+      "roles": [
+        "admin",
+        "grants_manager",
+        "reviewer"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-BEN-02"
+      ],
+      "requirements": [
+        "FR-BEN-040",
+        "FR-BEN-041",
+        "FR-BEN-042"
+      ],
+      "stories": [
+        "US-BEN-021",
+        "US-BEN-022"
+      ],
+      "rules": [
+        "BR-BEN-23"
+      ],
+      "dependencies": [
+        "grant_programs.target_group_ids, TargetingSection, eligibility.ts (see module PRG)"
+      ],
+      "acceptance_criteria": [
+        "Group requires a name.",
+        "Card shows member count and number of opportunities using the group.",
+        "Delete asks for confirmation."
+      ],
+      "open_questions": [
+        "OQ-BEN-09"
+      ]
+    },
+    {
+      "id": "FT-BEN-13",
+      "epic": "EP-BEN-06",
+      "name": "Partner self-service profile",
+      "description": "Partner-side component showing official data (read-only, license update entry), contact data editable by the primary delegate with OTP verification, bank data with update entry, and the team panel.",
+      "roles": [
+        "applicant"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-BEN-06"
+      ],
+      "requirements": [
+        "FR-BEN-043",
+        "FR-BEN-044",
+        "FR-BEN-045"
+      ],
+      "stories": [
+        "US-BEN-023",
+        "US-BEN-024"
+      ],
+      "rules": [
+        "BR-BEN-13",
+        "BR-BEN-24",
+        "BR-BEN-25"
+      ],
+      "dependencies": [
+        "Portal (see module PTL)",
+        "OtpVerifiedInput (demo OTP)"
+      ],
+      "acceptance_criteria": [
+        "Only the primary delegate sees edit/update buttons.",
+        "Changed phone/email cannot be saved before OTP verification."
+      ],
+      "open_questions": []
+    }
+  ],
+  "requirements": [
+    {
+      "id": "FR-BEN-001",
+      "feature": "FT-BEN-01",
+      "stories": [
+        "US-BEN-001"
+      ],
+      "statement": "The system shall list all partner organizations with columns: name (+license no.), account type, region (+governorate/city), applications count, bank status, entity status, and optional hidden columns account status, NCNP classification, governance score, contact.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "beneficiaries.index.tsx:96-115",
+      "acceptance_criteria": [
+        "Given partners exist When the directory opens Then each row shows the listed columns",
+        "Given the columns menu When a hidden column is enabled Then it appears and can be saved in the view"
+      ]
+    },
+    {
+      "id": "FR-BEN-002",
+      "feature": "FT-BEN-01",
+      "stories": [
+        "US-BEN-001"
+      ],
+      "statement": "The system shall show KPI cards (total, confirmed, pending, inactive accounts) that act as status filters.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "beneficiaries.index.tsx:80,121-126",
+      "acceptance_criteria": [
+        "Given the directory When 'مؤكدة' is clicked Then only confirmed partners are listed and the card is highlighted",
+        "Given 'حسابات غير مفعّلة' When clicked Then partners with account_status ≠ active are listed"
+      ]
+    },
+    {
+      "id": "FR-BEN-003",
+      "feature": "FT-BEN-01",
+      "stories": [
+        "US-BEN-001"
+      ],
+      "statement": "The system shall filter the directory by account type, region and bank status, show active filters as removable chips, and support free-text search across column values.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "beneficiaries.index.tsx:82-94,135-144; DataTable.tsx:51-57",
+      "acceptance_criteria": [
+        "Given type and region filters When both set Then rows match both",
+        "Given a chip When its clear control is used Then that filter resets to 'all'"
+      ]
+    },
+    {
+      "id": "FR-BEN-004",
+      "feature": "FT-BEN-01",
+      "stories": [
+        "US-BEN-001"
+      ],
+      "statement": "The system shall export the filtered directory (visible columns) to XLSX and CSV and open the partner profile on row click.",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "DataTable.tsx:64-77,116-117; beneficiaries.index.tsx:134",
+      "acceptance_criteria": [
+        "Given a filtered list When XLSX is chosen Then partners.xlsx contains the filtered rows",
+        "Given a row When clicked Then /beneficiaries/$id opens"
+      ]
+    },
+    {
+      "id": "FR-BEN-005",
+      "feature": "FT-BEN-02",
+      "stories": [
+        "US-BEN-002"
+      ],
+      "statement": "The system shall allow staff to create a partner with name (required), account type, license no., region, city, phone, email, bank name and IBAN.",
+      "type": "Functional",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "beneficiaries.index.tsx:55-67,148-175",
+      "acceptance_criteria": [
+        "Given the add dialog When a name is entered and saved Then the partner is created and listed",
+        "Given a DB error When saving Then the error message is shown and the dialog stays open"
+      ]
+    },
+    {
+      "id": "FR-BEN-006",
+      "feature": "FT-BEN-02",
+      "stories": [
+        "US-BEN-002"
+      ],
+      "statement": "The system shall offer AI-assisted prefill of the add-partner form from pasted text or an attached document, without saving automatically.",
+      "type": "AI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "beneficiaries.index.tsx:152-156",
+      "acceptance_criteria": [
+        "Given pasted association data When AI proposals are applied Then the form fields are filled",
+        "Given applied proposals When the user does not press حفظ Then nothing is stored"
+      ]
+    },
+    {
+      "id": "FR-BEN-007",
+      "feature": "FT-BEN-03",
+      "stories": [
+        "US-BEN-003"
+      ],
+      "statement": "The system shall display the partner header (name, account type, account status, entity status, bank status) and KPIs: applications, approved applications, approved amounts, paid amount, running projects.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "beneficiaries.$id.tsx:75-108",
+      "acceptance_criteria": [
+        "Given a partner with approved applications When the profile opens Then 'المعتمدة' and 'المبالغ المعتمدة' reflect them",
+        "Given an unknown id When opened Then 'الجهة غير موجودة' is shown"
+      ]
+    },
+    {
+      "id": "FR-BEN-008",
+      "feature": "FT-BEN-03",
+      "stories": [
+        "US-BEN-003"
+      ],
+      "statement": "The system shall list the partner's projects (as beneficiary or executor) with budget, progress, payment pills and status, and its applications with ref, title, program, amount, stage and status, linking to their detail pages.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "beneficiaries.$id.tsx:76-78,112-153",
+      "acceptance_criteria": [
+        "Given a partner executing a project When the profile opens Then the project is listed",
+        "Given no applications When opened Then 'لا توجد طلبات' is shown"
+      ]
+    },
+    {
+      "id": "FR-BEN-009",
+      "feature": "FT-BEN-03",
+      "stories": [
+        "US-BEN-003"
+      ],
+      "statement": "The system shall display entity data: license no., entity number, region, governorate/city, classification group and sub-group, governance score and contact.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "beneficiaries.$id.tsx:178-190",
+      "acceptance_criteria": [
+        "Given a partner When the profile opens Then the entity data card shows the fields with '—' for blanks",
+        "Given a governorate When present Then it is shown instead of city"
+      ]
+    },
+    {
+      "id": "FR-BEN-010",
+      "feature": "FT-BEN-04",
+      "stories": [
+        "US-BEN-004"
+      ],
+      "statement": "The system shall allow staff to confirm a partner whose status is not 'confirmed'.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "beneficiaries.$id.tsx:97; beneficiaryActions.ts:36-40",
+      "acceptance_criteria": [
+        "Given a pending partner When 'تأكيد الجهة' is pressed Then status becomes confirmed and a toast confirms",
+        "Given a confirmed partner When the profile opens Then the confirm button is hidden"
+      ]
+    },
+    {
+      "id": "FR-BEN-011",
+      "feature": "FT-BEN-04",
+      "stories": [
+        "US-BEN-005"
+      ],
+      "statement": "The system shall allow staff to block a partner whose status is not 'blocked'.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "beneficiaries.$id.tsx:98",
+      "acceptance_criteria": [
+        "Given a confirmed partner When 'حظر' is pressed Then status becomes blocked",
+        "Given a blocked partner When the profile opens Then 'حظر' is hidden and 'تأكيد الجهة' is shown"
+      ]
+    },
+    {
+      "id": "FR-BEN-012",
+      "feature": "FT-BEN-04",
+      "stories": [
+        "US-BEN-004",
+        "US-BEN-005"
+      ],
+      "statement": "The system shall require a confirmation and a reason when blocking or unblocking a partner and record the reason in the status event.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Recommended",
+      "source": "Gap — beneficiaries.$id.tsx:98",
+      "acceptance_criteria": [
+        "Given 'حظر' When pressed Then a dialog requires a reason before blocking",
+        "Given a reason When confirmed Then the status event note contains it"
+      ]
+    },
+    {
+      "id": "FR-BEN-013",
+      "feature": "FT-BEN-05",
+      "stories": [
+        "US-BEN-006"
+      ],
+      "statement": "The system shall display bank name, IBAN, bank status, last verification (date and verifier) and a link to the IBAN certificate opened via a short-lived signed URL.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "beneficiaries.$id.tsx:157-170; beneficiaryActions.ts:73-77",
+      "acceptance_criteria": [
+        "Given an uploaded certificate When its link is clicked Then it opens in a new tab",
+        "Given no certificate Then 'لم تُرفع شهادة الآيبان بعد' is shown"
+      ]
+    },
+    {
+      "id": "FR-BEN-014",
+      "feature": "FT-BEN-05",
+      "stories": [
+        "US-BEN-006"
+      ],
+      "statement": "The system shall allow staff to verify a bank account that has an IBAN and is not verified, stamping verification date and verifier and logging 'bank_verified'.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "beneficiaries.$id.tsx:172; beneficiaryActions.ts:42-46",
+      "acceptance_criteria": [
+        "Given an account with IBAN pending When 'توثيق' is pressed Then status is verified with date and verifier shown",
+        "Given no IBAN Then 'توثيق' is disabled"
+      ]
+    },
+    {
+      "id": "FR-BEN-015",
+      "feature": "FT-BEN-05",
+      "stories": [
+        "US-BEN-007"
+      ],
+      "statement": "The system shall allow staff to reject a bank account with a mandatory reason, clearing verification stamps and logging 'bank_rejected' with the reason.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "beneficiaries.$id.tsx:173,219-227; beneficiaryActions.ts:48-53",
+      "acceptance_criteria": [
+        "Given the reject dialog When the reason is empty Then rejection is refused ('سبب الرفض مطلوب')",
+        "Given a reason When confirmed Then bank status is rejected and the event shows the reason"
+      ]
+    },
+    {
+      "id": "FR-BEN-016",
+      "feature": "FT-BEN-05",
+      "stories": [
+        "US-BEN-008"
+      ],
+      "statement": "The system shall reset bank status to 'pending' and clear verification whenever the partner changes IBAN or bank name or uploads a new IBAN certificate, logging 'iban_changed' and/or 'iban_doc'.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "beneficiaryActions.ts:55-71; portal.tsx:223",
+      "acceptance_criteria": [
+        "Given a verified account When the partner changes the IBAN Then status becomes pending and an 'iban_changed' event records old → new",
+        "Given only a new certificate When uploaded Then status becomes pending and 'iban_doc' is logged with the document path"
+      ]
+    },
+    {
+      "id": "FR-BEN-017",
+      "feature": "FT-BEN-06",
+      "stories": [
+        "US-BEN-011"
+      ],
+      "statement": "The system shall AI-check each license update request against the entered name, license no. and expiry, auto-apply it when the score is 100, and otherwise set it to 'review'.",
+      "type": "AI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "entityUpdates.functions.ts:9-44",
+      "acceptance_criteria": [
+        "Given a document matching 100% When processed Then partner data is updated, status auto_approved and a 'license_auto' event logged",
+        "Given an unsupported file When processed Then the score is 0 and the request goes to review"
+      ]
+    },
+    {
+      "id": "FR-BEN-018",
+      "feature": "FT-BEN-06",
+      "stories": [
+        "US-BEN-011"
+      ],
+      "statement": "The system shall create a manual task 'تدقيق تحديث ترخيص: <partner>' due in 2 days, assigned to the tenant's first active admin, for each request sent to review, and link it to the request.",
+      "type": "Integration",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "entityUpdates.functions.ts:34-42",
+      "acceptance_criteria": [
+        "Given a 70% match When processed Then a todo task is created for an admin and task_id stored",
+        "Given no admin persona Then the request goes to review without a task"
+      ]
+    },
+    {
+      "id": "FR-BEN-019",
+      "feature": "FT-BEN-06",
+      "stories": [
+        "US-BEN-009",
+        "US-BEN-010"
+      ],
+      "statement": "The system shall show, on the partner profile, every request in 'review' with AI score, summary, document link, a comparison table (current / requested / found in document with match marks) and AI criteria notes.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "LicenseUpdate.tsx:64-117",
+      "acceptance_criteria": [
+        "Given a request in review When the profile opens Then the card 'طلبات تحديث بانتظار تدقيقك (n)' lists it",
+        "Given no request in review Then no card is shown"
+      ]
+    },
+    {
+      "id": "FR-BEN-020",
+      "feature": "FT-BEN-06",
+      "stories": [
+        "US-BEN-009"
+      ],
+      "statement": "The system shall, on approval, apply the requested name, license no. and expiry to the partner, mark the request approved with decider and time, log 'license_approved' with the document, and close the linked task.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "entityUpdates.ts:40-50",
+      "acceptance_criteria": [
+        "Given a request in review When 'اعتماد التحديث' is pressed Then partner official data equals the requested values",
+        "Given a linked task When approved Then the task status is done"
+      ]
+    },
+    {
+      "id": "FR-BEN-021",
+      "feature": "FT-BEN-06",
+      "stories": [
+        "US-BEN-010"
+      ],
+      "statement": "The system shall, on rejection, require a note, mark the request rejected with the note, log 'license_rejected', close the linked task and expose the note to the partner.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "entityUpdates.ts:41,47-49; LicenseUpdate.tsx:33",
+      "acceptance_criteria": [
+        "Given an empty note When 'رفض' is pressed Then 'اكتب سبب الرفض ليصل للجهة' is shown",
+        "Given a note When rejected Then the partner's last request shows the reviewer note"
+      ]
+    },
+    {
+      "id": "FR-BEN-022",
+      "feature": "FT-BEN-07",
+      "stories": [
+        "US-BEN-012"
+      ],
+      "statement": "The system shall record partner events with kind, before value, after value, note, actor and document path, with insert/select-only access.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "beneficiaryActions.ts:5-29; migration 20261005120658; 20261006140739",
+      "acceptance_criteria": [
+        "Given any decision of this module When executed Then one beneficiary_events row exists for it",
+        "Given an event When an update/delete is attempted Then the database refuses it"
+      ]
+    },
+    {
+      "id": "FR-BEN-023",
+      "feature": "FT-BEN-07",
+      "stories": [
+        "US-BEN-012"
+      ],
+      "statement": "The system shall show a profile timeline merging partner events and application submissions, newest first, with Arabic labels, before ← after values (status/bank values translated), reason and actor name.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "beneficiaries.$id.tsx:194-215,242-246",
+      "acceptance_criteria": [
+        "Given events and applications When the profile opens Then items are sorted by date descending",
+        "Given no events and no applications Then 'لا توجد أحداث' is shown"
+      ]
+    },
+    {
+      "id": "FR-BEN-024",
+      "feature": "FT-BEN-07",
+      "stories": [
+        "US-BEN-012"
+      ],
+      "statement": "The system shall require an actor on every partner event and log team-member additions and deactivations.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "Gap — memberships.ts:61-106",
+      "acceptance_criteria": [
+        "Given an invitation When sent Then the event has the inviting persona as actor",
+        "Given a member deactivation When done Then a member event is logged"
+      ]
+    },
+    {
+      "id": "FR-BEN-025",
+      "feature": "FT-BEN-08",
+      "stories": [
+        "US-BEN-013"
+      ],
+      "statement": "The system shall list registration requests (newest first) with entity name, license no., date and status (بانتظار التدقيق / معتمد / أعيد للمسجّل), and show an empty-state hint when none exist.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "RegistrationReview.tsx:17-27,48-56; admin.tsx:149-155",
+      "acceptance_criteria": [
+        "Given registrations When the tab opens Then each shows name, license, date and status",
+        "Given none Then the hint to try 'سجّل جهتك' is shown"
+      ]
+    },
+    {
+      "id": "FR-BEN-026",
+      "feature": "FT-BEN-08",
+      "stories": [
+        "US-BEN-013"
+      ],
+      "statement": "The system shall show each registration field with value, provenance badge and, for registry-edited fields, the original registry value struck through.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "RegistrationReview.tsx:12-16,58-64",
+      "acceptance_criteria": [
+        "Given a field edited from the registry Then the registry value is shown struck through with 'عدّله المسجّل عن السجل'",
+        "Given a manual field Then the badge 'أدخله المسجّل' is shown"
+      ]
+    },
+    {
+      "id": "FR-BEN-027",
+      "feature": "FT-BEN-08",
+      "stories": [
+        "US-BEN-013"
+      ],
+      "statement": "The system shall let the admin accept or reject each field of a pending request, and accept all pending fields at once, persisting decisions immediately.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "RegistrationReview.tsx:35-37,53,65-69; registrations.ts:99-102",
+      "acceptance_criteria": [
+        "Given a pending request When ✗ is pressed on a field Then it is saved as rejected",
+        "Given pending fields When 'قبول جماعي' is pressed Then all become accepted"
+      ]
+    },
+    {
+      "id": "FR-BEN-028",
+      "feature": "FT-BEN-08",
+      "stories": [
+        "US-BEN-014",
+        "US-BEN-015"
+      ],
+      "statement": "The system shall allow finalizing a request only when no field is pending.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "RegistrationReview.tsx:54; registrations.ts:107",
+      "acceptance_criteria": [
+        "Given a pending field Then 'اعتماد القرار' is disabled",
+        "Given a direct call with pending fields Then 'بقيت حقول لم يُبت فيها' is raised"
+      ]
+    },
+    {
+      "id": "FR-BEN-029",
+      "feature": "FT-BEN-08",
+      "stories": [
+        "US-BEN-014"
+      ],
+      "statement": "The system shall, when all fields are accepted, create the partner from field values, mark the request approved with decider/time and link, and log a status event.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "registrations.ts:113-122",
+      "acceptance_criteria": [
+        "Given all accepted When finalized Then a partner with the license no. appears in the directory",
+        "Given approval Then the request shows 'معتمد' and decisions are read-only"
+      ]
+    },
+    {
+      "id": "FR-BEN-030",
+      "feature": "FT-BEN-08",
+      "stories": [
+        "US-BEN-015"
+      ],
+      "statement": "The system shall, when any field is rejected, set the request to 'returned' with a note listing rejected field labels and create no partner.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "registrations.ts:106-111",
+      "acceptance_criteria": [
+        "Given one rejected field When finalized Then status is 'أعيد للمسجّل' and note lists the field",
+        "Given a returned request Then no partner is created"
+      ]
+    },
+    {
+      "id": "FR-BEN-031",
+      "feature": "FT-BEN-08",
+      "stories": [
+        "US-BEN-016"
+      ],
+      "statement": "The system shall distinguish delegate-change requests from new registrations and, on approval, transfer the primary delegation of the existing partner instead of creating a new partner; it shall also create the primary delegate membership for new registrations.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "Gap — registrations.ts:84-123",
+      "acceptance_criteria": [
+        "Given an approved delegate-change request Then no new partner row exists and the delegate is changed with history",
+        "Given an approved new registration Then the delegate becomes primary member (or is invited)"
+      ]
+    },
+    {
+      "id": "FR-BEN-032",
+      "feature": "FT-BEN-09",
+      "stories": [
+        "US-BEN-017"
+      ],
+      "statement": "The system shall offer 'دعوة للتفعيل' (or 'إعادة الدعوة' when invited) for partners whose account is not active, from the directory and the profile, prefilled with the invited or official email.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "beneficiaries.index.tsx:108-110,182-191; beneficiaries.$id.tsx:96,229-237",
+      "acceptance_criteria": [
+        "Given an unclaimed partner Then the directory shows 'دعوة للتفعيل'",
+        "Given an active partner Then no invite action is shown"
+      ]
+    },
+    {
+      "id": "FR-BEN-033",
+      "feature": "FT-BEN-09",
+      "stories": [
+        "US-BEN-017"
+      ],
+      "statement": "The system shall record an invitation by setting account_status 'invited', invited_email and invited_at and logging an 'invited' event.",
+      "type": "Data",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "memberships.ts:103-107",
+      "acceptance_criteria": [
+        "Given an invite When sent Then account status shows 'تمت دعوته'",
+        "Given an invite Then the timeline shows 'دعوة للتفعيل — <email>'"
+      ]
+    },
+    {
+      "id": "FR-BEN-034",
+      "feature": "FT-BEN-09",
+      "stories": [
+        "US-BEN-017"
+      ],
+      "statement": "The system shall send an activation message containing a single-use token to the invited email and activate the account only after delegate identity verification.",
+      "type": "Integration",
+      "priority": "Should",
+      "evidence": "Recommended",
+      "source": "Gap — memberships.ts:103-107; invite dialog text beneficiaries.index.tsx:186",
+      "acceptance_criteria": [
+        "Given an invite When sent Then an email with an activation link is delivered",
+        "Given an expired token When used Then activation is refused"
+      ]
+    },
+    {
+      "id": "FR-BEN-035",
+      "feature": "FT-BEN-10",
+      "stories": [
+        "US-BEN-018",
+        "US-BEN-019"
+      ],
+      "statement": "The system shall list partner team members (primary first) with name, email, role, identity badge and, for inactive members, the end date; and an empty state when none.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "BeneficiaryTeam.tsx:61-93; memberships.ts:47-52",
+      "acceptance_criteria": [
+        "Given a team Then the primary delegate is first with a crown",
+        "Given no members Then 'لا يوجد أعضاء — الجمعية لم تفعّل حسابها بعد' is shown"
+      ]
+    },
+    {
+      "id": "FR-BEN-036",
+      "feature": "FT-BEN-10",
+      "stories": [
+        "US-BEN-018"
+      ],
+      "statement": "The system shall add a team member with name, email, 10-digit national ID and role (project manager, finance, member), creating an applicant persona when the email is new and upserting the membership.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "BeneficiaryTeam.tsx:39-47,107-126; memberships.ts:61-78",
+      "acceptance_criteria": [
+        "Given valid data When 'إضافة' is pressed Then the member appears in the team",
+        "Given a 9-digit ID Then the form refuses submission"
+      ]
+    },
+    {
+      "id": "FR-BEN-037",
+      "feature": "FT-BEN-10",
+      "stories": [
+        "US-BEN-019"
+      ],
+      "statement": "The system shall deactivate an active non-primary member, recording end_at, and refuse deactivation of the primary delegate.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "BeneficiaryTeam.tsx:84-89; memberships.ts:80-84",
+      "acceptance_criteria": [
+        "Given a non-primary member When deactivated Then it shows dimmed with 'موقوف <date>'",
+        "Given the primary Then no deactivate control is shown and the lib refuses it"
+      ]
+    },
+    {
+      "id": "FR-BEN-038",
+      "feature": "FT-BEN-11",
+      "stories": [
+        "US-BEN-020"
+      ],
+      "statement": "The system shall transfer the primary delegation to a chosen active non-primary member with a mandatory reason, demoting the current primary to 'member', recording a delegate_transfers row (method donor/self) and logging 'delegate_transfer'.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "BeneficiaryTeam.tsx:49-59,128-143; memberships.ts:86-101",
+      "acceptance_criteria": [
+        "Given a candidate and reason When confirmed Then the candidate becomes primary and the former primary is a member",
+        "Given no candidate or reason Then 'اختر المفوض الجديد واذكر السبب' is shown"
+      ]
+    },
+    {
+      "id": "FR-BEN-039",
+      "feature": "FT-BEN-11",
+      "stories": [
+        "US-BEN-020"
+      ],
+      "statement": "The system shall show the delegate transfer history with date, from, to, method ('بقرار من المانح' / 'من الجمعية') and reason.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "BeneficiaryTeam.tsx:95-104; memberships.ts:54-59",
+      "acceptance_criteria": [
+        "Given a transfer Then the history lists it newest first",
+        "Given no transfer Then the history block is hidden"
+      ]
+    },
+    {
+      "id": "FR-BEN-040",
+      "feature": "FT-BEN-12",
+      "stories": [
+        "US-BEN-021"
+      ],
+      "statement": "The system shall list partner groups as cards with name, description, up to 6 member names (+n), member count and number of opportunities that target the group.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "PartnerGroups.tsx:42-75",
+      "acceptance_criteria": [
+        "Given a group used by 2 opportunities Then the card shows 'مستخدمة في 2 فرصة'",
+        "Given no groups Then 'لا توجد مجموعات بعد.' is shown"
+      ]
+    },
+    {
+      "id": "FR-BEN-041",
+      "feature": "FT-BEN-12",
+      "stories": [
+        "US-BEN-021"
+      ],
+      "statement": "The system shall create and edit groups with a required name, optional description and a member picker of partners not yet selected.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "PartnerGroups.tsx:25-33,77-105",
+      "acceptance_criteria": [
+        "Given an empty name When saving Then 'اسم المجموعة مطلوب' is shown",
+        "Given members added When saved Then the card reflects them and targeting opportunities use the new membership"
+      ]
+    },
+    {
+      "id": "FR-BEN-042",
+      "feature": "FT-BEN-12",
+      "stories": [
+        "US-BEN-022"
+      ],
+      "statement": "The system shall delete a group after confirmation and should warn or block when the group is used by opportunities.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "PartnerGroups.tsx:34-39",
+      "acceptance_criteria": [
+        "Given confirmation When deleting Then the group disappears",
+        "Given a group used by opportunities When deleting Then a warning with the count is shown [Recommended]"
+      ]
+    },
+    {
+      "id": "FR-BEN-043",
+      "feature": "FT-BEN-13",
+      "stories": [
+        "US-BEN-024"
+      ],
+      "statement": "The system shall show the partner its official data (name, type, license, expiry, entity number, classification, status, governance) read-only with a 'تحديث الترخيص' entry for the primary delegate.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "EntityProfile.tsx:42-58",
+      "acceptance_criteria": [
+        "Given a primary delegate Then 'تحديث الترخيص' is visible",
+        "Given a non-primary member Then it is hidden"
+      ]
+    },
+    {
+      "id": "FR-BEN-044",
+      "feature": "FT-BEN-13",
+      "stories": [
+        "US-BEN-023"
+      ],
+      "statement": "The system shall let the primary delegate edit phone, email, region, governorate and city directly, requiring OTP verification of changed phone/email, saving only changed data and logging 'contact_updated' with before/after.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "EntityProfile.tsx:23-38,60-94",
+      "acceptance_criteria": [
+        "Given a changed phone not verified When saving Then 'وثّق الجوال والبريد برمز التحقق قبل الحفظ' is shown",
+        "Given verified changes When saved Then the timeline shows the changed fields under the editor's name"
+      ]
+    },
+    {
+      "id": "FR-BEN-045",
+      "feature": "FT-BEN-13",
+      "stories": [
+        "US-BEN-024"
+      ],
+      "statement": "The system shall show the partner its bank name, IBAN, bank status and IBAN certificate name with an update entry for the primary delegate, and the team panel in self mode.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "EntityProfile.tsx:96-110",
+      "acceptance_criteria": [
+        "Given a rejected bank account Then the status pill shows 'مرفوض'",
+        "Given a non-primary member Then team management controls are hidden"
+      ]
+    }
+  ],
+  "stories": [
+    {
+      "id": "US-BEN-001",
+      "epic": "EP-BEN-01",
+      "feature": "FT-BEN-01",
+      "role": "grants_manager",
+      "story": "As a grants manager I want to browse, filter, search and export the partner directory so that I can quickly find partners that need attention.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-001",
+        "FR-BEN-002",
+        "FR-BEN-003",
+        "FR-BEN-004"
+      ],
+      "acceptance_criteria": [
+        "Given 10 partners of which 3 confirmed When I click 'مؤكدة' Then 3 rows are listed",
+        "Given filters type='وقف' and bank='موثّق' When applied Then only matching rows remain and two chips are shown",
+        "Given a filtered list When I export CSV Then the file contains only those rows"
+      ],
+      "dependencies": [
+        "DataTable",
+        "viewPrefs"
+      ],
+      "open_questions": [
+        "OQ-BEN-03"
+      ]
+    },
+    {
+      "id": "US-BEN-002",
+      "epic": "EP-BEN-01",
+      "feature": "FT-BEN-02",
+      "role": "grants_manager",
+      "story": "As a grants manager I want to add a partner organization manually, optionally prefilled by AI, so that partners outside self-registration can be recorded.",
+      "priority": "Could",
+      "requirements": [
+        "FR-BEN-005",
+        "FR-BEN-006"
+      ],
+      "acceptance_criteria": [
+        "Given only a name When I save Then the partner is created with pending status and listed",
+        "Given AI proposals When applied Then the form fields are filled but nothing is saved until حفظ"
+      ],
+      "dependencies": [
+        "AiAssist"
+      ],
+      "open_questions": [
+        "OQ-BEN-02"
+      ]
+    },
+    {
+      "id": "US-BEN-003",
+      "epic": "EP-BEN-01",
+      "feature": "FT-BEN-03",
+      "role": "grants_manager",
+      "story": "As a grants manager I want a 360 profile of a partner so that I can assess its history, projects and payments before taking decisions.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-007",
+        "FR-BEN-008",
+        "FR-BEN-009"
+      ],
+      "acceptance_criteria": [
+        "Given a partner with 2 approved applications totaling 500,000 When I open the profile Then 'المعتمدة'=2 and 'المبالغ المعتمدة'=500,000",
+        "Given a project where the partner is executor When I open the profile Then the project is listed",
+        "Given an invalid id When I open the profile Then 'الجهة غير موجودة' is shown"
+      ],
+      "dependencies": [
+        "PRJ",
+        "REV",
+        "FIN"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-BEN-004",
+      "epic": "EP-BEN-02",
+      "feature": "FT-BEN-04",
+      "role": "grants_manager",
+      "story": "As a grants manager I want to confirm a partner organization so that it is recognised as a verified partner.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-010",
+        "FR-BEN-012"
+      ],
+      "acceptance_criteria": [
+        "Given a pending partner When I press 'تأكيد الجهة' Then status is 'مؤكد' and the button disappears",
+        "Given the confirmation When done Then the timeline shows 'تغيير حالة الجهة — بانتظار التفعيل ← مؤكد' with my name"
+      ],
+      "dependencies": [
+        "FT-BEN-07"
+      ],
+      "open_questions": [
+        "OQ-BEN-01",
+        "OQ-BEN-03"
+      ]
+    },
+    {
+      "id": "US-BEN-005",
+      "epic": "EP-BEN-02",
+      "feature": "FT-BEN-04",
+      "role": "grants_manager",
+      "story": "As a grants manager I want to block a partner organization, with a recorded reason, so that it can no longer be treated as a trusted partner.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-011",
+        "FR-BEN-012"
+      ],
+      "acceptance_criteria": [
+        "Given a confirmed partner When I block it Then status is 'محظور' and 'حظر' is hidden",
+        "Given a block [Recommended] When no reason is entered Then blocking is refused"
+      ],
+      "dependencies": [
+        "FT-BEN-07"
+      ],
+      "open_questions": [
+        "OQ-BEN-03"
+      ]
+    },
+    {
+      "id": "US-BEN-006",
+      "epic": "EP-BEN-02",
+      "feature": "FT-BEN-05",
+      "role": "grants_manager",
+      "story": "As a grants manager I want to inspect the IBAN certificate and verify the bank account so that payments go to a confirmed account.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-013",
+        "FR-BEN-014"
+      ],
+      "acceptance_criteria": [
+        "Given a pending account with IBAN When I press 'توثيق' Then status is 'موثّق' and 'آخر توثيق' shows today and my name",
+        "Given no IBAN Then 'توثيق' is disabled",
+        "Given verification Then a 'توثيق الحساب البنكي' event is logged"
+      ],
+      "dependencies": [
+        "attachments bucket"
+      ],
+      "open_questions": [
+        "OQ-BEN-04"
+      ]
+    },
+    {
+      "id": "US-BEN-007",
+      "epic": "EP-BEN-02",
+      "feature": "FT-BEN-05",
+      "role": "grants_manager",
+      "story": "As a grants manager I want to reject a partner bank account with a reason so that the partner knows what to correct.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-015"
+      ],
+      "acceptance_criteria": [
+        "Given an empty reason When I confirm Then rejection is refused",
+        "Given a reason When I confirm Then status is 'مرفوض', verification stamps are cleared and the event shows 'السبب: …'"
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-BEN-008",
+      "epic": "EP-BEN-02",
+      "feature": "FT-BEN-05",
+      "role": "finance",
+      "story": "As a finance officer I want any partner change to bank details to reset verification so that no payment goes to an unverified account.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-016"
+      ],
+      "acceptance_criteria": [
+        "Given a verified account When the partner changes the IBAN Then status becomes 'قيد التحقق'",
+        "Given a new certificate When uploaded Then an 'رفع شهادة الآيبان' event with document path exists"
+      ],
+      "dependencies": [
+        "PTL bank dialog",
+        "FIN payment checks [To Confirm]"
+      ],
+      "open_questions": [
+        "OQ-BEN-04"
+      ]
+    },
+    {
+      "id": "US-BEN-009",
+      "epic": "EP-BEN-02",
+      "feature": "FT-BEN-06",
+      "role": "admin",
+      "story": "As a tenant admin I want to review and approve a license update that the AI could not fully match so that official partner data stays correct.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-019",
+        "FR-BEN-020"
+      ],
+      "acceptance_criteria": [
+        "Given a request at 80% When I approve Then partner name/license/expiry equal the requested values and the card disappears",
+        "Given a linked task When I approve Then the task is done",
+        "Given approval Then a 'تحديث ترخيص — اعتماد يدوي' event with the document exists"
+      ],
+      "dependencies": [
+        "TSK"
+      ],
+      "open_questions": [
+        "OQ-BEN-07"
+      ]
+    },
+    {
+      "id": "US-BEN-010",
+      "epic": "EP-BEN-02",
+      "feature": "FT-BEN-06",
+      "role": "admin",
+      "story": "As a tenant admin I want to reject a license update with a note so that the partner understands why and can resubmit.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-019",
+        "FR-BEN-021"
+      ],
+      "acceptance_criteria": [
+        "Given an empty note When I reject Then the action is refused",
+        "Given a note When I reject Then the request is 'رُفض' and the partner sees 'ملاحظة المراجع: <note>'"
+      ],
+      "dependencies": [
+        "PTL"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-BEN-011",
+      "epic": "EP-BEN-02",
+      "feature": "FT-BEN-06",
+      "role": "admin",
+      "story": "As a tenant admin I want license updates that match 100% to be applied automatically and all others routed to me as a task so that I only handle uncertain cases.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-017",
+        "FR-BEN-018"
+      ],
+      "acceptance_criteria": [
+        "Given a 100% match When processed Then the partner data is updated and status is 'اعتُمد آلياً'",
+        "Given a 95% match When processed Then a task 'تدقيق تحديث ترخيص: …' due in 2 days is assigned to an admin"
+      ],
+      "dependencies": [
+        "AI service",
+        "TSK"
+      ],
+      "open_questions": [
+        "OQ-BEN-07"
+      ]
+    },
+    {
+      "id": "US-BEN-012",
+      "epic": "EP-BEN-02",
+      "feature": "FT-BEN-07",
+      "role": "grants_manager",
+      "story": "As a grants manager I want to see an attributable timeline of all decisions on a partner so that I can audit who changed what and why.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-022",
+        "FR-BEN-023",
+        "FR-BEN-024"
+      ],
+      "acceptance_criteria": [
+        "Given a bank rejection with reason When I open the timeline Then it shows 'رفض الحساب البنكي — قيد التحقق ← مرفوض' and 'السبب: …'",
+        "Given no events or applications Then 'لا توجد أحداث' is shown",
+        "Given any staff action [Recommended] Then its event has a non-empty actor"
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-BEN-11"
+      ]
+    },
+    {
+      "id": "US-BEN-013",
+      "epic": "EP-BEN-03",
+      "feature": "FT-BEN-08",
+      "role": "admin",
+      "story": "As a platform admin I want to verify each field of a registration request against the registry so that only correct data enters the partner register.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-025",
+        "FR-BEN-026",
+        "FR-BEN-027"
+      ],
+      "acceptance_criteria": [
+        "Given a field edited from registry Then the registry value appears struck through",
+        "Given I press ✗ on a field When I reload Then it remains rejected",
+        "Given 3 pending fields When I press 'قبول جماعي' Then all are accepted"
+      ],
+      "dependencies": [
+        "PTL registration"
+      ],
+      "open_questions": [
+        "OQ-BEN-10"
+      ]
+    },
+    {
+      "id": "US-BEN-014",
+      "epic": "EP-BEN-03",
+      "feature": "FT-BEN-08",
+      "role": "admin",
+      "story": "As a platform admin I want to approve a fully verified registration so that the organization becomes a partner.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-028",
+        "FR-BEN-029"
+      ],
+      "acceptance_criteria": [
+        "Given all fields accepted When I finalize Then a partner with the license no. exists and the toast says 'اعتُمدت الجهة وأُضيفت للشركاء'",
+        "Given a pending field Then 'اعتماد القرار' is disabled"
+      ],
+      "dependencies": [
+        "FT-BEN-07"
+      ],
+      "open_questions": [
+        "OQ-BEN-05"
+      ]
+    },
+    {
+      "id": "US-BEN-015",
+      "epic": "EP-BEN-03",
+      "feature": "FT-BEN-08",
+      "role": "admin",
+      "story": "As a platform admin I want to return a registration with rejected fields so that the applicant corrects them.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-028",
+        "FR-BEN-030"
+      ],
+      "acceptance_criteria": [
+        "Given 'الآيبان' rejected When I finalize Then the status is 'أعيد للمسجّل' and the note reads 'حقول مرفوضة: الآيبان'",
+        "Given a returned request Then no partner is created"
+      ],
+      "dependencies": [
+        "PTL resubmission"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-BEN-016",
+      "epic": "EP-BEN-03",
+      "feature": "FT-BEN-08",
+      "role": "admin",
+      "story": "As a platform admin I want delegate-change requests handled as delegation changes on the existing partner, and approved registrations to get their primary delegate, so that no duplicate partners are created and every partner has an accountable delegate.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-031"
+      ],
+      "acceptance_criteria": [
+        "Given an approved delegate-change request Then the partner count is unchanged and the new delegate is primary",
+        "Given an approved new registration Then the delegate is the primary member or has a pending activation invite"
+      ],
+      "dependencies": [
+        "FT-BEN-11"
+      ],
+      "open_questions": [
+        "OQ-BEN-05"
+      ]
+    },
+    {
+      "id": "US-BEN-017",
+      "epic": "EP-BEN-03",
+      "feature": "FT-BEN-09",
+      "role": "grants_manager",
+      "story": "As a grants manager I want to invite a non-activated partner using its verified official email so that its delegate can activate the account.",
+      "priority": "Should",
+      "requirements": [
+        "FR-BEN-032",
+        "FR-BEN-033",
+        "FR-BEN-034"
+      ],
+      "acceptance_criteria": [
+        "Given an unclaimed partner When I invite Then account status is 'تمت دعوته' and invited_email is stored",
+        "Given the invite Then the timeline shows 'دعوة للتفعيل'",
+        "Given [Recommended] delivery Then an activation link is emailed"
+      ],
+      "dependencies": [
+        "PLT invitation/activation"
+      ],
+      "open_questions": [
+        "OQ-BEN-06"
+      ]
+    },
+    {
+      "id": "US-BEN-018",
+      "epic": "EP-BEN-04",
+      "feature": "FT-BEN-10",
+      "role": "grants_manager",
+      "story": "As a grants manager (or the partner's primary delegate) I want to add a team member with a role so that the right people can work on the partner's applications and projects.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-035",
+        "FR-BEN-036"
+      ],
+      "acceptance_criteria": [
+        "Given valid data When I add a finance member Then it appears with 'مسؤول مالي'",
+        "Given an ID of 9 digits Then the form cannot be submitted"
+      ],
+      "dependencies": [
+        "PLT personas"
+      ],
+      "open_questions": [
+        "OQ-BEN-01"
+      ]
+    },
+    {
+      "id": "US-BEN-019",
+      "epic": "EP-BEN-04",
+      "feature": "FT-BEN-10",
+      "role": "grants_manager",
+      "story": "As a grants manager (or primary delegate) I want to deactivate a team member so that people who left the organization lose access.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-035",
+        "FR-BEN-037"
+      ],
+      "acceptance_criteria": [
+        "Given a project manager member When deactivated Then it shows dimmed with 'موقوف <date>'",
+        "Given the primary delegate Then no deactivate control is shown"
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-BEN-020",
+      "epic": "EP-BEN-04",
+      "feature": "FT-BEN-11",
+      "role": "grants_manager",
+      "story": "As a grants manager I want to transfer the primary delegation to another team member on the basis of the partner's letter so that the partner always has one accountable delegate.",
+      "priority": "Must",
+      "requirements": [
+        "FR-BEN-038",
+        "FR-BEN-039"
+      ],
+      "acceptance_criteria": [
+        "Given member X and a reason When I confirm Then X is 'مفوض رئيسي' and the former primary is 'عضو'",
+        "Given the transfer Then history shows '… (بقرار من المانح) · <reason>'",
+        "Given no candidates Then 'نقل التفويض' is disabled"
+      ],
+      "dependencies": [
+        "FT-BEN-07"
+      ],
+      "open_questions": [
+        "OQ-BEN-08"
+      ]
+    },
+    {
+      "id": "US-BEN-021",
+      "epic": "EP-BEN-05",
+      "feature": "FT-BEN-12",
+      "role": "grants_manager",
+      "story": "As a grants manager I want to create and edit named partner groups so that I can target opportunities to a predefined set of partners.",
+      "priority": "Should",
+      "requirements": [
+        "FR-BEN-040",
+        "FR-BEN-041"
+      ],
+      "acceptance_criteria": [
+        "Given a name and 3 partners When saved Then a card shows '3 جهة'",
+        "Given a group used by an opportunity When I add a partner Then that partner becomes eligible for the opportunity"
+      ],
+      "dependencies": [
+        "PRG targeting"
+      ],
+      "open_questions": [
+        "OQ-BEN-09"
+      ]
+    },
+    {
+      "id": "US-BEN-022",
+      "epic": "EP-BEN-05",
+      "feature": "FT-BEN-12",
+      "role": "grants_manager",
+      "story": "As a grants manager I want to delete an obsolete partner group, warned if opportunities use it, so that targeting is not silently changed.",
+      "priority": "Should",
+      "requirements": [
+        "FR-BEN-042"
+      ],
+      "acceptance_criteria": [
+        "Given confirmation When I delete Then the card disappears",
+        "Given a group used by 2 opportunities [Recommended] Then the confirmation states it is used by 2 opportunities"
+      ],
+      "dependencies": [
+        "PRG"
+      ],
+      "open_questions": [
+        "OQ-BEN-09"
+      ]
+    },
+    {
+      "id": "US-BEN-023",
+      "epic": "EP-BEN-06",
+      "feature": "FT-BEN-13",
+      "role": "applicant",
+      "story": "As a partner's primary delegate I want to update our contact and location data myself, verifying new phone/email by code, so that the donor can reach us without waiting for approval.",
+      "priority": "Should",
+      "requirements": [
+        "FR-BEN-044"
+      ],
+      "acceptance_criteria": [
+        "Given a new phone not verified When I save Then saving is refused",
+        "Given verified changes When I save Then 'حُفظت بيانات التواصل' and a 'تحديث بيانات التواصل' event lists old and new values"
+      ],
+      "dependencies": [
+        "PTL portal",
+        "OtpVerifiedInput"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-BEN-024",
+      "epic": "EP-BEN-06",
+      "feature": "FT-BEN-13",
+      "role": "applicant",
+      "story": "As a partner user I want to see our official, bank and team data with clear update paths so that I know what the donor holds and how to change it.",
+      "priority": "Should",
+      "requirements": [
+        "FR-BEN-043",
+        "FR-BEN-045"
+      ],
+      "acceptance_criteria": [
+        "Given a non-primary member Then update and edit buttons are hidden",
+        "Given the bank status is rejected Then the pill shows 'مرفوض'"
+      ],
+      "dependencies": [
+        "PTL"
+      ],
+      "open_questions": []
+    }
+  ],
+  "rules": [
+    {
+      "id": "BR-BEN-01",
+      "rule": "Every sensitive partner decision (entity status, bank verification/rejection, IBAN change, IBAN certificate upload, invitation, delegate transfer, license decision, contact update, registration approval) writes an append-only row to beneficiary_events with kind, before/after values, note, actor and optional document path.",
+      "evidence": "Observed",
+      "source": "beneficiaryActions.ts:1-2,24-29; AGENTS.md; migration 20261006140739 (SELECT/INSERT-only policy on beneficiary_events)"
+    },
+    {
+      "id": "BR-BEN-02",
+      "rule": "Rejecting a partner bank account requires a non-empty reason.",
+      "evidence": "Observed",
+      "source": "beneficiaryActions.ts:49; beneficiaries.$id.tsx:223 (required textarea)"
+    },
+    {
+      "id": "BR-BEN-03",
+      "rule": "A bank account can be verified only when an IBAN exists and it is not already verified; rejection is unavailable when already rejected.",
+      "evidence": "Observed",
+      "source": "beneficiaries.$id.tsx:172-173 (UI disabling only)"
+    },
+    {
+      "id": "BR-BEN-04",
+      "rule": "Verification stamps bank_verified_at and bank_verified_by (actor); rejection clears both.",
+      "evidence": "Observed",
+      "source": "beneficiaryActions.ts:43,50"
+    },
+    {
+      "id": "BR-BEN-05",
+      "rule": "Any partner change to IBAN or bank name, or upload of a new IBAN certificate, resets bank_status to 'pending' and clears verification stamps.",
+      "evidence": "Observed",
+      "source": "beneficiaryActions.ts:55-71"
+    },
+    {
+      "id": "BR-BEN-06",
+      "rule": "Staff may set entity status to 'confirmed' (when not confirmed) or 'blocked' (when not blocked); no reason or confirmation is required in the prototype.",
+      "evidence": "Observed",
+      "source": "beneficiaries.$id.tsx:97-98; beneficiaryActions.ts:36-40"
+    },
+    {
+      "id": "BR-BEN-07",
+      "rule": "Partner organizations are to be created only on admin approval of a registration request. The prototype also allows direct staff creation from the directory, contradicting this rule.",
+      "evidence": "Observed",
+      "source": "AGENTS.md (Registration line); registrations.ts:104-123; beneficiaries.index.tsx:55-67"
+    },
+    {
+      "id": "BR-BEN-08",
+      "rule": "A registration can be finalized only when every field has a decision (no 'pending').",
+      "evidence": "Observed",
+      "source": "registrations.ts:107; RegistrationReview.tsx:54"
+    },
+    {
+      "id": "BR-BEN-09",
+      "rule": "If any registration field is rejected, the request becomes 'returned' with a note listing rejected field labels (unless a note is supplied) and no partner is created.",
+      "evidence": "Observed",
+      "source": "registrations.ts:106-111"
+    },
+    {
+      "id": "BR-BEN-10",
+      "rule": "If all fields are accepted, a partner is created from the field values (account_type defaults to 'جمعية أهلية'), the request becomes 'approved' and is linked to the new partner, and a 'status' event is logged.",
+      "evidence": "Observed",
+      "source": "registrations.ts:113-122"
+    },
+    {
+      "id": "BR-BEN-11",
+      "rule": "Each registration field carries a provenance: 'registry' (equals registry value), 'registry_edited' (differs from registry; registry value shown struck through) or 'manual' (no registry value).",
+      "evidence": "Observed",
+      "source": "registrations.ts:4,70-74; RegistrationReview.tsx:12-16,62-64"
+    },
+    {
+      "id": "BR-BEN-12",
+      "rule": "Registration review is accessible only to personas with role 'admin' (UI gate).",
+      "evidence": "Observed",
+      "source": "admin.tsx:58-71"
+    },
+    {
+      "id": "BR-BEN-13",
+      "rule": "Official data (name, license number, license expiry) changes only through a license update request; partners cannot edit it directly.",
+      "evidence": "Observed",
+      "source": "EntityProfile.tsx:56; entityUpdates.ts:26-38"
+    },
+    {
+      "id": "BR-BEN-14",
+      "rule": "A license update is auto-approved and applied only when the AI match score is exactly 100%; otherwise the request goes to 'review' and a manual task (due in 2 days) is assigned to the tenant's first active admin (persona_memberships role admin, fallback personas role admin).",
+      "evidence": "Observed",
+      "source": "entityUpdates.functions.ts:28-43; AGENTS.md"
+    },
+    {
+      "id": "BR-BEN-15",
+      "rule": "If the AI check cannot run (unsupported file type, unreadable document, error), the score is 0 and the request goes to manual review.",
+      "evidence": "Observed",
+      "source": "entityUpdates.functions.ts:18-27"
+    },
+    {
+      "id": "BR-BEN-16",
+      "rule": "Rejecting a license update requires a note, which is shown to the partner.",
+      "evidence": "Observed",
+      "source": "entityUpdates.ts:41; LicenseUpdate.tsx:33,118"
+    },
+    {
+      "id": "BR-BEN-17",
+      "rule": "Approving a license update overwrites name, license_no and license_expiry; both decisions log a beneficiary event with the document path and close the linked manual task.",
+      "evidence": "Observed",
+      "source": "entityUpdates.ts:42-49"
+    },
+    {
+      "id": "BR-BEN-18",
+      "rule": "Each partner has exactly one active primary delegate; the primary delegate cannot be deactivated before the delegation is transferred.",
+      "evidence": "Observed",
+      "source": "memberships.ts:1-2,80-84; BeneficiaryTeam.tsx:84"
+    },
+    {
+      "id": "BR-BEN-19",
+      "rule": "A delegate transfer requires a target chosen among active non-primary members and a reason; the previous primary becomes role 'member'; the transfer is recorded with method 'donor' (staff) or 'self' (partner).",
+      "evidence": "Observed",
+      "source": "BeneficiaryTeam.tsx:37,49-59; memberships.ts:86-101"
+    },
+    {
+      "id": "BR-BEN-20",
+      "rule": "Team members are added with name, email, 10-digit national ID and a role among project_manager, finance, member; an existing persona with the same email is reused; one membership per persona and partner.",
+      "evidence": "Observed",
+      "source": "BeneficiaryTeam.tsx:114-121; memberships.ts:61-78; migration 20261005115630 (UNIQUE persona_id, beneficiary_id)"
+    },
+    {
+      "id": "BR-BEN-21",
+      "rule": "Staff invitation marks the partner account 'invited' with invited_email and invited_at; no email is actually sent in the prototype.",
+      "evidence": "Observed",
+      "source": "memberships.ts:103-107; beneficiaries.index.tsx:74"
+    },
+    {
+      "id": "BR-BEN-22",
+      "rule": "Partner account status values: unclaimed (approved record, not activated) → invited → active (activated and verified). Activation is performed on the invitation landing page.",
+      "evidence": "Observed",
+      "source": "memberships.ts:13-17; migration 20261005115630; invite.$token.tsx:50"
+    },
+    {
+      "id": "BR-BEN-23",
+      "rule": "A partner group requires a name; group membership changes take effect for every opportunity that targets the group (resolved at eligibility time).",
+      "evidence": "Observed",
+      "source": "PartnerGroups.tsx:26,45; eligibility.ts:33"
+    },
+    {
+      "id": "BR-BEN-24",
+      "rule": "Contact data (phone, email, region, city, governorate) is edited directly by the primary delegate without approval; changed phone/email must be OTP-verified; changes are logged under the editor's name.",
+      "evidence": "Observed",
+      "source": "EntityProfile.tsx:27-38,89"
+    },
+    {
+      "id": "BR-BEN-25",
+      "rule": "On the partner side only the primary delegate can edit contact data, request license or bank updates, and manage the team.",
+      "evidence": "Observed",
+      "source": "EntityProfile.tsx:45,63,99,109"
+    },
+    {
+      "id": "BR-BEN-26",
+      "rule": "\"Inactive accounts\" means account_status ≠ 'active'.",
+      "evidence": "Observed",
+      "source": "beneficiaries.index.tsx:87,125"
+    },
+    {
+      "id": "BR-BEN-27",
+      "rule": "Staff decisions on partners must be restricted by role and tenant (not only by sidebar visibility).",
+      "evidence": "Recommended",
+      "source": "Gap: no enforcement in beneficiaries.$id.tsx / beneficiaryActions.ts; AGENTS.md (RLS any signed-in user)"
+    }
+  ],
+  "issues": [
+    {
+      "id": "ISS-BEN-01",
+      "description": "No role enforcement on partner decisions: any persona reaching /beneficiaries (sidebar shows it to reviewer too) can confirm/block, verify/reject bank accounts, invite, and manage team/delegation; RLS allows any signed-in user; personas are switched on one shared demo account.",
+      "severity": "High",
+      "location": "beneficiaries.$id.tsx:95-99,171-174,192; AppShell.tsx:55; migration 20261006140739",
+      "recommendation": "Define a permission matrix (OQ-BEN-01) and enforce it server-side (RLS / server functions) with per-user authentication."
+    },
+    {
+      "id": "ISS-BEN-02",
+      "description": "Direct \"إضافة جهة\" creates partners without registration approval, without license-number uniqueness, IBAN format validation or any beneficiary_events entry — contradicts the 'partners created only on admin approval' decision and the attributable-actions rule.",
+      "severity": "High",
+      "location": "beneficiaries.index.tsx:55-67",
+      "recommendation": "Remove or restrict direct creation (e.g. admin-only, logged, with duplicate-license check), or route it through entity_registrations."
+    },
+    {
+      "id": "ISS-BEN-03",
+      "description": "Delegate-change requests (submitDelegateChangeRequest) are stored in entity_registrations and finalized by the same finalizeRegistration, which inserts a NEW beneficiaries row for an already-registered license — creating a duplicate partner while the delegate is never changed.",
+      "severity": "High",
+      "location": "registrations.ts:84-97,104-123; RegistrationReview.tsx",
+      "recommendation": "Add a request type to entity_registrations and a dedicated finalize path that performs a delegate transfer on the existing partner."
+    },
+    {
+      "id": "ISS-BEN-04",
+      "description": "Registration approval ignores the delegate fields (delegate_name, delegate_id, delegate_mobile): no persona or primary membership is created, so the approved partner has no delegate and remains account_status 'unclaimed'.",
+      "severity": "High",
+      "location": "registrations.ts:113-118",
+      "recommendation": "On approval create (or invite) the primary delegate membership from verified delegate data, or define the activation path explicitly."
+    },
+    {
+      "id": "ISS-BEN-05",
+      "description": "Registration approval logs a 'status' event with after_value 'active' but the partner row is inserted without status, so the DB default 'pending' applies — the audit log disagrees with the record.",
+      "severity": "Medium",
+      "location": "registrations.ts:114-121; migration 20261004093306 (status DEFAULT 'pending')",
+      "recommendation": "Set the intended status explicitly at insert and log the actual value."
+    },
+    {
+      "id": "ISS-BEN-06",
+      "description": "'invited' and 'delegate_transfer' events are logged without actor_id, so these actions are not attributable (contradicts AGENTS.md).",
+      "severity": "Medium",
+      "location": "memberships.ts:100,106",
+      "recommendation": "Pass the acting persona to inviteEntity / transferPrimary and require actor_id on beneficiary_events."
+    },
+    {
+      "id": "ISS-BEN-07",
+      "description": "Team member additions and deactivations are not written to beneficiary_events (only delegate transfers are).",
+      "severity": "Medium",
+      "location": "memberships.ts:61-84",
+      "recommendation": "Log member_added / member_deactivated events with actor."
+    },
+    {
+      "id": "ISS-BEN-08",
+      "description": "\"حظر\" blocks immediately with no confirmation and no reason; there is no explicit unblock (only \"تأكيد الجهة\") and no way to set 'pending', 'active' or 'rejected'. Effects of 'blocked' on applications/payments are not implemented in this module.",
+      "severity": "Medium",
+      "location": "beneficiaries.$id.tsx:97-98",
+      "recommendation": "Add confirmation + mandatory reason for block/unblock; define the full entity status machine and downstream effects (OQ-BEN-03)."
+    },
+    {
+      "id": "ISS-BEN-09",
+      "description": "Multi-step writes are not atomic and audit inserts ignore errors (finalizeRegistration, transferPrimary, decideUpdate, verifyBank/rejectBank + logEvent). A partial failure can leave e.g. two primaries, none, or an unlogged decision.",
+      "severity": "Medium",
+      "location": "registrations.ts:113-121; memberships.ts:87-101; entityUpdates.ts:40-50; beneficiaryActions.ts:24-29",
+      "recommendation": "Move each decision into a single DB transaction (RPC/server function) including the audit row."
+    },
+    {
+      "id": "ISS-BEN-10",
+      "description": "decideUpdate does not re-check that the request is still in 'review' (double decision possible from two sessions); a request stays in 'checking' forever if AI processing fails after insert.",
+      "severity": "Medium",
+      "location": "entityUpdates.ts:40-50; LicenseUpdate.tsx:41-42",
+      "recommendation": "Guard updates with status='review'; add a retry/timeout for 'checking' requests."
+    },
+    {
+      "id": "ISS-BEN-11",
+      "description": "Region values are inconsistent: registry demo data and tenant-2 seed use 'الرياض' while REGIONS uses 'منطقة الرياض'; registration region is free text, so region filter misses such partners.",
+      "severity": "Low",
+      "location": "registrations.ts:29-30; data.ts:274; migration 20261004104437:45",
+      "recommendation": "Use a controlled region list in registration and normalize existing data."
+    },
+    {
+      "id": "ISS-BEN-12",
+      "description": "Directory KPI cards count only 'confirmed' and 'pending'; 'active' and 'blocked' partners have no card and cannot be filtered by status (only via KPI cards).",
+      "severity": "Low",
+      "location": "beneficiaries.index.tsx:121-126",
+      "recommendation": "Add a status filter covering all status values and align KPIs with the agreed status model."
+    },
+    {
+      "id": "ISS-BEN-13",
+      "description": "Deleting a partner group does not check or clean up grant_programs.target_group_ids (dangling IDs, silently changes targeting); group changes are not audited; blocked partners can be group members.",
+      "severity": "Medium",
+      "location": "PartnerGroups.tsx:34-39,41,94-97",
+      "recommendation": "Block or warn on delete when used; log group changes; exclude blocked partners or flag them."
+    },
+    {
+      "id": "ISS-BEN-14",
+      "description": "Every team member is shown as \"هوية موثقة (تجريبي)\" regardless of any check; Nafath identity verification is not integrated.",
+      "severity": "Low",
+      "location": "BeneficiaryTeam.tsx:82,116; memberships.ts:33 (verified_via)",
+      "recommendation": "Integrate identity verification and display the real verified_via value."
+    },
+    {
+      "id": "ISS-BEN-15",
+      "description": "Staff \"دعوة للتفعيل\" only sets a flag: no email and no token are produced; activation in the prototype happens only through program invitations (/invite/$token).",
+      "severity": "Medium",
+      "location": "memberships.ts:103-107; invite.$token.tsx:50",
+      "recommendation": "Generate an activation token/email for account invitations, or clarify that activation is tied to program invitations (OQ-BEN-06)."
+    },
+    {
+      "id": "ISS-BEN-16",
+      "description": "Registration list shows all requests (pending, approved, returned) with no filter/search; created partners use the constant TENANT_ID rather than the registration's tenant_id.",
+      "severity": "Low",
+      "location": "RegistrationReview.tsx:21-26; registrations.ts:115",
+      "recommendation": "Default to pending, add status filter; use reg.tenant_id."
+    },
+    {
+      "id": "ISS-BEN-17",
+      "description": "Bank verification has no evidence requirement (verification is allowed with no IBAN certificate) and no segregation of duties.",
+      "severity": "Medium",
+      "location": "beneficiaries.$id.tsx:172; beneficiaryActions.ts:42-46",
+      "recommendation": "Require an IBAN certificate before verification; consider four-eyes for bank changes (OQ-BEN-04)."
+    },
+    {
+      "id": "ISS-BEN-18",
+      "description": "addTeamMember reuses any persona with the same email (including staff personas) and the 10-digit national ID is validated only by an HTML pattern.",
+      "severity": "Low",
+      "location": "memberships.ts:62-77; BeneficiaryTeam.tsx:116",
+      "recommendation": "Restrict reuse to applicant personas and validate national ID server-side."
+    },
+    {
+      "id": "ISS-BEN-19",
+      "description": "Delegate transfer demotes the previous primary to role 'member', losing any functional role; when no primary exists, from is null.",
+      "severity": "Low",
+      "location": "memberships.ts:90",
+      "recommendation": "Confirm desired post-transfer role (OQ-BEN-08)."
+    },
+    {
+      "id": "ISS-BEN-20",
+      "description": "Tables entity_registrations and entity_update_requests have no migration in the repository (only generated types), so their constraints, defaults (e.g. initial 'checking'/'pending') and policies could not be verified.",
+      "severity": "Low",
+      "location": "src/integrations/supabase/types.ts; supabase/migrations",
+      "recommendation": "Add the missing migrations to source control."
+    },
+    {
+      "id": "ISS-BEN-21",
+      "description": "A 'returned' registration shows the note only on the admin card; no notification or resubmission flow is visible from the staff side.",
+      "severity": "Low",
+      "location": "registrations.ts:108-111; RegistrationReview.tsx:73",
+      "recommendation": "Define partner notification and resubmission (see module PTL)."
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "OQ-BEN-01",
+      "question": "Which staff roles may confirm/block partners, verify/reject bank accounts, review license updates, invite partners, manage partner teams and transfer delegation? (reviewer currently has full access via sidebar)",
+      "related": [
+        "FT-BEN-04",
+        "FT-BEN-05",
+        "FT-BEN-06",
+        "FT-BEN-10",
+        "FT-BEN-11",
+        "ISS-BEN-01"
+      ]
+    },
+    {
+      "id": "OQ-BEN-02",
+      "question": "Should direct staff creation of partners be allowed at all? If yes, for which role and with what verification?",
+      "related": [
+        "FT-BEN-02",
+        "ISS-BEN-02",
+        "BR-BEN-07"
+      ]
+    },
+    {
+      "id": "OQ-BEN-03",
+      "question": "What is the authoritative entity status model (pending / active / confirmed / blocked / rejected), its transitions, and the effect of 'blocked' on applications, contracts and payments?",
+      "related": [
+        "FT-BEN-04",
+        "ISS-BEN-08"
+      ]
+    },
+    {
+      "id": "OQ-BEN-04",
+      "question": "Must bank verification require an IBAN certificate and/or a second approver? Is an external bank/IBAN-ownership check expected?",
+      "related": [
+        "FT-BEN-05",
+        "ISS-BEN-17"
+      ]
+    },
+    {
+      "id": "OQ-BEN-05",
+      "question": "What should registration approval create: partner only, or partner + primary delegate membership + activation invite? Which status/account_status should the new partner get?",
+      "related": [
+        "FT-BEN-08",
+        "ISS-BEN-04",
+        "ISS-BEN-05"
+      ]
+    },
+    {
+      "id": "OQ-BEN-06",
+      "question": "How is a partner account activated after a staff invitation (email with token, Nafath)? Is account activation separate from program invitations?",
+      "related": [
+        "FT-BEN-09",
+        "ISS-BEN-15"
+      ]
+    },
+    {
+      "id": "OQ-BEN-07",
+      "question": "Who should receive license manual-review tasks (first admin only, a role queue, grants managers)? Is the 2-day due date the agreed SLA?",
+      "related": [
+        "FT-BEN-06",
+        "BR-BEN-14"
+      ]
+    },
+    {
+      "id": "OQ-BEN-08",
+      "question": "After a delegate transfer, what role should the former primary keep? Must the transfer by staff require an uploaded letter rather than free text?",
+      "related": [
+        "FT-BEN-11",
+        "ISS-BEN-19"
+      ]
+    },
+    {
+      "id": "OQ-BEN-09",
+      "question": "Can partner groups include blocked/unverified partners, and what happens to opportunities when a group is deleted?",
+      "related": [
+        "FT-BEN-12",
+        "ISS-BEN-13"
+      ]
+    },
+    {
+      "id": "OQ-BEN-10",
+      "question": "Is the National Center registry (NCNP) integration in scope for production, and which fields are authoritative from it?",
+      "related": [
+        "FT-BEN-08",
+        "BR-BEN-11"
+      ]
+    },
+    {
+      "id": "OQ-BEN-11",
+      "question": "Retention and visibility of beneficiary_events: should partners see their own audit log? Is a reason mandatory for every staff decision?",
+      "related": [
+        "FT-BEN-07"
+      ]
+    },
+    {
+      "id": "OQ-BEN-12",
+      "question": "Business value / KPIs for partner management (e.g. time to verify a partner, % verified bank accounts) — not evident in the prototype.",
+      "related": [
+        "EP-BEN-01",
+        "EP-BEN-02"
+      ]
+    }
+  ]
+}

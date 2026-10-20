@@ -1,0 +1,2927 @@
+{
+  "module": {
+    "code": "PRJ",
+    "name": "Projects & Contracts"
+  },
+  "screens": [
+    {
+      "id": "SCR-PRJ-01",
+      "name": "Projects list (المشاريع)",
+      "route": "/projects (routes/projects.index.tsx); legacy /initiatives redirects here with ?source=initiative",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PRJ-02",
+      "name": "New initiative dialog (مبادرة جديدة)",
+      "route": "InitiativeDialog in routes/projects.index.tsx",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PRJ-03",
+      "name": "Project detail (تفاصيل المشروع)",
+      "route": "/projects/$id (routes/projects.$id.tsx)",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin",
+        "applicant"
+      ]
+    },
+    {
+      "id": "SCR-PRJ-04",
+      "name": "Project indicators panel (مؤشرات المشروع)",
+      "route": "ProjectIndicators in components/Indicators.tsx (embedded in SCR-PRJ-03)",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin",
+        "applicant"
+      ]
+    },
+    {
+      "id": "SCR-PRJ-05",
+      "name": "Project execution tree / timeline (خطة المشروع)",
+      "route": "ProjectTree in components/ProjectTree.tsx (embedded in SCR-PRJ-03)",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin",
+        "applicant"
+      ]
+    },
+    {
+      "id": "SCR-PRJ-06",
+      "name": "Re-plan request / pending banner / history (طلب إعادة تخطيط · سجل إعادة التخطيط)",
+      "route": "ProjectReplan in components/ProjectReplan.tsx",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PRJ-07",
+      "name": "Contract document dialog (عقد منحة)",
+      "route": "ContractDocument in components/ContractDocument.tsx",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin",
+        "applicant"
+      ]
+    },
+    {
+      "id": "SCR-PRJ-08",
+      "name": "Contracts register (العقود)",
+      "route": "/contracts (routes/contracts.tsx)",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PRJ-09",
+      "name": "BOQ & payment schedule panel (جدول الكميات والدفعات)",
+      "route": "BoqSchedule in components/BoqSchedule.tsx (embedded in /reviewer/$id, REV)",
+      "roles": [
+        "grants_manager",
+        "reviewer",
+        "committee_secretary",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PRJ-10",
+      "name": "Approve contract & transfer dialog (اعتماد العقد وترحيله إلى مشاريع)",
+      "route": "TransferDialog in components/BoqSchedule.tsx (embedded in /reviewer/$id)",
+      "roles": [
+        "grants_manager",
+        "ceo",
+        "admin"
+      ]
+    },
+    {
+      "id": "SCR-PRJ-11",
+      "name": "Contract card on application (العقد)",
+      "route": "ContractCard in components/BoqSchedule.tsx (embedded in /reviewer/$id)",
+      "roles": [
+        "grants_manager",
+        "reviewer",
+        "committee_secretary",
+        "ceo",
+        "admin"
+      ]
+    }
+  ],
+  "epics": [
+    {
+      "id": "EP-PRJ-01",
+      "name": "Contracting & Project Creation",
+      "description": "Bill of quantities and payment schedule, contract approval and transfer of approved applications into one or more projects, contract lifecycle, register and generated contract document."
+    },
+    {
+      "id": "EP-PRJ-02",
+      "name": "Project Portfolio & Initiatives",
+      "description": "Portfolio list of grant projects and internal initiatives, initiative creation and the project overview (header, finance, funding split)."
+    },
+    {
+      "id": "EP-PRJ-03",
+      "name": "Project Planning & Start of Execution",
+      "description": "AI-generated execution plan (phases, tasks, dependencies, evidence, payments), indicator spread over activities and the manual StartExecution gate."
+    },
+    {
+      "id": "EP-PRJ-04",
+      "name": "Execution Monitoring",
+      "description": "Partner task completion and evidence, grantor review with AI pre-check, phase reports, milestone approval that releases phase payments, progress and stalled status."
+    },
+    {
+      "id": "EP-PRJ-05",
+      "name": "Plan Revisions",
+      "description": "Re-planning of remaining work after start, through project_plan_revisions approved by a person other than the requester."
+    },
+    {
+      "id": "EP-PRJ-06",
+      "name": "Closure & Indicator Achievement",
+      "description": "Final evaluation and closure approval, milestone indicator confirmation, quantitative achievement by accepted evidence and roll-up."
+    }
+  ],
+  "features": [
+    {
+      "id": "FT-PRJ-01",
+      "epic": "EP-PRJ-01",
+      "name": "BOQ & payment schedule preparation",
+      "description": "AI-proposed bill of quantities (items, qty, unit cost) and payment schedule (title, %, due days) for an application, edited and saved by staff before transfer.",
+      "roles": [
+        "grants_manager",
+        "reviewer",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PRJ-09"
+      ],
+      "requirements": [
+        "FR-PRJ-001",
+        "FR-PRJ-002",
+        "FR-PRJ-003",
+        "FR-PRJ-004"
+      ],
+      "stories": [
+        "US-PRJ-001",
+        "US-PRJ-002"
+      ],
+      "rules": [
+        "BR-PRJ-04",
+        "BR-PRJ-05"
+      ],
+      "dependencies": [
+        "REV application detail",
+        "AI gateway (LOVABLE_API_KEY)"
+      ],
+      "acceptance_criteria": [
+        "BOQ with total ≠ requested amount cannot be saved.",
+        "Schedule rows must total 100% to save.",
+        "Editing is disabled once the application is transferred."
+      ],
+      "open_questions": [
+        "OQ-PRJ-04"
+      ]
+    },
+    {
+      "id": "FT-PRJ-02",
+      "epic": "EP-PRJ-01",
+      "name": "Contract approval & transfer to project(s) (BOQ split)",
+      "description": "Approve the contract of an approved application and transfer it into one project, or split BOQ items into several projects under one contract.",
+      "roles": [
+        "grants_manager",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PRJ-10",
+        "SCR-PRJ-03"
+      ],
+      "requirements": [
+        "FR-PRJ-005",
+        "FR-PRJ-006",
+        "FR-PRJ-007",
+        "FR-PRJ-008",
+        "FR-PRJ-009",
+        "FR-PRJ-010",
+        "FR-PRJ-055"
+      ],
+      "stories": [
+        "US-PRJ-003",
+        "US-PRJ-004",
+        "US-PRJ-005"
+      ],
+      "rules": [
+        "BR-PRJ-01",
+        "BR-PRJ-02",
+        "BR-PRJ-06",
+        "BR-PRJ-07",
+        "BR-PRJ-08",
+        "BR-PRJ-09",
+        "BR-PRJ-10",
+        "BR-PRJ-11",
+        "BR-PRJ-30"
+      ],
+      "dependencies": [
+        "REV (approved application)",
+        "PLN (plan level budget lock)",
+        "PRG (program defaults, RFP seeding)",
+        "FIN (payments)"
+      ],
+      "acceptance_criteria": [
+        "Approved, untransferred, non-product application can be transferred once.",
+        "Split creates N projects with budget = sum of assigned items and one contract.",
+        "Transfer is refused when the plan budget is locked.",
+        "User lands on the (first) created project."
+      ],
+      "open_questions": [
+        "OQ-PRJ-03",
+        "OQ-PRJ-04",
+        "OQ-PRJ-10"
+      ]
+    },
+    {
+      "id": "FT-PRJ-03",
+      "epic": "EP-PRJ-01",
+      "name": "Contract lifecycle & register",
+      "description": "Contract status progression to 'signed' and a register of all contracts with counters and linked projects; contract card on the application.",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PRJ-03",
+        "SCR-PRJ-08",
+        "SCR-PRJ-11"
+      ],
+      "requirements": [
+        "FR-PRJ-011",
+        "FR-PRJ-012",
+        "FR-PRJ-013",
+        "FR-PRJ-014"
+      ],
+      "stories": [
+        "US-PRJ-006",
+        "US-PRJ-007"
+      ],
+      "rules": [
+        "BR-PRJ-01",
+        "BR-PRJ-03",
+        "BR-PRJ-30",
+        "BR-PRJ-33"
+      ],
+      "dependencies": [
+        "FT-PRJ-02"
+      ],
+      "acceptance_criteria": [
+        "Contract moves only forward one step at a time.",
+        "Reaching 'signed' stamps signed_at.",
+        "Register shows counts per status and project links."
+      ],
+      "open_questions": [
+        "OQ-PRJ-01",
+        "OQ-PRJ-05",
+        "OQ-PRJ-13"
+      ]
+    },
+    {
+      "id": "FT-PRJ-04",
+      "epic": "EP-PRJ-01",
+      "name": "Generated contract document",
+      "description": "Printable Arabic grant contract generated live from tenant, partner, application, project and payment data, with e-signature stamp when signed.",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin",
+        "applicant (partner)"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PRJ-07"
+      ],
+      "requirements": [
+        "FR-PRJ-015",
+        "FR-PRJ-016"
+      ],
+      "stories": [
+        "US-PRJ-008"
+      ],
+      "rules": [
+        "BR-PRJ-03"
+      ],
+      "dependencies": [
+        "FT-PRJ-03",
+        "BEN (partner data)"
+      ],
+      "acceptance_criteria": [
+        "Document shows parties, subject, duration, amount, payment table, obligations and signature blocks.",
+        "Signed contracts show the e-signature stamp with date."
+      ],
+      "open_questions": [
+        "OQ-PRJ-05"
+      ]
+    },
+    {
+      "id": "FT-PRJ-05",
+      "epic": "EP-PRJ-02",
+      "name": "Project portfolio list",
+      "description": "List of grant projects and internal initiatives with source toggle, status counters/filter, configurable columns and export.",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PRJ-01"
+      ],
+      "requirements": [
+        "FR-PRJ-017",
+        "FR-PRJ-018"
+      ],
+      "stories": [
+        "US-PRJ-009"
+      ],
+      "rules": [
+        "BR-PRJ-29"
+      ],
+      "dependencies": [
+        "PLT DataTable / saved views"
+      ],
+      "acceptance_criteria": [
+        "Selecting a stat card filters the table.",
+        "Source toggle persists in the URL (?source).",
+        "Progress reflects weighted activity progress."
+      ],
+      "open_questions": [
+        "OQ-PRJ-07"
+      ]
+    },
+    {
+      "id": "FT-PRJ-06",
+      "epic": "EP-PRJ-02",
+      "name": "Internal initiative creation",
+      "description": "Create an internal initiative (projects.source='initiative') with plan item, department, manager, executor (internal or partner), dates and budget; optional AI form assist.",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PRJ-02",
+        "SCR-PRJ-01"
+      ],
+      "requirements": [
+        "FR-PRJ-019",
+        "FR-PRJ-020",
+        "FR-PRJ-021"
+      ],
+      "stories": [
+        "US-PRJ-010",
+        "US-PRJ-011"
+      ],
+      "rules": [
+        "BR-PRJ-11",
+        "BR-PRJ-12"
+      ],
+      "dependencies": [
+        "PLN (plan levels)",
+        "CFG (departments)",
+        "BEN (partners)",
+        "PLT AI assist"
+      ],
+      "acceptance_criteria": [
+        "Initiative without title or with budget ≤0 is rejected.",
+        "End date before start date is rejected.",
+        "Created initiative appears under source 'مبادرات' in planning status."
+      ],
+      "open_questions": [
+        "OQ-PRJ-11"
+      ]
+    },
+    {
+      "id": "FT-PRJ-07",
+      "epic": "EP-PRJ-02",
+      "name": "Project overview (header, finance, funding)",
+      "description": "Project header with derived status, contract status, partner, references, links; actual progress meter; value and finance breakdown; read-only initiative allocations and co-funding; partner view of the same page.",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin",
+        "applicant (partner)"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PRJ-03"
+      ],
+      "requirements": [
+        "FR-PRJ-022",
+        "FR-PRJ-023",
+        "FR-PRJ-024"
+      ],
+      "stories": [
+        "US-PRJ-012",
+        "US-PRJ-013"
+      ],
+      "rules": [
+        "BR-PRJ-27",
+        "BR-PRJ-29",
+        "BR-PRJ-34"
+      ],
+      "dependencies": [
+        "FIN FinanceBreakdown",
+        "PLN allocations",
+        "REV co-funding"
+      ],
+      "acceptance_criteria": [
+        "Status pill shows derived status with reason tooltip.",
+        "Partner sees no staff actions.",
+        "Sibling badge 'مشروع i من N' appears for split contracts."
+      ],
+      "open_questions": [
+        "OQ-PRJ-01"
+      ]
+    },
+    {
+      "id": "FT-PRJ-08",
+      "epic": "EP-PRJ-03",
+      "name": "AI project plan (phases, tasks, dependencies, payments)",
+      "description": "Generate a sequential execution plan with AI from the project, application offer, external agent output and grantor policies: 3–5 weighted phases, 2–4 sub-tasks each with required evidence and due day, optional payment per phase; displayed as a filterable timeline.",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PRJ-05"
+      ],
+      "requirements": [
+        "FR-PRJ-025",
+        "FR-PRJ-026",
+        "FR-PRJ-027",
+        "FR-PRJ-028"
+      ],
+      "stories": [
+        "US-PRJ-014",
+        "US-PRJ-015"
+      ],
+      "rules": [
+        "BR-PRJ-13",
+        "BR-PRJ-14",
+        "BR-PRJ-15",
+        "BR-PRJ-31",
+        "BR-PRJ-32"
+      ],
+      "dependencies": [
+        "AI gateway",
+        "FIN payments"
+      ],
+      "acceptance_criteria": [
+        "Plan generation is refused once execution started.",
+        "Each generated phase depends on the previous one.",
+        "Regeneration asks for confirmation and replaces activities."
+      ],
+      "open_questions": [
+        "OQ-PRJ-04",
+        "OQ-PRJ-08",
+        "OQ-PRJ-14"
+      ]
+    },
+    {
+      "id": "FT-PRJ-09",
+      "epic": "EP-PRJ-03",
+      "name": "Indicator spread over activities",
+      "description": "Distribute each quantitative indicator linked at application stage over plan activities (quantity per activity) during planning, with under/over-distribution warnings.",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PRJ-04"
+      ],
+      "requirements": [
+        "FR-PRJ-029",
+        "FR-PRJ-030",
+        "FR-PRJ-031"
+      ],
+      "stories": [
+        "US-PRJ-016"
+      ],
+      "rules": [
+        "BR-PRJ-17",
+        "BR-PRJ-18",
+        "BR-PRJ-19"
+      ],
+      "dependencies": [
+        "PLN plan_indicators",
+        "REV indicator linking"
+      ],
+      "acceptance_criteria": [
+        "Distribution is editable only in planning.",
+        "Each activity can carry one indicator distribution.",
+        "Under- and over-distribution are flagged."
+      ],
+      "open_questions": [
+        "OQ-PRJ-03"
+      ]
+    },
+    {
+      "id": "FT-PRJ-10",
+      "epic": "EP-PRJ-03",
+      "name": "Start execution gate",
+      "description": "Manual 'اعتماد الخطة وبدء التنفيذ' action moving a project from planning to in_progress when plan, signed contract and full indicator spread exist.",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PRJ-03"
+      ],
+      "requirements": [
+        "FR-PRJ-032",
+        "FR-PRJ-033",
+        "FR-PRJ-054"
+      ],
+      "stories": [
+        "US-PRJ-017"
+      ],
+      "rules": [
+        "BR-PRJ-16",
+        "BR-PRJ-17"
+      ],
+      "dependencies": [
+        "FT-PRJ-03",
+        "FT-PRJ-08",
+        "FT-PRJ-09"
+      ],
+      "acceptance_criteria": [
+        "Button disabled with listed blockers if any condition fails.",
+        "On success status becomes in_progress."
+      ],
+      "open_questions": [
+        "OQ-PRJ-01",
+        "OQ-PRJ-10"
+      ]
+    },
+    {
+      "id": "FT-PRJ-11",
+      "epic": "EP-PRJ-04",
+      "name": "Task execution & evidence review",
+      "description": "Partner uploads evidence per required slot and submits tasks; grantor reviews with an advisory AI pre-check, accepts evidence, approves, returns with notes or revokes approval.",
+      "roles": [
+        "applicant (partner)",
+        "grants_manager",
+        "project_manager",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PRJ-05"
+      ],
+      "requirements": [
+        "FR-PRJ-034",
+        "FR-PRJ-035",
+        "FR-PRJ-036",
+        "FR-PRJ-037",
+        "FR-PRJ-038",
+        "FR-PRJ-056"
+      ],
+      "stories": [
+        "US-PRJ-018",
+        "US-PRJ-019",
+        "US-PRJ-020",
+        "US-PRJ-031"
+      ],
+      "rules": [
+        "BR-PRJ-15",
+        "BR-PRJ-17",
+        "BR-PRJ-20",
+        "BR-PRJ-21"
+      ],
+      "dependencies": [
+        "FileSlots / attachment_files",
+        "AI evidence check"
+      ],
+      "acceptance_criteria": [
+        "Partner cannot act on locked phases or blocked tasks.",
+        "Return requires notes and resets progress.",
+        "Accepting evidence approves the task."
+      ],
+      "open_questions": [
+        "OQ-PRJ-09",
+        "OQ-PRJ-01"
+      ]
+    },
+    {
+      "id": "FT-PRJ-12",
+      "epic": "EP-PRJ-04",
+      "name": "Phase reports & milestone approval",
+      "description": "Partner submits one report per phase; grantor approves/returns it; one-click milestone approval approves the phase and makes its payment due; phase payment stays locked until conditions are met.",
+      "roles": [
+        "applicant (partner)",
+        "grants_manager",
+        "project_manager",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PRJ-05"
+      ],
+      "requirements": [
+        "FR-PRJ-039",
+        "FR-PRJ-040",
+        "FR-PRJ-041",
+        "FR-PRJ-042"
+      ],
+      "stories": [
+        "US-PRJ-021",
+        "US-PRJ-022",
+        "US-PRJ-023"
+      ],
+      "rules": [
+        "BR-PRJ-21",
+        "BR-PRJ-22",
+        "BR-PRJ-23"
+      ],
+      "dependencies": [
+        "FIN PaymentActions"
+      ],
+      "acceptance_criteria": [
+        "Milestone approval unavailable until a report exists.",
+        "After approval the phase payment is 'due'.",
+        "Payment shows 'معلقة' with missing conditions until ready."
+      ],
+      "open_questions": [
+        "OQ-PRJ-08"
+      ]
+    },
+    {
+      "id": "FT-PRJ-13",
+      "epic": "EP-PRJ-04",
+      "name": "Project status & progress derivation",
+      "description": "Stored lifecycle (planning, in_progress, completed) plus a derived 'stalled' display status for overdue unapproved activities; execution 'started' detection.",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "finance",
+        "ceo",
+        "admin",
+        "applicant (partner)"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PRJ-03",
+        "SCR-PRJ-01"
+      ],
+      "requirements": [
+        "FR-PRJ-043",
+        "FR-PRJ-044"
+      ],
+      "stories": [
+        "US-PRJ-024"
+      ],
+      "rules": [
+        "BR-PRJ-14",
+        "BR-PRJ-27",
+        "BR-PRJ-29"
+      ],
+      "dependencies": [],
+      "acceptance_criteria": [
+        "A project with an overdue unapproved activity shows 'متعثر' with the count in the tooltip."
+      ],
+      "open_questions": [
+        "OQ-PRJ-07",
+        "OQ-PRJ-13"
+      ]
+    },
+    {
+      "id": "FT-PRJ-14",
+      "epic": "EP-PRJ-05",
+      "name": "Plan revision request & approval",
+      "description": "After execution starts, staff request a re-plan with a reason (and optional evidence); AI proposes changes to remaining work only; another person approves (applied) or rejects with a note; full history with diffs.",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "admin"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PRJ-06",
+        "SCR-PRJ-05"
+      ],
+      "requirements": [
+        "FR-PRJ-045",
+        "FR-PRJ-046",
+        "FR-PRJ-047",
+        "FR-PRJ-048",
+        "FR-PRJ-049"
+      ],
+      "stories": [
+        "US-PRJ-025",
+        "US-PRJ-026",
+        "US-PRJ-027"
+      ],
+      "rules": [
+        "BR-PRJ-14",
+        "BR-PRJ-24",
+        "BR-PRJ-25",
+        "BR-PRJ-26"
+      ],
+      "dependencies": [
+        "AI gateway",
+        "attachments bucket"
+      ],
+      "acceptance_criteria": [
+        "Requester cannot decide own request.",
+        "Locked items unchanged after apply.",
+        "Rejection requires a note.",
+        "Only one pending revision at a time."
+      ],
+      "open_questions": [
+        "OQ-PRJ-02",
+        "OQ-PRJ-12",
+        "OQ-PRJ-14"
+      ]
+    },
+    {
+      "id": "FT-PRJ-15",
+      "epic": "EP-PRJ-06",
+      "name": "Project closure & final evaluation",
+      "description": "Closure node unlocked after all phases are approved: staff write and save an evaluation and approve closure (status completed); milestone indicators confirmed.",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "admin",
+        "applicant (partner)"
+      ],
+      "priority": "Must",
+      "screens": [
+        "SCR-PRJ-03",
+        "SCR-PRJ-04"
+      ],
+      "requirements": [
+        "FR-PRJ-050",
+        "FR-PRJ-051",
+        "FR-PRJ-057"
+      ],
+      "stories": [
+        "US-PRJ-028",
+        "US-PRJ-029"
+      ],
+      "rules": [
+        "BR-PRJ-19",
+        "BR-PRJ-28"
+      ],
+      "dependencies": [
+        "FT-PRJ-12",
+        "FIN"
+      ],
+      "acceptance_criteria": [
+        "Closure locked until all phases approved.",
+        "Closure requires a non-empty evaluation.",
+        "After closure evaluation is read-only."
+      ],
+      "open_questions": [
+        "OQ-PRJ-06"
+      ]
+    },
+    {
+      "id": "FT-PRJ-16",
+      "epic": "EP-PRJ-06",
+      "name": "Indicator achievement tracking",
+      "description": "Automatic quantitative achievement from accepted evidence, displayed per project link, per activity chip and rolled up per plan item.",
+      "roles": [
+        "grants_manager",
+        "project_manager",
+        "ceo",
+        "admin",
+        "applicant (partner)"
+      ],
+      "priority": "Should",
+      "screens": [
+        "SCR-PRJ-04",
+        "SCR-PRJ-05"
+      ],
+      "requirements": [
+        "FR-PRJ-052",
+        "FR-PRJ-053"
+      ],
+      "stories": [
+        "US-PRJ-030"
+      ],
+      "rules": [
+        "BR-PRJ-19"
+      ],
+      "dependencies": [
+        "PLN LevelIndicators"
+      ],
+      "acceptance_criteria": [
+        "Accepting evidence on an activity with indicator qty increases achieved by that qty.",
+        "Achievement % capped at 100%."
+      ],
+      "open_questions": [
+        "OQ-PRJ-09"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "id": "FR-PRJ-001",
+      "feature": "FT-PRJ-01",
+      "stories": [
+        "US-PRJ-001"
+      ],
+      "statement": "The system shall generate a proposed bill of quantities (4–8 items) and payment schedule (2–4 rows) for an application using AI, from project title, description, requested amount and duration.",
+      "type": "AI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/BoqSchedule.tsx:36-42; lib/projectAi.server.ts:170-184",
+      "acceptance_criteria": [
+        "Given an application with requested amount X, when staff generate, then items total exactly X (last item adjusted).",
+        "Generated content is not saved until 'حفظ الجدولين'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-002",
+      "feature": "FT-PRJ-01",
+      "stories": [
+        "US-PRJ-002"
+      ],
+      "statement": "The system shall allow staff to edit BOQ item title, quantity and unit cost, add and delete items, and edit schedule title, percentage and due days inline, showing line totals and sums.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/BoqSchedule.tsx:50-94",
+      "acceptance_criteria": [
+        "Given an edited quantity, the line total and sum update immediately."
+      ]
+    },
+    {
+      "id": "FR-PRJ-003",
+      "feature": "FT-PRJ-01",
+      "stories": [
+        "US-PRJ-002"
+      ],
+      "statement": "The system shall save the BOQ and schedule to the application only when the rounded item total equals the requested amount and, if schedule rows exist, their percentages total 100%.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/BoqSchedule.tsx:43-49",
+      "acceptance_criteria": [
+        "Given total ≠ requested, when saving, then error 'مجموع البنود … لا يساوي قيمة الطلب' is shown and nothing is saved.",
+        "Given schedule % = 90, then error 'مجموع نسب الدفعات يجب أن يكون 100%'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-004",
+      "feature": "FT-PRJ-01",
+      "stories": [
+        "US-PRJ-002"
+      ],
+      "statement": "The system shall make the BOQ and schedule read-only for non-staff users and for transferred applications.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "routes/reviewer.$id.tsx:301",
+      "acceptance_criteria": [
+        "Given a transferred application, the BOQ shows no edit controls."
+      ]
+    },
+    {
+      "id": "FR-PRJ-005",
+      "feature": "FT-PRJ-02",
+      "stories": [
+        "US-PRJ-003"
+      ],
+      "statement": "The system shall offer 'اعتماد العقد وترحيله' on an approved, not yet transferred, non-product application and, on confirmation, create the contract (if required) and the project(s), then navigate to the first project.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "routes/reviewer.$id.tsx:205-217; lib/workflow.ts:140-205",
+      "acceptance_criteria": [
+        "Given an approved application, when staff confirm transfer in single mode, then one contract and one project in 'planning' are created and the user is redirected to it."
+      ]
+    },
+    {
+      "id": "FR-PRJ-006",
+      "feature": "FT-PRJ-02",
+      "stories": [
+        "US-PRJ-004"
+      ],
+      "statement": "The system shall allow splitting the BOQ into two or more projects: editable project titles (default = largest item's title), add/remove projects, assign each BOQ item to a project, and show each project's subtotal.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/BoqSchedule.tsx:101-158",
+      "acceptance_criteria": [
+        "Given a BOQ with <2 items, the split option is disabled with an explanation.",
+        "Given a project with no items, confirmation is disabled with 'كل مشروع يحتاج بنداً واحداً على الأقل'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-007",
+      "feature": "FT-PRJ-02",
+      "stories": [
+        "US-PRJ-003",
+        "US-PRJ-004"
+      ],
+      "statement": "The system shall set each created project's budget to the sum of its assigned BOQ items (single project: requested amount) and create its payments from the application payment schedule by percentage (non-RFP programs).",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "lib/workflow.ts:172-190",
+      "acceptance_criteria": [
+        "Given a split 60/40 of 1,000,000 and schedule 30/70, then project A gets payments 180,000/420,000 and project B 120,000/280,000."
+      ]
+    },
+    {
+      "id": "FR-PRJ-008",
+      "feature": "FT-PRJ-02",
+      "stories": [
+        "US-PRJ-003"
+      ],
+      "statement": "The system shall resolve project manager, contract requirement and plan level from transfer options, program defaults and application, and refuse the transfer if the plan level's plan is budget-locked.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "lib/workflow.ts:145-158",
+      "acceptance_criteria": [
+        "Given a budget-locked plan, transfer fails with 'ميزانية «…» مقفلة — لا يمكن اعتماد مشاريع جديدة منها'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-009",
+      "feature": "FT-PRJ-02",
+      "stories": [
+        "US-PRJ-005"
+      ],
+      "statement": "The system shall move application-stage co-funding, initiative allocations and indicator links to the (first) created project and, for RFP programs, seed activities and payments from the program definition.",
+      "type": "Integration",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "lib/workflow.ts:192-201; lib/rfp.ts:65-73",
+      "acceptance_criteria": [
+        "Given indicator links on the application, after transfer they are linked to the first project."
+      ]
+    },
+    {
+      "id": "FR-PRJ-010",
+      "feature": "FT-PRJ-02",
+      "stories": [
+        "US-PRJ-003"
+      ],
+      "statement": "The system shall mark the application as transferred and log a 'transfer' entry in the application status history with contract and project references.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "lib/workflow.ts:202-203",
+      "acceptance_criteria": [
+        "After transfer, application history shows 'ترحيل إلى عقد CON… ومشروع PRJ…' (or 'N مشاريع')."
+      ]
+    },
+    {
+      "id": "FR-PRJ-011",
+      "feature": "FT-PRJ-03",
+      "stories": [
+        "US-PRJ-006"
+      ],
+      "statement": "The system shall create one contract per transferred application (when required) with status 'preparing', amount = requested amount and an auto-generated CON reference.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "lib/workflow.ts:159-168; supabase/migrations/20261004093306_*.sql:105-113",
+      "acceptance_criteria": [
+        "Given has_contract=false, no contract is created and the history says 'بدون عقد'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-012",
+      "feature": "FT-PRJ-03",
+      "stories": [
+        "US-PRJ-006"
+      ],
+      "statement": "The system shall let staff advance a contract one step along preparing → awaiting_beneficiary → awaiting_signature → signed from the project header, stamping signed_at on 'signed'.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "routes/projects.$id.tsx:152,214-225",
+      "acceptance_criteria": [
+        "Given status awaiting_signature, when staff click advance, then status = signed and signed_at = now.",
+        "Given status signed, no advance button is shown."
+      ]
+    },
+    {
+      "id": "FR-PRJ-013",
+      "feature": "FT-PRJ-03",
+      "stories": [
+        "US-PRJ-007"
+      ],
+      "statement": "The system shall list all contracts newest first with counters per status, contract number, partner, application (link), amount, linked projects (links with budget), status and signed/created date.",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "routes/contracts.tsx:28-73",
+      "acceptance_criteria": [
+        "Empty register shows 'لا توجد عقود بعد'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-014",
+      "feature": "FT-PRJ-03",
+      "stories": [
+        "US-PRJ-007"
+      ],
+      "statement": "The system shall show a contract card on a transferred application with contract number (link to register), status, amount and the projects split from it.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/BoqSchedule.tsx:160-182; routes/reviewer.$id.tsx:375",
+      "acceptance_criteria": [
+        "Given a transferred application with 2 projects, the card lists both with budgets."
+      ]
+    },
+    {
+      "id": "FR-PRJ-015",
+      "feature": "FT-PRJ-04",
+      "stories": [
+        "US-PRJ-008"
+      ],
+      "statement": "The system shall generate a printable contract document from live data: parties (grantor tenant, partner license/region/city), subject (project, program, application number, description), duration, amount, payment table, IBAN, obligations and signature blocks.",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/ContractDocument.tsx:12-97",
+      "acceptance_criteria": [
+        "Given a project without payments, the table says 'تُحدد الدفعات عند اعتماد خطة المشروع'.",
+        "'طباعة / PDF' opens the browser print dialog."
+      ]
+    },
+    {
+      "id": "FR-PRJ-016",
+      "feature": "FT-PRJ-04",
+      "stories": [
+        "US-PRJ-008"
+      ],
+      "statement": "The system shall show an electronic signature stamp with the signing date on both party blocks when the contract is signed, otherwise 'بانتظار التوقيع'.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/ContractDocument.tsx:26,82-91",
+      "acceptance_criteria": [
+        "Given status signed, both blocks show 'تم التوقيع إلكترونياً · <date>'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-017",
+      "feature": "FT-PRJ-05",
+      "stories": [
+        "US-PRJ-009"
+      ],
+      "statement": "The system shall list projects with a source toggle (all/grant/initiative, kept in URL), five clickable status counters, a status-group filter with clear chip, and a table (project+ref link, executing org, value, progress, status; optional source, manager, contract status, duration) supporting column selection, saved view and export.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "routes/projects.index.tsx:28-99; components/DataTable.tsx",
+      "acceptance_criteria": [
+        "Given source=initiative, only initiatives are counted and listed.",
+        "Clicking 'متعثرة' filters to stalled projects."
+      ]
+    },
+    {
+      "id": "FR-PRJ-018",
+      "feature": "FT-PRJ-05",
+      "stories": [
+        "US-PRJ-009"
+      ],
+      "statement": "The system shall compute project progress as the weight-weighted average of activity progress, falling back to stored progress.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "lib/plans.ts:462-468; routes/projects.index.tsx:50",
+      "acceptance_criteria": [
+        "Given activities (weight 50, 100%) and (weight 50, 0%), progress = 50%."
+      ]
+    },
+    {
+      "id": "FR-PRJ-019",
+      "feature": "FT-PRJ-06",
+      "stories": [
+        "US-PRJ-010"
+      ],
+      "statement": "The system shall let staff create an internal initiative with title*, description, plan item (non-root levels of active plans), executor (internal or partner), department, project manager (default current user), start/end dates and budget*, saved as a project in 'planning'.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "routes/projects.index.tsx:101-160",
+      "acceptance_criteria": [
+        "Given no title, error 'اسم المبادرة مطلوب'.",
+        "Given budget empty/≤0, error 'أدخل ميزانية صحيحة'.",
+        "Given end < start, error 'تاريخ النهاية قبل البداية'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-020",
+      "feature": "FT-PRJ-06",
+      "stories": [
+        "US-PRJ-011"
+      ],
+      "statement": "The system shall offer AI assist on the initiative dialog that proposes values from free text for title, description, budget, dates, plan item, department and executor; values are applied only when the user accepts.",
+      "type": "AI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "routes/projects.index.tsx:133-144; AGENTS.md (AI form assist only proposes)",
+      "acceptance_criteria": [
+        "Given a proposal with an unknown department name, the department is left unchanged."
+      ]
+    },
+    {
+      "id": "FR-PRJ-021",
+      "feature": "FT-PRJ-06",
+      "stories": [
+        "US-PRJ-010"
+      ],
+      "statement": "The system shall redirect the legacy /initiatives route to /projects?source=initiative.",
+      "type": "UI",
+      "priority": "Could",
+      "evidence": "Observed",
+      "source": "routes/initiatives.tsx:1-6",
+      "acceptance_criteria": [
+        "Opening /initiatives lands on the projects list filtered to initiatives."
+      ]
+    },
+    {
+      "id": "FR-PRJ-022",
+      "feature": "FT-PRJ-07",
+      "stories": [
+        "US-PRJ-012"
+      ],
+      "statement": "The system shall display a project header with title, derived status pill with reason tooltip, contract status pill, partner link, reference, initiative marker, link to the source application, contract document, sibling badge ('مشروع i من N') and staff-only actions.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "routes/projects.$id.tsx:113-166",
+      "acceptance_criteria": [
+        "Given a split contract of 3 projects, the second shows 'مشروع 2 من 3 — عقد CON…'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-023",
+      "feature": "FT-PRJ-07",
+      "stories": [
+        "US-PRJ-012"
+      ],
+      "statement": "The system shall show actual progress (approved milestones of total), project value with finance breakdown (approved/due/paid), read-only multi-initiative allocations and read-only co-funding, plus duration, manager and plan item.",
+      "type": "Reporting",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "routes/projects.$id.tsx:157-165; lib/plans.ts:385-389",
+      "acceptance_criteria": [
+        "Given paid payments of 200,000 on a 1,000,000 project, the breakdown shows paid 200,000."
+      ]
+    },
+    {
+      "id": "FR-PRJ-024",
+      "feature": "FT-PRJ-07",
+      "stories": [
+        "US-PRJ-013"
+      ],
+      "statement": "The system shall render the project page for partner users without staff actions (no back link, start, contract advance, plan generation, replan, approvals), while allowing partner task, evidence and report actions.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "routes/projects.$id.tsx:102,113,137,152; components/ProjectTree.tsx",
+      "acceptance_criteria": [
+        "Given an applicant persona, the 'اعتماد الخطة وبدء التنفيذ' button is not shown."
+      ]
+    },
+    {
+      "id": "FR-PRJ-025",
+      "feature": "FT-PRJ-08",
+      "stories": [
+        "US-PRJ-014"
+      ],
+      "statement": "The system shall generate an execution plan with AI using project title/description, application offer and answers, external agent output, grantor policies, budget and duration: 3–5 phases with weights summing 100, 2–4 sub-tasks per phase with required evidence and due day, and an optional payment (percent of budget) per phase.",
+      "type": "AI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:75-111; lib/projectAi.server.ts:31-46",
+      "acceptance_criteria": [
+        "Given a project in planning with no activities, when 'بناء الخطة بالذكاء الاصطناعي' is clicked, then phases and sub-tasks appear in the timeline."
+      ]
+    },
+    {
+      "id": "FR-PRJ-026",
+      "feature": "FT-PRJ-08",
+      "stories": [
+        "US-PRJ-014"
+      ],
+      "statement": "The system shall allow regenerating the plan only before execution has started, after user confirmation, deleting existing activities and unpaid phase-linked payments.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:76-77,91-92,153-157",
+      "acceptance_criteria": [
+        "Given execution started, generation shows 'بدأ التنفيذ — استخدم طلب إعادة التخطيط'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-027",
+      "feature": "FT-PRJ-08",
+      "stories": [
+        "US-PRJ-015"
+      ],
+      "statement": "The system shall enforce sequential phases and task dependencies: each generated phase depends on the previous; only the first incomplete phase is current; later phases are locked with 'تُفتح بعد إتمام «…»'; sub-tasks with unapproved depends_on show 'بعد: …' and cannot be acted on.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:67-71,98,164-188,294,317,352",
+      "acceptance_criteria": [
+        "Given phase 1 incomplete, phase 2 shows a lock and its partner actions are disabled."
+      ]
+    },
+    {
+      "id": "FR-PRJ-028",
+      "feature": "FT-PRJ-08",
+      "stories": [
+        "US-PRJ-015"
+      ],
+      "statement": "The system shall present the plan as a vertical timeline with item filters (all/task/report/payment with counts), a toggle between milestone summary and partner task details, unlinked payments at start and retention payments at end, and a closure node.",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:113-209,215-216",
+      "acceptance_criteria": [
+        "Selecting 'دفعة' shows only phases with payments and loose payments."
+      ]
+    },
+    {
+      "id": "FR-PRJ-029",
+      "feature": "FT-PRJ-09",
+      "stories": [
+        "US-PRJ-016"
+      ],
+      "statement": "The system shall show each indicator linked to the project with kind (كمي/كلي), plan item, target, achieved and progress; no new indicator links can be added at project stage.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/Indicators.tsx:144-241",
+      "acceptance_criteria": [
+        "Given a project without links, the panel is hidden."
+      ]
+    },
+    {
+      "id": "FR-PRJ-030",
+      "feature": "FT-PRJ-09",
+      "stories": [
+        "US-PRJ-016"
+      ],
+      "statement": "The system shall allow staff, while the project is in planning, to assign a quantity of a quantitative indicator to a non-payment plan activity not yet carrying an indicator, and to remove such an assignment.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/Indicators.tsx:181-192,226-235",
+      "acceptance_criteria": [
+        "Given no activity or qty, error 'اختر النشاط وحدد الكمية'.",
+        "After start the distribution controls are hidden."
+      ]
+    },
+    {
+      "id": "FR-PRJ-031",
+      "feature": "FT-PRJ-09",
+      "stories": [
+        "US-PRJ-016"
+      ],
+      "statement": "The system shall warn when the distributed quantity of an indicator is below its target ('يجب توزيع المؤشر كاملاً') or above it ('تجاوز').",
+      "type": "UI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/Indicators.tsx:224-225",
+      "acceptance_criteria": [
+        "Given target 100 and distributed 120, a red over-distribution message shows 20."
+      ]
+    },
+    {
+      "id": "FR-PRJ-032",
+      "feature": "FT-PRJ-10",
+      "stories": [
+        "US-PRJ-017"
+      ],
+      "statement": "The system shall provide 'اعتماد الخطة وبدء التنفيذ' to staff on planning projects, disabled with a list of blockers unless: the plan has ≥1 non-payment activity; any contract is signed; every quantitative indicator link is distributed exactly to its target. On click the project status becomes in_progress.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "routes/projects.$id.tsx:137,237-260",
+      "acceptance_criteria": [
+        "Given an unsigned contract, the tooltip lists 'العقد لم يُوقّع بعد' and the button is disabled.",
+        "Given all conditions met, clicking sets status in_progress and shows 'بدأ تنفيذ المشروع'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-033",
+      "feature": "FT-PRJ-10",
+      "stories": [
+        "US-PRJ-017"
+      ],
+      "statement": "The system shall lock partner task actions (submit, upload) while the project is in planning.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:197,317,362",
+      "acceptance_criteria": [
+        "Given status planning, partner sees no submit icon on tasks."
+      ]
+    },
+    {
+      "id": "FR-PRJ-034",
+      "feature": "FT-PRJ-11",
+      "stories": [
+        "US-PRJ-018"
+      ],
+      "statement": "The system shall let the partner upload multiple files per required evidence slot (parsed from evidence_required, default 'ما يثبت الإنجاز') plus 'other', marking the task evidence as submitted; AI checks run per file.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:307-313,354-364; components/FileSlots.tsx",
+      "acceptance_criteria": [
+        "Given an approved task, upload is disabled."
+      ]
+    },
+    {
+      "id": "FR-PRJ-035",
+      "feature": "FT-PRJ-11",
+      "stories": [
+        "US-PRJ-018"
+      ],
+      "statement": "The system shall let the partner mark an open or returned task as completed (task_status=submitted) when the phase is not locked and its dependencies are approved.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:337-339",
+      "acceptance_criteria": [
+        "Given a returned task, the partner can resubmit it.",
+        "Given a blocked task, no submit action shows."
+      ]
+    },
+    {
+      "id": "FR-PRJ-036",
+      "feature": "FT-PRJ-11",
+      "stories": [
+        "US-PRJ-020"
+      ],
+      "statement": "The system shall let staff approve a submitted task (approved, progress 100), return it with mandatory notes (returned, progress 0, feedback timestamp) or revoke approval of an approved sub-task (back to submitted, progress 0).",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:315,341-349,388-396",
+      "acceptance_criteria": [
+        "Given empty notes, 'إرسال للجمعية' is disabled.",
+        "Partner sees the returned notes under 'ملاحظات المانح'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-037",
+      "feature": "FT-PRJ-11",
+      "stories": [
+        "US-PRJ-019"
+      ],
+      "statement": "The system shall show staff an AI pre-check (worst per-file verdict, minimum score, summary and issues) for submitted evidence and allow accepting the evidence (approves task), sending AI notes as-is, or editing notes before sending.",
+      "type": "AI",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:295-299,366-386",
+      "acceptance_criteria": [
+        "Given a 'fail' verdict, the panel is red but acceptance remains possible.",
+        "Accepting sets evidence_status=approved, task approved, progress 100."
+      ]
+    },
+    {
+      "id": "FR-PRJ-038",
+      "feature": "FT-PRJ-11",
+      "stories": [
+        "US-PRJ-020"
+      ],
+      "statement": "The system shall recompute a phase's progress as the average of its sub-tasks' progress whenever a sub-task is updated.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:273-279,304",
+      "acceptance_criteria": [
+        "Given 2 of 4 tasks approved, phase progress = 50%."
+      ]
+    },
+    {
+      "id": "FR-PRJ-039",
+      "feature": "FT-PRJ-12",
+      "stories": [
+        "US-PRJ-021"
+      ],
+      "statement": "The system shall let the partner submit one report per unlocked phase (title 'تقرير: <phase>', body required) and edit/resubmit it when returned.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:409-444",
+      "acceptance_criteria": [
+        "Given an empty body, 'إرسال' is disabled.",
+        "Resubmission sets status pending."
+      ]
+    },
+    {
+      "id": "FR-PRJ-040",
+      "feature": "FT-PRJ-12",
+      "stories": [
+        "US-PRJ-022"
+      ],
+      "statement": "The system shall let staff approve or return a submitted phase report.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:421-426",
+      "acceptance_criteria": [
+        "Given an approved report, the report line shows 'معتمد' with a badge."
+      ]
+    },
+    {
+      "id": "FR-PRJ-041",
+      "feature": "FT-PRJ-12",
+      "stories": [
+        "US-PRJ-023"
+      ],
+      "statement": "The system shall let staff approve the current milestone in one click once its report exists: approve all tasks and evidence, set phase progress 100, approve the report and move the phase payment from new/pending to due, after warning about AI-failed files.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:235-271; components/FileSlots.tsx:46-53",
+      "acceptance_criteria": [
+        "Given no report, the button is disabled with 'بانتظار تقرير الجمعية'.",
+        "After approval, toast 'اعتُمدت المحطة — الدفعة جاهزة للصرف'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-042",
+      "feature": "FT-PRJ-12",
+      "stories": [
+        "US-PRJ-023"
+      ],
+      "statement": "The system shall keep a phase payment locked ('معلقة' with missing conditions) until all phase tasks are approved, uploaded evidence accepted and the phase report approved, then expose the FIN payment actions.",
+      "type": "Integration",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:200,446-465",
+      "acceptance_criteria": [
+        "Given 2 open tasks, hover shows 'بانتظار اعتماد 2 مهام'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-043",
+      "feature": "FT-PRJ-13",
+      "stories": [
+        "US-PRJ-024"
+      ],
+      "statement": "The system shall derive the displayed project status: completed/closed and planning as stored; otherwise 'stalled' when any activity is overdue and not approved (with count), else the stored status.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "routes/projects.$id.tsx:103,124-127,227-235",
+      "acceptance_criteria": [
+        "Given an in-progress project with 2 overdue unapproved tasks, the pill shows 'متعثر' with tooltip '2 مهام تجاوزت موعدها دون اعتماد'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-044",
+      "feature": "FT-PRJ-13",
+      "stories": [
+        "US-PRJ-024"
+      ],
+      "statement": "The system shall consider execution started when any activity is approved, submitted/returned or has evidence, or any payment is past new/pending, and switch the plan toolbar from 'generate plan' to 'request re-plan'.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "lib/projectPlan.ts:21-27; components/ProjectTree.tsx:73,153-157",
+      "acceptance_criteria": [
+        "Given one task submitted, the toolbar shows 'طلب إعادة تخطيط'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-045",
+      "feature": "FT-PRJ-14",
+      "stories": [
+        "US-PRJ-025"
+      ],
+      "statement": "The system shall let staff request a re-plan of a started project with a mandatory reason (≥5 chars) and optional evidence file, generate an AI proposal for remaining work only, enforce locks, reject proposals whose payments exceed the budget, and preview a diff and new payments total before submitting.",
+      "type": "AI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/ProjectReplan.tsx:60-84,121-145; lib/projectPlan.ts:30-83; lib/projectAi.server.ts:121-132",
+      "acceptance_criteria": [
+        "Given payments total > budget, error 'مجموع الدفعات المقترحة يتجاوز قيمة المنحة…'.",
+        "Submitted revision is stored with before snapshot, proposed plan, requester and evidence path."
+      ]
+    },
+    {
+      "id": "FR-PRJ-046",
+      "feature": "FT-PRJ-14",
+      "stories": [
+        "US-PRJ-025"
+      ],
+      "statement": "The system shall allow only one pending revision per project and show a pending banner with requester, date, evidence link, reason and diff; work continues on the current plan meanwhile.",
+      "type": "UI",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/ProjectReplan.tsx:49,96-119",
+      "acceptance_criteria": [
+        "Given a pending revision, the request button is hidden."
+      ]
+    },
+    {
+      "id": "FR-PRJ-047",
+      "feature": "FT-PRJ-14",
+      "stories": [
+        "US-PRJ-026"
+      ],
+      "statement": "The system shall let a staff persona other than the requester approve (with optional note) or reject (note required) a pending revision, recording decider, note and time.",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "components/ProjectReplan.tsx:85-117; lib/projectPlan.ts:86-88,125",
+      "acceptance_criteria": [
+        "Given the requester views the banner, decision controls are replaced by 'بانتظار اعتماد شخص آخر'.",
+        "If the requester calls decide, error 'لا يمكن لمقدم الطلب اعتماده بنفسه'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-048",
+      "feature": "FT-PRJ-14",
+      "stories": [
+        "US-PRJ-026"
+      ],
+      "statement": "The system shall apply an approved revision: re-enforce locks against the current plan, delete unlocked removed tasks/phases/payments, update or insert phases (order, weight, due date = last task date), sub-tasks and payments.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "lib/projectPlan.ts:89-124",
+      "acceptance_criteria": [
+        "Given an approved task in the proposal changed by AI, after apply it is unchanged."
+      ]
+    },
+    {
+      "id": "FR-PRJ-049",
+      "feature": "FT-PRJ-14",
+      "stories": [
+        "US-PRJ-027"
+      ],
+      "statement": "The system shall show a revision history with status, requester/date, decider/date, reason, decision note and diff (add/change/remove counts).",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/ProjectReplan.tsx:98,147-165; lib/projectPlan.ts:45-67",
+      "acceptance_criteria": [
+        "Given 3 revisions, the history lists all newest first."
+      ]
+    },
+    {
+      "id": "FR-PRJ-050",
+      "feature": "FT-PRJ-15",
+      "stories": [
+        "US-PRJ-028"
+      ],
+      "statement": "The system shall unlock the closure step when all phases are approved, let staff save an evaluation and approve closure (requires non-empty evaluation) setting status 'completed', after which the evaluation is read-only.",
+      "type": "Functional",
+      "priority": "Must",
+      "evidence": "Observed",
+      "source": "routes/projects.$id.tsx:172-199; components/ProjectTree.tsx:208",
+      "acceptance_criteria": [
+        "Given an incomplete phase, closure shows 'يُفتح بعد اعتماد كل المراحل'.",
+        "Given an empty evaluation, 'اعتماد إغلاق المشروع' is disabled."
+      ]
+    },
+    {
+      "id": "FR-PRJ-051",
+      "feature": "FT-PRJ-15",
+      "stories": [
+        "US-PRJ-029"
+      ],
+      "statement": "The system shall let staff confirm or un-confirm a milestone (كلي) indicator when the project is closing/completed/closed (achieved = target or 0).",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/Indicators.tsx:176-180,212",
+      "acceptance_criteria": [
+        "Given a completed project, staff click 'تأكيد التحقق' and the indicator shows 'تحقق'."
+      ]
+    },
+    {
+      "id": "FR-PRJ-052",
+      "feature": "FT-PRJ-16",
+      "stories": [
+        "US-PRJ-030"
+      ],
+      "statement": "The system shall compute quantitative achievement per project indicator link as the sum of indicator_qty of activities whose evidence is approved, show it per link and as a chip on each task ('مؤشر: +qty').",
+      "type": "Reporting",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/Indicators.tsx:33-37,215-223; components/ProjectTree.tsx:329-333",
+      "acceptance_criteria": [
+        "Given evidence accepted on a task with qty 20, achieved increases by 20."
+      ]
+    },
+    {
+      "id": "FR-PRJ-053",
+      "feature": "FT-PRJ-16",
+      "stories": [
+        "US-PRJ-030"
+      ],
+      "statement": "The system shall roll up, per plan indicator, the targets assigned and achieved across all linked projects and flag over-assignment (displayed in the plan module).",
+      "type": "Integration",
+      "priority": "Should",
+      "evidence": "Observed",
+      "source": "components/Indicators.tsx:44-137 (see module PLN)",
+      "acceptance_criteria": [
+        "Given two projects achieving 30 and 40, the plan indicator shows achieved 70."
+      ]
+    },
+    {
+      "id": "FR-PRJ-054",
+      "feature": "FT-PRJ-10",
+      "stories": [
+        "US-PRJ-017"
+      ],
+      "statement": "The system shall enforce project, contract, task, report, revision and closure transitions and role permissions server-side (state preconditions, approver ≠ requester, partner ownership).",
+      "type": "Security",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "ISS-PRJ-01, ISS-PRJ-02, ISS-PRJ-03",
+      "acceptance_criteria": [
+        "Given a direct API call to set in_progress on a project with an unsigned contract, the server rejects it."
+      ]
+    },
+    {
+      "id": "FR-PRJ-055",
+      "feature": "FT-PRJ-02",
+      "stories": [
+        "US-PRJ-005"
+      ],
+      "statement": "The system shall perform transfer (contract, projects, payments, moved commitments, history) and revision application atomically.",
+      "type": "Data",
+      "priority": "Must",
+      "evidence": "Recommended",
+      "source": "ISS-PRJ-06",
+      "acceptance_criteria": [
+        "Given a failure creating the second project, no contract or project remains."
+      ]
+    },
+    {
+      "id": "FR-PRJ-056",
+      "feature": "FT-PRJ-11",
+      "stories": [
+        "US-PRJ-031"
+      ],
+      "statement": "The system shall surface project items awaiting action (submitted tasks/evidence, submitted reports, pending revisions for eligible approvers, returned items for the partner) in the task inbox.",
+      "type": "Integration",
+      "priority": "Should",
+      "evidence": "Recommended",
+      "source": "ISS-PRJ-18; lib/tasks.ts",
+      "acceptance_criteria": [
+        "Given a submitted report, the project manager sees a task linking to the project."
+      ]
+    },
+    {
+      "id": "FR-PRJ-057",
+      "feature": "FT-PRJ-15",
+      "stories": [
+        "US-PRJ-028"
+      ],
+      "statement": "The system shall require a closure checklist before closure approval: all payments settled (incl. retention), receipts uploaded, milestone indicators confirmed.",
+      "type": "Functional",
+      "priority": "Should",
+      "evidence": "Recommended",
+      "source": "ISS-PRJ-07, ISS-PRJ-08",
+      "acceptance_criteria": [
+        "Given an unpaid retention payment, closure approval is blocked with the reason."
+      ]
+    }
+  ],
+  "stories": [
+    {
+      "id": "US-PRJ-001",
+      "epic": "EP-PRJ-01",
+      "feature": "FT-PRJ-01",
+      "role": "Grants manager",
+      "story": "As a grants manager I want the AI agent to propose a bill of quantities and payment schedule for an application so that I start from a costed breakdown instead of a blank table.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-001"
+      ],
+      "acceptance_criteria": [
+        "Given an application of 500,000 SAR, When I generate, Then the item total equals 500,000 SAR.",
+        "Given a generated proposal, When I leave without saving, Then nothing is stored on the application."
+      ],
+      "dependencies": [
+        "AI gateway"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PRJ-002",
+      "epic": "EP-PRJ-01",
+      "feature": "FT-PRJ-01",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to edit and save the BOQ and payment schedule with automatic consistency checks so that the approved budget and payment percentages are correct before contracting.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-002",
+        "FR-PRJ-003",
+        "FR-PRJ-004"
+      ],
+      "acceptance_criteria": [
+        "Given items totalling 480,000 for a 500,000 request, When I save, Then I see the mismatch error and nothing is saved.",
+        "Given items totalling 500,000 and schedule 30/70, When I save, Then 'حُفظ جدول الكميات والدفعات' is shown and the data is stored.",
+        "Given the application is transferred, When I open it, Then the tables are read-only."
+      ],
+      "dependencies": [
+        "US-PRJ-001"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PRJ-003",
+      "epic": "EP-PRJ-01",
+      "feature": "FT-PRJ-02",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to approve the contract and transfer an approved application into a project so that execution and payments can be managed.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-005",
+        "FR-PRJ-007",
+        "FR-PRJ-008",
+        "FR-PRJ-010"
+      ],
+      "acceptance_criteria": [
+        "Given an approved 1,000,000 SAR application with schedule 20/80, When I transfer as one project, Then one contract (preparing, 1,000,000) and one project with payments 200,000 and 800,000 are created.",
+        "Given the plan is budget-locked, When I transfer, Then I see 'ميزانية «…» مقفلة' and nothing is created.",
+        "Given a successful transfer, When it completes, Then I land on the new project page and the application is marked transferred."
+      ],
+      "dependencies": [
+        "REV final approval",
+        "PLN"
+      ],
+      "open_questions": [
+        "OQ-PRJ-04",
+        "OQ-PRJ-10"
+      ]
+    },
+    {
+      "id": "US-PRJ-004",
+      "epic": "EP-PRJ-01",
+      "feature": "FT-PRJ-02",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to split an application's BOQ items into several projects under one contract so that distinct deliverables are planned, executed and paid separately.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-006",
+        "FR-PRJ-007"
+      ],
+      "acceptance_criteria": [
+        "Given BOQ items A=600,000 and B=400,000, When I assign A to project 1 and B to project 2, Then two projects with budgets 600,000 and 400,000 are created under one contract of 1,000,000.",
+        "Given project 3 has no items, When I try to confirm, Then the button is disabled with 'كل مشروع يحتاج بنداً واحداً على الأقل'."
+      ],
+      "dependencies": [
+        "US-PRJ-002"
+      ],
+      "open_questions": [
+        "OQ-PRJ-03"
+      ]
+    },
+    {
+      "id": "US-PRJ-005",
+      "epic": "EP-PRJ-01",
+      "feature": "FT-PRJ-02",
+      "role": "Grants manager",
+      "story": "As a grants manager I want indicator links, initiative allocations and co-funding agreed at application stage to carry over to the project, atomically, so that commitments are not lost or duplicated.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-009",
+        "FR-PRJ-055"
+      ],
+      "acceptance_criteria": [
+        "Given an application with 2 indicator links, When transferred, Then the project indicators panel shows both links.",
+        "Given a failure while creating a project [Recommended], When the transfer aborts, Then no contract or project remains."
+      ],
+      "dependencies": [
+        "REV",
+        "PLN"
+      ],
+      "open_questions": [
+        "OQ-PRJ-03"
+      ]
+    },
+    {
+      "id": "US-PRJ-006",
+      "epic": "EP-PRJ-01",
+      "feature": "FT-PRJ-03",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to advance a contract through its preparation and signature steps so that the project can start only once the contract is signed.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-011",
+        "FR-PRJ-012"
+      ],
+      "acceptance_criteria": [
+        "Given a contract in 'بانتظار التوقيع', When I advance, Then it becomes 'موقّع' and signed_at is set.",
+        "Given a signed contract, When I open the project, Then no advance button is shown."
+      ],
+      "dependencies": [
+        "US-PRJ-003"
+      ],
+      "open_questions": [
+        "OQ-PRJ-05",
+        "OQ-PRJ-01"
+      ]
+    },
+    {
+      "id": "US-PRJ-007",
+      "epic": "EP-PRJ-01",
+      "feature": "FT-PRJ-03",
+      "role": "Grants manager",
+      "story": "As a grants manager I want a contracts register and a contract card on the application so that I can see every contract's status and the projects split from it.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PRJ-013",
+        "FR-PRJ-014"
+      ],
+      "acceptance_criteria": [
+        "Given 3 signed contracts, When I open the register, Then the 'موقّع' counter shows 3.",
+        "Given a contract split into 2 projects, When I view its row, Then both project references with budgets are listed."
+      ],
+      "dependencies": [
+        "US-PRJ-003"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PRJ-008",
+      "epic": "EP-PRJ-01",
+      "feature": "FT-PRJ-04",
+      "role": "Grants manager / Partner",
+      "story": "As a grants manager or partner I want to view and print the grant contract generated from current data so that both parties have a contract document without manual drafting.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PRJ-015",
+        "FR-PRJ-016"
+      ],
+      "acceptance_criteria": [
+        "Given a signed contract, When I open the document, Then both signature blocks show the e-signature stamp with date.",
+        "Given an unsigned contract, When I open it, Then blocks show 'بانتظار التوقيع'."
+      ],
+      "dependencies": [
+        "BEN"
+      ],
+      "open_questions": [
+        "OQ-PRJ-05"
+      ]
+    },
+    {
+      "id": "US-PRJ-009",
+      "epic": "EP-PRJ-02",
+      "feature": "FT-PRJ-05",
+      "role": "Grants manager / CEO",
+      "story": "As a grants manager I want to browse, filter and export the project portfolio so that I can monitor execution across grants and initiatives.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-017",
+        "FR-PRJ-018"
+      ],
+      "acceptance_criteria": [
+        "Given 4 initiatives and 10 grants, When I select 'مبادرات', Then the total counter shows 4.",
+        "Given a status filter 'قيد الإعداد', When applied, Then only planning projects are listed and a clear chip appears."
+      ],
+      "dependencies": [
+        "PLT DataTable"
+      ],
+      "open_questions": [
+        "OQ-PRJ-07"
+      ]
+    },
+    {
+      "id": "US-PRJ-010",
+      "epic": "EP-PRJ-02",
+      "feature": "FT-PRJ-06",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to create an internal initiative linked to a plan item so that grantor-run work is tracked like grant projects.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PRJ-019",
+        "FR-PRJ-021"
+      ],
+      "acceptance_criteria": [
+        "Given a title and 300,000 budget, When I save, Then an initiative in 'إعداد الخطة' appears under 'مبادرات'.",
+        "Given an end date before the start date, When I save, Then 'تاريخ النهاية قبل البداية' is shown."
+      ],
+      "dependencies": [
+        "PLN",
+        "CFG"
+      ],
+      "open_questions": [
+        "OQ-PRJ-11"
+      ]
+    },
+    {
+      "id": "US-PRJ-011",
+      "epic": "EP-PRJ-02",
+      "feature": "FT-PRJ-06",
+      "role": "Grants manager",
+      "story": "As a grants manager I want AI to prefill the initiative form from a short description so that I create initiatives faster while keeping control of the values.",
+      "priority": "Could",
+      "requirements": [
+        "FR-PRJ-020"
+      ],
+      "acceptance_criteria": [
+        "Given 'تدريب 50 شاباً بميزانية 300 ألف', When I apply, Then title and budget 300,000 are filled.",
+        "Given a proposed department not in the list, When I apply, Then the department stays empty."
+      ],
+      "dependencies": [
+        "PLT AiAssist"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PRJ-012",
+      "epic": "EP-PRJ-02",
+      "feature": "FT-PRJ-07",
+      "role": "Project manager",
+      "story": "As a project manager I want a project overview showing status, contract, partner, progress and finance so that I understand the project at a glance.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-022",
+        "FR-PRJ-023"
+      ],
+      "acceptance_criteria": [
+        "Given 2 of 4 phases approved, When I open the project, Then the meter text shows '2 من 4 محطات معتمدة'.",
+        "Given paid payments, When I open the project, Then the finance breakdown shows the paid amount."
+      ],
+      "dependencies": [
+        "FIN",
+        "PLN"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PRJ-013",
+      "epic": "EP-PRJ-02",
+      "feature": "FT-PRJ-07",
+      "role": "Partner (applicant)",
+      "story": "As a partner I want to open my project from the portal in a partner view so that I can execute my tasks without seeing grantor controls.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-024"
+      ],
+      "acceptance_criteria": [
+        "Given an applicant persona, When I open my project, Then I see no start, contract advance, plan generation or approval buttons.",
+        "Given another organization's project [Recommended], When I open it by URL, Then access is denied."
+      ],
+      "dependencies": [
+        "PTL portal"
+      ],
+      "open_questions": [
+        "OQ-PRJ-01"
+      ]
+    },
+    {
+      "id": "US-PRJ-014",
+      "epic": "EP-PRJ-03",
+      "feature": "FT-PRJ-08",
+      "role": "Project manager",
+      "story": "As a project manager I want AI to build the project plan from the application and grantor policies so that a sequenced, evidence-based plan with payments is ready quickly.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-025",
+        "FR-PRJ-026"
+      ],
+      "acceptance_criteria": [
+        "Given a planning project without activities, When I generate, Then 3–5 phases with sub-tasks and due dates appear.",
+        "Given an existing plan, When I regenerate and cancel the confirmation, Then the plan is unchanged.",
+        "Given a submitted task exists, When I try to generate, Then I am told to use a re-plan request."
+      ],
+      "dependencies": [
+        "AI gateway"
+      ],
+      "open_questions": [
+        "OQ-PRJ-04",
+        "OQ-PRJ-08"
+      ]
+    },
+    {
+      "id": "US-PRJ-015",
+      "epic": "EP-PRJ-03",
+      "feature": "FT-PRJ-08",
+      "role": "Project manager / Partner",
+      "story": "As a project manager or partner I want a sequential timeline with locked future phases, dependency hints and item filters so that everyone knows what is current and what comes next.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PRJ-027",
+        "FR-PRJ-028"
+      ],
+      "acceptance_criteria": [
+        "Given phase 1 incomplete, When I view phase 2, Then it shows a lock and 'تُفتح بعد إتمام «phase 1»'.",
+        "Given filter 'تقرير', When selected, Then only phase report lines are shown."
+      ],
+      "dependencies": [
+        "US-PRJ-014"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PRJ-016",
+      "epic": "EP-PRJ-03",
+      "feature": "FT-PRJ-09",
+      "role": "Project manager",
+      "story": "As a project manager I want to distribute each quantitative indicator over plan activities during planning so that achievement is measured by accepted evidence.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-029",
+        "FR-PRJ-030",
+        "FR-PRJ-031"
+      ],
+      "acceptance_criteria": [
+        "Given target 100, When I assign 60 and 40 to two activities, Then the under-distribution warning disappears.",
+        "Given the project is in progress, When I view indicators, Then distribution controls are hidden."
+      ],
+      "dependencies": [
+        "US-PRJ-005",
+        "US-PRJ-014"
+      ],
+      "open_questions": [
+        "OQ-PRJ-03"
+      ]
+    },
+    {
+      "id": "US-PRJ-017",
+      "epic": "EP-PRJ-03",
+      "feature": "FT-PRJ-10",
+      "role": "Project manager",
+      "story": "As a project manager I want to approve the plan and start execution only when the plan, signed contract and full indicator spread are in place so that partners do not execute or get paid prematurely.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-032",
+        "FR-PRJ-033",
+        "FR-PRJ-054"
+      ],
+      "acceptance_criteria": [
+        "Given an unsigned contract, When I hover, Then 'العقد لم يُوقّع بعد' is listed and the button is disabled.",
+        "Given an indicator distributed 80 of 100, When I hover, Then 'المؤشر «…» موزّع 80 من 100' is listed.",
+        "Given all conditions met, When I click, Then status becomes 'قيد التنفيذ' and partner task actions unlock."
+      ],
+      "dependencies": [
+        "US-PRJ-006",
+        "US-PRJ-016"
+      ],
+      "open_questions": [
+        "OQ-PRJ-01",
+        "OQ-PRJ-10"
+      ]
+    },
+    {
+      "id": "US-PRJ-018",
+      "epic": "EP-PRJ-04",
+      "feature": "FT-PRJ-11",
+      "role": "Partner (applicant)",
+      "story": "As a partner I want to upload evidence for each required document and mark my task complete so that the grantor can verify and approve my work.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-034",
+        "FR-PRJ-035"
+      ],
+      "acceptance_criteria": [
+        "Given an open task in the current phase, When I upload a file, Then the task evidence shows as submitted.",
+        "Given a returned task, When I resubmit, Then its status becomes 'بانتظار اعتماد المانح'.",
+        "Given an approved task, When I view it, Then upload is disabled."
+      ],
+      "dependencies": [
+        "FileSlots"
+      ],
+      "open_questions": [
+        "OQ-PRJ-09"
+      ]
+    },
+    {
+      "id": "US-PRJ-019",
+      "epic": "EP-PRJ-04",
+      "feature": "FT-PRJ-11",
+      "role": "Project manager",
+      "story": "As a project manager I want an AI pre-check of submitted evidence with ready-to-send notes so that I review documents faster while keeping the final decision.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PRJ-037"
+      ],
+      "acceptance_criteria": [
+        "Given a 'fail' verdict, When I click 'قبول الشاهد', Then the evidence and task are approved (advisory AI).",
+        "Given AI notes, When I click send as-is, Then the task is returned with those notes."
+      ],
+      "dependencies": [
+        "AI evidence check"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PRJ-020",
+      "epic": "EP-PRJ-04",
+      "feature": "FT-PRJ-11",
+      "role": "Project manager",
+      "story": "As a project manager I want to approve, return with notes or revoke approval of partner tasks so that only verified work counts toward progress and payments.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-036",
+        "FR-PRJ-038"
+      ],
+      "acceptance_criteria": [
+        "Given a submitted task, When I approve, Then it shows 'معتمدة من المانح' and phase progress updates.",
+        "Given I return a task with notes, When the partner opens it, Then the notes appear under 'ملاحظات المانح' and progress is 0."
+      ],
+      "dependencies": [
+        "US-PRJ-018"
+      ],
+      "open_questions": [
+        "OQ-PRJ-01"
+      ]
+    },
+    {
+      "id": "US-PRJ-021",
+      "epic": "EP-PRJ-04",
+      "feature": "FT-PRJ-12",
+      "role": "Partner (applicant)",
+      "story": "As a partner I want to submit a report for each phase so that the grantor can approve the milestone and release the payment.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-039"
+      ],
+      "acceptance_criteria": [
+        "Given a current phase without report, When I submit a summary, Then the line shows 'بانتظار اعتماد المانح'.",
+        "Given a returned report, When I resubmit, Then its status returns to pending."
+      ],
+      "dependencies": [],
+      "open_questions": []
+    },
+    {
+      "id": "US-PRJ-022",
+      "epic": "EP-PRJ-04",
+      "feature": "FT-PRJ-12",
+      "role": "Project manager",
+      "story": "As a project manager I want to approve or return phase reports so that each payment is backed by an approved progress report.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-040"
+      ],
+      "acceptance_criteria": [
+        "Given a submitted report, When I approve, Then it shows 'معتمد'.",
+        "Given I return it, When the partner opens the phase, Then the edit/resubmit action is available."
+      ],
+      "dependencies": [
+        "US-PRJ-021"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PRJ-023",
+      "epic": "EP-PRJ-04",
+      "feature": "FT-PRJ-12",
+      "role": "Project manager",
+      "story": "As a project manager I want to approve a whole milestone in one click so that the phase is closed and its payment becomes due for the finance chain.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-041",
+        "FR-PRJ-042"
+      ],
+      "acceptance_criteria": [
+        "Given a current phase with a report, When I approve the milestone, Then all tasks are approved, the report is approved and the phase payment status becomes 'due'.",
+        "Given open tasks and an unapproved report, When I hover the phase payment, Then 'معلقة' lists the missing conditions."
+      ],
+      "dependencies": [
+        "FIN payment chain"
+      ],
+      "open_questions": [
+        "OQ-PRJ-08"
+      ]
+    },
+    {
+      "id": "US-PRJ-024",
+      "epic": "EP-PRJ-04",
+      "feature": "FT-PRJ-13",
+      "role": "Grants manager",
+      "story": "As a grants manager I want projects with overdue unapproved tasks shown as stalled so that I can intervene early.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PRJ-043",
+        "FR-PRJ-044"
+      ],
+      "acceptance_criteria": [
+        "Given an in-progress project with an overdue unapproved task, When I open it, Then the pill shows 'متعثر' with the count.",
+        "Given the same project [Recommended], When I open the list, Then it is counted under 'متعثرة'."
+      ],
+      "dependencies": [],
+      "open_questions": [
+        "OQ-PRJ-07"
+      ]
+    },
+    {
+      "id": "US-PRJ-025",
+      "epic": "EP-PRJ-05",
+      "feature": "FT-PRJ-14",
+      "role": "Project manager",
+      "story": "As a project manager I want to request an AI-assisted re-plan of the remaining work with a reason and supporting document so that the plan reflects reality without altering completed or paid items.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-045",
+        "FR-PRJ-046"
+      ],
+      "acceptance_criteria": [
+        "Given a reason of 4 characters, When I try to propose, Then the button is disabled.",
+        "Given a proposal changing an approved task, When the draft is built, Then the approved task is unchanged.",
+        "Given I submit, When done, Then a pending banner appears and the request button is hidden."
+      ],
+      "dependencies": [
+        "AI gateway"
+      ],
+      "open_questions": [
+        "OQ-PRJ-12"
+      ]
+    },
+    {
+      "id": "US-PRJ-026",
+      "epic": "EP-PRJ-05",
+      "feature": "FT-PRJ-14",
+      "role": "Grants manager (approver)",
+      "story": "As an approver different from the requester I want to approve or reject a pending re-plan with a note so that plan changes follow four-eyes control.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-047",
+        "FR-PRJ-048"
+      ],
+      "acceptance_criteria": [
+        "Given I am the requester, When I view the banner, Then I cannot approve or reject.",
+        "Given another approver approves, When applied, Then unlocked items change per the proposal and the revision is 'معتمد' with decider and date.",
+        "Given I reject without a note, Then the reject button is disabled."
+      ],
+      "dependencies": [
+        "US-PRJ-025"
+      ],
+      "open_questions": [
+        "OQ-PRJ-02"
+      ]
+    },
+    {
+      "id": "US-PRJ-027",
+      "epic": "EP-PRJ-05",
+      "feature": "FT-PRJ-14",
+      "role": "Grants manager",
+      "story": "As a grants manager I want to see the history of plan revisions with their diffs so that plan changes are auditable.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PRJ-049"
+      ],
+      "acceptance_criteria": [
+        "Given an approved and a rejected revision, When I open history, Then both appear with status, requester, decider, note and diff.",
+        "Given a diff with more than 6 lines, When I click 'عرض كل التغييرات', Then all lines show."
+      ],
+      "dependencies": [
+        "US-PRJ-025"
+      ],
+      "open_questions": []
+    },
+    {
+      "id": "US-PRJ-028",
+      "epic": "EP-PRJ-06",
+      "feature": "FT-PRJ-15",
+      "role": "Project manager",
+      "story": "As a project manager I want to record a final evaluation and approve the project closure once all milestones are approved so that the project is formally completed.",
+      "priority": "Must",
+      "requirements": [
+        "FR-PRJ-050",
+        "FR-PRJ-057"
+      ],
+      "acceptance_criteria": [
+        "Given an incomplete phase, When I view the closure node, Then it shows 'يُفتح بعد اعتماد كل المراحل'.",
+        "Given an evaluation, When I approve closure, Then status becomes 'مكتمل' and the evaluation is read-only.",
+        "Given an unpaid retention payment [Recommended], When I approve closure, Then it is blocked with the reason."
+      ],
+      "dependencies": [
+        "FIN"
+      ],
+      "open_questions": [
+        "OQ-PRJ-06"
+      ]
+    },
+    {
+      "id": "US-PRJ-029",
+      "epic": "EP-PRJ-06",
+      "feature": "FT-PRJ-15",
+      "role": "Project manager",
+      "story": "As a project manager I want to confirm milestone (كلي) indicators at closure so that non-quantitative outcomes are recorded.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PRJ-051"
+      ],
+      "acceptance_criteria": [
+        "Given a completed project, When I confirm a milestone indicator, Then it shows 'تحقق' and counts at plan level.",
+        "Given a confirmed indicator, When I click 'إلغاء التحقق', Then achieved resets to 0."
+      ],
+      "dependencies": [
+        "US-PRJ-028"
+      ],
+      "open_questions": [
+        "OQ-PRJ-06"
+      ]
+    },
+    {
+      "id": "US-PRJ-030",
+      "epic": "EP-PRJ-06",
+      "feature": "FT-PRJ-16",
+      "role": "CEO / Grants manager",
+      "story": "As a CEO I want indicator achievement to update automatically from accepted evidence and roll up to plan items so that I can report outcomes against targets.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PRJ-052",
+        "FR-PRJ-053"
+      ],
+      "acceptance_criteria": [
+        "Given evidence accepted on an activity with qty 25, When I view the indicator, Then achieved increases by 25.",
+        "Given achieved exceeds target, When displayed, Then % is capped at 100."
+      ],
+      "dependencies": [
+        "PLN"
+      ],
+      "open_questions": [
+        "OQ-PRJ-09"
+      ]
+    },
+    {
+      "id": "US-PRJ-031",
+      "epic": "EP-PRJ-04",
+      "feature": "FT-PRJ-11",
+      "role": "Project manager / Partner",
+      "story": "As a project manager or partner I want project items awaiting my action to appear in my task inbox so that nothing waits unnoticed.",
+      "priority": "Should",
+      "requirements": [
+        "FR-PRJ-056"
+      ],
+      "acceptance_criteria": [
+        "Given a submitted report on my project, When I open Tasks, Then I see an item linking to the project [Recommended].",
+        "Given a pending revision I requested, When I open Tasks, Then it is not assigned to me [Recommended]."
+      ],
+      "dependencies": [
+        "TSK"
+      ],
+      "open_questions": [
+        "OQ-PRJ-01"
+      ]
+    }
+  ],
+  "rules": [
+    {
+      "id": "BR-PRJ-01",
+      "rule": "One contract is created per approved application when the program requires a contract (grant_programs.has_contract, default true); one contract may produce several projects.",
+      "evidence": "Observed",
+      "source": "lib/workflow.ts:152,159-168; routes/contracts.tsx:43"
+    },
+    {
+      "id": "BR-PRJ-02",
+      "rule": "Contract amount equals the application's requested_amount at transfer time; contract starts in status 'preparing'.",
+      "evidence": "Observed",
+      "source": "lib/workflow.ts:163"
+    },
+    {
+      "id": "BR-PRJ-03",
+      "rule": "Contract status advances strictly forward along preparing → awaiting_beneficiary → awaiting_signature → signed; signed_at is stamped when reaching 'signed'. No backward or cancel transition exists.",
+      "evidence": "Observed",
+      "source": "lib/data.ts:323-334; routes/projects.$id.tsx:214-225"
+    },
+    {
+      "id": "BR-PRJ-04",
+      "rule": "BOQ can be saved only if the (rounded) sum of qty × unit_cost equals the requested amount, and, when schedule rows exist, their percentages total exactly 100%.",
+      "evidence": "Observed",
+      "source": "components/BoqSchedule.tsx:43-46"
+    },
+    {
+      "id": "BR-PRJ-05",
+      "rule": "AI-generated BOQ is auto-corrected so the item total equals the requested amount (rounding drift absorbed by the last item).",
+      "evidence": "Observed",
+      "source": "lib/projectAi.server.ts:178-181"
+    },
+    {
+      "id": "BR-PRJ-06",
+      "rule": "Splitting into several projects requires at least 2 BOQ items, and every project must receive at least one item; each split project's budget = sum of its items; a single (unsplit) project's budget = requested_amount.",
+      "evidence": "Observed",
+      "source": "components/BoqSchedule.tsx:116,125-127,150; lib/workflow.ts:172,177"
+    },
+    {
+      "id": "BR-PRJ-07",
+      "rule": "For non-RFP programs each created project receives payments from the application payment schedule: amount = round(project budget × percent / 100), due date = transfer date + due_days. RFP programs seed activities and payments from the program instead.",
+      "evidence": "Observed",
+      "source": "lib/workflow.ts:187-190,198-201; lib/rfp.ts:65-73"
+    },
+    {
+      "id": "BR-PRJ-08",
+      "rule": "Transfer is refused when the plan owning the resolved plan level is budget_locked.",
+      "evidence": "Observed",
+      "source": "lib/workflow.ts:154-158"
+    },
+    {
+      "id": "BR-PRJ-09",
+      "rule": "Project manager on transfer resolves as: explicit option → program default_manager_id → first persona with role project_manager (no tenant filter).",
+      "evidence": "Observed",
+      "source": "lib/workflow.ts:147-151"
+    },
+    {
+      "id": "BR-PRJ-10",
+      "rule": "Application-stage co-funding, initiative allocations and indicator links are moved to the first created project only.",
+      "evidence": "Observed",
+      "source": "lib/workflow.ts:192-197"
+    },
+    {
+      "id": "BR-PRJ-11",
+      "rule": "New projects (grant or initiative) start in status 'planning'; grant projects get start_date = transfer date and end_date = start + application duration_days.",
+      "evidence": "Observed",
+      "source": "lib/workflow.ts:178-184; routes/projects.index.tsx:118-123"
+    },
+    {
+      "id": "BR-PRJ-12",
+      "rule": "Initiative creation requires a title and a budget > 0; end date may not precede start date; executor is 'internal' (null) or a partner (stored in beneficiary_id and executor_beneficiary_id); manager defaults to the current persona.",
+      "evidence": "Observed",
+      "source": "routes/projects.index.tsx:111-123"
+    },
+    {
+      "id": "BR-PRJ-13",
+      "rule": "The AI plan may be (re)generated only while execution has not started; replacing an existing plan requires confirmation. After start, changes go only through a plan revision.",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:75-77,153-157"
+    },
+    {
+      "id": "BR-PRJ-14",
+      "rule": "Execution is considered 'started' when any activity is approved, has a task_status other than 'open', or has evidence, or when any payment has a status other than new/pending.",
+      "evidence": "Observed",
+      "source": "lib/projectPlan.ts:21-27"
+    },
+    {
+      "id": "BR-PRJ-15",
+      "rule": "Phases are sequential: an AI-generated phase depends on the previous phase; only the first not-fully-approved phase is 'current'; later phases are locked. A sub-task cannot be acted on while any task listed in its depends_on is not approved.",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:70-71,98,164,186-188,294,317"
+    },
+    {
+      "id": "BR-PRJ-16",
+      "rule": "StartExecution (planning → in_progress) is a manual staff action enabled only when: (a) the plan contains at least one non-payment activity; (b) the contract, if one exists, is 'signed'; (c) each quantitative indicator link is distributed over activities exactly equal to its target.",
+      "evidence": "Observed",
+      "source": "routes/projects.$id.tsx:137,237-253"
+    },
+    {
+      "id": "BR-PRJ-17",
+      "rule": "While the project is in 'planning', partner task actions are locked, and indicator distribution can be edited only by staff.",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:197; components/Indicators.tsx:221,226"
+    },
+    {
+      "id": "BR-PRJ-18",
+      "rule": "Indicators are linked to an application only at application stage; at project stage no new indicator can be linked (only distributed / confirmed).",
+      "evidence": "Observed",
+      "source": "components/Indicators.tsx:139-143,211,242"
+    },
+    {
+      "id": "BR-PRJ-19",
+      "rule": "Quantitative indicator achievement = sum of indicator_qty of the project activities whose evidence_status is 'approved'. Milestone (كلي) indicators are achieved when staff confirm them at closing (achieved = target).",
+      "evidence": "Observed",
+      "source": "components/Indicators.tsx:33-37,176-180,212"
+    },
+    {
+      "id": "BR-PRJ-20",
+      "rule": "Task status lifecycle: open → submitted (partner) → approved (grantor) | returned (grantor, with notes, progress reset to 0) → submitted; grantor may revoke an approved sub-task back to submitted.",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:281-286,315,337-349"
+    },
+    {
+      "id": "BR-PRJ-21",
+      "rule": "AI evidence checks are advisory only: they never block upload or approval; bulk milestone approval warns (confirm dialog) when any file has verdict 'fail'.",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:246,366-386; components/FileSlots.tsx:46-53"
+    },
+    {
+      "id": "BR-PRJ-22",
+      "rule": "Milestone (phase) approval is offered only on the current phase and only once a phase report exists; it approves all tasks and their evidence, sets the phase to 100%, approves the report and moves the linked payment from new/pending to 'due'.",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:244-253,264-267"
+    },
+    {
+      "id": "BR-PRJ-23",
+      "rule": "A phase payment is actionable only when all phase tasks are approved, all uploaded evidence is accepted and the phase report is approved (or the payment is already past new/pending). Payment processing itself follows FIN rules.",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:200,446-463"
+    },
+    {
+      "id": "BR-PRJ-24",
+      "rule": "Only one pending plan revision may exist per project; the request button is hidden while one is pending.",
+      "evidence": "Observed",
+      "source": "components/ProjectReplan.tsx:49,97"
+    },
+    {
+      "id": "BR-PRJ-25",
+      "rule": "A plan revision requires a reason (≥5 characters in UI, ≥3 server-side); an evidence document is optional. The AI may change only unlocked items: approved tasks/phases and payments past new/pending are preserved verbatim; total proposed payments may not exceed the project budget.",
+      "evidence": "Observed",
+      "source": "components/ProjectReplan.tsx:60-66,126-138; lib/projectAi.functions.ts:21; lib/projectPlan.ts:69-81"
+    },
+    {
+      "id": "BR-PRJ-26",
+      "rule": "A plan revision can be decided only while 'pending' and only by a persona different from the requester; rejection requires a decision note.",
+      "evidence": "Observed",
+      "source": "lib/projectPlan.ts:85-88,125; components/ProjectReplan.tsx:92,111-116"
+    },
+    {
+      "id": "BR-PRJ-27",
+      "rule": "Displayed project status: stored completed/closed and planning are shown as-is; otherwise the project is shown as 'stalled' (متعثر) if any activity is past its due date and not approved. 'Stalled' is derived for display only and never stored.",
+      "evidence": "Observed",
+      "source": "routes/projects.$id.tsx:227-235"
+    },
+    {
+      "id": "BR-PRJ-28",
+      "rule": "The closure step unlocks only when every phase is fully approved; closure approval requires a non-empty evaluation and sets status 'completed'; evaluation becomes read-only afterwards.",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:208; routes/projects.$id.tsx:172-199"
+    },
+    {
+      "id": "BR-PRJ-29",
+      "rule": "Project progress = weighted average of activity progress by weight; falls back to the stored projects.progress when no weighted activities exist. Phase progress = average of its sub-tasks' progress.",
+      "evidence": "Observed",
+      "source": "lib/plans.ts:462-468; components/ProjectTree.tsx:273-279"
+    },
+    {
+      "id": "BR-PRJ-30",
+      "rule": "Reference numbers are generated by DB trigger: contracts CON+YYMM+5-digit sequence; projects PRJ+YYMM+sequence.",
+      "evidence": "Observed",
+      "source": "supabase/migrations/20261004093306_*.sql:78-86,113,127"
+    },
+    {
+      "id": "BR-PRJ-31",
+      "rule": "Payments whose title matches retention/closing keywords (احتجاز|محتجز|ختام|إغلاق|نهائي) and are not linked to a phase are displayed at the end of the timeline; other unlinked payments at the start.",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:162,207,215-216"
+    },
+    {
+      "id": "BR-PRJ-32",
+      "rule": "Grantor payment policies (advance ≤20%, final ≥10% retained for closure, each payment conditional on an approved phase report and evidence, payments >200,000 SAR require a field visit) are passed to the AI plan prompt only and are not validated by the system.",
+      "evidence": "Observed",
+      "source": "components/ProjectTree.tsx:30,87"
+    },
+    {
+      "id": "BR-PRJ-33",
+      "rule": "A merged application can be unmerged only while its contract is still 'preparing'; unmerge deletes the created projects, activities, reports and payments (see module REV).",
+      "evidence": "Observed",
+      "source": "lib/workflow.ts:340-357"
+    },
+    {
+      "id": "BR-PRJ-34",
+      "rule": "Funding from several initiatives: the first allocation row is the main initiative; an added initiative's amount is deducted from the main share and must be lower than it; the project total stays unchanged. On the project page allocations are read-only.",
+      "evidence": "Observed",
+      "source": "components/ProjectAllocations.tsx:42-62; routes/projects.$id.tsx:159"
+    }
+  ],
+  "issues": [
+    {
+      "id": "ISS-PRJ-01",
+      "description": "All project/contract transitions (StartExecution, contract advance, closure, task/report approvals, revision decision) are client-side updates through the open `db` client; guards exist only as disabled buttons or JS checks. RLS allows any signed-in user, so guards can be bypassed.",
+      "severity": "High",
+      "location": "routes/projects.$id.tsx:214-260; lib/projectPlan.ts:86-127; AGENTS.md",
+      "recommendation": "Move transitions into server functions / DB RPCs with role checks and state guards (e.g. status='planning' precondition, approver ≠ requester constraint)."
+    },
+    {
+      "id": "ISS-PRJ-02",
+      "description": "No role differentiation among staff: any non-applicant persona (finance, ceo, project_manager…) can create initiatives, advance contracts, start execution, approve tasks/milestones and close projects.",
+      "severity": "High",
+      "location": "routes/projects.$id.tsx:102; routes/projects.index.tsx:81",
+      "recommendation": "Define a permission matrix per action (see OQ-PRJ-01) and enforce it server-side."
+    },
+    {
+      "id": "ISS-PRJ-03",
+      "description": "Partner (applicant) can open any /projects/$id by URL; there is no ownership check of beneficiary_id/executor against the partner's organization.",
+      "severity": "High",
+      "location": "routes/projects.$id.tsx:59-102; routes/portal.tsx:86",
+      "recommendation": "Restrict the project page to the owning partner organization (RLS + route guard)."
+    },
+    {
+      "id": "ISS-PRJ-04",
+      "description": "With a BOQ split, indicators, allocations and co-funding move only to the first project; sibling projects get none. StartExecution's indicator gate therefore only applies to the first project, and plan usage/indicator roll-ups may be skewed.",
+      "severity": "High",
+      "location": "lib/workflow.ts:192-197",
+      "recommendation": "Define how indicator targets, allocations and co-funding are apportioned across split projects (e.g. pro-rata by budget or explicit assignment in the split dialog)."
+    },
+    {
+      "id": "ISS-PRJ-05",
+      "description": "AI plan generation deletes only phase-linked new/pending payments, but payments created at transfer from the payment schedule have no activity_id; they remain as 'loose' payments while the AI adds new phase payments, so total payments can exceed the project budget (no total check on generation).",
+      "severity": "High",
+      "location": "components/ProjectTree.tsx:91,105; lib/workflow.ts:187-190",
+      "recommendation": "Decide the single source of payment schedule (transfer schedule vs AI plan); validate total payments = budget before saving a plan."
+    },
+    {
+      "id": "ISS-PRJ-06",
+      "description": "Transfer and revision application are multi-step, non-transactional writes (contract, projects, payments, moves, logs; deletes/updates/inserts). A failure midway leaves orphan contracts/projects or a half-applied plan. Revision status is set to approved only after all changes are applied.",
+      "severity": "High",
+      "location": "lib/workflow.ts:140-205; lib/projectPlan.ts:89-126",
+      "recommendation": "Implement as a single DB transaction / RPC; set revision status atomically with the plan change."
+    },
+    {
+      "id": "ISS-PRJ-07",
+      "description": "Milestone indicators can only be confirmed when status ∈ {closing, completed, closed}; 'closing' is never set by any code, so confirmation is only possible after closure has already been approved. Closure therefore cannot depend on milestone confirmation.",
+      "severity": "Medium",
+      "location": "routes/projects.$id.tsx:169; components/Indicators.tsx:212",
+      "recommendation": "Introduce an explicit 'closing' state (all phases approved) or show confirmation when the closure node is unlocked; require milestone confirmation before closure."
+    },
+    {
+      "id": "ISS-PRJ-08",
+      "description": "Closure approval does not check that all payments are paid/settled (incl. retention), that receipts are uploaded, or that indicators are achieved.",
+      "severity": "Medium",
+      "location": "routes/projects.$id.tsx:188-193",
+      "recommendation": "Add a closure checklist (see FR-PRJ-057)."
+    },
+    {
+      "id": "ISS-PRJ-09",
+      "description": "'stalled' is derived only on the detail page; the list page counts stored status='stalled', which is never written, so the 'متعثرة' counter is always 0 and list/detail statuses disagree. Statuses 'active', 'closing' and 'closed' are referenced but never set.",
+      "severity": "Medium",
+      "location": "routes/projects.index.tsx:46-49,89; routes/projects.$id.tsx:227-235; lib/data.ts:336-342",
+      "recommendation": "Define one canonical status model; compute 'stalled' consistently (stored flag or shared derivation) and remove unused statuses."
+    },
+    {
+      "id": "ISS-PRJ-10",
+      "description": "Approving a task (✓) without accepting its evidence leaves evidence_status unchanged, so its indicator quantity is not counted; conversely bulk milestone approval sets evidence_status='approved' even for tasks with no uploaded evidence, counting indicator achievement without evidence.",
+      "severity": "Medium",
+      "location": "components/ProjectTree.tsx:247,343; components/Indicators.tsx:36",
+      "recommendation": "Count achievement only when evidence files exist and are accepted; align single and bulk approval semantics."
+    },
+    {
+      "id": "ISS-PRJ-11",
+      "description": "Revoking a task approval resets task_status/progress but does not revert evidence_status or a payment already moved to 'due'.",
+      "severity": "Medium",
+      "location": "components/ProjectTree.tsx:347-349,250",
+      "recommendation": "On revoke, revert evidence status and re-lock the phase payment if not yet in the approval chain."
+    },
+    {
+      "id": "ISS-PRJ-12",
+      "description": "Partner can mark a task complete (submitted) without uploading any evidence.",
+      "severity": "Medium",
+      "location": "components/ProjectTree.tsx:337-339",
+      "recommendation": "Require at least one file in each required evidence slot before submission (To Confirm)."
+    },
+    {
+      "id": "ISS-PRJ-13",
+      "description": "Applying a revision re-links dependencies only for newly inserted phases; existing phases keep old depends_on that may reference deleted phases. Deleted tasks silently lose their indicator distribution, after start, without re-validation of the indicator spread.",
+      "severity": "Medium",
+      "location": "lib/projectPlan.ts:95-123",
+      "recommendation": "Rebuild dependency chain on apply; block approval when indicator distribution becomes incomplete."
+    },
+    {
+      "id": "ISS-PRJ-14",
+      "description": "The payment-total check (≤ budget) is done only when the AI proposal is generated and considers only phase-linked payments; loose (transfer-schedule/retention) payments are ignored and the check is not repeated on approval.",
+      "severity": "Medium",
+      "location": "components/ProjectReplan.tsx:65; lib/projectPlan.ts:83",
+      "recommendation": "Validate total of all project payments against budget at decision time."
+    },
+    {
+      "id": "ISS-PRJ-15",
+      "description": "Contract document lists only the current project's payments while showing the total contract amount; for split contracts the payment table does not reconcile with the amount. Partner name/address comes from the current project only.",
+      "severity": "Medium",
+      "location": "components/ContractDocument.tsx:20,62-70",
+      "recommendation": "For split contracts, list payments of all sibling projects grouped by project."
+    },
+    {
+      "id": "ISS-PRJ-16",
+      "description": "Contract document fetches the grantor name with `tenants.select('name').limit(1)` (first tenant, not the contract's tenant); transferApplication inserts contracts/projects with the constant TENANT_ID instead of the application's tenant; default manager lookup is not tenant-filtered.",
+      "severity": "Medium",
+      "location": "components/ContractDocument.tsx:21; lib/workflow.ts:149,163,179",
+      "recommendation": "Use the application's tenant_id throughout."
+    },
+    {
+      "id": "ISS-PRJ-17",
+      "description": "Contract status 'awaiting_beneficiary' has no partner-side action in the portal; staff advance every step with one button, and 'signed' is a status flag only (no signature capture, no signed document stored). The contract document is regenerated live, so a signed contract can change after signature when the plan/payments change.",
+      "severity": "Medium",
+      "location": "routes/projects.$id.tsx:214-225; components/ContractDocument.tsx:12",
+      "recommendation": "Add partner acceptance/e-signature and freeze a signed contract version (snapshot or stored PDF)."
+    },
+    {
+      "id": "ISS-PRJ-18",
+      "description": "Project items requiring grantor action (submitted tasks, submitted reports, pending revisions, StartExecution readiness) are not derived as tasks; only payment approvals are (lib/tasks.ts).",
+      "severity": "Medium",
+      "location": "lib/tasks.ts:105-117",
+      "recommendation": "Derive project tasks in the task inbox (see module TSK)."
+    },
+    {
+      "id": "ISS-PRJ-19",
+      "description": "Grantor payment policies (advance ≤20%, retention ≥10%, report per payment, field visit >200k) are given to the AI as text only; neither the AI plan nor the transfer schedule is validated against them.",
+      "severity": "Medium",
+      "location": "components/ProjectTree.tsx:30",
+      "recommendation": "Enforce configurable payment policies on plan save/transfer (To Confirm)."
+    },
+    {
+      "id": "ISS-PRJ-20",
+      "description": "Phase report 'return' requires no reason, unlike task return; partner sees no grantor feedback on a returned report.",
+      "severity": "Low",
+      "location": "components/ProjectTree.tsx:424",
+      "recommendation": "Require and display a return note."
+    },
+    {
+      "id": "ISS-PRJ-21",
+      "description": "Initiative creation does not validate the budget against the plan item's available amount, nor require a plan item.",
+      "severity": "Low",
+      "location": "routes/projects.index.tsx:111-123",
+      "recommendation": "Validate against plan availability (see PLN) and require plan_level_id (To Confirm)."
+    },
+    {
+      "id": "ISS-PRJ-22",
+      "description": "Project start/end dates are set from the transfer date, not the contract signature or execution start; StartExecution does not reset dates.",
+      "severity": "Low",
+      "location": "lib/workflow.ts:181-183",
+      "recommendation": "Confirm whether dates should be anchored on signature / start of execution."
+    },
+    {
+      "id": "ISS-PRJ-23",
+      "description": "Dead code in project detail: unused state (act/pay/rep), unused interfaces and imports (Approval, PAYMENT_APPROVAL_CHAIN, Table, Checkbox…) suggest removed activity/payment/report editors.",
+      "severity": "Low",
+      "location": "routes/projects.$id.tsx:55-57,93-95",
+      "recommendation": "Clean up during hardening."
+    },
+    {
+      "id": "ISS-PRJ-24",
+      "description": "In the split dialog, removing a project resets all item assignments and edited titles.",
+      "severity": "Low",
+      "location": "components/BoqSchedule.tsx:134",
+      "recommendation": "Reassign only the removed project's items to project 1."
+    },
+    {
+      "id": "ISS-PRJ-25",
+      "description": "Revision reason min length differs between UI (5) and server (3); AI-proposed due dates 'not before today' are not validated.",
+      "severity": "Low",
+      "location": "components/ProjectReplan.tsx:138; lib/projectAi.functions.ts:21",
+      "recommendation": "Align validation; validate dates server-side."
+    },
+    {
+      "id": "ISS-PRJ-26",
+      "description": "The schema in supabase/migrations does not contain project_indicators, project_plan_allocations, plan_indicators or projects.boq / project_activities.indicator_* columns (present only in the generated types.ts) — migrations are incomplete for this module.",
+      "severity": "Low",
+      "location": "supabase/migrations/*; src/integrations/supabase/types.ts:2463-2800",
+      "recommendation": "Regenerate the migration set from the live schema before production."
+    }
+  ],
+  "open_questions": [
+    {
+      "id": "OQ-PRJ-01",
+      "question": "Which roles may perform each project action (create initiative, advance contract, start execution, approve task/evidence/report/milestone, request/approve revision, close project)? Is the project_manager restricted to projects where projects.manager_id = self?",
+      "related": [
+        "FT-PRJ-03",
+        "FT-PRJ-10",
+        "FT-PRJ-11",
+        "FT-PRJ-14",
+        "FT-PRJ-15"
+      ]
+    },
+    {
+      "id": "OQ-PRJ-02",
+      "question": "Who is the eligible approver of a plan revision (any other staff, the grants manager, a committee)? Should approval thresholds depend on budget/payment impact?",
+      "related": [
+        "FT-PRJ-14"
+      ]
+    },
+    {
+      "id": "OQ-PRJ-03",
+      "question": "How should indicator targets, initiative allocations and co-funding be divided among projects created by a BOQ split?",
+      "related": [
+        "FT-PRJ-02",
+        "FT-PRJ-09"
+      ]
+    },
+    {
+      "id": "OQ-PRJ-04",
+      "question": "Which payment schedule is authoritative for grant projects: the application payment schedule created at transfer, or the AI plan's phase payments? Should one replace the other?",
+      "related": [
+        "FT-PRJ-02",
+        "FT-PRJ-08"
+      ]
+    },
+    {
+      "id": "OQ-PRJ-05",
+      "question": "What is the real contract signing process (partner acceptance, e-signature provider, wet signature upload)? Should a signed version be frozen?",
+      "related": [
+        "FT-PRJ-03",
+        "FT-PRJ-04"
+      ]
+    },
+    {
+      "id": "OQ-PRJ-06",
+      "question": "What are the closure preconditions (all payments paid incl. retention, receipts received, milestone indicators confirmed, final report)? Is there a distinct 'closed' state after 'completed'?",
+      "related": [
+        "FT-PRJ-15"
+      ]
+    },
+    {
+      "id": "OQ-PRJ-07",
+      "question": "Should 'stalled' be a stored status with notification/escalation, and what tolerance (days overdue) applies?",
+      "related": [
+        "FT-PRJ-13"
+      ]
+    },
+    {
+      "id": "OQ-PRJ-08",
+      "question": "Are the grantor payment policies (advance ≤20%, retention ≥10%, report per payment, field visit >200k SAR) mandatory and configurable per organization/program?",
+      "related": [
+        "FT-PRJ-08",
+        "FT-PRJ-12"
+      ]
+    },
+    {
+      "id": "OQ-PRJ-09",
+      "question": "Is evidence mandatory before a partner submits a task? Can staff approve a task without evidence?",
+      "related": [
+        "FT-PRJ-11"
+      ]
+    },
+    {
+      "id": "OQ-PRJ-10",
+      "question": "Should project dates be anchored on transfer, contract signature, or StartExecution?",
+      "related": [
+        "FT-PRJ-02",
+        "FT-PRJ-10"
+      ]
+    },
+    {
+      "id": "OQ-PRJ-11",
+      "question": "Must initiatives always be linked to a plan item, and must their budget be within the item's available amount? Can initiatives have a contract?",
+      "related": [
+        "FT-PRJ-06"
+      ]
+    },
+    {
+      "id": "OQ-PRJ-12",
+      "question": "Should a revision evidence document be mandatory (AGENTS.md states every financial plan operation requires evidence for plans; revisions changing payments are financial)?",
+      "related": [
+        "FT-PRJ-14"
+      ]
+    },
+    {
+      "id": "OQ-PRJ-13",
+      "question": "Can a project be cancelled/suspended (e.g. grantor stops disbursement per contract clause 'يحق للمانح إيقاف الصرف')? No such state exists.",
+      "related": [
+        "FT-PRJ-13",
+        "FT-PRJ-03"
+      ]
+    },
+    {
+      "id": "OQ-PRJ-14",
+      "question": "What is the business value / KPI expected from AI plan generation and AI re-planning (time saved, plan quality)?",
+      "related": [
+        "FT-PRJ-08",
+        "FT-PRJ-14"
+      ]
+    }
+  ]
+}
