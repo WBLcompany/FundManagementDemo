@@ -22,7 +22,7 @@ def load():
     """Number features F01.. in order and resolve dependency / reference keys."""
     keys = [f[0] for f in FEATURES]
     num = {k: f"F{i + 1:02d}" for i, k in enumerate(keys)}
-    ref = re.compile(r"\bF\d{2}B?\b")
+    ref = re.compile(r"\bF\d{2}[A-Z]?\b")
     out = []
     for f in FEATURES:
         k, rel, name, value, scope, later, acc, ucs, deps, prio, size, decision = f

@@ -220,7 +220,7 @@ Scope:
 - Contract signing status
 - Project created with budget and project manager
 
-Not in this feature: Splitting one application into several projects → F30C
+Not in this feature: Splitting one application into several projects → F33
 
 Depends on: F16
 BRD use cases: UC67, UC69, UC70, UC71","1. Given an approved application, when the Grants Manager transfers it, then one contract and one project are created with the approved amount
@@ -245,7 +245,7 @@ Scope:
 - Project manager verifies evidence: accept or return with note
 - Milestone approved → its payment becomes due
 
-Not in this feature: Indicators → F30C
+Not in this feature: Indicators → F33
 
 Depends on: F18
 BRD use cases: UC47, UC75, UC76","1. Given a charity submits a milestone report with evidence, then the project manager gets a task to verify it
