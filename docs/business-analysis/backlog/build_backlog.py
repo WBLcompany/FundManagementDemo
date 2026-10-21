@@ -72,7 +72,7 @@ def word(feats, template, out):
     B.bullet_list(doc, [
         "Each feature is a vertical slice: when it is done it can be released and used on its own.",
         "A feature only depends on features in earlier releases (or earlier in the same release). Nothing waits for a later feature; anything that would is listed under “Later” and moved to the feature that delivers it.",
-        "Releases are in priority order. R1–R6 make the minimum end-to-end grant cycle (Must); R7–R8 add insight, efficiency and advanced models (Should / Could).",
+        "Releases are in priority order. R1–R6 make the minimum end-to-end grant cycle (Must). R7 completes budget control (Must) once payments exist and adds insight and efficiency (Should / Could); R8 adds advanced models and AI (mostly Could).",
         "Size: S ≈ up to one sprint for one team; M ≈ one to two sprints. Larger items were split.",
         "Detail stays in the BRD: each feature lists the use cases (UC) it delivers, for full rules, fields and messages.",
     ])
