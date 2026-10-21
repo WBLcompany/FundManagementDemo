@@ -1,0 +1,413 @@
+{
+  "epic": "E2",
+  "name": "Charity Registry",
+  "goal": "Charities register and manage their own team online, and the Foundation keeps one verified register of Charities so that funding goes only to verified Charities and bank accounts.",
+  "features": [
+    {
+      "id": "F03",
+      "name": "Charity self-registration",
+      "release": "R2",
+      "priority": "Must",
+      "size": "M",
+      "depends_on": ["F02"],
+      "summary": "A Charity registers online with its licence number, organization data, delegate details and required documents instead of sending papers. The request goes to the Foundation for review and the applicant can follow its status.",
+      "old_ucs": ["UC39"],
+      "decision": "Which identity verification is required for delegates (OTP only, or national ID)?",
+      "use_case": {
+        "actors": ["Charity delegate (visitor)", "System"],
+        "trigger": "A visitor opens the registration page and selects Register a charity.",
+        "preconditions": [
+          "The registration page is publicly reachable.",
+          "The visitor has the charity's licence, the delegate authorization letter and access to the delegate's mobile and the charity's official email."
+        ],
+        "main_flow": [
+          "The visitor enters the charity's licence number and selects Check.",
+          "The system confirms the licence number is not registered and has no pending request, and opens the registration form.",
+          "The visitor enters the organization data and the delegate details.",
+          "The visitor verifies the delegate mobile and the official email with one-time codes.",
+          "The visitor uploads the required documents (licence, delegate authorization letter).",
+          "The visitor submits; the system creates a registration request with status Pending and a request number.",
+          "The visitor follows the request status using the request number."
+        ],
+        "alternative_flows": [
+          "If the licence number already belongs to a registered Charity, then registration stops and the visitor is told the charity is already registered.",
+          "If a request for the licence number is already pending, then a second request is not allowed and only the masked requester name is shown.",
+          "If a mobile or email changes after verification, then it must be verified again before submission."
+        ],
+        "business_rules": [
+          "One Charity per licence number; duplicate registrations are stopped.",
+          "Mandatory: charity name, licence number, region, city, official email, charity phone, delegate name, delegate national ID (10 digits), delegate mobile.",
+          "Delegate mobile and official email must be verified by one-time code before submission.",
+          "Licence and delegate authorization documents are mandatory.",
+          "No Charity record is created until the Foundation approves the request (F04).",
+          "Identities of existing delegates or requesters are only shown masked."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F03-01",
+          "title": "Check the licence number before registering",
+          "story": "As a charity delegate, I want the system to check our licence number first, so that we do not register a charity that already exists.",
+          "acceptance": [
+            "Given a licence number that is not registered and has no pending request, when the visitor selects Check, then the registration form opens with the licence number filled in.",
+            "Given a licence number of a registered Charity, when the visitor selects Check, then the message \"This charity is already registered\" is shown and no form opens.",
+            "Given a licence number with a pending request, when the visitor selects Check, then the message \"A registration request for this charity is already under review\" is shown with the requester's masked name, and no new request can be started."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F03-02",
+          "title": "Enter charity and delegate details",
+          "story": "As a charity delegate, I want to enter our organization data and my details in one form, so that the Foundation has what it needs to approve us.",
+          "acceptance": [
+            "Given a mandatory field is empty, when the visitor tries to submit, then the field is highlighted and submission is blocked.",
+            "Given a delegate national ID that is not 10 digits, when the visitor leaves the field, then the message \"National ID must be 10 digits\" is shown.",
+            "Given the region field, then it offers only values from the standard region list."
+          ],
+          "notes": "Mandatory: charity name, licence number, region, city, official email, charity phone, delegate name, delegate national ID, delegate mobile."
+        },
+        {
+          "id": "S-F03-03",
+          "title": "Verify delegate mobile and official email",
+          "story": "As the Foundation, I want the delegate mobile and official email verified by one-time code, so that we can reach the charity and trust its contact data.",
+          "acceptance": [
+            "Given the visitor selects Send code for a mobile or email, then a 6-digit code is sent to it and expires after 5 minutes.",
+            "Given the correct code is entered before it expires, then the field is marked Verified.",
+            "Given a wrong or expired code, then the message \"The code is incorrect or has expired\" is shown and the field stays unverified.",
+            "Given a verified value is changed, then its verification is reset and submission is blocked with \"Verify first: <field>\"."
+          ],
+          "notes": "The code is never shown on screen; it is only sent by SMS or email."
+        },
+        {
+          "id": "S-F03-04",
+          "title": "Upload required documents",
+          "story": "As a charity delegate, I want to attach our licence and my authorization letter, so that the Foundation can verify the charity and my mandate.",
+          "acceptance": [
+            "Given the licence or the delegate authorization letter is missing, when the visitor submits, then submission is blocked with \"Attach the required documents: <document>\".",
+            "Given a file that is not PDF, JPG or PNG or is larger than 10 MB, when it is uploaded, then it is refused with a message stating the allowed types and size.",
+            "Given an uploaded document, then the visitor can view or replace it before submission."
+          ],
+          "notes": "Allowed types PDF, JPG, PNG; maximum 10 MB per file (to be confirmed by IT)."
+        },
+        {
+          "id": "S-F03-05",
+          "title": "Submit the request and follow its status",
+          "story": "As a charity delegate, I want to submit the registration and see its status, so that I know when we can start using the portal.",
+          "acceptance": [
+            "Given all data is complete and verified, when the visitor submits, then a request is created with status Pending and a request number is shown and sent to the delegate mobile.",
+            "Given a request number and the delegate mobile, when the visitor opens Registration status and enters the one-time code sent to that mobile, then the current status (Pending, Returned, Approved or Rejected) is shown.",
+            "Given the request is Returned or Rejected, then the status page shows the Foundation's reason."
+          ],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": "F04",
+      "name": "Registration review and charity register",
+      "release": "R2",
+      "priority": "Must",
+      "size": "M",
+      "depends_on": ["F03"],
+      "summary": "The Grants Manager reviews registration requests and approves, returns or rejects them, so the Foundation keeps one trusted register of approved Charities. Charities can also be added manually and their delegate invited to activate the account.",
+      "old_ucs": ["UC49", "UC50", "UC56", "UC57"],
+      "decision": "",
+      "use_case": {
+        "actors": ["Grants Manager", "Charity delegate", "System"],
+        "trigger": "A registration request is submitted, or the Grants Manager opens the registration requests queue.",
+        "preconditions": [
+          "The Grants Manager is signed in.",
+          "At least one registration request exists (F03)."
+        ],
+        "main_flow": [
+          "The system lists registration requests, Pending first, with charity name, licence number, date and status.",
+          "The Grants Manager opens a request and checks the data and documents.",
+          "The Grants Manager approves the request.",
+          "The system creates the Charity record with status Active and the delegate's account as primary delegate.",
+          "The system sends the delegate an activation email to set a password and sign in.",
+          "The Charity appears in the charity register."
+        ],
+        "alternative_flows": [
+          "If the request is incomplete, then the Grants Manager returns it with a reason; the delegate corrects and resubmits the same request, which becomes Pending again.",
+          "If the request is not acceptable, then the Grants Manager rejects it with a reason and the request is closed.",
+          "If a Charity must be recorded without self-registration, then the Grants Manager adds it manually and invites its delegate to activate the account."
+        ],
+        "business_rules": [
+          "A reason is mandatory to return or reject a request, and the applicant sees it.",
+          "A Charity is created only by approving a request or by manual addition; never twice for the same licence number.",
+          "Only Pending requests can be decided; each decision is recorded with user and time.",
+          "The register lists only the Foundation's own Charities; exports contain the same rows as the filtered list.",
+          "Activation and invitation links are single-use and time-limited."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F04-01",
+          "title": "Registration requests queue",
+          "story": "As a Grants Manager, I want a queue of registration requests with their documents, so that I can review new Charities in one place.",
+          "acceptance": [
+            "Given the queue opens, then Pending requests are listed first with charity name, licence number, submission date and status.",
+            "Given the Grants Manager filters by status Returned, then only Returned requests are listed.",
+            "Given a request is opened, then all submitted data, the verified contact fields and each uploaded document are shown and documents can be opened."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F04-02",
+          "title": "Approve a registration request",
+          "story": "As a Grants Manager, I want to approve a valid registration, so that the Charity joins the register and its delegate can sign in.",
+          "acceptance": [
+            "Given a Pending request, when the Grants Manager approves it, then a Charity record is created with status Active and the request status becomes Approved.",
+            "Given the approval, then the delegate account is created as primary delegate and an activation email is sent; after setting a password the delegate can sign in to the charity portal.",
+            "Given the licence number was registered in the meantime, when the Grants Manager approves, then approval is blocked with \"A charity with this licence number already exists\"."
+          ],
+          "notes": "The approval is linked to the created Charity record."
+        },
+        {
+          "id": "S-F04-03",
+          "title": "Return or reject a registration request",
+          "story": "As a Grants Manager, I want to return a request for correction or reject it with a reason, so that the applicant knows exactly what to do.",
+          "acceptance": [
+            "Given the Grants Manager returns or rejects a request without a reason, then the action is blocked with \"Reason is required\".",
+            "Given a request is Returned with a reason, then the delegate sees the reason, can correct the data and documents, and resubmits the same request, which becomes Pending again.",
+            "Given a request is Rejected, then it is closed, no Charity is created and the delegate sees the reason."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F04-04",
+          "title": "Charity register with search, filters and export",
+          "story": "As a Grants Manager, I want a directory of all our Charities with filters and Excel export, so that I can find and analyse partners quickly.",
+          "acceptance": [
+            "Given the register, then each Charity shows name, licence number, region, charity status and account status (Not activated, Invited, Active).",
+            "Given the user filters by charity status, then only Charities with that status are listed, and summary counts per status are shown above the list.",
+            "Given a search by name or licence number, then only matching Charities are listed.",
+            "Given a filtered list, when the user exports to Excel, then the file contains exactly the listed rows and visible columns."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F04-05",
+          "title": "Add a charity manually and invite its delegate",
+          "story": "As a Grants Manager, I want to add a Charity directly and invite its delegate, so that known Charities can be onboarded without self-registration.",
+          "acceptance": [
+            "Given a licence number already in the register, when the Grants Manager saves a manual Charity, then creation is blocked and the existing Charity is shown.",
+            "Given a new Charity with name, licence number and a valid official email, when saved, then it is created with account status Not activated and the creation is recorded with user and time.",
+            "Given the Grants Manager selects Send invitation, then a single-use link valid for 7 days is sent to the official email and the account status becomes Invited; Resend invitation is available afterwards.",
+            "Given the representative opens a valid invitation and completes verification, then they become the primary delegate and the account status becomes Active."
+          ],
+          "notes": "Invitation only for Charities whose account is not Active."
+        }
+      ]
+    },
+    {
+      "id": "F05",
+      "name": "Charity portal access and team",
+      "release": "R2",
+      "priority": "Must",
+      "size": "M",
+      "depends_on": ["F04"],
+      "summary": "Charity users sign in to their own portal, and the primary delegate manages the charity's team without calling the Foundation. People can also ask to join an already registered Charity.",
+      "old_ucs": ["UC40", "UC41", "UC55"],
+      "decision": "Can one person belong to more than one charity? (open comment in BRD)",
+      "use_case": {
+        "actors": ["Primary delegate", "Charity team member", "Visitor", "System"],
+        "trigger": "A charity user signs in to the portal, or the primary delegate opens the Team tab.",
+        "preconditions": [
+          "The Charity is approved and its account is Active (F04).",
+          "The user has an active membership in the Charity."
+        ],
+        "main_flow": [
+          "The charity user signs in; the system opens the portal home showing the represented Charity and the user's role in it.",
+          "The primary delegate opens the Team tab; the system lists members, primary delegate first.",
+          "The primary delegate adds a member with name, email, national ID and role.",
+          "The system creates the membership and sends the member an activation email.",
+          "The primary delegate deactivates members who leave.",
+          "When needed, the primary delegate transfers the primary delegation to another active member with a reason."
+        ],
+        "alternative_flows": [
+          "If the user belongs to more than one Charity, then they choose which Charity they represent and can switch at any time.",
+          "If a person wants to join a registered Charity, then they submit a join request verified by a code sent to the primary delegate, who accepts or refuses it.",
+          "If the primary delegate is no longer available, then the person submits a delegate-change request that the Grants Manager approves or rejects."
+        ],
+        "business_rules": [
+          "Each Charity has exactly one active primary delegate at all times.",
+          "On the charity side, only the primary delegate can add, deactivate or transfer team members.",
+          "Team roles: Primary delegate, Project Manager, Finance Officer, Member; one membership per person per Charity.",
+          "The primary delegate cannot be deactivated before the delegation is transferred.",
+          "Charity users see only the data of the Charity they represent and never the staff workspace.",
+          "Team changes and delegation transfers are recorded in the Charity's history with user, time and reason."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F05-01",
+          "title": "Sign in to the charity portal",
+          "story": "As a charity user, I want to sign in to the charity portal, so that I can work on my charity's behalf.",
+          "acceptance": [
+            "Given an active charity user, when they sign in, then the portal home opens showing the Charity name and the user's role in it.",
+            "Given a charity user opens a staff page by link, then access is refused and they are returned to the portal home.",
+            "Given a staff user opens the charity portal, then the message \"This portal is for charities only\" is shown."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F05-02",
+          "title": "Choose the represented charity",
+          "story": "As a charity user who belongs to more than one Charity, I want to choose which Charity I represent, so that I act for the right organization.",
+          "acceptance": [
+            "Given a user with memberships in two Charities, when they sign in, then the last selected Charity is represented and a \"Currently representing\" selector lists both.",
+            "Given the user selects the other Charity, then all portal pages refresh to show only that Charity's data and the user's role in it."
+          ],
+          "notes": "Built only if the decision allows one person in several charities; otherwise one membership per person."
+        },
+        {
+          "id": "S-F05-03",
+          "title": "Add a team member",
+          "story": "As a primary delegate, I want to add team members with a role, so that colleagues can work in the portal without contacting the Foundation.",
+          "acceptance": [
+            "Given name, email, a 10-digit national ID and a role, when the primary delegate adds a member, then an active membership is created and an activation email is sent; after setting a password the member can sign in.",
+            "Given the person is already a member of this Charity, when added again, then the system refuses with \"This person is already a team member\".",
+            "Given a member who is not the primary delegate, when they open the Team tab, then the team is read-only and Add, Deactivate and Transfer are not available."
+          ],
+          "notes": "Roles offered: Project Manager, Finance Officer, Member."
+        },
+        {
+          "id": "S-F05-04",
+          "title": "Deactivate a team member",
+          "story": "As a primary delegate, I want to deactivate members who leave, so that they lose access to our charity's data.",
+          "acceptance": [
+            "Given an active member, when the primary delegate deactivates them and confirms, then the membership ends with today's date and the person can no longer act for this Charity.",
+            "Given the primary delegate tries to deactivate themselves, then the system refuses with \"The primary delegate cannot be deactivated before the delegation is transferred\".",
+            "Given a deactivated member, then they remain in the team list, dimmed, with their end date."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F05-05",
+          "title": "Transfer the primary delegation",
+          "story": "As a primary delegate, I want to transfer the delegation to another active member, so that the Charity always has a responsible delegate.",
+          "acceptance": [
+            "Given an active member and a reason, when the primary delegate confirms the transfer, then that member becomes primary delegate and the previous delegate becomes Member immediately and loses delegate rights.",
+            "Given no new delegate or no reason, when confirming, then the transfer is blocked with \"Select the new delegate and state the reason\".",
+            "Given a transfer, then the transfer history shows date, from, to, method (by charity or by Foundation) and reason."
+          ],
+          "notes": "The role kept by the former delegate (Member) is to be confirmed by the business."
+        },
+        {
+          "id": "S-F05-06",
+          "title": "Request to join a registered charity",
+          "story": "As a person working for a registered Charity, I want to request to join it, so that I can get portal access without creating a duplicate charity.",
+          "acceptance": [
+            "Given the visitor enters the licence number of a registered Charity, then the Charity name and the primary delegate's masked name and mobile ending are shown.",
+            "Given the visitor selects Send code to delegate and enters the code the delegate gives them, then a join request is created and the primary delegate sees it in the Team tab to accept or refuse.",
+            "Given the primary delegate accepts the join request, then the person gets an active membership with role Member.",
+            "Given the visitor submits a delegate-change request with new delegate name, national ID, mobile and reason, then it appears in the Grants Manager's registration queue and, if approved, transfers the primary delegation of the existing Charity without creating a new one."
+          ],
+          "notes": "All four delegate-change fields are mandatory."
+        }
+      ]
+    },
+    {
+      "id": "F06",
+      "name": "Charity profile and verification",
+      "release": "R2",
+      "priority": "Must",
+      "size": "M",
+      "depends_on": ["F05"],
+      "summary": "Staff see each Charity's full profile and decision history, confirm or block Charities, verify bank accounts and review licence updates. This ensures funding goes only to verified Charities and verified bank accounts.",
+      "old_ucs": ["UC46", "UC51", "UC52", "UC53", "UC54"],
+      "decision": "",
+      "use_case": {
+        "actors": ["Grants Manager", "Primary delegate", "System"],
+        "trigger": "A staff user opens a Charity profile, or the primary delegate updates the bank account or licence data.",
+        "preconditions": [
+          "The Charity exists in the register (F04).",
+          "The user is a signed-in Grants Manager or the Charity's primary delegate (F05)."
+        ],
+        "main_flow": [
+          "The Grants Manager opens the Charity profile with data, documents, team and history.",
+          "The Grants Manager confirms the Charity after checking its data and documents.",
+          "The primary delegate updates the bank account and uploads the IBAN certificate; the account becomes Unverified.",
+          "The Grants Manager opens the IBAN certificate, compares it with the entered data and verifies the account.",
+          "The primary delegate submits a licence update with the licence document.",
+          "The Grants Manager compares current and requested values with the document and approves the update.",
+          "Every decision is added to the Charity's history."
+        ],
+        "alternative_flows": [
+          "If the Charity should no longer be trusted, then the Grants Manager blocks it with a reason; it can be unblocked later with a reason.",
+          "If the bank account is not acceptable, then the Grants Manager rejects it with a reason the Charity can see.",
+          "If the licence update is not acceptable, then the Grants Manager rejects it with a note shown to the Charity."
+        ],
+        "business_rules": [
+          "Charity status: Active, Confirmed, Blocked; block and unblock require a reason.",
+          "A blocked Charity cannot submit new applications.",
+          "Any change to bank name, IBAN or IBAN certificate sets the account to Unverified until staff verify it.",
+          "IBAN must be a Saudi IBAN (SA followed by 22 digits).",
+          "Official data (name, licence number, licence expiry) changes only through an approved licence update.",
+          "The Charity history is append-only: each entry has user, time, before / after values and reason."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F06-01",
+          "title": "Charity 360 profile and history",
+          "story": "As a Grants Manager, I want one page with a Charity's data, documents, team and decision history, so that I can judge the Charity without searching elsewhere.",
+          "acceptance": [
+            "Given a Charity profile, then it shows charity status, account status, bank status, official and contact data, documents and team.",
+            "Given any confirm, block, unblock, bank verify / reject or licence decision, then it appears in the history with user, date, time, before / after values and reason, newest first.",
+            "Given a history entry, then no user can edit or delete it.",
+            "Given a link to a Charity that does not exist, then the message \"Charity not found\" is shown."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F06-02",
+          "title": "Confirm or block a charity",
+          "story": "As a Grants Manager, I want to confirm a Charity or block it with a reason, so that only trusted Charities can receive grants.",
+          "acceptance": [
+            "Given an Active Charity, when the Grants Manager selects Confirm, then the status becomes Confirmed and \"Charity confirmed\" is shown.",
+            "Given the Grants Manager selects Block without a reason, then the action is blocked with \"Reason is required\".",
+            "Given a Blocked Charity, when its user tries to submit a new application, then submission is refused.",
+            "Given a Blocked Charity, when the Grants Manager unblocks it with a reason, then its status becomes Confirmed."
+          ],
+          "notes": "Block asks for confirmation before saving."
+        },
+        {
+          "id": "S-F06-03",
+          "title": "Charity updates its bank account",
+          "story": "As a primary delegate, I want to enter or update our bank account and IBAN certificate, so that the Foundation can pay us.",
+          "acceptance": [
+            "Given bank name, a valid IBAN and an IBAN certificate, when the primary delegate saves, then the account is saved with status Unverified.",
+            "Given an IBAN not in the format SA followed by 22 digits, when saving, then the system blocks it with \"Enter a valid Saudi IBAN\".",
+            "Given a Verified account, when the primary delegate changes the bank name, IBAN or certificate, then the status returns to Unverified and the previous verification stamp is cleared."
+          ],
+          "notes": "Certificate: PDF, JPG or PNG. Only the primary delegate can edit."
+        },
+        {
+          "id": "S-F06-04",
+          "title": "Verify or reject a bank account",
+          "story": "As a Grants Manager, I want to verify a Charity's bank account against its IBAN certificate, so that payments go only to verified accounts.",
+          "acceptance": [
+            "Given an Unverified account with IBAN and certificate, when the Grants Manager selects Verify, then the status becomes Verified with the verifier's name and date shown.",
+            "Given an account without an IBAN or certificate, then Verify is not available.",
+            "Given the Grants Manager rejects the account without a reason, then the action is blocked; with a reason, the status becomes Rejected and the Charity sees the reason in the portal."
+          ],
+          "notes": "Bank documents open only through secure, short-lived links."
+        },
+        {
+          "id": "S-F06-05",
+          "title": "Request and review a licence update",
+          "story": "As a primary delegate, I want to submit our renewed licence for the Foundation to review, so that our official data stays current.",
+          "acceptance": [
+            "Given a licence update without the licence document, when submitted, then it is blocked with \"Attach the licence document\".",
+            "Given a submitted update, then it appears on the Charity profile as Awaiting review with current and requested name, licence number and expiry side by side.",
+            "Given the Grants Manager approves the update, then the Charity's official name, licence number and expiry are replaced and the request becomes Approved.",
+            "Given the Grants Manager rejects the update with a note, then the request becomes Rejected, official data is unchanged and the primary delegate sees the note; a decided request cannot be decided again."
+          ],
+          "notes": "Fields: official name, licence number, licence expiry date, licence document (all mandatory)."
+        }
+      ]
+    }
+  ]
+}
