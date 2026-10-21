@@ -1,0 +1,363 @@
+{
+  "epic": "E4",
+  "name": "Grant Opportunities",
+  "goal": "The Foundation publishes grant opportunities funded from its annual plan, and the right Charities find them and know whether they can apply.",
+  "features": [
+    {
+      "id": "F08",
+      "name": "Publish a grant opportunity",
+      "release": "R3",
+      "priority": "Must",
+      "size": "M",
+      "depends_on": ["F07"],
+      "summary": "The Grants Manager creates a grant opportunity linked to an annual plan item, builds its application form and publishes it for a reception window. Calls for grants are announced in one place and never exceed the planned budget.",
+      "old_ucs": ["UC13", "UC28", "UC29", "UC30", "UC31"],
+      "decision": "",
+      "use_case": {
+        "actors": ["Grants Manager"],
+        "trigger": "The Foundation decides to open a call for grants under a plan item.",
+        "preconditions": [
+          "An active annual plan with items exists (F07).",
+          "The user has the Grants Manager role."
+        ],
+        "main_flow": [
+          "The Grants Manager selects New opportunity and enters name, description, budget, plan item and reception open and close dates.",
+          "The system checks the budget against the plan item's available budget and saves the opportunity as Draft.",
+          "The Grants Manager builds the application form (or picks an existing form) with fields and required flags.",
+          "The Grants Manager publishes the opportunity; its status becomes Published.",
+          "The system treats the opportunity as open while it is Published and today is within the reception window.",
+          "When the close date passes, the opportunity stops accepting applications and its status becomes Closed.",
+          "The opportunity list shows each opportunity's status, window, budget and application count."
+        ],
+        "alternative_flows": [
+          "If the budget exceeds the plan item's available budget, then the system refuses to save with \"Budget exceeds the available budget of the plan item ({amount})\".",
+          "If the Grants Manager unpublishes or closes an opportunity early, then it stops being shown to Charities; it can be reopened while the close date has not passed."
+        ],
+        "business_rules": [
+          "Name, budget greater than zero, plan item and open and close dates (close after open) are required.",
+          "Only items and initiatives (not tracks) of active, unlocked plans can be selected; they are labelled with plan year, code and name.",
+          "Plan item available budget for opportunities = item budget − budgets of its other non-cancelled opportunities.",
+          "Status flow: Draft → Published → Closed; a Draft is never visible to Charities.",
+          "A form used by any opportunity cannot be deleted; changing a form never changes applications already submitted.",
+          "Changes to a published opportunity are recorded with before and after values, user and date."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F08-01",
+          "title": "Create a draft opportunity linked to a plan item",
+          "story": "As a Grants Manager, I want to create an opportunity with its budget, dates and plan item, so that every call for grants is funded from the plan.",
+          "acceptance": [
+            "Given valid name, budget 1,000,000 SAR, plan item 1.1 and dates 01/01/2027–31/01/2027, when the user saves, then the opportunity is created with status Draft",
+            "Given item 1.1 has 2,000,000 SAR and another opportunity of 1,500,000 SAR, when the user saves a budget of 600,000 SAR, then the system refuses with \"Budget exceeds the available budget of the plan item (500,000 SAR)\"",
+            "Given a close date before the open date or a budget of 0, when the user saves, then the system shows the field error and does not save",
+            "Given the plan item selector, then it lists only items and initiatives of active plans as \"2027 · 1.1 · Item name\""
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F08-02",
+          "title": "Build the application form",
+          "story": "As a Grants Manager, I want to build an application form with fields and required flags, so that Charities provide the data each opportunity needs.",
+          "acceptance": [
+            "Given a new form, when the user adds a field, then a label and type are required; type is one of short text, long text, number, date, list, file, email, phone",
+            "Given a list field with no options, when the user saves it, then the system refuses and asks for at least one option",
+            "Given fields on a form, when the user reorders or marks a field required, then the change is saved and the preview shows the new order and required marks",
+            "Given a form used by an opportunity, when the user deletes it, then deletion is refused with \"Form is used by {n} opportunities\""
+          ],
+          "notes": "A form can be linked to several opportunities; the list shows \"Used in N opportunities\"."
+        },
+        {
+          "id": "S-F08-03",
+          "title": "Publish, close and reopen an opportunity",
+          "story": "As a Grants Manager, I want to publish and close opportunities, so that Charities can apply only during the reception window.",
+          "acceptance": [
+            "Given a Draft with a linked form, when the user selects Publish, then the status becomes Published",
+            "Given a Draft without an application form, when the user selects Publish, then publishing is refused with \"Link an application form first\"",
+            "Given a Published opportunity whose close date has passed, then its status is Closed and it accepts no new applications",
+            "Given the user closes an opportunity early, then it shows Closed, and it can be reopened only while the close date has not passed"
+          ],
+          "notes": "Publish, unpublish and close actions are recorded with user and date."
+        },
+        {
+          "id": "S-F08-04",
+          "title": "Opportunities list",
+          "story": "As a Grants Manager, I want a list of all opportunities with status and application count, so that I can follow the calls for grants.",
+          "acceptance": [
+            "Given several opportunities, when the user opens Opportunities, then only the Foundation's opportunities are listed with name, plan item, budget, window, status and number of applications",
+            "Given the header, then it shows the number of opportunities, total applications and total budget",
+            "Given a filter on status Published, then only Published opportunities are listed"
+          ],
+          "notes": "Application count is 0 until applications exist (F11)."
+        }
+      ]
+    },
+    {
+      "id": "F09",
+      "name": "Opportunities on the public page and portal",
+      "release": "R3",
+      "priority": "Must",
+      "size": "S",
+      "depends_on": ["F08"],
+      "summary": "Published, open opportunities appear on the public landing page and in the Charity portal with a details page. Charities find open grants without contacting the Foundation.",
+      "old_ucs": ["UC03", "UC42"],
+      "decision": "",
+      "use_case": {
+        "actors": ["Visitor", "Charity user"],
+        "trigger": "A visitor or Charity user looks for grants to apply for.",
+        "preconditions": [
+          "At least one opportunity is Published (F08)."
+        ],
+        "main_flow": [
+          "The visitor opens the public landing page without signing in.",
+          "The system lists published opportunities whose reception window is open, with name, short description, budget and closing date.",
+          "The visitor opens an opportunity; the details page shows description, budget, dates and conditions.",
+          "The visitor selects Apply now; if not signed in as a Charity user, the system asks them to sign in or register their Charity.",
+          "A signed-in Charity user sees the same open opportunities in the portal and opens the opportunity there."
+        ],
+        "alternative_flows": [
+          "If a visitor opens the link of an opportunity that is Draft or Closed, then the system shows \"This opportunity is not open for applications\"."
+        ],
+        "business_rules": [
+          "Only opportunities that are Published and within their open and close dates are listed.",
+          "The landing page and details page are available without sign-in.",
+          "Budget is shown in SAR and the closing date is the official close date of the opportunity."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F09-01",
+          "title": "Open opportunities on the public page",
+          "story": "As a visitor, I want to see open grant opportunities on the public page, so that I know which grants are available.",
+          "acceptance": [
+            "Given one Published opportunity within its dates, one Draft and one Closed, when a visitor opens the landing page, then only the Published open one is listed",
+            "Given a listed opportunity, then it shows name, short description, budget in SAR and closing date",
+            "Given an opportunity's close date passes, when the page is reloaded, then it is no longer listed"
+          ],
+          "notes": "No sign-in required."
+        },
+        {
+          "id": "S-F09-02",
+          "title": "Opportunity details and Apply",
+          "story": "As a visitor, I want to open an opportunity's details and start applying, so that I can decide and act.",
+          "acceptance": [
+            "Given a listed opportunity, when the visitor opens it, then the details page shows description, budget, open and close dates and conditions",
+            "Given a visitor not signed in selects Apply now, then the system offers Sign in or Register your Charity and returns to the opportunity after sign-in",
+            "Given a Draft or Closed opportunity link, when opened, then the system shows \"This opportunity is not open for applications\""
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F09-03",
+          "title": "Opportunities in the Charity portal",
+          "story": "As a Charity user, I want to see open opportunities in my portal, so that I can find grants without leaving my workspace.",
+          "acceptance": [
+            "Given a signed-in Charity user, when they open Opportunities in the portal, then the same open opportunities as the public page are listed with name, budget and closing date",
+            "Given a signed-in Charity user selects Apply now on the public page, then they are taken to that opportunity in the portal"
+          ],
+          "notes": "Filtering by eligibility comes with F10."
+        }
+      ]
+    },
+    {
+      "id": "F10",
+      "name": "Eligibility, partner groups and invitations",
+      "release": "R3",
+      "priority": "Should",
+      "size": "M",
+      "depends_on": ["F09"],
+      "summary": "The Grants Manager sets who may apply to each opportunity (applicant type, region, partner groups, named Charities), invites selected Charities privately and limits applications per Charity. Only the right Charities can apply.",
+      "old_ucs": ["UC32", "UC36", "UC43", "UC58"],
+      "decision": "",
+      "use_case": {
+        "actors": ["Grants Manager", "Charity user"],
+        "trigger": "An opportunity is meant for specific Charities rather than for all.",
+        "preconditions": [
+          "The opportunity exists (F08) and Charities are in the register (F04).",
+          "Charity users can sign in to the portal (F05)."
+        ],
+        "main_flow": [
+          "The Grants Manager maintains partner groups (name, description, member Charities).",
+          "On an opportunity, the Grants Manager sets eligibility rules: applicant types, regions, partner groups and named Charities, and the maximum applications per Charity.",
+          "The system shows a plain-language summary of the targeting; no rules means open to all.",
+          "The Grants Manager sends invitations to the targeted groups and named Charities not yet invited.",
+          "In the portal, the Charity sees opportunities it can apply to with \"Applied x of y\", and others under \"Not available to you\" with the reasons.",
+          "An invited Charity opens its personal link, sees the opportunity terms and continues to apply after signing in."
+        ],
+        "alternative_flows": [
+          "If the Charity does not meet the rules, then Apply is not offered and the failed rules are shown.",
+          "If the Charity declines an invitation, then the invitation status becomes Declined and the Grants Manager sees it.",
+          "If the per-Charity limit is reached, then the opportunity shows \"Application limit reached\" and a new application is refused."
+        ],
+        "business_rules": [
+          "Each non-empty rule must be met; an empty rule means no restriction.",
+          "Charities named directly or in a targeted group are always eligible; if only named Charities or groups are targeted, all others are ineligible.",
+          "Group membership is evaluated at the time of the check, so membership changes apply to all opportunities using the group.",
+          "The application limit counts non-cancelled applications; default is 1.",
+          "One invitation per Charity and opportunity, with a unique, unguessable link; status Sent → Opened → Applied or Declined, with dates.",
+          "Eligibility, window and limit are checked again at the moment of applying, not only on screen; an invitation does not bypass the reception window."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F10-01",
+          "title": "Manage partner groups",
+          "story": "As a Grants Manager, I want to create partner groups and manage their members, so that I can target opportunities to sets of Charities.",
+          "acceptance": [
+            "Given the Groups page, when the user saves a group with name \"Riyadh health charities\" and 5 members, then it is listed with 5 members and \"Used in 0 opportunities\"",
+            "Given a group without a name, when saved, then the system refuses",
+            "Given a group used by 2 opportunities, when the user deletes it, then the system blocks deletion with \"Group is used by 2 opportunities\"",
+            "Given a Charity is added to a targeted group, then it becomes eligible for that group's opportunities at the next check"
+          ],
+          "notes": "Group changes are recorded with user and date."
+        },
+        {
+          "id": "S-F10-02",
+          "title": "Set eligibility rules and application limit",
+          "story": "As a Grants Manager, I want to set eligibility rules and a per-Charity limit on an opportunity, so that only intended Charities apply and none applies too often.",
+          "acceptance": [
+            "Given the rules applicant type \"Charity\" and region \"Riyadh\", then the summary reads \"Open to Charities in Riyadh\"",
+            "Given no rules are set, then the summary reads \"Open to all Charities\"",
+            "Given a limit of 0, when the user saves, then the system refuses with \"Limit must be at least 1\"",
+            "Given only group \"Riyadh health charities\" is targeted, then a Charity outside the group is ineligible even if it is in Riyadh"
+          ],
+          "notes": "Rules: applicant types, regions, partner groups, named Charities."
+        },
+        {
+          "id": "S-F10-03",
+          "title": "Charity sees eligibility and reasons in the portal",
+          "story": "As a Charity user, I want to see which opportunities I can apply to and why others are not available, so that I do not waste effort.",
+          "acceptance": [
+            "Given an opportunity limited to Riyadh and a Charity in Jeddah, when the Charity opens the portal, then the opportunity is under \"Not available to you\" with the reason \"Region: Riyadh only\"",
+            "Given an eligible Charity with a limit of 2 and 1 non-cancelled application, then the opportunity shows \"Applied 1 of 2\" and Apply is offered",
+            "Given the Charity has reached the limit, then the opportunity shows \"Application limit reached\" and Apply is not offered",
+            "Given a Charity calls Apply directly for an opportunity it is not eligible for, then the system refuses the request"
+          ],
+          "notes": "The public page still lists all open opportunities; eligibility is checked in the portal."
+        },
+        {
+          "id": "S-F10-04",
+          "title": "Send private invitations",
+          "story": "As a Grants Manager, I want to invite targeted Charities by email, so that they know about the opportunity and can apply directly.",
+          "acceptance": [
+            "Given 8 targeted Charities of which 3 were already invited, when the user selects \"Send invitations (5)\", then 5 invitations are emailed and the system confirms \"5 invitations sent\"",
+            "Given the invitations list, then each shows Charity, email, sent date and status",
+            "Given an invitation was already sent to a Charity, then no second invitation is created for the same opportunity"
+          ],
+          "notes": "Only named or group-targeted Charities can be invited."
+        },
+        {
+          "id": "S-F10-05",
+          "title": "Respond to an invitation",
+          "story": "As an invited Charity user, I want to open my invitation and apply or decline, so that I can respond quickly.",
+          "acceptance": [
+            "Given a valid invitation link, when the Charity user opens it, then the opportunity's name, budget, close date and description are shown without signing in, and the status becomes Opened",
+            "Given the user selects Continue to apply, then they sign in and are taken to the opportunity in the portal",
+            "Given the user selects Decline, then the status becomes Declined with the date and the Grants Manager sees it",
+            "Given an invalid or altered link, then the system shows \"Invitation not found\""
+          ],
+          "notes": "Status Applied is set when the Charity submits an application for the opportunity."
+        }
+      ]
+    },
+    {
+      "id": "F28",
+      "name": "Configuration library and governance",
+      "release": "R8",
+      "priority": "Could",
+      "size": "M",
+      "depends_on": ["F13"],
+      "summary": "Admins and Grants Managers reuse workflow templates and communication templates, maintain reference lists and applicant types, and change sensitive settings only with an evidence document and a permanent history. Setups are reused instead of rebuilt, and every sensitive change is traceable.",
+      "old_ucs": ["UC14", "UC15", "UC18", "UC34", "UC38"],
+      "decision": "",
+      "use_case": {
+        "actors": ["Grants Manager", "Admin"],
+        "trigger": "A new opportunity needs a standard setup, or a sensitive setting must change.",
+        "preconditions": [
+          "Opportunities have review stages and criteria (F13, F14)."
+        ],
+        "main_flow": [
+          "The Grants Manager creates a workflow template with stages, time limits, criteria with weights and a pass score.",
+          "On an opportunity, the Grants Manager applies a template after confirming that its stages and criteria will be replaced.",
+          "The Grants Manager maintains communication templates (rejection, contract, notification) with placeholders.",
+          "The Grants Manager maintains reference lists (entity types, regions, target groups) and opens or closes applicant types for registration.",
+          "To change a sensitive setting, the user starts an edit session, makes the changes and selects Save changes.",
+          "The system asks for the evidence document and an optional reason, saves the changes and records before and after values, user and time."
+        ],
+        "alternative_flows": [
+          "If the user cancels an edit session, then the original values are restored and nothing is logged.",
+          "If a session is saved with no changed values, then no history entry is created.",
+          "If the opportunity already has applications, then applying a template is refused with \"Opportunity has applications\"."
+        ],
+        "business_rules": [
+          "A template is copied into the opportunity, not referenced; later template changes do not alter existing opportunities.",
+          "New templates start with a pass score of 70% and three standard stages of 5 days each; criteria weights must total 100%.",
+          "A template used by any opportunity cannot be deleted.",
+          "Sensitive settings (workflow templates, applicant types, reference lists, communication templates) are read-only outside an edit session and change only with an evidence document.",
+          "The document and the history entry are saved together or not at all; history entries cannot be edited or deleted.",
+          "Reference list values are unique within a list and at most 80 characters."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F28-01",
+          "title": "Maintain workflow templates",
+          "story": "As a Grants Manager, I want to create and edit workflow templates with stages, criteria and a pass score, so that standard setups are defined once.",
+          "acceptance": [
+            "Given the user creates template \"Standard project grant\", then it starts with 3 stages of 5 days each and a pass score of 70%",
+            "Given criteria weights totalling 90%, when the user saves, then the system refuses with \"Criteria weights must total 100%\"",
+            "Given a template used by 4 opportunities, when the user deletes it, then deletion is refused",
+            "Given the templates list, then each shows number of stages, number of criteria, pass score and number of opportunities using it"
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F28-02",
+          "title": "Apply a template to an opportunity",
+          "story": "As a Grants Manager, I want to apply a template to an opportunity, so that its stages and criteria are set in one step.",
+          "acceptance": [
+            "Given an opportunity without applications, when the user applies a template and confirms, then the template's stages, time limits, criteria and pass score are copied and the system confirms \"Template applied\"",
+            "Given the template is changed later, then opportunities that applied it keep their copied settings",
+            "Given the opportunity already has applications, then applying a template is refused with \"Opportunity has applications\"",
+            "Given the opportunity has stage supervisors, then they are kept after the template is applied"
+          ],
+          "notes": "Applied completely or not at all."
+        },
+        {
+          "id": "S-F28-03",
+          "title": "Maintain communication templates",
+          "story": "As a Grants Manager, I want to maintain rejection, contract and notification templates with placeholders, so that messages are consistent and filled in automatically.",
+          "acceptance": [
+            "Given a template of kind Rejection with text \"Dear {charity_name}, application {reference} …\", when an application is rejected, then the message is sent with the actual Charity name and reference",
+            "Given a template without a name or text, when saved, then the system refuses with a validation message",
+            "Given the editor, then the available placeholders (reference, opportunity, Charity name, amount) are listed"
+          ],
+          "notes": "Deleting a template asks for confirmation."
+        },
+        {
+          "id": "S-F28-04",
+          "title": "Reference lists and applicant types",
+          "story": "As a Grants Manager, I want to maintain reference lists and open or close applicant types for registration, so that registration and profile forms offer the right choices.",
+          "acceptance": [
+            "Given the Regions list, when the user adds a value that already exists, then the system refuses the duplicate",
+            "Given a new region \"Al-Ula\" is saved, then it appears as a choice in Charity registration and profile forms",
+            "Given an applicant type is closed, then it is not offered on the registration page and the system confirms \"Registration closed: {type}\""
+          ],
+          "notes": "Lists: entity types, regions, target groups; values max 80 characters."
+        },
+        {
+          "id": "S-F28-05",
+          "title": "Evidenced edit session and configuration history",
+          "story": "As an Admin, I want sensitive configuration changes to require an evidence document and keep a permanent history, so that every change is traceable.",
+          "acceptance": [
+            "Given a sensitive settings page, when it opens, then values are read-only until the user selects Edit",
+            "Given changed values, when the user selects Save changes without a document, then Approve and save stays disabled",
+            "Given a saved change, when the user opens the history, then it shows the item, before and after values, reason, user, time and a link to open the document",
+            "Given the user cancels the session, then the original values are restored and no history entry is created"
+          ],
+          "notes": "Document: PDF, Word, Excel or image, max 10 MB."
+        }
+      ]
+    }
+  ]
+}

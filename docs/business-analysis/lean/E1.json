@@ -1,0 +1,387 @@
+{
+  "epic": "E1",
+  "name": "Access & Roles",
+  "goal": "Every action in Manih – Grant Management System is done by a known person who sees and does only what their role allows, with data kept separate for each grantor organization.",
+  "features": [
+    {
+      "id": "F01",
+      "name": "Staff accounts and secure sign-in",
+      "release": "R1",
+      "priority": "Must",
+      "size": "M",
+      "depends_on": [],
+      "summary": "Each staff member of the Foundation gets an individual account to sign in, so every action in the system is traceable to a known person. The Admin manages accounts without ever deleting history.",
+      "old_ucs": ["UC01", "UC08", "UC09"],
+      "decision": "",
+      "use_case": {
+        "actors": ["Staff user", "Admin", "System"],
+        "trigger": "A staff user opens the sign-in page or tries to open any protected page.",
+        "preconditions": [
+          "The Admin has created an active account for the user.",
+          "The user has set a password through the account activation email."
+        ],
+        "main_flow": [
+          "The user enters email and password and selects Sign in.",
+          "The system verifies the credentials and that the account is active.",
+          "The system identifies the user's role and opens the home page of that role.",
+          "The system records the sign-in with user and time.",
+          "The user works; every action is recorded under the user's own identity.",
+          "The user selects Sign out; the system ends the session and shows the sign-in page."
+        ],
+        "alternative_flows": [
+          "If the credentials are wrong or the account is deactivated, then sign-in is refused with a generic message and the failed attempt is recorded.",
+          "If the user has forgotten the password, then they request a reset link by email and set a new password.",
+          "If the session is inactive longer than the configured period, then the user is asked to sign in again and is returned to the page they were on."
+        ],
+        "business_rules": [
+          "No grant, charity, financial or staff data is shown before sign-in.",
+          "Accounts are individual; shared accounts are not allowed.",
+          "The user cannot choose or change their own role; it comes from the account.",
+          "Staff are deactivated, never deleted; their past actions keep their name.",
+          "Sign-ins (successful and failed) and account changes are recorded with user and time and cannot be edited."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F01-01",
+          "title": "Sign in and sign out",
+          "story": "As a staff user, I want to sign in with my own email and password, so that I can work in the system under my own identity.",
+          "acceptance": [
+            "Given an active account, when the user signs in with the correct email and password, then the home page of their role opens.",
+            "Given a wrong email or password, when the user signs in, then access is refused with the message \"Email or password is incorrect\" without saying which value was wrong.",
+            "Given a deactivated account, when the user signs in with correct credentials, then access is refused with the same generic message.",
+            "Given a signed-in user, when they select Sign out, then the session ends and opening a protected page shows the sign-in page."
+          ],
+          "notes": "Email must be a valid format; password is masked."
+        },
+        {
+          "id": "S-F01-02",
+          "title": "Reset a forgotten password",
+          "story": "As a staff user, I want to reset my password by email, so that I can regain access without calling the Admin.",
+          "acceptance": [
+            "Given the user selects Forgot password and enters an email, when they submit, then the same confirmation message is shown whether or not the email exists.",
+            "Given an active account, when the reset is requested, then a single-use link valid for 60 minutes is sent to the account email.",
+            "Given a reset link that was already used or has expired, when it is opened, then the system refuses it and offers to request a new link."
+          ],
+          "notes": "Link validity period is configurable (default 60 minutes)."
+        },
+        {
+          "id": "S-F01-03",
+          "title": "End inactive sessions",
+          "story": "As the Foundation, I want inactive sessions to end automatically, so that an unattended screen does not expose grant data.",
+          "acceptance": [
+            "Given a user inactive for longer than the configured period (default 30 minutes), when they perform any action, then they are asked to sign in again.",
+            "Given the user signs in again after a timeout, then they are returned to the page they were on."
+          ],
+          "notes": "Timeout period is set by the Admin."
+        },
+        {
+          "id": "S-F01-04",
+          "title": "Add and edit staff accounts",
+          "story": "As an Admin, I want to add staff and edit their details, so that every employee has their own account with the right role.",
+          "acceptance": [
+            "Given the Add staff form, when name, email and role are entered and saved, then the account is created as Active and an activation email is sent so the person can set a password.",
+            "Given an email that already belongs to another account, when the Admin saves, then the system refuses with \"This email is already used by another account\".",
+            "Given an empty name, when the Admin saves, then the system shows \"Name is required\" and nothing is created.",
+            "Given an existing account, when the Admin changes name, role or department and saves, then the change is shown in the staff list immediately."
+          ],
+          "notes": "Fields: name (required, max 100 characters), email (required, unique), role (required, one of the system roles), department (optional)."
+        },
+        {
+          "id": "S-F01-05",
+          "title": "Deactivate and reactivate staff",
+          "story": "As an Admin, I want to deactivate staff who leave, so that they lose access while their history is kept.",
+          "acceptance": [
+            "Given an active staff account, when the Admin deactivates it and confirms, then its status becomes Inactive and the person can no longer sign in.",
+            "Given a deactivated account, when its past records are opened, then they still show the person's name as the actor.",
+            "Given the Admin tries to deactivate their own account, then the action is not allowed.",
+            "Given an inactive account, when the Admin reactivates it, then the person can sign in again with the same role."
+          ],
+          "notes": "There is no delete action for staff accounts."
+        },
+        {
+          "id": "S-F01-06",
+          "title": "View the access audit trail",
+          "story": "As an Admin, I want to see who signed in and who changed which account, so that I can investigate any access question.",
+          "acceptance": [
+            "Given any successful or failed sign-in, then an audit entry is recorded with the email used, result, date and time.",
+            "Given any account creation, change, deactivation or reactivation, then an audit entry is recorded with the acting user, date, time and before / after values.",
+            "Given the audit trail, when the Admin filters by user and date range, then only matching entries are listed, newest first.",
+            "Given an audit entry, then no user, including the Admin, can edit or delete it."
+          ],
+          "notes": "The acting user is always taken from the signed-in identity."
+        }
+      ]
+    },
+    {
+      "id": "F02",
+      "name": "Role-based workspace",
+      "release": "R1",
+      "priority": "Must",
+      "size": "M",
+      "depends_on": ["F01"],
+      "summary": "Each person sees only the menus, pages and actions of their role, and the system enforces this on every page and action. Fixed system roles ship first; editable and custom roles come later (F29).",
+      "old_ucs": ["UC02", "UC11"],
+      "decision": "Q149 — should system roles be editable? (does not block: fixed roles ship first)",
+      "use_case": {
+        "actors": ["Staff user", "Admin", "System"],
+        "trigger": "A signed-in staff user opens the system or any page or action.",
+        "preconditions": [
+          "The user is signed in (F01).",
+          "The user has one of the fixed system roles."
+        ],
+        "main_flow": [
+          "The system shows the menu with only the sections allowed for the user's role.",
+          "The system opens the home page defined for the role.",
+          "The user selects a section; the system shows only the tabs and actions the role allows.",
+          "On every page and action, the system checks the role before showing data or saving.",
+          "The user completes the allowed action."
+        ],
+        "alternative_flows": [
+          "If the user opens a page outside their role (for example by a saved link), then the system blocks it with an access-denied message and a link to their home page.",
+          "If the Admin changes a user's role, then the new access applies from the user's next action.",
+          "If the address does not exist, then the system shows a not-found page with a link home."
+        ],
+        "business_rules": [
+          "System roles: Admin, Grants Manager, Reviewer, Committee Secretary, Project Manager, Finance, CEO.",
+          "A staff user has exactly one role in the organization.",
+          "Access is enforced by the system on every page and action, not only by hiding menus.",
+          "Blocked access attempts are recorded with user, page and time.",
+          "Department names are unique and up to 100 characters; deleting a department keeps its staff as \"No department\"."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F02-01",
+          "title": "Menu and home page per role",
+          "story": "As a staff user, I want to see only the sections of my role, so that the system is simple and I do not see what I should not.",
+          "acceptance": [
+            "Given a Reviewer signs in, when the menu appears, then only the sections allowed for Reviewer are listed.",
+            "Given each of the seven system roles, when a user of that role signs in, then the home page defined for that role opens and is also reachable from the menu.",
+            "Given a section with several tabs, when the user opens it, then only the tabs allowed for their role are shown."
+          ],
+          "notes": "The role-to-section mapping is agreed with the business before build and kept as a reference table."
+        },
+        {
+          "id": "S-F02-02",
+          "title": "Block access outside the role",
+          "story": "As the Foundation, I want the system to refuse any page or action outside a user's role, so that hidden menus are not the only protection.",
+          "acceptance": [
+            "Given a user opens a page outside their role by direct link, then the system shows \"This page is not available for your role\" with a link to their home page.",
+            "Given a user sends a save or approve action outside their role, then the system refuses it and no data changes.",
+            "Given any refused access, then an entry with user, page or action, and time is recorded in the audit trail."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F02-03",
+          "title": "Change a user's role",
+          "story": "As an Admin, I want to change a staff member's role, so that their access follows their new responsibilities.",
+          "acceptance": [
+            "Given the Admin changes a user's role from Reviewer to Project Manager, when the user performs their next action, then the Project Manager menu and access apply.",
+            "Given a role change, then pages of the old role are blocked for that user from their next action."
+          ],
+          "notes": "Only the Admin can change roles."
+        },
+        {
+          "id": "S-F02-04",
+          "title": "Manage departments",
+          "story": "As an Admin, I want to maintain the list of departments and assign staff to them, so that staff are organized as in the Foundation's structure.",
+          "acceptance": [
+            "Given a new department name, when the Admin adds it, then it appears in the departments list with 0 members.",
+            "Given a name that already exists, when the Admin adds it, then the system refuses with \"A department with this name already exists\".",
+            "Given a department with staff, when the Admin deletes it, then the system asks for confirmation stating how many staff will be unassigned, and after confirmation those staff show \"No department\".",
+            "Given the departments list, then each department shows its number of members and their names."
+          ],
+          "notes": "Department name: required, up to 100 characters, unique in the organization."
+        }
+      ]
+    },
+    {
+      "id": "F29",
+      "name": "Custom roles and permissions",
+      "release": "R8",
+      "priority": "Should",
+      "size": "M",
+      "depends_on": ["F02"],
+      "summary": "A permission matrix lets the Foundation create its own roles and adjust access to its structure. Every permission change is traceable with before / after values.",
+      "old_ucs": ["UC10"],
+      "decision": "Q149 — may system roles be edited, or only custom roles?",
+      "use_case": {
+        "actors": ["Admin", "System"],
+        "trigger": "The Admin opens Settings > Roles & Permissions.",
+        "preconditions": [
+          "The Admin is signed in.",
+          "The fixed system roles exist (F02)."
+        ],
+        "main_flow": [
+          "The Admin selects a role; the system shows its permission matrix by business area with view, write and delete levels.",
+          "The Admin creates a new role with a name, optionally copying a system role's permissions.",
+          "The Admin edits the custom role's permissions per permission, per group or all at once.",
+          "The Admin saves; the system stores the permissions and records each change with before / after values.",
+          "The Admin assigns the custom role to staff.",
+          "The new permissions apply to every user with that role from their next action."
+        ],
+        "alternative_flows": [
+          "If the Admin deletes a custom role assigned to staff, then the system refuses until their roles are changed.",
+          "If the Admin cancels editing or saves with no change, then nothing is stored and no history entry is created.",
+          "If system roles are allowed to be edited (Q149), then the Admin can enable or disable a permission for a whole system role and restore its default permissions."
+        ],
+        "business_rules": [
+          "Permission groups: applications and review, finance and payments, projects and evidence, settings.",
+          "Role names are unique in the organization and up to 60 characters.",
+          "System roles are read-only unless Q149 decides otherwise.",
+          "A role assigned to staff cannot be deleted.",
+          "No change may leave a required approval step without any role able to perform it.",
+          "Every role creation, permission change and deletion is recorded with user, time and before / after values."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F29-01",
+          "title": "View the permission matrix",
+          "story": "As an Admin, I want to see each role's permissions in one matrix, so that I understand who can do what.",
+          "acceptance": [
+            "Given a selected role, then the matrix shows each permission grouped by business area with view, write and delete marked Yes or No.",
+            "Given a system role is selected, then it is labelled \"System — read only\" and its permissions cannot be changed."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F29-02",
+          "title": "Create a custom role",
+          "story": "As an Admin, I want to create a custom role, optionally starting from a system role, so that I can match a position that the system roles do not cover.",
+          "acceptance": [
+            "Given a unique name and \"Copy from: Reviewer\", when the Admin creates the role, then it is created with exactly the Reviewer permissions and the message \"Role created\" is shown.",
+            "Given an empty name, when the Admin saves, then the system shows \"Role name is required\".",
+            "Given a name already used in the organization, when the Admin saves, then the role is not created."
+          ],
+          "notes": "Role name: required, up to 60 characters, unique."
+        },
+        {
+          "id": "S-F29-03",
+          "title": "Edit a custom role's permissions",
+          "story": "As an Admin, I want to grant or remove permissions of a custom role, so that access follows our internal policy.",
+          "acceptance": [
+            "Given a custom role in edit mode, when the Admin removes \"write\" for a permission and saves, then every user with that role loses that action at their next action.",
+            "Given the Admin selects all permissions of a group, then view, write and delete are set for every permission in that group in one step.",
+            "Given a change that would leave no role able to perform a required approval step, when the Admin saves, then the system refuses and names the approval step."
+          ],
+          "notes": "Removing a sensitive permission (e.g. final approval, payment approval) asks for confirmation."
+        },
+        {
+          "id": "S-F29-04",
+          "title": "Assign and delete custom roles",
+          "story": "As an Admin, I want to assign custom roles to staff and delete unused ones, so that the role list stays clean and accurate.",
+          "acceptance": [
+            "Given a custom role exists, when the Admin edits a staff account, then the role list includes it next to the system roles.",
+            "Given a custom role is assigned to at least one staff member, when the Admin deletes it, then the system refuses with \"The role is assigned to staff — change their roles first\".",
+            "Given an unassigned custom role, when the Admin deletes it and confirms, then it is removed from the role list."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F29-05",
+          "title": "Role change history",
+          "story": "As an Admin, I want to see every change to a role, so that permission changes can be audited.",
+          "acceptance": [
+            "Given any role creation, permission change or deletion, then an entry is recorded with user, date, time and the before / after value of each changed permission.",
+            "Given a role's history is opened, then entries are listed newest first and cannot be edited or deleted."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F29-06",
+          "title": "Enable or disable a permission for a whole system role",
+          "story": "As an Admin, I want to switch a permission on or off for a whole system role, so that I can adjust access without creating a new role.",
+          "acceptance": [
+            "Given a permission is disabled for the Finance role, when any Finance user performs their next action, then that permission is no longer available to them.",
+            "Given a system role was changed, when the Admin selects Restore default permissions and confirms, then the role returns to its original permissions and the change is in the role history."
+          ],
+          "notes": "Built only if Q149 allows editing system roles."
+        }
+      ]
+    },
+    {
+      "id": "F34",
+      "name": "Multi-organization platform",
+      "release": "R8",
+      "priority": "Won't (this year)",
+      "size": "M",
+      "depends_on": ["F02"],
+      "summary": "Several grantor organizations can use the same Manih platform with strictly separated data. A platform administrator registers, suspends and reactivates grantor organizations.",
+      "old_ucs": ["UC17"],
+      "decision": "Is Manih for one foundation or several?",
+      "use_case": {
+        "actors": ["Platform Administrator", "System"],
+        "trigger": "The Platform Administrator opens Platform > Organizations.",
+        "preconditions": [
+          "The user is signed in as Platform Administrator."
+        ],
+        "main_flow": [
+          "The system lists all grantor organizations with name, official email, number of users, creation date and status.",
+          "The Platform Administrator selects New organization and enters the name and official email.",
+          "The system creates the organization as Active and sets up its first Admin account.",
+          "The Platform Administrator suspends or reactivates an organization after confirmation.",
+          "The system applies the new status and records the action in the platform audit trail."
+        ],
+        "alternative_flows": [
+          "If a user who is not Platform Administrator opens the page, then the system shows \"This page is for platform administration only\".",
+          "If a user of a suspended organization tries to sign in, then sign-in is refused and they are told to contact platform administration."
+        ],
+        "business_rules": [
+          "Users of one organization never see or change another organization's data, including in search, exports and reports.",
+          "Organization name is required (up to 120 characters); the official email must be valid.",
+          "Suspension blocks sign-in and new transactions but keeps all the organization's data.",
+          "The organization list shows user counts only, not users' personal data.",
+          "The Platform Administrator does not see an organization's own settings or data by default."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F34-01",
+          "title": "Register a grantor organization",
+          "story": "As a Platform Administrator, I want to register a new grantor organization with its first Admin, so that it can start using Manih on its own.",
+          "acceptance": [
+            "Given a name and a valid official email, when the Platform Administrator saves, then the organization is created with status Active and the message \"Organization created\" is shown.",
+            "Given a new organization, when it is created, then an activation email is sent to its first Admin.",
+            "Given an empty name, when saving, then the organization is not created."
+          ],
+          "notes": "Name up to 120 characters; official email in valid format."
+        },
+        {
+          "id": "S-F34-02",
+          "title": "Suspend and reactivate an organization",
+          "story": "As a Platform Administrator, I want to suspend an organization and reactivate it later, so that access can be stopped without losing data.",
+          "acceptance": [
+            "Given an Active organization, when the Platform Administrator suspends it and confirms, then its status becomes Suspended and its users cannot sign in.",
+            "Given a user of a suspended organization tries to sign in, then the message \"Your organization is suspended — please contact platform administration\" is shown.",
+            "Given a suspended organization is reactivated, then its users can sign in again and all its data is unchanged.",
+            "Given any create, suspend or reactivate action, then it is recorded in the platform audit trail with user and time."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F34-03",
+          "title": "Isolate data between organizations",
+          "story": "As a grantor organization, I want my data to be invisible to other organizations, so that our grants and charities stay confidential.",
+          "acceptance": [
+            "Given two organizations A and B, when a user of A searches, lists or exports any records, then no record of B is included.",
+            "Given a user of A opens a direct link to a record of B, then the system responds as if the record does not exist."
+          ],
+          "notes": "Applies to every list, search, report, export and assistant answer."
+        },
+        {
+          "id": "S-F34-04",
+          "title": "Restrict platform administration",
+          "story": "As the platform owner, I want platform administration to be available only to the Platform Administrator, so that no organization can manage another.",
+          "acceptance": [
+            "Given an organization Admin opens the platform organizations page by link, then the system shows \"This page is for platform administration only\" with a link to their settings.",
+            "Given the organizations list, then each row shows the number of users but no user names or emails."
+          ],
+          "notes": ""
+        }
+      ]
+    }
+  ]
+}

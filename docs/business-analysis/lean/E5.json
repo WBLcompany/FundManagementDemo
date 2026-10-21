@@ -1,0 +1,497 @@
+{
+ "epic": "E5",
+ "name": "Applications & Decisions",
+ "goal": "Charities apply online and Foundation staff review, score and decide every application through clear stages, with each decision recorded and traceable.",
+ "features": [
+  {
+   "id": "F11",
+   "name": "Submit a grant application",
+   "release": "R4",
+   "priority": "Must",
+   "size": "M",
+   "depends_on": [
+    "F09"
+   ],
+   "summary": "A Charity fills the opportunity's application form in the portal, attaches the required documents and submits it, so every application reaches the Foundation complete and in one place. AI pre-fill comes later (F30).",
+   "old_ucs": [
+    "UC44"
+   ],
+   "decision": "",
+   "use_case": {
+    "actors": [
+     "Charity delegate",
+     "System"
+    ],
+    "trigger": "The Charity delegate selects Apply on an open opportunity in the portal.",
+    "preconditions": [
+     "The Charity is signed in to the portal and is not blocked.",
+     "The opportunity is published and within its open / close dates."
+    ],
+    "main_flow": [
+     "The system opens the application form defined for the opportunity.",
+     "The delegate enters the core data: project title, description, requested amount, duration (days), implementation region and target groups with beneficiary counts.",
+     "The delegate adds the bill of quantities (item, quantity, unit price) where the opportunity requires it.",
+     "The delegate answers the opportunity-specific questions and uploads the required attachments.",
+     "The delegate selects Submit and confirms.",
+     "The system validates mandatory fields, attachments, amounts and the submission window.",
+     "The system records the application as Submitted at the Reception stage, keeps a snapshot of the Charity and opportunity data and generates the application number.",
+     "The system shows \"Application submitted with number <ref>\" and lists it under My applications."
+    ],
+    "alternative_flows": [
+     "If the delegate leaves the form before submitting, then they can save it as a Draft and continue later.",
+     "If a mandatory field or attachment is missing, then submission is refused and the missing items are highlighted.",
+     "If the opportunity closed while the form was open, then submission is refused with \"This opportunity is no longer accepting applications\"."
+    ],
+    "business_rules": [
+     "Project title, requested amount, every field marked mandatory and every required attachment must be completed before submission.",
+     "The requested amount must be greater than zero; when a bill of quantities is used, the requested amount equals the sum of quantity × unit price.",
+     "The submission window is re-checked at the moment of submission.",
+     "The application number is unique: REQ + year-month + sequence (e.g. REQ-2026-10-0042).",
+     "A submitted application is read-only for the Charity unless it is returned for edits (F15).",
+     "The application, its items, attachments and first history entry are saved together; if any part fails, nothing is submitted."
+    ]
+   },
+   "stories": [
+    {
+     "id": "S-F11-01",
+     "title": "Fill the application form and save a draft",
+     "story": "As a Charity delegate, I want to fill the opportunity's application form and save it as a draft, so that I can complete it over several sessions.",
+     "acceptance": [
+      "Given an open opportunity, when the delegate selects Apply, then the form shows the core fields and the opportunity's own questions in the configured order",
+      "Given a partly filled form, when the delegate selects Save draft, then the application is saved with status Draft and appears under My applications",
+      "Given a Draft application, when the delegate reopens it, then all previously entered values and attachments are shown"
+     ],
+     "notes": "Draft applications are not visible to Foundation staff."
+    },
+    {
+     "id": "S-F11-02",
+     "title": "Enter the requested amount, duration and bill of quantities",
+     "story": "As a Charity delegate, I want to enter the requested amount, duration and the items with quantities and prices, so that the Foundation sees exactly what is being funded.",
+     "acceptance": [
+      "Given the opportunity requires a bill of quantities, when the delegate adds items, then each line total (quantity × unit price) and the grand total are calculated automatically",
+      "Given a bill of quantities, then the requested amount equals the grand total and cannot be typed separately",
+      "Given a requested amount of zero or a negative quantity, when the delegate saves, then the field is rejected with a validation message"
+     ],
+     "notes": "Duration is a whole number of days; region from the standard list of 13 regions."
+    },
+    {
+     "id": "S-F11-03",
+     "title": "Upload the required attachments",
+     "story": "As a Charity delegate, I want to upload the documents the opportunity requires, so that the application is complete for review.",
+     "acceptance": [
+      "Given the opportunity defines required documents, then the form shows one upload slot per document marked Required",
+      "Given a file of a type or size that is not allowed, when the delegate uploads it, then it is refused with the allowed types and maximum size",
+      "Given an uploaded attachment, when the delegate removes or replaces it before submission, then only the latest file is kept"
+     ],
+     "notes": "Allowed: PDF, Word, Excel, image; maximum 10 MB per file."
+    },
+    {
+     "id": "S-F11-04",
+     "title": "Submit the application and receive its number",
+     "story": "As a Charity delegate, I want to submit the completed application and get a reference number, so that I can follow it up with the Foundation.",
+     "acceptance": [
+      "Given a missing required field or attachment, when the delegate selects Submit, then submission is refused and each missing item is listed",
+      "Given a complete application on an open opportunity, when the delegate confirms Submit, then the status becomes Submitted at the Reception stage and the number REQ-<yyyy-mm>-<sequence> is shown",
+      "Given a submitted application, then the delegate can view it but every field and attachment is read-only",
+      "Given the opportunity's close date has passed, when the delegate selects Submit, then submission is refused with \"This opportunity is no longer accepting applications\""
+     ],
+     "notes": "A snapshot of the Charity and opportunity data is stored at submission for later review."
+    }
+   ]
+  },
+  {
+   "id": "F13",
+   "name": "Application review by stages",
+   "release": "R4",
+   "priority": "Must",
+   "size": "M",
+   "depends_on": [
+    "F11",
+    "F12"
+   ],
+   "summary": "Submitted applications move through Reception → Study → Approval, each stage with named owners, an SLA in days and a task in My Tasks, so every application has a clear owner and a full decision history. Scoring (F14), committee minutes (F16) and AI evaluation (F30) build on this.",
+   "old_ucs": [
+    "UC59",
+    "UC60",
+    "UC62",
+    "UC88"
+   ],
+   "decision": "Are the three stages fixed, or configurable per opportunity?",
+   "use_case": {
+    "actors": [
+     "Reviewer",
+     "Grants Manager",
+     "CEO",
+     "Charity delegate",
+     "System"
+    ],
+    "trigger": "A Charity submits an application, or an application enters a new stage.",
+    "preconditions": [
+     "The opportunity has owners and an SLA (days) defined for each of the three stages.",
+     "The user has a staff role with access to grant applications."
+    ],
+    "main_flow": [
+     "The system places the submitted application at the Reception stage and creates a task in My Tasks for each stage owner, due on stage entry date + SLA days.",
+     "The Reviewer opens the review queue, filters by stage and opens the application.",
+     "The Reviewer studies the dossier: application data, bill of quantities, attachments, Charity profile and history.",
+     "The Reviewer approves the stage, with an optional note.",
+     "The system moves the application to the next stage, records who decided and when, removes the old tasks and creates tasks for the next stage's owners.",
+     "At the Approval stage, the authorised approver gives final approval and the application status becomes Approved."
+    ],
+    "alternative_flows": [
+     "If the Reviewer returns the application for edits, then a note is mandatory, the status becomes Awaiting Charity edits at the same stage and the stage task is removed until the Charity resubmits (F15).",
+     "If the Reviewer rejects the application, then a closure reason is mandatory, the status becomes Rejected and the Charity is notified.",
+     "If an application stays at a stage longer than its SLA, then it is flagged Late in the queue and its task is flagged overdue."
+    ],
+    "business_rules": [
+     "Only the stage owners of the current stage, or a Grants Manager, may decide on it; the rule applies from every entry point.",
+     "Closure reasons: No allocated budget / Did not reach the pass score / Outside the opportunity scope / Missing requirements / Other.",
+     "Approval is blocked while edits from the Charity are awaited.",
+     "Each stage entry restarts the SLA clock; task due date = stage entry date + SLA (default 3 days).",
+     "Every action (submission, decision, return, note, attachment) is added to an append-only history with user, stage, note and time."
+    ]
+   },
+   "stories": [
+    {
+     "id": "S-F13-01",
+     "title": "Review queue per stage",
+     "story": "As a Reviewer, I want a queue of applications with filters by stage and status, so that I can find the applications waiting for me.",
+     "acceptance": [
+      "Given submitted applications, when the Reviewer opens the queue, then each row shows reference, project title, Charity, stage, status, requested amount and a Late flag",
+      "Given the Reviewer filters by stage = Study and status = Pending, then only applications matching both filters are listed",
+      "Given an application has been at its stage longer than the stage SLA, then it shows the Late flag with the number of days late",
+      "Given a filtered queue, when the Reviewer exports it, then the Excel file contains exactly the filtered rows"
+     ],
+     "notes": "Search by reference, project title or Charity name."
+    },
+    {
+     "id": "S-F13-02",
+     "title": "Application dossier and history",
+     "story": "As a Reviewer, I want to see the full application, the Charity's profile and the history on one page, so that I can study it without switching screens.",
+     "acceptance": [
+      "Given an application, when the Reviewer opens it, then the page shows the application data, bill of quantities, attachments, Charity profile summary, current stage with SLA progress (\"x of y days\") and the history",
+      "Given the Reviewer adds a note or a review attachment, then it is saved in the history with user, stage and time",
+      "Given the history, then entries cannot be edited or deleted by any user"
+     ],
+     "notes": ""
+    },
+    {
+     "id": "S-F13-03",
+     "title": "Stage tasks created automatically",
+     "story": "As a stage owner, I want a task in My Tasks when an application reaches my stage, so that I do not have to watch the queue.",
+     "acceptance": [
+      "Given an application enters the Study stage with SLA 5 days on 1 March, then each Study owner gets a task due 6 March showing project title, reference, Charity and requested amount",
+      "Given the application leaves the stage (approved, returned, rejected), then the stage task is removed for all owners without manual closing",
+      "Given the stage has no SLA configured, then the task due date is stage entry date + 3 days"
+     ],
+     "notes": "Tasks link directly to the application dossier."
+    },
+    {
+     "id": "S-F13-04",
+     "title": "Approve a stage",
+     "story": "As a stage owner, I want to approve the application at my stage, so that it moves on to the next stage.",
+     "acceptance": [
+      "Given an application at Reception, when the owner approves, then it moves to Study and the history records the decision, user and time",
+      "Given an application at the Approval stage, when the authorised approver gives final approval, then its status becomes Approved",
+      "Given a user who is not an owner of the current stage or a Grants Manager, when they try to decide, then the action is refused and nothing is recorded",
+      "Given an application with status Awaiting Charity edits, then the Approve action is not available"
+     ],
+     "notes": ""
+    },
+    {
+     "id": "S-F13-05",
+     "title": "Return for edits or reject",
+     "story": "As a stage owner, I want to return an application for edits or reject it with a reason, so that the Charity knows what to do next.",
+     "acceptance": [
+      "Given the owner selects Return for edits, when no note is entered, then the confirm button stays disabled",
+      "Given a return with a note, then the status becomes Awaiting Charity edits at the same stage and the note is visible to the Charity",
+      "Given the owner selects Reject, then a closure reason from the standard list is mandatory, the status becomes Rejected and the Charity receives a notification with the reason"
+     ],
+     "notes": "An optional apology message to the Charity may be added on rejection."
+    }
+   ]
+  },
+  {
+   "id": "F14",
+   "name": "Evaluation criteria and pass score",
+   "release": "R4",
+   "priority": "Must",
+   "size": "S",
+   "depends_on": [
+    "F13"
+   ],
+   "summary": "Each opportunity has weighted evaluation criteria and a pass score; Reviewers score each criterion, and approval is blocked when the score is below the pass score, so applications are scored consistently and weak ones cannot be approved by mistake.",
+   "old_ucs": [
+    "UC33"
+   ],
+   "decision": "",
+   "use_case": {
+    "actors": [
+     "Grants Manager",
+     "Reviewer",
+     "System"
+    ],
+    "trigger": "The Grants Manager sets up an opportunity's evaluation, or a Reviewer evaluates an application at the Study stage.",
+    "preconditions": [
+     "The opportunity exists (F08).",
+     "For scoring: the application is pending at the Study stage and the user is a Study stage owner."
+    ],
+    "main_flow": [
+     "The Grants Manager adds evaluation criteria with weights to the opportunity and sets the pass score.",
+     "The system shows the total of the weights and saves only when it equals 100%.",
+     "The Reviewer opens the application at the Study stage and selects Evaluate.",
+     "The Reviewer scores each criterion from 0 to 100 and adds a note per criterion.",
+     "The system calculates the weighted total score and shows it in the dossier and the review queue.",
+     "When any user tries to approve the Study stage, the system compares the score with the pass score and allows or blocks the approval."
+    ],
+    "alternative_flows": [
+     "If several Reviewers score the same application, then the application score is the average of their weighted totals.",
+     "If no score exists, then Study approval is blocked with \"Enter at least one evaluation before approving the Study stage\"."
+    ],
+    "business_rules": [
+     "Criteria weights must total exactly 100%.",
+     "Pass score is between 0 and 100; default 80%.",
+     "Study-stage approval is blocked when the score is missing or below the pass score, from every entry point (application page, task, committee minute).",
+     "Criteria cannot be changed once an application on the opportunity has been scored."
+    ]
+   },
+   "stories": [
+    {
+     "id": "S-F14-01",
+     "title": "Define criteria, weights and pass score",
+     "story": "As a Grants Manager, I want to define weighted evaluation criteria and a pass score for an opportunity, so that all applications are measured the same way.",
+     "acceptance": [
+      "Given criteria weights totalling 90%, when the Grants Manager saves, then saving is refused and the total is shown in red with \"Weights must total 100%\"",
+      "Given weights totalling 100% and a pass score of 75, when saved, then the criteria and pass score are stored on the opportunity",
+      "Given a pass score above 100 or below 0, then it is refused",
+      "Given an application on the opportunity has already been scored, then the criteria and weights are read-only"
+     ],
+     "notes": "Pass score defaults to 80%."
+    },
+    {
+     "id": "S-F14-02",
+     "title": "Score an application",
+     "story": "As a Reviewer, I want to score each criterion with a note, so that my assessment is recorded and comparable.",
+     "acceptance": [
+      "Given an application at the Study stage, when the Reviewer enters a score of 0–100 for every criterion and saves, then the weighted total is calculated and shown",
+      "Given a criterion without a score, then the evaluation cannot be saved",
+      "Given two Reviewers scored 70 and 90, then the application score shown is 80"
+     ],
+     "notes": "Weighted total = Σ (criterion score × weight)."
+    },
+    {
+     "id": "S-F14-03",
+     "title": "Block approval below the pass score",
+     "story": "As a Grants Manager, I want approval blocked when the score is missing or below the pass score, so that weak applications cannot be approved by mistake.",
+     "acceptance": [
+      "Given an application with score 72% and pass score 80%, when a stage owner approves the Study stage, then approval is refused with \"Average score 72% is below the pass score 80%\"",
+      "Given an application with no score, when a stage owner approves the Study stage, then approval is refused with \"Enter at least one evaluation before approving the Study stage\"",
+      "Given an application with score 85% and pass score 80%, then the Study stage can be approved"
+     ],
+     "notes": "The same check runs from tasks (F27) and committee minutes (F16)."
+    },
+    {
+     "id": "S-F14-04",
+     "title": "Show evaluations in the dossier",
+     "story": "As a Reviewer, I want to see each Reviewer's scores and notes in the dossier, so that the decision-maker can understand the result.",
+     "acceptance": [
+      "Given a scored application, then the dossier shows, per Reviewer, the score per criterion, the notes, the weighted total and the evaluation date",
+      "Given a Charity delegate views the application in the portal, then no evaluation scores or notes are shown"
+     ],
+     "notes": ""
+    }
+   ]
+  },
+  {
+   "id": "F15",
+   "name": "Charity follow-up and requested edits",
+   "release": "R4",
+   "priority": "Must",
+   "size": "M",
+   "depends_on": [
+    "F13"
+   ],
+   "summary": "The Charity sees where each application is, edits and resubmits when asked, and accepts or refuses staff-proposed changes to amounts or quantities, so follow-up happens in the portal instead of by phone.",
+   "old_ucs": [
+    "UC45",
+    "UC63"
+   ],
+   "decision": "",
+   "use_case": {
+    "actors": [
+     "Charity delegate",
+     "Reviewer",
+     "Grants Manager",
+     "System"
+    ],
+    "trigger": "The Charity opens My applications, or staff return an application for edits or propose new figures.",
+    "preconditions": [
+     "The Charity has at least one submitted application.",
+     "For a figure proposal: the application is pending and no other proposal is awaiting a response."
+    ],
+    "main_flow": [
+     "The Charity delegate opens My applications and sees each application's reference, opportunity, amount, stage, status and the action required or the expected reply date.",
+     "When the application is returned for edits, the delegate sees \"Edits requested: <reviewer note>\".",
+     "The delegate updates the flagged data or attachments and selects Resubmit.",
+     "The system returns the application to the same stage, records the resubmission and recreates the stage task.",
+     "When staff propose new figures, the delegate sees the old and new amount, duration or quantities with the staff note.",
+     "The delegate accepts the proposal, or refuses it with a reason; the system applies or discards the new figures and records the response."
+    ],
+    "alternative_flows": [
+     "If the application has a final decision, then the Charity sees the decision and, for a rejection, the closure reason.",
+     "If the expected reply date has passed, then the Charity sees \"Soon\" instead of a date.",
+     "If the Charity refuses a proposal, then the original figures stay and the Grants Manager gets a follow-up task."
+    ],
+    "business_rules": [
+     "Expected reply date = stage entry date + stage SLA days.",
+     "The Charity can edit a submitted application only while its status is Awaiting Charity edits.",
+     "Staff-proposed figures apply only after the Charity accepts; a refusal requires a reason.",
+     "Only one figure proposal may be pending per application; Approve is blocked while it is pending.",
+     "Internal evaluation scores and staff notes (other than the edit-request note) are never shown to the Charity.",
+     "Every resubmission, proposal and response is recorded in the history with before and after values."
+    ]
+   },
+   "stories": [
+    {
+     "id": "S-F15-01",
+     "title": "Track my applications",
+     "story": "As a Charity delegate, I want to see the status of each application and what is expected from me, so that I know where it stands without calling the Foundation.",
+     "acceptance": [
+      "Given a pending application at Study entered on 1 March with SLA 5 days, then My applications shows stage Study and expected reply 6 March",
+      "Given an application awaiting Charity action, then the row shows \"Action required: <action>\" instead of the expected reply date",
+      "Given a rejected application, then the row shows status Rejected and the closure reason"
+     ],
+     "notes": ""
+    },
+    {
+     "id": "S-F15-02",
+     "title": "Edit and resubmit a returned application",
+     "story": "As a Charity delegate, I want to correct a returned application and resubmit it, so that the review can continue.",
+     "acceptance": [
+      "Given an application with status Awaiting Charity edits, then the delegate sees the Reviewer's note and can change the data and attachments",
+      "Given the delegate selects Resubmit, then the application returns to Pending at the same stage, the history records the resubmission and the stage owners get a new task",
+      "Given an application that is not Awaiting Charity edits, then its fields are read-only and Resubmit is not shown"
+     ],
+     "notes": "The same submission validations as F11 apply on resubmit."
+    },
+    {
+     "id": "S-F15-03",
+     "title": "Propose new figures to the Charity",
+     "story": "As a Reviewer, I want to propose a new requested amount, duration or quantities, so that the grant matches what the Foundation can fund.",
+     "acceptance": [
+      "Given a pending application, when the Reviewer enters a new amount 80,000 (was 100,000) with a note and confirms, then the proposal is sent and the application shows \"Figures awaiting Charity response\"",
+      "Given a proposal that changes no figure, when the Reviewer confirms, then it is refused with \"No figure was changed\"",
+      "Given a proposal is already pending, then a second proposal cannot be created",
+      "Given a bill of quantities, when the Reviewer changes quantities, then the new total is recalculated as Σ quantity × unit price"
+     ],
+     "notes": ""
+    },
+    {
+     "id": "S-F15-04",
+     "title": "Accept or refuse proposed figures",
+     "story": "As a Charity delegate, I want to accept or refuse the proposed figures, so that the application is only changed with my agreement.",
+     "acceptance": [
+      "Given a pending proposal, when the delegate accepts, then the new figures replace the old ones and the history records old and new values",
+      "Given the delegate selects Refuse without a reason, then the action is blocked with \"Enter the reason for refusal\"",
+      "Given the delegate refuses with a reason, then the original figures stay, the proposal is cleared and the Grants Manager gets a follow-up task"
+     ],
+     "notes": ""
+    }
+   ]
+  },
+  {
+   "id": "F16",
+   "name": "Committee decisions by minute",
+   "release": "R4",
+   "priority": "Must",
+   "size": "M",
+   "depends_on": [
+    "F14"
+   ],
+   "summary": "The Committee Secretary records one committee minute with its signed file and applies its decision to all the applications it covers in one step, so committee decisions are recorded once and every affected application is traceable to the minute.",
+   "old_ucs": [
+    "UC64",
+    "UC95"
+   ],
+   "decision": "",
+   "use_case": {
+    "actors": [
+     "Committee Secretary",
+     "System"
+    ],
+    "trigger": "The Committee Secretary selects applications at the Approval stage and chooses Decide by minute.",
+    "preconditions": [
+     "The applications are pending at the Approval stage and the user is its Committee Secretary.",
+     "The signed minute file is available."
+    ],
+    "main_flow": [
+     "The Secretary selects pending applications of the same committee and stage, from the review queue or My Tasks.",
+     "The Secretary opens Decide by minute and enters the minute number, minute date and members; the committee name is pre-filled.",
+     "The Secretary chooses the decision per application: Approve, Reject or Return.",
+     "The Secretary enters a note (mandatory for Reject) and attaches the signed minute file.",
+     "The Secretary confirms Apply to n applications.",
+     "The system stores the minute once and applies each decision under the same rules as an individual decision, including the pass score.",
+     "The system links every decided application to the minute and shows the number succeeded and failed with the reason for each failure."
+    ],
+    "alternative_flows": [
+     "If the selection mixes stages or committees, then the system shows \"Select applications at the same stage only\" and nothing is decided.",
+     "If some applications fail a rule (e.g. already decided, below pass score), then the others are decided and the result shows \"Succeeded: x · Failed: y\" with reasons.",
+     "If no application can be decided, then the minute is not stored."
+    ],
+    "business_rules": [
+     "Only the Committee Secretary of the stage can create a minute decision for its applications.",
+     "Minute number, minute date and the signed minute file are mandatory; file types PDF, Word, Excel or image, maximum 10 MB.",
+     "Each application is decided with the same rules as an individual decision: authorisation, pass score, no pending edits or proposals.",
+     "One minute record is stored per decision and linked from the history of every application it decided.",
+     "A finalized minute cannot be edited or deleted."
+    ]
+   },
+   "stories": [
+    {
+     "id": "S-F16-01",
+     "title": "Select applications for a committee minute",
+     "story": "As a Committee Secretary, I want to select several applications of my committee, so that I can decide them together.",
+     "acceptance": [
+      "Given the Secretary ticks a first application, then applications of other committees or stages become unselectable",
+      "Given n applications are selected, then the selection bar shows \"n applications selected\" with Decide by minute and Clear selection",
+      "Given a user who is not the stage's Committee Secretary, then the selection boxes are not shown"
+     ],
+     "notes": "Available in the review queue and in My Tasks."
+    },
+    {
+     "id": "S-F16-02",
+     "title": "Record the minute with its signed file",
+     "story": "As a Committee Secretary, I want to record the minute details and attach the signed minute, so that every decision is backed by the official document.",
+     "acceptance": [
+      "Given the minute number, date or file is missing, then Apply stays disabled and the missing item is named (e.g. \"Minute file is required\")",
+      "Given a 12 MB file or an unsupported type, when uploaded, then it is refused with \"The file must be PDF, Word, Excel or image and no larger than 10 MB\"",
+      "Given Reject is chosen for an application without a note, then Apply is blocked with \"Enter the rejection reason in the note\""
+     ],
+     "notes": "Minute date defaults to today; committee name pre-filled from the stage set-up."
+    },
+    {
+     "id": "S-F16-03",
+     "title": "Apply the decision to all selected applications",
+     "story": "As a Committee Secretary, I want the minute's decisions applied to all selected applications in one step, so that I do not decide each one separately.",
+     "acceptance": [
+      "Given 5 selected applications with decision Approve that all pass the rules, when the Secretary confirms, then all 5 become Approved and the system shows \"Decision applied to 5 applications\"",
+      "Given 1 of 5 applications is below the pass score, when confirmed, then 4 are decided and the result shows \"Succeeded: 4 · Failed: 1\" with the reason for the failed one",
+      "Given none of the selected applications can be decided, then no minute is stored"
+     ],
+     "notes": ""
+    },
+    {
+     "id": "S-F16-04",
+     "title": "Link decisions to the minute",
+     "story": "As a Grants Manager, I want each application decided by minute to link to that minute, so that the decision can be audited.",
+     "acceptance": [
+      "Given an application decided by minute, then its history shows the decision with the minute number and a link to open the minute and its file",
+      "Given a minute, when opened, then it lists the date, members, file and every application with its decision and outcome",
+      "Given a finalized minute, then it cannot be edited or deleted"
+     ],
+     "notes": ""
+    }
+   ]
+  }
+ ]
+}

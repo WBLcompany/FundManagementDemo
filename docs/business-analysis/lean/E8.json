@@ -1,0 +1,316 @@
+{
+ "epic": "E8",
+ "name": "Work Management & Insight",
+ "goal": "Staff see and finish their pending work from one place, and management gets live figures and reports without asking the team.",
+ "features": [
+  {
+   "id": "F12",
+   "name": "My Tasks inbox",
+   "release": "R4",
+   "priority": "Must",
+   "size": "M",
+   "depends_on": [
+    "F02"
+   ],
+   "summary": "Every staff member has one inbox with the tasks assigned to them, their due dates and overdue flags, plus manual tasks and meetings, so no pending work is lost. Bulk decisions and focus mode come later (F27).",
+   "old_ucs": [
+    "UC90",
+    "UC91",
+    "UC92",
+    "UC93"
+   ],
+   "decision": "",
+   "use_case": {
+    "actors": [
+     "Any staff member",
+     "System"
+    ],
+    "trigger": "The staff member opens My Tasks (default home page for most staff roles).",
+    "preconditions": [
+     "The user is signed in with a staff role."
+    ],
+    "main_flow": [
+     "The system shows the user's open tasks with type, title, assignee, due date and an overdue flag, and the open / completed counts.",
+     "The user searches by title, description or reference and filters by type: All / Manual / Meetings / Applications / Payments.",
+     "The user sorts by nearest due date or newest added.",
+     "The user creates a manual task or meeting, assigns it and sets a due date.",
+     "The assignee changes the task status (To do → In progress → Done) and adds comments.",
+     "The user switches to the calendar view to see tasks by due date."
+    ],
+    "alternative_flows": [
+     "If the user selects the scope Assigned by me, then the list shows manual tasks the user created for colleagues.",
+     "If a completed task needs more work, then the assignee sets it back to To do or In progress."
+    ],
+    "business_rules": [
+     "The inbox combines manual tasks, meetings and system tasks (application stages, later payments) assigned to the user.",
+     "An open task past its due date is flagged overdue with the number of days late, using the Riyadh local date.",
+     "Only the creator or the assignee can edit, change status or delete a manual task; meeting invitees can only view it.",
+     "Task title is required, 1–200 characters; assignee must be an active staff member of the organization (default: me).",
+     "Users see only tasks of their own organization."
+    ]
+   },
+   "stories": [
+    {
+     "id": "S-F12-01",
+     "title": "See my tasks with due dates and overdue flags",
+     "story": "As a staff member, I want one list of the tasks assigned to me with their due dates, so that I know what to do first.",
+     "acceptance": [
+      "Given a task is assigned to the user, then it appears in their inbox with its type, title and due date",
+      "Given an open task due 3 days ago, then it is flagged \"Overdue 3 days\"",
+      "Given the user filters by type Applications, then only application tasks are listed and each type tab shows its count",
+      "Given sort = nearest due date, then tasks are ordered by due date with undated tasks last"
+     ],
+     "notes": "Open-task count is shown on the My Tasks menu item."
+    },
+    {
+     "id": "S-F12-02",
+     "title": "Create and assign a manual task",
+     "story": "As a staff member, I want to create a task and assign it to myself or a colleague, so that follow-up work is tracked.",
+     "acceptance": [
+      "Given an empty title or a title over 200 characters, then Save is disabled with \"Task title is required and must not exceed 200 characters\"",
+      "Given a valid task assigned to a colleague, when saved, then it appears in the colleague's inbox and in the creator's Assigned by me scope",
+      "Given a deactivated staff member, then they are not offered as an assignee"
+     ],
+     "notes": "Fields: title, description, assignee, due date, status (default To do)."
+    },
+    {
+     "id": "S-F12-03",
+     "title": "Change status and comment on a manual task",
+     "story": "As an assignee, I want to update the status of a task and add comments, so that the creator can follow progress.",
+     "acceptance": [
+      "Given the assignee sets the status to Done, then the task leaves the open list, the completed count increases and the completion time is recorded",
+      "Given a user who is neither creator nor assignee, when they try to change the task, then the action is refused",
+      "Given a comment is added, then it is shown on the task with author and time to both creator and assignee"
+     ],
+     "notes": ""
+    },
+    {
+     "id": "S-F12-04",
+     "title": "Schedule a meeting",
+     "story": "As a staff member, I want to schedule a meeting with date, time, place and attendees, so that it appears in everyone's inbox and calendar.",
+     "acceptance": [
+      "Given a meeting with date, time, location or link and two invitees, when saved, then it appears for the organizer and both invitees under Meetings as \"Meeting · HH:MM\"",
+      "Given the type is switched back to Task before saving, then time, location and invitees are cleared",
+      "Given the organizer cancels the meeting, then it is removed from the invitees' inboxes"
+     ],
+     "notes": ""
+    },
+    {
+     "id": "S-F12-05",
+     "title": "Calendar view",
+     "story": "As a staff member, I want to see my tasks in a monthly calendar, so that I can plan my workload by date.",
+     "acceptance": [
+      "Given the user switches to Calendar, then each task appears on its due date and undated tasks are listed in a separate No date section",
+      "Given a day has more than three tasks, then three are shown and \"+N more\" opens the rest"
+     ],
+     "notes": ""
+    }
+   ]
+  },
+  {
+   "id": "F26",
+   "name": "Executive dashboard and reports",
+   "release": "R7",
+   "priority": "Should",
+   "size": "M",
+   "depends_on": [
+    "F23"
+   ],
+   "summary": "Management sees budget, applications, projects, payments and delays on one dashboard, runs standard reports with Excel export, and reviews staff workload, so they get the numbers without asking the team.",
+   "old_ucs": [
+    "UC12",
+    "UC86",
+    "UC87"
+   ],
+   "decision": "Which reports does management request today?",
+   "use_case": {
+    "actors": [
+     "CEO",
+     "Grants Manager",
+     "Finance Officer",
+     "System"
+    ],
+    "trigger": "The user opens the dashboard (home page for the CEO), the reports center or a staff member's profile.",
+    "preconditions": [
+     "The user's role has access to the dashboard and reports.",
+     "Applications, projects and payments exist in the registers."
+    ],
+    "main_flow": [
+     "The system shows the headline figures: total applications (with pending), approved amount, active projects and paid amount with spend rate.",
+     "The system shows charts: applications by status and by stage, projects by status, payments by status, and delays.",
+     "The user opens the reports center and selects a report: applications, projects, payments or charities.",
+     "The user filters the report, chooses columns and opens a record from a row.",
+     "The user exports the report to Excel.",
+     "The Grants Manager opens a staff member's profile to see their workload and performance."
+    ],
+    "alternative_flows": [
+     "If a chart or report has no data, then it shows \"No data\"."
+    ],
+    "business_rules": [
+     "Every figure is calculated from the same registers it summarises (applications, projects, payments register) and matches them.",
+     "\"Paid\" uses the same definition as the payments register (F23).",
+     "All figures and reports are limited to the user's organization.",
+     "An export contains exactly the filtered rows and visible columns.",
+     "Staff performance is visible only to the Grants Manager, CEO and Admin."
+    ]
+   },
+   "stories": [
+    {
+     "id": "S-F26-01",
+     "title": "Executive dashboard headline figures and charts",
+     "story": "As the CEO, I want a dashboard of the key grant figures, so that I see the state of the programme without asking the team.",
+     "acceptance": [
+      "Given the dashboard, then it shows total applications with the number pending, approved amount, active projects and paid amount with spend rate",
+      "Given 12 applications pending at Study in the applications register, then the pending-by-stage chart shows 12 for Study",
+      "Given the paid amount on the dashboard, then it equals the total of payments with status Paid in the payments register",
+      "Given a chart with no data, then it shows \"No data\""
+     ],
+     "notes": ""
+    },
+    {
+     "id": "S-F26-02",
+     "title": "Opportunities performance table",
+     "story": "As the CEO, I want each grant opportunity's budget, applications, approvals and consumption, so that I can compare opportunities.",
+     "acceptance": [
+      "Given the dashboard, then each opportunity shows budget, applications, approved applications, approval rate, approved value and budget consumption %",
+      "Given an opportunity with 20 applications and 5 approved, then the approval rate shows 25%",
+      "Given the user exports the table, then the Excel file contains the same rows and values"
+     ],
+     "notes": ""
+    },
+    {
+     "id": "S-F26-03",
+     "title": "Standard reports with filters and export",
+     "story": "As a Finance Officer, I want standard reports on applications, projects, payments and charities, so that I can answer management questions quickly.",
+     "acceptance": [
+      "Given the reports center, then the reports Applications by stage, Projects and payments, Payments and Charities are available",
+      "Given the user filters a report, when exporting, then the Excel file contains exactly the filtered rows with the visible columns",
+      "Given a report row, when the user selects it, then the related application, project or Charity opens"
+     ],
+     "notes": "Report list to be confirmed by the open decision."
+    },
+    {
+     "id": "S-F26-04",
+     "title": "Staff workload and performance",
+     "story": "As a Grants Manager, I want to see each staff member's open tasks, overdue tasks and decisions, so that I can balance the workload.",
+     "acceptance": [
+      "Given a staff member's profile, then it shows decisions in the last 30 days, completed tasks, average completion time and open tasks",
+      "Given the staff member has overdue open tasks, then they are listed with due date and days late",
+      "Given a Reviewer opens another staff member's profile, then access is denied"
+     ],
+     "notes": "Decisions = application stage decisions and payment approvals by that person."
+    }
+   ]
+  },
+  {
+   "id": "F27",
+   "name": "Productivity tools",
+   "release": "R7",
+   "priority": "Could",
+   "size": "M",
+   "depends_on": [
+    "F13",
+    "F21"
+   ],
+   "summary": "Global search, saved list views and exports, decisions directly from tasks (including bulk decisions) and a focus mode help staff spend less time navigating and deciding, without bypassing any business rule.",
+   "old_ucs": [
+    "UC04",
+    "UC06",
+    "UC07",
+    "UC94",
+    "UC96"
+   ],
+   "decision": "",
+   "use_case": {
+    "actors": [
+     "Any staff member",
+     "System"
+    ],
+    "trigger": "The user opens global search, a list page or My Tasks.",
+    "preconditions": [
+     "The user is signed in with a staff role."
+    ],
+    "main_flow": [
+     "The user opens global search (search icon or Ctrl/Cmd+K) and types at least two characters.",
+     "The system returns matching Charities, applications, projects and payments the user may access, grouped by type.",
+     "On a list page the user sets filters and columns, saves them as their default view and exports the list.",
+     "In My Tasks the user selects Approve, Return or Reject directly on an application or payment task.",
+     "The system shows a decision summary, applies the same rules as on the record and removes the task when decided.",
+     "The user starts focus mode and processes open tasks one at a time."
+    ],
+    "alternative_flows": [
+     "If nothing matches the search, then the system shows \"No results\".",
+     "If a rule blocks a decision taken from a task, then the rule's message is shown and the task stays open.",
+     "If the user selects several tasks of the same type and stage for a bulk decision, then each is decided separately and the result lists succeeded and failed items."
+    ],
+    "business_rules": [
+     "Search results and exports include only records the user's role and organization may access.",
+     "Decisions from a task, bulk selection or focus mode apply exactly the same rules as on the record (authorisation, pass score, pending edits, payment approval chain).",
+     "Return and reject always require a reason of up to 1000 characters.",
+     "Saved views are personal and kept across devices; search text is not saved.",
+     "Focus mode excludes meetings and shows tasks ordered by due date."
+    ]
+   },
+   "stories": [
+    {
+     "id": "S-F27-01",
+     "title": "Global search",
+     "story": "As a staff member, I want to search across Charities, applications, projects and payments from any page, so that I reach a record in seconds.",
+     "acceptance": [
+      "Given the user types \"REQ-2026\", then matching applications are listed under Applications with their reference and Charity",
+      "Given a record the user's role may not access, then it never appears in the results",
+      "Given fewer than two characters, then the system asks the user to type at least two characters",
+      "Given the user opens a result, then it is added to their Recent items"
+     ],
+     "notes": "Search by name, title and reference number."
+    },
+    {
+     "id": "S-F27-02",
+     "title": "Saved views and list exports",
+     "story": "As a staff member, I want to save my filters and columns as my default view and export any list, so that I do not set them up every time.",
+     "acceptance": [
+      "Given the user saves a view on the applications list, when they reopen the list on another device, then the same filters and columns are applied",
+      "Given the user selects Reset view, then the standard view is restored",
+      "Given a filtered list of 230 rows over 10 pages, when exported, then the Excel file contains all 230 rows with the visible columns"
+     ],
+     "notes": "Export formats: Excel (right-to-left) and CSV."
+    },
+    {
+     "id": "S-F27-03",
+     "title": "Decide directly from a task",
+     "story": "As a Reviewer, I want to approve, return or reject from my task list, so that I do not open each record for simple decisions.",
+     "acceptance": [
+      "Given the user selects Approve on an application task, then a summary with Charity, amount, score and a link to the full application is shown before confirmation",
+      "Given an application with score 70% and pass score 80%, when approved from the task, then the decision is refused with the pass-score message and the task stays",
+      "Given Return or Reject without a reason, then the confirm button stays disabled",
+      "Given a payment task, then only Approve and Reject are offered"
+     ],
+     "notes": ""
+    },
+    {
+     "id": "S-F27-04",
+     "title": "Bulk decisions",
+     "story": "As a Grants Manager, I want to apply the same decision to several selected tasks, so that I clear routine approvals quickly.",
+     "acceptance": [
+      "Given the user selects tasks of different types or stages, then the bulk decision is not offered",
+      "Given 6 selected tasks approved in bulk where 1 fails a rule, then 5 are decided and the result shows \"Succeeded: 5 · Failed: 1\" with the reason",
+      "Given a bulk reject, then one reason is mandatory and recorded on every decided item"
+     ],
+     "notes": "Committee-stage items are decided by minute (F16), not by bulk decision."
+    },
+    {
+     "id": "S-F27-05",
+     "title": "Focus mode",
+     "story": "As a staff member, I want to process my open tasks one by one in a focus view, so that I work through my queue without distraction.",
+     "acceptance": [
+      "Given the user starts focus mode, then the first open task by due date is shown with \"Done today N\", \"Remaining N\" and time on task",
+      "Given a manual task, when the user selects Complete, then it is marked Done and the next task is shown",
+      "Given at least two tasks remain, when the user selects Skip, then the task moves to the end of the queue; with one task left Skip is not available",
+      "Given no tasks remain, then the system shows \"No tasks remaining\" and the number completed today"
+     ],
+     "notes": "Meetings are excluded from focus mode."
+    }
+   ]
+  }
+ ]
+}

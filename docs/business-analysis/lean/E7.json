@@ -1,0 +1,291 @@
+{
+  "epic": "E7",
+  "name": "Payments",
+  "goal": "Release grant payments only against approved milestones, through a controlled approval chain, to a verified account, and close every payment with proof.",
+  "features": [
+    {
+      "id": "F21",
+      "name": "Payment approval chain",
+      "release": "R6",
+      "priority": "Must",
+      "size": "M",
+      "depends_on": [
+        "F19"
+      ],
+      "summary": "Due payments are submitted for a three-level sequential approval (Project Manager → Grants Manager → CEO) with tasks in My Tasks, so no payment is released without the required approvals.",
+      "old_ucs": [
+        "UC80",
+        "UC81",
+        "UC89"
+      ],
+      "decision": "Are there amount thresholds that change the approval chain?",
+      "use_case": {
+        "actors": [
+          "Project Manager",
+          "Grants Manager",
+          "CEO"
+        ],
+        "trigger": "A payment becomes Due (its milestone was approved, or an authorised user marked an unlinked payment such as the advance as Due).",
+        "preconditions": [
+          "The payment belongs to a project In progress.",
+          "The payment status is Due."
+        ],
+        "main_flow": [
+          "The Project Manager opens the project's due payments list and submits a due payment for approval.",
+          "The system sets the payment to Awaiting approval (level 1 of 3) and creates a task for the project's Project Manager.",
+          "The approver opens the task, reviews payment title, amount, due date, level and linked milestone, and approves.",
+          "The system records the decision and creates the level-2 task for Grants Managers, then the level-3 task for the CEO.",
+          "When the CEO approves, the payment becomes Approved and passes to Finance for disbursement (F22).",
+          "At each step, the decided task is removed from My Tasks."
+        ],
+        "alternative_flows": [
+          "If an approver rejects, then a reason is mandatory, the payment returns to Due and the chain restarts at level 1 on resubmission.",
+          "If a user who is not the eligible approver for the current level tries to act, then the system refuses."
+        ],
+        "business_rules": [
+          "Level 1: the project's assigned Project Manager only; level 2: a Grants Manager; level 3: the CEO.",
+          "The same person cannot approve more than one level of the same payment.",
+          "A milestone payment cannot be submitted while its milestone is not approved.",
+          "Every approval and rejection is recorded with level, person, date, decision and reason, visible on the payment.",
+          "The task due date is the payment due date."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F21-01",
+          "title": "Due payments list and submission",
+          "story": "As a Project Manager, I want to see my project's due payments and submit one for approval, so that the charity is paid on time.",
+          "acceptance": [
+            "Given a project with payments, then the payments tab lists each with title, amount, due date, linked milestone and status (On hold, Due, Awaiting approval, Approved).",
+            "Given a Due payment, when I submit it, then its status becomes Awaiting approval – level 1 of 3.",
+            "Given a payment whose milestone is not approved, then it shows On hold and cannot be submitted.",
+            "Given an advance payment not linked to a milestone, when an authorised user marks it Due, then it can be submitted."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F21-02",
+          "title": "Approve a payment step by step",
+          "story": "As an approver (Project Manager, Grants Manager or CEO), I want to approve the payment at my level, so that it moves to the next approver.",
+          "acceptance": [
+            "Given level 1 is approved by the project's Project Manager, then the payment moves to level 2 and Grants Managers get the task.",
+            "Given level 2 is approved, then the CEO gets the level-3 task; when the CEO approves, the payment status becomes Approved.",
+            "Given I approved level 1 and I also hold the Grants Manager role, when I try to approve level 2 of the same payment, then the system refuses.",
+            "Given a Project Manager of another project, then they neither see the level-1 task nor can approve it."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F21-03",
+          "title": "Reject a payment with reason",
+          "story": "As an approver, I want to reject a payment with a reason, so that the Project Manager knows what to fix.",
+          "acceptance": [
+            "Given I reject without a reason, then the system refuses with 'Rejection reason is required'.",
+            "Given I reject with a reason, then the payment returns to Due, the reason is shown on the payment, and the open task is removed.",
+            "Given a rejected payment is resubmitted, then approval restarts at level 1."
+          ],
+          "notes": "Reason up to 1,000 characters."
+        },
+        {
+          "id": "S-F21-04",
+          "title": "Payment approval tasks and history",
+          "story": "As an approver, I want payment approvals in My Tasks and a visible approval history, so that nothing waits unnoticed and every decision is traceable.",
+          "acceptance": [
+            "Given a payment reaches my level, then a task with payment title, project, level, amount and due date appears in My Tasks with the due date of the payment.",
+            "Given a level is decided, then that task disappears for all its holders.",
+            "Given a payment, then its history shows every approval and rejection with level, person, date and reason."
+          ],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": "F22",
+      "name": "Disbursement order, transfer and receipt",
+      "release": "R6",
+      "priority": "Must",
+      "size": "M",
+      "depends_on": [
+        "F21",
+        "F06"
+      ],
+      "summary": "After final approval, a numbered disbursement order is issued to Finance, the payee is the charity's verified bank account, Finance records the bank transfer with its notice, and the charity closes the payment by uploading the receipt voucher.",
+      "old_ucs": [
+        "UC82",
+        "UC83",
+        "UC84"
+      ],
+      "decision": "",
+      "use_case": {
+        "actors": [
+          "Finance Officer",
+          "Charity user",
+          "Grants Manager"
+        ],
+        "trigger": "The CEO gives final approval of a payment.",
+        "preconditions": [
+          "The payment is fully approved.",
+          "The charity has a bank account recorded in its profile (F06)."
+        ],
+        "main_flow": [
+          "The system issues a disbursement order with a unique sequential number and the final approval date, and creates a task for Finance.",
+          "The Finance Officer opens the order showing charity, project, payment and bank details (bank, account name, IBAN) and every approval of the latest cycle, and prints it.",
+          "The Finance Officer executes the transfer at the bank, uploads the bank transfer notice, optionally enters the transfer reference and confirms.",
+          "The system records the transfer date, sets the payment to Awaiting receipt and notifies the charity.",
+          "The charity user views the transfer notice, uploads the receipt voucher, optionally enters its number and confirms receipt.",
+          "The system records the receipt date and closes the payment as Paid."
+        ],
+        "alternative_flows": [
+          "If the payee is changed to a third party, then account name, IBAN and justification are required and the approval chain restarts at level 1.",
+          "If the charity's bank account is not verified, then the transfer cannot be recorded."
+        ],
+        "business_rules": [
+          "The payee is the charity's verified bank account by default.",
+          "IBAN must match the Saudi format: SA followed by 22 digits.",
+          "Any payee change after an approval restarts the approval chain; no payee change after transfer is confirmed.",
+          "Transfer cannot be confirmed without at least one transfer notice; receipt cannot be confirmed without at least one receipt voucher.",
+          "Only Finance Officers record transfers; only the charity owning the project confirms receipt.",
+          "Order, transfer notice and voucher stay viewable, read-only, on the paid payment."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F22-01",
+          "title": "Issue the disbursement order",
+          "story": "As a Finance Officer, I want a numbered disbursement order for each fully approved payment, so that I pay exactly what was approved.",
+          "acceptance": [
+            "Given the CEO approves a payment, then a disbursement order is issued with a unique sequential number and the approval date, the payment status becomes Awaiting transfer and Finance gets a task.",
+            "Given the order, then it shows charity, project, payment amount and purpose, bank name, account name, IBAN and each approval level with approver name and date.",
+            "Given the payment was rejected and re-approved, then the order shows only the approvals of the latest cycle.",
+            "Given I select Print, then the order prints without editing controls."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F22-02",
+          "title": "Change the payee to a third party",
+          "story": "As a Grants Manager, I want to direct a payment to a third-party account with justification, so that agreed exceptions are possible and controlled.",
+          "acceptance": [
+            "Given I choose Third party without account name, IBAN or justification, then the system refuses to save.",
+            "Given an IBAN not matching SA + 22 digits, then it is rejected with 'Invalid IBAN'.",
+            "Given the payee is changed after any approval level, then the approval chain restarts at level 1 and the change is logged with user and time.",
+            "Given the transfer has been confirmed, then the payee can no longer be changed."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F22-03",
+          "title": "Record the bank transfer",
+          "story": "As a Finance Officer, I want to record the transfer with the bank notice, so that the payment is documented and the charity is informed.",
+          "acceptance": [
+            "Given a payment Awaiting transfer, when I confirm without a transfer notice, then the system asks me to attach the bank transfer notice first.",
+            "Given the charity's bank account is not verified, when I try to confirm, then the system refuses with 'Charity bank account not verified'.",
+            "Given I upload the notice and confirm, then the transfer date (and reference if entered) is recorded, the status becomes Awaiting receipt and the charity is notified."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F22-04",
+          "title": "Confirm receipt and close the payment",
+          "story": "As a Charity user, I want to upload the receipt voucher for a transferred payment, so that the payment is closed.",
+          "acceptance": [
+            "Given a payment Awaiting receipt, then I can view the transfer notice and upload the receipt voucher.",
+            "Given I confirm receipt without a voucher, then the system refuses.",
+            "Given I upload the voucher and confirm, then the receipt date (and number if entered) is recorded and the status becomes Paid.",
+            "Given a Paid payment, then the disbursement order, transfer notice and voucher are viewable, read-only, by staff and the charity."
+          ],
+          "notes": "Receipt actions are shown to the charity only when the payment is Awaiting receipt or Paid."
+        }
+      ]
+    },
+    {
+      "id": "F23",
+      "name": "Payments register and commitments",
+      "release": "R6",
+      "priority": "Must",
+      "size": "S",
+      "depends_on": [
+        "F22"
+      ],
+      "summary": "Finance and management see every payment with its status and who it waits for, and each charity's committed, due and paid totals, with Excel export.",
+      "old_ucs": [
+        "UC79",
+        "UC85"
+      ],
+      "decision": "Single definition of “paid” (after transfer or after receipt?)",
+      "use_case": {
+        "actors": [
+          "Finance Officer",
+          "Grants Manager",
+          "CEO"
+        ],
+        "trigger": "A user opens the payments register or a charity's financial summary.",
+        "preconditions": [
+          "The user's role is authorised to view financial data."
+        ],
+        "main_flow": [
+          "The user opens the payments register.",
+          "The system shows summary cards with totals: Overdue (with count), Due, Awaiting approval, Awaiting transfer/receipt, Paid.",
+          "The system lists payments by due date with number, project, charity, title, amount, due date, due band, status and who it is waiting for.",
+          "The user clicks a card or filters by status, charity or project.",
+          "The user exports the filtered list to Excel.",
+          "The user opens a charity's profile and sees its committed, paid, remaining and due-and-overdue totals."
+        ],
+        "alternative_flows": [
+          "If the user is a Project Manager, then only payments of their own projects are shown."
+        ],
+        "business_rules": [
+          "One overdue rule everywhere: not Paid, not cancelled, due date before today.",
+          "Waiting on: Project Manager (Due), the current-level approver (Awaiting approval), Finance (Awaiting transfer), the charity (Awaiting receipt).",
+          "Charity committed total = sum of its contract amounts = paid + due + not yet due; cancelled payments excluded.",
+          "'Paid' follows the single definition agreed in the open decision and is used in every total.",
+          "The export contains exactly the rows of the filtered list."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F23-01",
+          "title": "Payments register with status cards",
+          "story": "As a Finance Officer, I want one register of all payments with status totals, so that I see what must be paid and what is late.",
+          "acceptance": [
+            "Given the register, then five cards show the total amount for Overdue (with count), Due, Awaiting approval, Awaiting transfer/receipt and Paid.",
+            "Given a payment not Paid with due date before today, then it shows 'Overdue <n> days' and is counted in the Overdue card.",
+            "Given I click the Overdue card, then only overdue payments are listed."
+          ],
+          "notes": "Due bands: overdue n days, today, within 7 days, within 30 days, more than a month."
+        },
+        {
+          "id": "S-F23-02",
+          "title": "See who each payment waits for",
+          "story": "As a Grants Manager, I want each payment to show who it is waiting for, so that I can chase the right person.",
+          "acceptance": [
+            "Given a payment at approval level 2, then 'Waiting on' shows 'Grants Manager'.",
+            "Given a payment Awaiting receipt, then 'Waiting on' shows the charity name.",
+            "Given I am a Project Manager, then the register shows only payments of my projects."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F23-03",
+          "title": "Charity commitments",
+          "story": "As a Grants Manager, I want each charity's committed, paid, remaining and due-and-overdue totals, so that I know what the Foundation still owes.",
+          "acceptance": [
+            "Given a charity with two contracts of SAR 100,000 and 50,000, then its committed total is SAR 150,000 and paid + remaining equals SAR 150,000.",
+            "Given a cancelled payment, then it is excluded from all the charity's totals."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F23-04",
+          "title": "Export the register",
+          "story": "As a Finance Officer, I want to export the filtered register to Excel, so that I can reconcile with the bank and accounting.",
+          "acceptance": [
+            "Given a filtered register of 37 rows, when I export, then the Excel file contains the same 37 rows with the same columns and amounts.",
+            "Given the export, then amounts are numeric (SAR) and dates are real date values."
+          ],
+          "notes": ""
+        }
+      ]
+    }
+  ]
+}

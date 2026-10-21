@@ -1,0 +1,297 @@
+{
+  "epic": "E3",
+  "name": "Annual Plan & Budget",
+  "goal": "The Foundation manages its annual plan and budget in Manih instead of spreadsheets, so every grant is funded from a known budget line with live and evidenced figures.",
+  "features": [
+    {
+      "id": "F07",
+      "name": "Annual plan and budget structure",
+      "release": "R3",
+      "priority": "Must",
+      "size": "M",
+      "depends_on": ["F02"],
+      "summary": "The Grants Manager creates the annual plan with its total budget and builds its tree of tracks, items and initiatives with a budget per level. Changes to saved elements need an evidence document and are kept in the plan history, so the plan can serve as the budget source for grant opportunities from day one.",
+      "old_ucs": ["UC19", "UC20", "UC21"],
+      "decision": "",
+      "use_case": {
+        "actors": ["Grants Manager", "CEO (view only)"],
+        "trigger": "The Foundation approves its budget for a new year and the Grants Manager needs to record it in Manih.",
+        "preconditions": [
+          "The user is signed in with the Grants Manager role (F02).",
+          "The Foundation's approved budget for the year is available."
+        ],
+        "main_flow": [
+          "The Grants Manager opens the Annual Plans list and selects New plan.",
+          "The Grants Manager enters the plan name, year and total budget and saves; the system creates the plan as Active with a unique reference number.",
+          "The Grants Manager starts an edit session and adds tracks, then items under tracks and initiatives under items, each with a name and a budget.",
+          "The system assigns hierarchical codes (1, 1.2, 1.2.3) and shows the tree with each level's budget and the plan total.",
+          "The system warns on any level whose children's budgets exceed its own budget, showing the difference.",
+          "The Grants Manager selects Save changes; the system lists the pending changes and asks for an evidence document if any saved element was changed.",
+          "The system saves all changes together, records each one in the plan history and confirms \"{n} changes saved\"."
+        ],
+        "alternative_flows": [
+          "If the Grants Manager cancels the edit session, then all draft changes are discarded and the plan is unchanged.",
+          "If saving fails for any change, then nothing is saved, the uploaded document is discarded and the system shows \"Some changes could not be saved\".",
+          "If a plan already exists for the same year, then the system warns before creating the new plan but allows it."
+        ],
+        "business_rules": [
+          "A plan requires a name, a year and a total budget of zero or more; levels require a name and a budget of zero or more.",
+          "The tree has three fixed levels: track → item → initiative.",
+          "Structure and header changes are made only inside an edit session and saved all together or not at all.",
+          "Changing or removing an element that was already saved requires one evidence document (PDF, Word, Excel or image, max 10 MB) per save; adding new levels only does not.",
+          "Children exceeding the parent budget is a warning, not a block.",
+          "The plan history is append-only: change, before and after values, user, date and document."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F07-01",
+          "title": "Create the annual plan",
+          "story": "As a Grants Manager, I want to create the annual plan with its name, year and total budget, so that the year's budget is recorded in the system.",
+          "acceptance": [
+            "Given the New plan form, when the Grants Manager saves name \"Plan 2027\", year 2027 and budget 50,000,000 SAR, then the plan appears in the Annual Plans list with a reference number, status Active and budget 50,000,000 SAR",
+            "Given the name or year is empty, when the user saves, then the system shows \"Name and year are required\" and does not save",
+            "Given the budget is empty, negative or not a number, when the user saves, then the system shows \"Enter a valid budget\" and does not save",
+            "Given a plan already exists for 2027, when the user saves another 2027 plan, then the system warns \"A plan already exists for this year\" and saves only after the user confirms"
+          ],
+          "notes": "The form opens prefilled with next year. Creator and creation time are recorded."
+        },
+        {
+          "id": "S-F07-02",
+          "title": "Build the plan tree with a budget per level",
+          "story": "As a Grants Manager, I want to add tracks, items and initiatives with their budgets in an edit session, so that the plan reflects how the budget is distributed.",
+          "acceptance": [
+            "Given an edit session on a plan with no levels, when the user adds a track \"Education\" with 10,000,000 SAR, then it is shown with code 1",
+            "Given track 1 has one item, when the user adds a second item under it, then the new item gets code 1.2; an initiative under it gets code 1.2.1",
+            "Given a level with an empty name or invalid amount, when the user adds it, then the system shows \"Name is required\" or \"Enter a valid amount\" and does not add it",
+            "Given the user cancels the edit session, when the plan is reopened, then none of the draft levels exist"
+          ],
+          "notes": "Only three levels; an initiative cannot have children."
+        },
+        {
+          "id": "S-F07-03",
+          "title": "View the plan tree and budget warnings",
+          "story": "As a Grants Manager, I want to see the plan tree with each level's budget and a warning where children exceed the parent, so that I can correct the distribution before saving.",
+          "acceptance": [
+            "Given a plan with levels, when the user opens it, then the tree shows each level's code, name and budget, and the plan total budget",
+            "Given item 1.1 has 2,000,000 SAR and its initiatives total 2,300,000 SAR, then item 1.1 shows the warning \"Children exceed budget by 300,000 SAR\"",
+            "Given the plan total of tracks exceeds the plan budget, then the plan header shows the same type of warning, and saving is still allowed",
+            "Given an edit session with unsaved changes, then changed levels are highlighted and the number of unsaved changes is shown"
+          ],
+          "notes": "Warnings are recalculated on every draft change."
+        },
+        {
+          "id": "S-F07-04",
+          "title": "Save edits with an evidence document",
+          "story": "As a Grants Manager, I want changes to saved plan elements to be saved with an evidence document, so that every budget change is justified.",
+          "acceptance": [
+            "Given the user changed the budget of a saved level, when they select Save changes, then the system lists the pending changes and requires an evidence document before Save all is enabled",
+            "Given the session only added new levels, when the user saves, then no document is required",
+            "Given a document of an unaccepted type or larger than 10 MB, when the user attaches it, then the system rejects it with the reason and does not save",
+            "Given 3 pending changes and a valid document, when the user selects Save all, then all 3 are saved and the system confirms \"3 changes saved\""
+          ],
+          "notes": "Accepted types: PDF, Word, Excel, image. One document covers the whole session."
+        },
+        {
+          "id": "S-F07-05",
+          "title": "Plans list and plan history",
+          "story": "As a Grants Manager or CEO, I want to list the annual plans and see each plan's change history, so that I can find a plan and know who changed what and why.",
+          "acceptance": [
+            "Given several plans, when the user opens Annual Plans, then only the Foundation's plans are listed, newest year first, with name, year, budget and active status",
+            "Given a saved change of item 1.1 from 2,000,000 to 2,500,000 SAR, when the user opens the plan history, then it shows the element, before and after values, user, date and a link to open the document",
+            "Given any history entry, when any user tries to edit or delete it, then no such action is available",
+            "Given a CEO opens a plan, then the tree and history are visible but New plan and Edit are not offered"
+          ],
+          "notes": "Filter by year and active status."
+        }
+      ]
+    },
+    {
+      "id": "F24",
+      "name": "Budget monitoring and adjustments",
+      "release": "R7",
+      "priority": "Must",
+      "size": "M",
+      "depends_on": ["F23"],
+      "summary": "Every plan level shows live committed, due, paid and available figures from contracts and payments, and authorised staff increase, decrease or transfer budget with evidence. The plan can be locked at year end so no new grants are funded from it.",
+      "old_ucs": ["UC22", "UC23", "UC24", "UC25"],
+      "decision": "",
+      "use_case": {
+        "actors": ["Grants Manager", "Finance", "CEO"],
+        "trigger": "Management needs the current budget position, or a budget line needs more or less money than planned.",
+        "preconditions": [
+          "An annual plan with levels exists (F07).",
+          "Contracts and payments are recorded against plan items (F17, F21–F23)."
+        ],
+        "main_flow": [
+          "The user opens the plan summary; the system shows for the plan and each level: budget, committed, due, paid and available.",
+          "The system flags any level whose available balance is negative with \"Over budget\".",
+          "The user drills down from a level to the projects and applications charged to it and its sub-levels.",
+          "The Grants Manager selects Increase, Decrease or Transfer, chooses the level(s), enters the amount and a note and attaches the evidence document.",
+          "The system validates the operation and applies it to the level, its parent levels and, for increase or decrease, the plan budget in one step.",
+          "The system records the operation in the financial operations register with a reference number and in the plan history.",
+          "At year end the Grants Manager locks the plan with the decision document; the plan's items are no longer offered for new links."
+        ],
+        "alternative_flows": [
+          "If a decrease or transfer is larger than the source level's available balance, then the system refuses it with \"Amount exceeds the level's available balance ({amount})\".",
+          "If the source and target of a transfer are the same level, then the system refuses with \"Cannot transfer to the same level\".",
+          "If a locked plan must be used again, then the Grants Manager reopens it with a justification document and the reopening is recorded."
+        ],
+        "business_rules": [
+          "One definition per figure everywhere: committed = signed contract amounts; due = payments in status Due or later and not paid; paid = payments marked Paid (per F23); available = budget − committed.",
+          "A level's figures include all its sub-levels.",
+          "Every adjustment requires an amount greater than zero and an evidence document (PDF, Word, Excel or image, max 10 MB); a transfer keeps the plan budget unchanged.",
+          "Each operation is applied completely or not at all; concurrent operations cannot overwrite each other.",
+          "The operations register and plan history are append-only.",
+          "A locked plan accepts no new opportunities or projects; running projects and their payments continue."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F24-01",
+          "title": "Live budget figures per plan level",
+          "story": "As a Grants Manager, I want each plan level to show committed, due, paid and available amounts, so that I know how much budget is left at any time.",
+          "acceptance": [
+            "Given item 1.1 has a budget of 2,000,000 SAR, when a contract of 500,000 SAR charged to it is signed, then item 1.1 and its track show committed increased by 500,000 SAR and available reduced by 500,000 SAR",
+            "Given a payment of 100,000 SAR on that contract is marked Paid, then paid increases by 100,000 SAR on the item, its track and the plan",
+            "Given committed exceeds a level's budget, then the level shows a negative available amount in red with the flag \"Over budget\"",
+            "Given the same plan, then the figures on the plan summary, the tree and the payments register reconcile"
+          ],
+          "notes": "Figures roll up from initiatives to items, tracks and plan."
+        },
+        {
+          "id": "S-F24-02",
+          "title": "Drill down to projects and applications on a level",
+          "story": "As a Grants Manager, I want to open the projects and applications charged to a level, so that I can explain its figures.",
+          "acceptance": [
+            "Given track 1 has 3 projects on its items, when the user selects \"Projects: 3\" on track 1, then the 3 projects are listed with amount and status",
+            "Given a project in the list, when the user selects it, then the project page opens",
+            "Given the user lacks access to projects, then the counts are shown but the drill-down is not offered"
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F24-03",
+          "title": "Increase, decrease or transfer budget with evidence",
+          "story": "As a Grants Manager, I want to increase, decrease or transfer a level's budget with an evidence document, so that budget changes during the year are controlled.",
+          "acceptance": [
+            "Given an increase of 300,000 SAR on item 1.1 with a document, when executed, then item 1.1, track 1 and the plan budget each increase by 300,000 SAR and the system confirms \"Increase executed\"",
+            "Given item 1.1 has 200,000 SAR available, when the user decreases or transfers 250,000 SAR from it, then the system refuses with \"Amount exceeds the level's available balance (200,000 SAR)\"",
+            "Given a transfer of 100,000 SAR from item 1.1 to item 2.1, when executed, then 1.1 and its track decrease, 2.1 and its track increase and the plan budget is unchanged",
+            "Given an amount of 0 or no document, when the user selects Execute, then the operation is refused with \"Enter an amount greater than zero\" or \"Attach the evidence document\""
+          ],
+          "notes": "Transfer requires different source and target levels."
+        },
+        {
+          "id": "S-F24-04",
+          "title": "Financial operations register",
+          "story": "As Finance, I want a register of all budget operations, so that every budget change can be traced and audited.",
+          "acceptance": [
+            "Given executed operations, when the user opens the register, then increases, decreases and transfers appear in separate tabs with reference number, plan, level(s), amount, user, note, date and document",
+            "Given a filter by plan, then only that plan's operations are listed",
+            "Given the user exports the current tab, then the Excel file contains the same rows without document links",
+            "Given any operation, then it cannot be edited or deleted"
+          ],
+          "notes": "Each operation also appears in the plan history."
+        },
+        {
+          "id": "S-F24-05",
+          "title": "Lock and reopen the plan",
+          "story": "As a Grants Manager, I want to lock a plan at year end and reopen it if needed, so that no new grants are funded from a closed budget.",
+          "acceptance": [
+            "Given an active plan, when the user selects Lock plan without attaching the decision document, then the Lock button stays disabled",
+            "Given a locked plan, when a user links an opportunity or creates a project, then its items are not offered, and existing links remain visible",
+            "Given a running project on a locked plan, then its payments continue to be processed",
+            "Given the user reopens a locked plan with a justification document, then the plan is unlocked and both lock and reopen appear in the plan history with user, date and document"
+          ],
+          "notes": "The plans list shows a lock icon on locked plans."
+        }
+      ]
+    },
+    {
+      "id": "F25",
+      "name": "Endowments",
+      "release": "R7",
+      "priority": "Should",
+      "size": "M",
+      "depends_on": ["F24"],
+      "summary": "The Foundation registers its endowments (funding sources), records their funding and sees each endowment's share of every plan level and its use. This shows which endowment pays for which grants.",
+      "old_ucs": ["UC16", "UC26", "UC27"],
+      "decision": "How are endowment shares decided (equal, by size, manual)?",
+      "use_case": {
+        "actors": ["Grants Manager", "Finance"],
+        "trigger": "A new endowment starts funding the plan, money is added to an endowment, or management asks what an endowment funds.",
+        "preconditions": [
+          "Annual plans with live budget figures exist (F24)."
+        ],
+        "main_flow": [
+          "The Grants Manager registers an endowment with a name and optional description.",
+          "Finance records an endowment funding with amount, date and evidence document; the endowment size is updated.",
+          "The Grants Manager sets which endowments participate in each plan level.",
+          "The system splits each level's budget among its participating endowments so that shares total 100%.",
+          "The user opens the endowment report: share, used and available amount per plan and per level, and the projects it funds."
+        ],
+        "alternative_flows": [
+          "If a change would leave a level with no participating endowment, then the system refuses with \"At least one endowment must participate in every level\".",
+          "If an endowment should no longer fund new allocations, then it is deactivated instead of deleted."
+        ],
+        "business_rules": [
+          "Endowment size = total of its recorded fundings; fundings cannot be edited or deleted.",
+          "A level uses its own split, otherwise inherits its nearest parent's split; inherited shares are marked \"(inherited)\".",
+          "Endowment shares of each level total exactly 100%; only active endowments take part.",
+          "With only one active endowment the whole plan counts against it and no split is shown.",
+          "An endowment with fundings or plan shares cannot be deleted."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F25-01",
+          "title": "Register endowments",
+          "story": "As a Grants Manager, I want to register, activate and deactivate endowments, so that the plan knows its funding sources.",
+          "acceptance": [
+            "Given the Endowments page, when the user adds \"Education Endowment\", then it is listed as Active with size 0 SAR and the system confirms \"Endowment added\"",
+            "Given the name is empty, when the user saves, then the endowment is not created",
+            "Given an endowment with fundings or plan shares, when the user tries to delete it, then deletion is refused and deactivation is offered",
+            "Given an endowment is deactivated, then it is no longer offered for new plan participation"
+          ],
+          "notes": "Creation, activation changes and deletion are recorded in the audit trail."
+        },
+        {
+          "id": "S-F25-02",
+          "title": "Record endowment funding",
+          "story": "As Finance, I want to record each funding of an endowment with evidence, so that the endowment size is accurate.",
+          "acceptance": [
+            "Given an endowment of 1,000,000 SAR, when Finance records a funding of 250,000 SAR with a document, then the size becomes 1,250,000 SAR and the funding appears in its ledger with date, amount, note and document",
+            "Given an amount of zero or less, then the system shows \"Enter a valid amount\" and does not save",
+            "Given no document is attached, then the system shows \"Attach the evidence document\" and does not save",
+            "Given a recorded funding, then it cannot be edited or deleted"
+          ],
+          "notes": "Funding date defaults to today."
+        },
+        {
+          "id": "S-F25-03",
+          "title": "Set endowment participation per plan level",
+          "story": "As a Grants Manager, I want to choose which endowments fund each plan level, so that each level's budget is split between its sources.",
+          "acceptance": [
+            "Given two active endowments participate in item 1.1 of 1,000,000 SAR with an equal split, then each shows 50% and 500,000 SAR",
+            "Given initiative 1.1.2 has no own split, then it shows its parent's shares marked \"(inherited)\"",
+            "Given shares on a level do not total 100%, when the user saves, then the system shows \"Endowment shares must total 100%\" and does not save",
+            "Given the only participating endowment of a level is switched off, then the system refuses with \"At least one endowment must participate in every level\""
+          ],
+          "notes": "Split method depends on the open decision; equal split ships first."
+        },
+        {
+          "id": "S-F25-04",
+          "title": "Endowment report",
+          "story": "As a Grants Manager, I want to see each endowment's share, use and available amount, so that I can report what each endowment funds.",
+          "acceptance": [
+            "Given an endowment participates in a plan, when the user opens its report, then it shows per plan and per level the endowment's percentage, share amount, used and available",
+            "Given a project charged to a level the endowment funds at 40%, then the project is listed with budget, 40% and the endowment's share",
+            "Given the report, then the per-level amounts add up to the endowment's total share of the plan"
+          ],
+          "notes": "Used = endowment percentage × committed amounts on its levels (F24 definitions)."
+        }
+      ]
+    }
+  ]
+}

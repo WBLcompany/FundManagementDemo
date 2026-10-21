@@ -1,0 +1,418 @@
+{
+  "epic": "E6",
+  "name": "Contracts & Projects",
+  "goal": "Turn every approved grant into a signed contract and a planned project whose progress is proven with evidence before money is released.",
+  "features": [
+    {
+      "id": "F17",
+      "name": "Contract and project from an approved application",
+      "release": "R5",
+      "priority": "Must",
+      "size": "M",
+      "depends_on": [
+        "F16"
+      ],
+      "summary": "Approved applications are transferred into one contract and one project with the approved amount, cost items and payment schedule, without retyping. The contract is tracked until signed, and execution cannot start before signature.",
+      "old_ucs": [
+        "UC67",
+        "UC69",
+        "UC70",
+        "UC71"
+      ],
+      "decision": "",
+      "use_case": {
+        "actors": [
+          "Grants Manager",
+          "Charity user"
+        ],
+        "trigger": "An application has received a final Approved decision (by stage review or committee minute).",
+        "preconditions": [
+          "The application is finally approved and not yet transferred.",
+          "The application has a bill of quantities totalling the approved amount.",
+          "The funding plan item's budget is not locked."
+        ],
+        "main_flow": [
+          "The Grants Manager opens the approved application and reviews the bill of quantities and payment schedule (instalment title, % of amount, days after start).",
+          "The Grants Manager adjusts the instalments and saves; the system checks the percentages total 100%.",
+          "The Grants Manager selects 'Approve contract and transfer' and confirms the project manager.",
+          "The system creates one contract (status Being prepared) with a unique contract number and the approved amount, and one project (status Planning) with its budget, dates, project manager and scheduled payments.",
+          "The system marks the application Transferred, records the contract and project references in its history and opens the project.",
+          "The Grants Manager advances the contract: Being prepared → Awaiting charity → Awaiting signature → Signed, and uploads the signed contract.",
+          "The charity views and prints the contract in the portal; staff consult the contracts register."
+        ],
+        "alternative_flows": [
+          "If the plan item's budget is locked, then the transfer is refused with the plan name and nothing is created.",
+          "If any step of the transfer fails, then nothing is kept and the application stays Approved, not transferred."
+        ],
+        "business_rules": [
+          "Exactly one contract and one project per approved application (splitting is out of scope → F33).",
+          "Contract amount = project budget = approved grant amount.",
+          "Instalment percentages must total 100%; instalment amount = % × approved amount.",
+          "Contract status moves forward only; the signature date is recorded when it becomes Signed.",
+          "Bill of quantities and payment schedule become read-only once the application is transferred.",
+          "Project execution cannot start while the contract is not Signed."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F17-01",
+          "title": "Set the payment schedule",
+          "story": "As a Grants Manager, I want to define the payment schedule of an approved application as percentages per instalment, so that payments are agreed before the contract is created.",
+          "acceptance": [
+            "Given instalments of 20%, 50% and 30% on an approved amount of SAR 100,000, when I save, then the amounts shown are SAR 20,000, 50,000 and 30,000.",
+            "Given instalments totalling 90%, when I save, then the system refuses with 'Instalment percentages must total 100%' and nothing is saved.",
+            "Given the application has been transferred, when I open the schedule, then it is read-only."
+          ],
+          "notes": "Fields per instalment: title, percentage, due after (days from start); amount is calculated."
+        },
+        {
+          "id": "S-F17-02",
+          "title": "Transfer an approved application into a contract and project",
+          "story": "As a Grants Manager, I want to approve the contract and transfer the application in one step, so that the grant becomes a trackable project without retyping.",
+          "acceptance": [
+            "Given an approved, non-transferred application of SAR 100,000, when I confirm the transfer, then one contract (Being prepared, unique number, SAR 100,000) and one project (Planning, budget SAR 100,000) are created and the application shows Transferred.",
+            "Given the transfer succeeded, then the project has one scheduled payment per instalment and the application history records the contract and project references.",
+            "Given the funding plan item's budget is locked, when I confirm, then the system shows 'The budget of <plan> is locked' and no contract, project or payment is created.",
+            "Given an application already transferred, then the transfer action is not available."
+          ],
+          "notes": "Project manager defaults to the opportunity's default manager and can be changed before confirming."
+        },
+        {
+          "id": "S-F17-03",
+          "title": "Track contract signing",
+          "story": "As a Grants Manager, I want to move the contract through its signing steps and store the signed copy, so that we know which grants are legally binding.",
+          "acceptance": [
+            "Given a contract in Being prepared, when I advance it, then it moves to Awaiting charity, then Awaiting signature, then Signed, and never backwards.",
+            "Given I try to set Signed without uploading the signed contract file, then the system refuses.",
+            "Given the contract becomes Signed, then the signature date is recorded and shown on the contract and the project."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F17-04",
+          "title": "View and print the contract",
+          "story": "As a Charity user, I want to view and print my contract from the portal, so that I know my obligations and payment schedule.",
+          "acceptance": [
+            "Given my charity has a contract, when I open the project in the portal, then I see the contract parties, value, duration, instalments and bank account, read-only.",
+            "Given I select Print / PDF, then a printable document without editing controls is produced.",
+            "Given another charity's contract, when I try to open it, then access is denied."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F17-05",
+          "title": "Contracts register",
+          "story": "As a Grants Manager, I want a register of all contracts, so that I can follow signing status across the portfolio.",
+          "acceptance": [
+            "Given the contracts register, then each row shows contract number, charity, application, value, linked project, status and date, with a count per status.",
+            "Given I click the 'Awaiting signature' count, then only contracts in that status are listed."
+          ],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": "F18",
+      "name": "Project plan and start of execution",
+      "release": "R5",
+      "priority": "Must",
+      "size": "M",
+      "depends_on": [
+        "F17"
+      ],
+      "summary": "Each project gets an agreed execution plan of sequential milestones, charity activities, required evidence, due dates and linked payments before work starts. The portfolio list shows every project's status and flags stalled ones.",
+      "old_ucs": [
+        "UC72",
+        "UC74"
+      ],
+      "decision": "",
+      "use_case": {
+        "actors": [
+          "Project Manager",
+          "Grants Manager",
+          "Charity user"
+        ],
+        "trigger": "A project has been created in Planning status.",
+        "preconditions": [
+          "The project exists in Planning status with scheduled payments.",
+          "The user is the project's assigned Project Manager."
+        ],
+        "main_flow": [
+          "The Project Manager opens the project plan.",
+          "The Project Manager adds milestones in sequence with a weight (%), and under each milestone the charity activities with due date and required evidence.",
+          "The Project Manager links each scheduled payment to a milestone.",
+          "The system shows the milestone weight total and the linked payments total against the project budget.",
+          "The Project Manager selects 'Approve plan and start execution'.",
+          "The system checks the start conditions and moves the project to In progress; the first milestone opens for the charity."
+        ],
+        "alternative_flows": [
+          "If a start condition is not met, then the system lists every unmet condition and the project stays in Planning.",
+          "If execution has started, then the plan cannot be edited directly (changes go through a plan revision → F20)."
+        ],
+        "business_rules": [
+          "Execution can start only when the contract is Signed, the plan has at least one milestone with at least one activity, milestone weights total 100% and linked payments total the project budget.",
+          "Milestones are sequential: only the current milestone is open; later ones stay locked until the previous one is approved.",
+          "Charity actions are locked while the project is in Planning.",
+          "A project is Stalled when any activity is past its due date and not approved; the same rule applies in counters and on the project page.",
+          "Project progress = weighted average of activity progress."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F18-01",
+          "title": "Build the project plan",
+          "story": "As a Project Manager, I want to define milestones, activities, required evidence and due dates, so that the charity knows exactly what to deliver and when.",
+          "acceptance": [
+            "Given a project in Planning, when I add a milestone with weight 40% and two activities with due dates and required evidence, then they are saved in sequence order.",
+            "Given milestone weights totalling 90%, then the plan shows the total in red and the warning 'Milestone weights must total 100%'.",
+            "Given an activity due date after the project end date, when I save, then the system refuses."
+          ],
+          "notes": "Activity fields: title, weight, due date, required evidence (one or more named items)."
+        },
+        {
+          "id": "S-F18-02",
+          "title": "Link payments to milestones",
+          "story": "As a Project Manager, I want to link each scheduled payment to a milestone, so that money is released only when that milestone is proven.",
+          "acceptance": [
+            "Given the project's scheduled payments, when I link a payment to a milestone, then the milestone shows the payment title and amount.",
+            "Given linked payments total less or more than the project budget, then the plan shows the difference and cannot be approved."
+          ],
+          "notes": "A payment not linked to a milestone (e.g. advance) is allowed and marked as such."
+        },
+        {
+          "id": "S-F18-03",
+          "title": "Approve the plan and start execution",
+          "story": "As a Project Manager, I want to approve the plan and start execution, so that the charity can begin work against an agreed baseline.",
+          "acceptance": [
+            "Given a Signed contract and a complete plan, when I select 'Approve plan and start execution', then the project status becomes In progress and the first milestone becomes open for the charity.",
+            "Given the contract is not Signed, when I try to start, then the system refuses and lists 'Contract not signed' among the unmet conditions.",
+            "Given a project In progress, then the plan editing actions are no longer available."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F18-04",
+          "title": "Project portfolio and stalled flag",
+          "story": "As a Grants Manager, I want a projects list with status counters and a stalled flag, so that I can see at a glance which projects need attention.",
+          "acceptance": [
+            "Given the projects list, then counters show total, Planning, In progress and Stalled, and clicking a counter filters the list.",
+            "Given an activity passes its due date without approval, then the project shows Stalled with the reason '<n> overdue items' in the list and on the project page.",
+            "Given each row, then it shows reference, charity, value, progress %, status and project manager, and the list can be exported to Excel."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F18-05",
+          "title": "Charity view of its projects",
+          "story": "As a Charity user, I want to see my charity's projects with status, progress and plan, so that I know what is expected of us.",
+          "acceptance": [
+            "Given my charity has projects, when I open Projects in the portal, then I see only my charity's projects with reference, status and progress.",
+            "Given a project in Planning, then I can view it but all activity actions are locked."
+          ],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": "F19",
+      "name": "Charity progress reports and milestone approval",
+      "release": "R5",
+      "priority": "Must",
+      "size": "M",
+      "depends_on": [
+        "F18"
+      ],
+      "summary": "The charity uploads evidence for each activity and submits a milestone report in the portal; the Project Manager verifies and approves or returns them. Approving a milestone makes its linked payment due, so money follows proven progress.",
+      "old_ucs": [
+        "UC47",
+        "UC75",
+        "UC76"
+      ],
+      "decision": "",
+      "use_case": {
+        "actors": [
+          "Charity user",
+          "Project Manager"
+        ],
+        "trigger": "A milestone of a project In progress is open.",
+        "preconditions": [
+          "The project is In progress.",
+          "The milestone is the current (open) milestone."
+        ],
+        "main_flow": [
+          "The charity user opens the current milestone and uploads files for each required evidence item of an activity.",
+          "The charity user marks the activity complete and submits it for the Grantor's approval.",
+          "The system creates a verification task for the Project Manager in My Tasks.",
+          "The Project Manager reviews the evidence and approves the activity or returns it with notes.",
+          "When all activities are approved, the charity writes and submits the milestone report.",
+          "The Project Manager approves the report and then the milestone.",
+          "The system marks the milestone complete, makes its linked payment Due and opens the next milestone."
+        ],
+        "alternative_flows": [
+          "If an activity or report is returned, then the charity sees the notes, corrects and resubmits.",
+          "If the Project Manager revokes an activity approval before the payment enters approval, then the milestone payment returns to On hold."
+        ],
+        "business_rules": [
+          "An activity can be submitted only when its milestone is open, its prerequisite activities are approved, and each required evidence item has at least one file.",
+          "Evidence files up to 10 MB each.",
+          "Returning an activity or report requires notes.",
+          "Milestone approval is available only for the current milestone, after all its activities and its report are approved.",
+          "A milestone payment stays On hold until its milestone is approved, then becomes Due.",
+          "Only the assigned Project Manager approves activities, reports and milestones."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F19-01",
+          "title": "Submit activity evidence",
+          "story": "As a Charity user, I want to upload evidence for an activity and submit it, so that the Grantor can verify our work.",
+          "acceptance": [
+            "Given an open activity with two required evidence items, when I upload a file for each and submit, then the activity status becomes Awaiting grantor approval.",
+            "Given a required evidence item has no file, when I submit, then the system refuses and names the missing item.",
+            "Given a file larger than 10 MB, when I upload it, then it is rejected with 'File exceeds 10 MB'.",
+            "Given a milestone that is not yet open, then activity actions are not available."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F19-02",
+          "title": "Verify evidence and approve or return an activity",
+          "story": "As a Project Manager, I want to approve a submitted activity or return it with notes, so that only proven work counts.",
+          "acceptance": [
+            "Given a submitted activity, then I have a verification task in My Tasks linking to it.",
+            "Given I approve the activity, then its status becomes Approved and the dependent activities unlock.",
+            "Given I return the activity without notes, then the system refuses; with notes, the status becomes Returned and the charity sees the notes."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F19-03",
+          "title": "Resubmit returned work",
+          "story": "As a Charity user, I want to see returned items with the Grantor's notes and resubmit them, so that I can fix issues quickly.",
+          "acceptance": [
+            "Given an activity or report was returned, then it appears in my portal inbox with the return notes.",
+            "Given I correct the evidence and resubmit, then the status becomes Awaiting grantor approval again and the Project Manager gets a new task."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F19-04",
+          "title": "Submit the milestone report",
+          "story": "As a Charity user, I want to submit a progress report for the milestone, so that the Grantor has a summary of what was achieved.",
+          "acceptance": [
+            "Given all activities of the current milestone are approved, when I write the achievement summary and submit, then the report status becomes Awaiting grantor approval.",
+            "Given the achievement summary is empty, then submit is refused.",
+            "Given a milestone already has a report awaiting approval or approved, then I cannot submit a second one."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F19-05",
+          "title": "Approve the milestone and make the payment due",
+          "story": "As a Project Manager, I want to approve the report and the milestone, so that the linked payment becomes due and the next milestone opens.",
+          "acceptance": [
+            "Given the milestone report is submitted, when I return it, then a reason is mandatory and the charity sees it.",
+            "Given all activities and the report are approved, when I approve the milestone, then it becomes Complete, its linked payment changes from On hold to Due and the next milestone opens.",
+            "Given any activity or the report is not approved, then milestone approval is not available."
+          ],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": "F20",
+      "name": "Plan revisions and project closure",
+      "release": "R5",
+      "priority": "Should",
+      "size": "M",
+      "depends_on": [
+        "F19"
+      ],
+      "summary": "Changes to a project plan after execution starts go through a reasoned revision request approved by a different person, and projects are closed only after all milestones are approved and a final evaluation is written.",
+      "old_ucs": [
+        "UC77",
+        "UC78"
+      ],
+      "decision": "",
+      "use_case": {
+        "actors": [
+          "Project Manager",
+          "Grants Manager"
+        ],
+        "trigger": "The plan of a project In progress needs to change, or the last milestone has been approved.",
+        "preconditions": [
+          "The project is In progress.",
+          "For closure: every milestone is approved."
+        ],
+        "main_flow": [
+          "The Project Manager opens 'Request plan revision', enters a reason and edits the remaining milestones, activities, dates or payment links.",
+          "The system shows the differences (added, changed, removed) and checks that total payments do not exceed the project budget.",
+          "The Project Manager submits the request; an approval task goes to the Grants Manager.",
+          "A different authorised person approves (optional note) or rejects (mandatory note); on approval the system applies all changes and records the revision.",
+          "After the last milestone is approved, the Project Manager writes the final evaluation.",
+          "The Project Manager approves closure; the system sets the project to Closed and the evaluation becomes read-only."
+        ],
+        "alternative_flows": [
+          "If a revision is already pending, then a new request cannot be created.",
+          "If any milestone is not approved, then the closure step stays locked and lists the open milestones."
+        ],
+        "business_rules": [
+          "After execution starts, the plan changes only through an approved revision.",
+          "Approved activities, approved milestones and payments already in approval are never changed by a revision.",
+          "The requester cannot approve their own revision; one pending revision per project.",
+          "A revision is applied completely or not at all; total payments after revision must not exceed the project budget (checked again at approval).",
+          "Closure requires all milestones approved and a non-empty final evaluation.",
+          "A closed project accepts no new activities, revisions or payments."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F20-01",
+          "title": "Request a plan revision",
+          "story": "As a Project Manager, I want to propose changes to the remaining plan with a reason, so that the project can adapt in a controlled way.",
+          "acceptance": [
+            "Given a project In progress, when I submit a revision with a reason of at least 5 characters, then its status is Awaiting approval and the Grants Manager gets a task.",
+            "Given the revision changes an approved activity or a payment already in approval, then the system refuses that change.",
+            "Given the revised payments exceed the project budget, then the request cannot be submitted.",
+            "Given a revision is already Awaiting approval for the project, then 'Request plan revision' is not available."
+          ],
+          "notes": "The request shows differences: added, changed, removed items."
+        },
+        {
+          "id": "S-F20-02",
+          "title": "Approve or reject a plan revision",
+          "story": "As a Grants Manager, I want to review the reason and differences and decide, so that only justified changes are applied.",
+          "acceptance": [
+            "Given I requested the revision myself, when I try to approve it, then the system refuses.",
+            "Given I approve, then all changes are applied to the plan in one step and the revision is Approved.",
+            "Given I reject without a note, then the system refuses; with a note, the plan stays unchanged and the requester sees the note.",
+            "Given a revision is already decided, then no second decision is possible."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F20-03",
+          "title": "Revision history",
+          "story": "As a Grants Manager, I want to see all revisions of a project, so that every change to the agreed plan is documented.",
+          "acceptance": [
+            "Given a project with revisions, then the history lists each with requester, approver, dates, reason, decision note and differences.",
+            "Given a revision was rejected, then it still appears in the history with status Rejected."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F20-04",
+          "title": "Close the project with a final evaluation",
+          "story": "As a Project Manager, I want to close a completed project with a final evaluation, so that results are documented and the project is locked.",
+          "acceptance": [
+            "Given any milestone is not approved, then the closure step is locked and lists the open milestones.",
+            "Given all milestones are approved and the final evaluation is empty, then 'Approve closure' is disabled.",
+            "Given I approve closure with an evaluation, then the project status becomes Closed and the evaluation is read-only.",
+            "Given a Closed project, then no activities, revisions or payments can be added."
+          ],
+          "notes": "Final evaluation covers impact achieved, adherence to plan and lessons learned."
+        }
+      ]
+    }
+  ]
+}
