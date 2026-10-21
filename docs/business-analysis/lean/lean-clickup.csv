@@ -1,0 +1,1323 @@
+﻿Task Name,Task Type,Custom ID,Parent ID,Epic,Release,Priority,Size,Depends On,Description,Acceptance Criteria,Ready
+E1 – Access & Roles,Epic,E1,,E1,,,,,"Every action in Manih – Grant Management System is done by a known person who sees and does only what their role allows, with data kept separate for each grantor organization.",,
+F01 – Staff accounts and secure sign-in,Feature,F01,E1,E1,R1,High,M,,"Each staff member of the Foundation gets an individual account to sign in, so every action in the system is traceable to a known person. The Admin manages accounts without ever deleting history.
+
+Main flow:
+1. The user enters email and password and selects Sign in.
+2. The system verifies the credentials and that the account is active.
+3. The system identifies the user's role and opens the home page of that role.
+4. The system records the sign-in with user and time.
+5. The user works; every action is recorded under the user's own identity.
+6. The user selects Sign out; the system ends the session and shows the sign-in page.
+
+Business rules:
+- No grant, charity, financial or staff data is shown before sign-in.
+- Accounts are individual; shared accounts are not allowed.
+- The user cannot choose or change their own role; it comes from the account.
+- Staff are deactivated, never deleted; their past actions keep their name.
+- Sign-ins (successful and failed) and account changes are recorded with user and time and cannot be edited.
+
+Detailed BRD: UC01, UC08, UC09",,Ready
+S-F01-01 – Sign in and sign out,Story,S-F01-01,F01,E1,R1,High,,,"As a staff user, I want to sign in with my own email and password, so that I can work in the system under my own identity.
+
+Note: Email must be a valid format; password is masked.","1. Given an active account, when the user signs in with the correct email and password, then the home page of their role opens.
+2. Given a wrong email or password, when the user signs in, then access is refused with the message ""Email or password is incorrect"" without saying which value was wrong.
+3. Given a deactivated account, when the user signs in with correct credentials, then access is refused with the same generic message.
+4. Given a signed-in user, when they select Sign out, then the session ends and opening a protected page shows the sign-in page.",
+S-F01-02 – Reset a forgotten password,Story,S-F01-02,F01,E1,R1,High,,,"As a staff user, I want to reset my password by email, so that I can regain access without calling the Admin.
+
+Note: Link validity period is configurable (default 60 minutes).","1. Given the user selects Forgot password and enters an email, when they submit, then the same confirmation message is shown whether or not the email exists.
+2. Given an active account, when the reset is requested, then a single-use link valid for 60 minutes is sent to the account email.
+3. Given a reset link that was already used or has expired, when it is opened, then the system refuses it and offers to request a new link.",
+S-F01-03 – End inactive sessions,Story,S-F01-03,F01,E1,R1,High,,,"As the Foundation, I want inactive sessions to end automatically, so that an unattended screen does not expose grant data.
+
+Note: Timeout period is set by the Admin.","1. Given a user inactive for longer than the configured period (default 30 minutes), when they perform any action, then they are asked to sign in again.
+2. Given the user signs in again after a timeout, then they are returned to the page they were on.",
+S-F01-04 – Add and edit staff accounts,Story,S-F01-04,F01,E1,R1,High,,,"As an Admin, I want to add staff and edit their details, so that every employee has their own account with the right role.
+
+Note: Fields: name (required, max 100 characters), email (required, unique), role (required, one of the system roles), department (optional).","1. Given the Add staff form, when name, email and role are entered and saved, then the account is created as Active and an activation email is sent so the person can set a password.
+2. Given an email that already belongs to another account, when the Admin saves, then the system refuses with ""This email is already used by another account"".
+3. Given an empty name, when the Admin saves, then the system shows ""Name is required"" and nothing is created.
+4. Given an existing account, when the Admin changes name, role or department and saves, then the change is shown in the staff list immediately.",
+S-F01-05 – Deactivate and reactivate staff,Story,S-F01-05,F01,E1,R1,High,,,"As an Admin, I want to deactivate staff who leave, so that they lose access while their history is kept.
+
+Note: There is no delete action for staff accounts.","1. Given an active staff account, when the Admin deactivates it and confirms, then its status becomes Inactive and the person can no longer sign in.
+2. Given a deactivated account, when its past records are opened, then they still show the person's name as the actor.
+3. Given the Admin tries to deactivate their own account, then the action is not allowed.
+4. Given an inactive account, when the Admin reactivates it, then the person can sign in again with the same role.",
+S-F01-06 – View the access audit trail,Story,S-F01-06,F01,E1,R1,High,,,"As an Admin, I want to see who signed in and who changed which account, so that I can investigate any access question.
+
+Note: The acting user is always taken from the signed-in identity.","1. Given any successful or failed sign-in, then an audit entry is recorded with the email used, result, date and time.
+2. Given any account creation, change, deactivation or reactivation, then an audit entry is recorded with the acting user, date, time and before / after values.
+3. Given the audit trail, when the Admin filters by user and date range, then only matching entries are listed, newest first.
+4. Given an audit entry, then no user, including the Admin, can edit or delete it.",
+F02 – Role-based workspace,Feature,F02,E1,E1,R1,High,M,F01,"Each person sees only the menus, pages and actions of their role, and the system enforces this on every page and action. Fixed system roles ship first; editable and custom roles come later (F29).
+
+Main flow:
+1. The system shows the menu with only the sections allowed for the user's role.
+2. The system opens the home page defined for the role.
+3. The user selects a section; the system shows only the tabs and actions the role allows.
+4. On every page and action, the system checks the role before showing data or saving.
+5. The user completes the allowed action.
+
+Business rules:
+- System roles: Admin, Grants Manager, Reviewer, Committee Secretary, Project Manager, Finance, CEO.
+- A staff user has exactly one role in the organization.
+- Access is enforced by the system on every page and action, not only by hiding menus.
+- Blocked access attempts are recorded with user, page and time.
+- Department names are unique and up to 100 characters; deleting a department keeps its staff as ""No department"".
+
+Detailed BRD: UC02, UC11",,Needs decision: Q149 — should system roles be editable? (does not block: fixed roles ship first)
+S-F02-01 – Menu and home page per role,Story,S-F02-01,F02,E1,R1,High,,,"As a staff user, I want to see only the sections of my role, so that the system is simple and I do not see what I should not.
+
+Note: The role-to-section mapping is agreed with the business before build and kept as a reference table.","1. Given a Reviewer signs in, when the menu appears, then only the sections allowed for Reviewer are listed.
+2. Given each of the seven system roles, when a user of that role signs in, then the home page defined for that role opens and is also reachable from the menu.
+3. Given a section with several tabs, when the user opens it, then only the tabs allowed for their role are shown.",
+S-F02-02 – Block access outside the role,Story,S-F02-02,F02,E1,R1,High,,,"As the Foundation, I want the system to refuse any page or action outside a user's role, so that hidden menus are not the only protection.","1. Given a user opens a page outside their role by direct link, then the system shows ""This page is not available for your role"" with a link to their home page.
+2. Given a user sends a save or approve action outside their role, then the system refuses it and no data changes.
+3. Given any refused access, then an entry with user, page or action, and time is recorded in the audit trail.",
+S-F02-03 – Change a user's role,Story,S-F02-03,F02,E1,R1,High,,,"As an Admin, I want to change a staff member's role, so that their access follows their new responsibilities.
+
+Note: Only the Admin can change roles.","1. Given the Admin changes a user's role from Reviewer to Project Manager, when the user performs their next action, then the Project Manager menu and access apply.
+2. Given a role change, then pages of the old role are blocked for that user from their next action.",
+S-F02-04 – Manage departments,Story,S-F02-04,F02,E1,R1,High,,,"As an Admin, I want to maintain the list of departments and assign staff to them, so that staff are organized as in the Foundation's structure.
+
+Note: Department name: required, up to 100 characters, unique in the organization.","1. Given a new department name, when the Admin adds it, then it appears in the departments list with 0 members.
+2. Given a name that already exists, when the Admin adds it, then the system refuses with ""A department with this name already exists"".
+3. Given a department with staff, when the Admin deletes it, then the system asks for confirmation stating how many staff will be unassigned, and after confirmation those staff show ""No department"".
+4. Given the departments list, then each department shows its number of members and their names.",
+F29 – Custom roles and permissions,Feature,F29,E1,E1,R8,Normal,M,F02,"A permission matrix lets the Foundation create its own roles and adjust access to its structure. Every permission change is traceable with before / after values.
+
+Main flow:
+1. The Admin selects a role; the system shows its permission matrix by business area with view, write and delete levels.
+2. The Admin creates a new role with a name, optionally copying a system role's permissions.
+3. The Admin edits the custom role's permissions per permission, per group or all at once.
+4. The Admin saves; the system stores the permissions and records each change with before / after values.
+5. The Admin assigns the custom role to staff.
+6. The new permissions apply to every user with that role from their next action.
+
+Business rules:
+- Permission groups: applications and review, finance and payments, projects and evidence, settings.
+- Role names are unique in the organization and up to 60 characters.
+- System roles are read-only unless Q149 decides otherwise.
+- A role assigned to staff cannot be deleted.
+- No change may leave a required approval step without any role able to perform it.
+- Every role creation, permission change and deletion is recorded with user, time and before / after values.
+
+Detailed BRD: UC10",,"Needs decision: Q149 — may system roles be edited, or only custom roles?"
+S-F29-01 – View the permission matrix,Story,S-F29-01,F29,E1,R8,Normal,,,"As an Admin, I want to see each role's permissions in one matrix, so that I understand who can do what.","1. Given a selected role, then the matrix shows each permission grouped by business area with view, write and delete marked Yes or No.
+2. Given a system role is selected, then it is labelled ""System — read only"" and its permissions cannot be changed.",
+S-F29-02 – Create a custom role,Story,S-F29-02,F29,E1,R8,Normal,,,"As an Admin, I want to create a custom role, optionally starting from a system role, so that I can match a position that the system roles do not cover.
+
+Note: Role name: required, up to 60 characters, unique.","1. Given a unique name and ""Copy from: Reviewer"", when the Admin creates the role, then it is created with exactly the Reviewer permissions and the message ""Role created"" is shown.
+2. Given an empty name, when the Admin saves, then the system shows ""Role name is required"".
+3. Given a name already used in the organization, when the Admin saves, then the role is not created.",
+S-F29-03 – Edit a custom role's permissions,Story,S-F29-03,F29,E1,R8,Normal,,,"As an Admin, I want to grant or remove permissions of a custom role, so that access follows our internal policy.
+
+Note: Removing a sensitive permission (e.g. final approval, payment approval) asks for confirmation.","1. Given a custom role in edit mode, when the Admin removes ""write"" for a permission and saves, then every user with that role loses that action at their next action.
+2. Given the Admin selects all permissions of a group, then view, write and delete are set for every permission in that group in one step.
+3. Given a change that would leave no role able to perform a required approval step, when the Admin saves, then the system refuses and names the approval step.",
+S-F29-04 – Assign and delete custom roles,Story,S-F29-04,F29,E1,R8,Normal,,,"As an Admin, I want to assign custom roles to staff and delete unused ones, so that the role list stays clean and accurate.","1. Given a custom role exists, when the Admin edits a staff account, then the role list includes it next to the system roles.
+2. Given a custom role is assigned to at least one staff member, when the Admin deletes it, then the system refuses with ""The role is assigned to staff — change their roles first"".
+3. Given an unassigned custom role, when the Admin deletes it and confirms, then it is removed from the role list.",
+S-F29-05 – Role change history,Story,S-F29-05,F29,E1,R8,Normal,,,"As an Admin, I want to see every change to a role, so that permission changes can be audited.","1. Given any role creation, permission change or deletion, then an entry is recorded with user, date, time and the before / after value of each changed permission.
+2. Given a role's history is opened, then entries are listed newest first and cannot be edited or deleted.",
+S-F29-06 – Enable or disable a permission for a whole system role,Story,S-F29-06,F29,E1,R8,Normal,,,"As an Admin, I want to switch a permission on or off for a whole system role, so that I can adjust access without creating a new role.
+
+Note: Built only if Q149 allows editing system roles.","1. Given a permission is disabled for the Finance role, when any Finance user performs their next action, then that permission is no longer available to them.
+2. Given a system role was changed, when the Admin selects Restore default permissions and confirms, then the role returns to its original permissions and the change is in the role history.",
+F34 – Multi-organization platform,Feature,F34,E1,E1,R8,Low,M,F02,"Several grantor organizations can use the same Manih platform with strictly separated data. A platform administrator registers, suspends and reactivates grantor organizations.
+
+Main flow:
+1. The system lists all grantor organizations with name, official email, number of users, creation date and status.
+2. The Platform Administrator selects New organization and enters the name and official email.
+3. The system creates the organization as Active and sets up its first Admin account.
+4. The Platform Administrator suspends or reactivates an organization after confirmation.
+5. The system applies the new status and records the action in the platform audit trail.
+
+Business rules:
+- Users of one organization never see or change another organization's data, including in search, exports and reports.
+- Organization name is required (up to 120 characters); the official email must be valid.
+- Suspension blocks sign-in and new transactions but keeps all the organization's data.
+- The organization list shows user counts only, not users' personal data.
+- The Platform Administrator does not see an organization's own settings or data by default.
+
+Detailed BRD: UC17",,Needs decision: Is Manih for one foundation or several?
+S-F34-01 – Register a grantor organization,Story,S-F34-01,F34,E1,R8,Low,,,"As a Platform Administrator, I want to register a new grantor organization with its first Admin, so that it can start using Manih on its own.
+
+Note: Name up to 120 characters; official email in valid format.","1. Given a name and a valid official email, when the Platform Administrator saves, then the organization is created with status Active and the message ""Organization created"" is shown.
+2. Given a new organization, when it is created, then an activation email is sent to its first Admin.
+3. Given an empty name, when saving, then the organization is not created.",
+S-F34-02 – Suspend and reactivate an organization,Story,S-F34-02,F34,E1,R8,Low,,,"As a Platform Administrator, I want to suspend an organization and reactivate it later, so that access can be stopped without losing data.","1. Given an Active organization, when the Platform Administrator suspends it and confirms, then its status becomes Suspended and its users cannot sign in.
+2. Given a user of a suspended organization tries to sign in, then the message ""Your organization is suspended — please contact platform administration"" is shown.
+3. Given a suspended organization is reactivated, then its users can sign in again and all its data is unchanged.
+4. Given any create, suspend or reactivate action, then it is recorded in the platform audit trail with user and time.",
+S-F34-03 – Isolate data between organizations,Story,S-F34-03,F34,E1,R8,Low,,,"As a grantor organization, I want my data to be invisible to other organizations, so that our grants and charities stay confidential.
+
+Note: Applies to every list, search, report, export and assistant answer.","1. Given two organizations A and B, when a user of A searches, lists or exports any records, then no record of B is included.
+2. Given a user of A opens a direct link to a record of B, then the system responds as if the record does not exist.",
+S-F34-04 – Restrict platform administration,Story,S-F34-04,F34,E1,R8,Low,,,"As the platform owner, I want platform administration to be available only to the Platform Administrator, so that no organization can manage another.","1. Given an organization Admin opens the platform organizations page by link, then the system shows ""This page is for platform administration only"" with a link to their settings.
+2. Given the organizations list, then each row shows the number of users but no user names or emails.",
+E2 – Charity Registry,Epic,E2,,E2,,,,,"Charities register and manage their own team online, and the Foundation keeps one verified register of Charities so that funding goes only to verified Charities and bank accounts.",,
+F03 – Charity self-registration,Feature,F03,E2,E2,R2,High,M,F02,"A Charity registers online with its licence number, organization data, delegate details and required documents instead of sending papers. The request goes to the Foundation for review and the applicant can follow its status.
+
+Main flow:
+1. The visitor enters the charity's licence number and selects Check.
+2. The system confirms the licence number is not registered and has no pending request, and opens the registration form.
+3. The visitor enters the organization data and the delegate details.
+4. The visitor verifies the delegate mobile and the official email with one-time codes.
+5. The visitor uploads the required documents (licence, delegate authorization letter).
+6. The visitor submits; the system creates a registration request with status Pending and a request number.
+7. The visitor follows the request status using the request number.
+
+Business rules:
+- One Charity per licence number; duplicate registrations are stopped.
+- Mandatory: charity name, licence number, region, city, official email, charity phone, delegate name, delegate national ID (10 digits), delegate mobile.
+- Delegate mobile and official email must be verified by one-time code before submission.
+- Licence and delegate authorization documents are mandatory.
+- No Charity record is created until the Foundation approves the request (F04).
+- Identities of existing delegates or requesters are only shown masked.
+
+Detailed BRD: UC39",,"Needs decision: Which identity verification is required for delegates (OTP only, or national ID)?"
+S-F03-01 – Check the licence number before registering,Story,S-F03-01,F03,E2,R2,High,,,"As a charity delegate, I want the system to check our licence number first, so that we do not register a charity that already exists.","1. Given a licence number that is not registered and has no pending request, when the visitor selects Check, then the registration form opens with the licence number filled in.
+2. Given a licence number of a registered Charity, when the visitor selects Check, then the message ""This charity is already registered"" is shown and no form opens.
+3. Given a licence number with a pending request, when the visitor selects Check, then the message ""A registration request for this charity is already under review"" is shown with the requester's masked name, and no new request can be started.",
+S-F03-02 – Enter charity and delegate details,Story,S-F03-02,F03,E2,R2,High,,,"As a charity delegate, I want to enter our organization data and my details in one form, so that the Foundation has what it needs to approve us.
+
+Note: Mandatory: charity name, licence number, region, city, official email, charity phone, delegate name, delegate national ID, delegate mobile.","1. Given a mandatory field is empty, when the visitor tries to submit, then the field is highlighted and submission is blocked.
+2. Given a delegate national ID that is not 10 digits, when the visitor leaves the field, then the message ""National ID must be 10 digits"" is shown.
+3. Given the region field, then it offers only values from the standard region list.",
+S-F03-03 – Verify delegate mobile and official email,Story,S-F03-03,F03,E2,R2,High,,,"As the Foundation, I want the delegate mobile and official email verified by one-time code, so that we can reach the charity and trust its contact data.
+
+Note: The code is never shown on screen; it is only sent by SMS or email.","1. Given the visitor selects Send code for a mobile or email, then a 6-digit code is sent to it and expires after 5 minutes.
+2. Given the correct code is entered before it expires, then the field is marked Verified.
+3. Given a wrong or expired code, then the message ""The code is incorrect or has expired"" is shown and the field stays unverified.
+4. Given a verified value is changed, then its verification is reset and submission is blocked with ""Verify first: <field>"".",
+S-F03-04 – Upload required documents,Story,S-F03-04,F03,E2,R2,High,,,"As a charity delegate, I want to attach our licence and my authorization letter, so that the Foundation can verify the charity and my mandate.
+
+Note: Allowed types PDF, JPG, PNG; maximum 10 MB per file (to be confirmed by IT).","1. Given the licence or the delegate authorization letter is missing, when the visitor submits, then submission is blocked with ""Attach the required documents: <document>"".
+2. Given a file that is not PDF, JPG or PNG or is larger than 10 MB, when it is uploaded, then it is refused with a message stating the allowed types and size.
+3. Given an uploaded document, then the visitor can view or replace it before submission.",
+S-F03-05 – Submit the request and follow its status,Story,S-F03-05,F03,E2,R2,High,,,"As a charity delegate, I want to submit the registration and see its status, so that I know when we can start using the portal.","1. Given all data is complete and verified, when the visitor submits, then a request is created with status Pending and a request number is shown and sent to the delegate mobile.
+2. Given a request number and the delegate mobile, when the visitor opens Registration status and enters the one-time code sent to that mobile, then the current status (Pending, Returned, Approved or Rejected) is shown.
+3. Given the request is Returned or Rejected, then the status page shows the Foundation's reason.",
+F04 – Registration review and charity register,Feature,F04,E2,E2,R2,High,M,F03,"The Grants Manager reviews registration requests and approves, returns or rejects them, so the Foundation keeps one trusted register of approved Charities. Charities can also be added manually and their delegate invited to activate the account.
+
+Main flow:
+1. The system lists registration requests, Pending first, with charity name, licence number, date and status.
+2. The Grants Manager opens a request and checks the data and documents.
+3. The Grants Manager approves the request.
+4. The system creates the Charity record with status Active and the delegate's account as primary delegate.
+5. The system sends the delegate an activation email to set a password and sign in.
+6. The Charity appears in the charity register.
+
+Business rules:
+- A reason is mandatory to return or reject a request, and the applicant sees it.
+- A Charity is created only by approving a request or by manual addition; never twice for the same licence number.
+- Only Pending requests can be decided; each decision is recorded with user and time.
+- The register lists only the Foundation's own Charities; exports contain the same rows as the filtered list.
+- Activation and invitation links are single-use and time-limited.
+
+Detailed BRD: UC49, UC50, UC56, UC57",,Ready
+S-F04-01 – Registration requests queue,Story,S-F04-01,F04,E2,R2,High,,,"As a Grants Manager, I want a queue of registration requests with their documents, so that I can review new Charities in one place.","1. Given the queue opens, then Pending requests are listed first with charity name, licence number, submission date and status.
+2. Given the Grants Manager filters by status Returned, then only Returned requests are listed.
+3. Given a request is opened, then all submitted data, the verified contact fields and each uploaded document are shown and documents can be opened.",
+S-F04-02 – Approve a registration request,Story,S-F04-02,F04,E2,R2,High,,,"As a Grants Manager, I want to approve a valid registration, so that the Charity joins the register and its delegate can sign in.
+
+Note: The approval is linked to the created Charity record.","1. Given a Pending request, when the Grants Manager approves it, then a Charity record is created with status Active and the request status becomes Approved.
+2. Given the approval, then the delegate account is created as primary delegate and an activation email is sent; after setting a password the delegate can sign in to the charity portal.
+3. Given the licence number was registered in the meantime, when the Grants Manager approves, then approval is blocked with ""A charity with this licence number already exists"".",
+S-F04-03 – Return or reject a registration request,Story,S-F04-03,F04,E2,R2,High,,,"As a Grants Manager, I want to return a request for correction or reject it with a reason, so that the applicant knows exactly what to do.","1. Given the Grants Manager returns or rejects a request without a reason, then the action is blocked with ""Reason is required"".
+2. Given a request is Returned with a reason, then the delegate sees the reason, can correct the data and documents, and resubmits the same request, which becomes Pending again.
+3. Given a request is Rejected, then it is closed, no Charity is created and the delegate sees the reason.",
+"S-F04-04 – Charity register with search, filters and export",Story,S-F04-04,F04,E2,R2,High,,,"As a Grants Manager, I want a directory of all our Charities with filters and Excel export, so that I can find and analyse Charities quickly.","1. Given the register, then each Charity shows name, licence number, region, charity status and account status (Not activated, Invited, Active).
+2. Given the user filters by charity status, then only Charities with that status are listed, and summary counts per status are shown above the list.
+3. Given a search by name or licence number, then only matching Charities are listed.
+4. Given a filtered list, when the user exports to Excel, then the file contains exactly the listed rows and visible columns.",
+S-F04-05 – Add a charity manually and invite its delegate,Story,S-F04-05,F04,E2,R2,High,,,"As a Grants Manager, I want to add a Charity directly and invite its delegate, so that known Charities can be onboarded without self-registration.
+
+Note: Invitation only for Charities whose account is not Active.","1. Given a licence number already in the register, when the Grants Manager saves a manual Charity, then creation is blocked and the existing Charity is shown.
+2. Given a new Charity with name, licence number and a valid official email, when saved, then it is created with account status Not activated and the creation is recorded with user and time.
+3. Given the Grants Manager selects Send invitation, then a single-use link valid for 7 days is sent to the official email and the account status becomes Invited; Resend invitation is available afterwards.
+4. Given the representative opens a valid invitation and completes verification, then they become the primary delegate and the account status becomes Active.",
+F05 – Charity portal access and team,Feature,F05,E2,E2,R2,High,M,F04,"Charity users sign in to their own portal, and the primary delegate manages the charity's team without calling the Foundation. People can also ask to join an already registered Charity.
+
+Main flow:
+1. The charity user signs in; the system opens the portal home showing the represented Charity and the user's role in it.
+2. The primary delegate opens the Team tab; the system lists members, primary delegate first.
+3. The primary delegate adds a member with name, email, national ID and role.
+4. The system creates the membership and sends the member an activation email.
+5. The primary delegate deactivates members who leave.
+6. When needed, the primary delegate transfers the primary delegation to another active member with a reason.
+
+Business rules:
+- Each Charity has exactly one active primary delegate at all times.
+- On the charity side, only the primary delegate can add, deactivate or transfer team members.
+- Team roles: Primary delegate, Project Manager, Finance Officer, Member; one membership per person per Charity.
+- The primary delegate cannot be deactivated before the delegation is transferred.
+- Charity users see only the data of the Charity they represent and never the staff workspace.
+- Team changes and delegation transfers are recorded in the Charity's history with user, time and reason.
+
+Detailed BRD: UC40, UC41, UC55",,Needs decision: Can one person belong to more than one charity? (open comment in BRD)
+S-F05-01 – Sign in to the charity portal,Story,S-F05-01,F05,E2,R2,High,,,"As a charity user, I want to sign in to the charity portal, so that I can work on my charity's behalf.","1. Given an active charity user, when they sign in, then the portal home opens showing the Charity name and the user's role in it.
+2. Given a charity user opens a staff page by link, then access is refused and they are returned to the portal home.
+3. Given a staff user opens the charity portal, then the message ""This portal is for charities only"" is shown.",
+S-F05-02 – Choose the represented charity,Story,S-F05-02,F05,E2,R2,High,,,"As a charity user who belongs to more than one Charity, I want to choose which Charity I represent, so that I act for the right organization.
+
+Note: Built only if the decision allows one person in several charities; otherwise one membership per person.","1. Given a user with memberships in two Charities, when they sign in, then the last selected Charity is represented and a ""Currently representing"" selector lists both.
+2. Given the user selects the other Charity, then all portal pages refresh to show only that Charity's data and the user's role in it.",
+S-F05-03 – Add a team member,Story,S-F05-03,F05,E2,R2,High,,,"As a primary delegate, I want to add team members with a role, so that colleagues can work in the portal without contacting the Foundation.
+
+Note: Roles offered: Project Manager, Finance Officer, Member.","1. Given name, email, a 10-digit national ID and a role, when the primary delegate adds a member, then an active membership is created and an activation email is sent; after setting a password the member can sign in.
+2. Given the person is already a member of this Charity, when added again, then the system refuses with ""This person is already a team member"".
+3. Given a member who is not the primary delegate, when they open the Team tab, then the team is read-only and Add, Deactivate and Transfer are not available.",
+S-F05-04 – Deactivate a team member,Story,S-F05-04,F05,E2,R2,High,,,"As a primary delegate, I want to deactivate members who leave, so that they lose access to our charity's data.","1. Given an active member, when the primary delegate deactivates them and confirms, then the membership ends with today's date and the person can no longer act for this Charity.
+2. Given the primary delegate tries to deactivate themselves, then the system refuses with ""The primary delegate cannot be deactivated before the delegation is transferred"".
+3. Given a deactivated member, then they remain in the team list, dimmed, with their end date.",
+S-F05-05 – Transfer the primary delegation,Story,S-F05-05,F05,E2,R2,High,,,"As a primary delegate, I want to transfer the delegation to another active member, so that the Charity always has a responsible delegate.
+
+Note: The role kept by the former delegate (Member) is to be confirmed by the business.","1. Given an active member and a reason, when the primary delegate confirms the transfer, then that member becomes primary delegate and the previous delegate becomes Member immediately and loses delegate rights.
+2. Given no new delegate or no reason, when confirming, then the transfer is blocked with ""Select the new delegate and state the reason"".
+3. Given a transfer, then the transfer history shows date, from, to, method (by charity or by Foundation) and reason.",
+S-F05-06 – Request to join a registered charity,Story,S-F05-06,F05,E2,R2,High,,,"As a person working for a registered Charity, I want to request to join it, so that I can get portal access without creating a duplicate charity.
+
+Note: All four delegate-change fields are mandatory.","1. Given the visitor enters the licence number of a registered Charity, then the Charity name and the primary delegate's masked name and mobile ending are shown.
+2. Given the visitor selects Send code to delegate and enters the code the delegate gives them, then a join request is created and the primary delegate sees it in the Team tab to accept or refuse.
+3. Given the primary delegate accepts the join request, then the person gets an active membership with role Member.
+4. Given the visitor submits a delegate-change request with new delegate name, national ID, mobile and reason, then it appears in the Grants Manager's registration queue and, if approved, transfers the primary delegation of the existing Charity without creating a new one.",
+F06 – Charity profile and verification,Feature,F06,E2,E2,R2,High,M,F05,"Staff see each Charity's full profile and decision history, confirm or block Charities, verify bank accounts and review licence updates. This ensures funding goes only to verified Charities and verified bank accounts.
+
+Main flow:
+1. The Grants Manager opens the Charity profile with data, documents, team and history.
+2. The Grants Manager confirms the Charity after checking its data and documents.
+3. The primary delegate updates the bank account and uploads the IBAN certificate; the account becomes Unverified.
+4. The Grants Manager opens the IBAN certificate, compares it with the entered data and verifies the account.
+5. The primary delegate submits a licence update with the licence document.
+6. The Grants Manager compares current and requested values with the document and approves the update.
+7. Every decision is added to the Charity's history.
+
+Business rules:
+- Charity status: Active, Confirmed, Blocked; block and unblock require a reason.
+- A blocked Charity cannot submit new applications.
+- Any change to bank name, IBAN or IBAN certificate sets the account to Unverified until staff verify it.
+- IBAN must be a Saudi IBAN (SA followed by 22 digits).
+- Official data (name, licence number, licence expiry) changes only through an approved licence update.
+- The Charity history is append-only: each entry has user, time, before / after values and reason.
+
+Detailed BRD: UC46, UC51, UC52, UC53, UC54",,Ready
+S-F06-01 – Charity 360 profile and history,Story,S-F06-01,F06,E2,R2,High,,,"As a Grants Manager, I want one page with a Charity's data, documents, team and decision history, so that I can judge the Charity without searching elsewhere.","1. Given a Charity profile, then it shows charity status, account status, bank status, official and contact data, documents and team.
+2. Given any confirm, block, unblock, bank verify / reject or licence decision, then it appears in the history with user, date, time, before / after values and reason, newest first.
+3. Given a history entry, then no user can edit or delete it.
+4. Given a link to a Charity that does not exist, then the message ""Charity not found"" is shown.",
+S-F06-02 – Confirm or block a charity,Story,S-F06-02,F06,E2,R2,High,,,"As a Grants Manager, I want to confirm a Charity or block it with a reason, so that only trusted Charities can receive grants.
+
+Note: Block asks for confirmation before saving.","1. Given an Active Charity, when the Grants Manager selects Confirm, then the status becomes Confirmed and ""Charity confirmed"" is shown.
+2. Given the Grants Manager selects Block without a reason, then the action is blocked with ""Reason is required"".
+3. Given a Blocked Charity, when its user tries to submit a new application, then submission is refused.
+4. Given a Blocked Charity, when the Grants Manager unblocks it with a reason, then its status becomes Confirmed.",
+S-F06-03 – Charity updates its bank account,Story,S-F06-03,F06,E2,R2,High,,,"As a primary delegate, I want to enter or update our bank account and IBAN certificate, so that the Foundation can pay us.
+
+Note: Certificate: PDF, JPG or PNG. Only the primary delegate can edit.","1. Given bank name, a valid IBAN and an IBAN certificate, when the primary delegate saves, then the account is saved with status Unverified.
+2. Given an IBAN not in the format SA followed by 22 digits, when saving, then the system blocks it with ""Enter a valid Saudi IBAN"".
+3. Given a Verified account, when the primary delegate changes the bank name, IBAN or certificate, then the status returns to Unverified and the previous verification stamp is cleared.",
+S-F06-04 – Verify or reject a bank account,Story,S-F06-04,F06,E2,R2,High,,,"As a Grants Manager, I want to verify a Charity's bank account against its IBAN certificate, so that payments go only to verified accounts.
+
+Note: Bank documents open only through secure, short-lived links.","1. Given an Unverified account with IBAN and certificate, when the Grants Manager selects Verify, then the status becomes Verified with the verifier's name and date shown.
+2. Given an account without an IBAN or certificate, then Verify is not available.
+3. Given the Grants Manager rejects the account without a reason, then the action is blocked; with a reason, the status becomes Rejected and the Charity sees the reason in the portal.",
+S-F06-05 – Request and review a licence update,Story,S-F06-05,F06,E2,R2,High,,,"As a primary delegate, I want to submit our renewed licence for the Foundation to review, so that our official data stays current.
+
+Note: Fields: official name, licence number, licence expiry date, licence document (all mandatory).","1. Given a licence update without the licence document, when submitted, then it is blocked with ""Attach the licence document"".
+2. Given a submitted update, then it appears on the Charity profile as Awaiting review with current and requested name, licence number and expiry side by side.
+3. Given the Grants Manager approves the update, then the Charity's official name, licence number and expiry are replaced and the request becomes Approved.
+4. Given the Grants Manager rejects the update with a note, then the request becomes Rejected, official data is unchanged and the primary delegate sees the note; a decided request cannot be decided again.",
+E3 – Annual Plan & Budget,Epic,E3,,E3,,,,,"The Foundation manages its annual plan and budget in Manih instead of spreadsheets, so every grant is funded from a known budget line with live and evidenced figures.",,
+F07 – Annual plan and budget structure,Feature,F07,E3,E3,R3,High,M,F02,"The Grants Manager creates the annual plan with its total budget and builds its tree of tracks, items and initiatives with a budget per level. Changes to saved elements need an evidence document and are kept in the plan history, so the plan can serve as the budget source for grant opportunities from day one.
+
+Main flow:
+1. The Grants Manager opens the Annual Plans list and selects New plan.
+2. The Grants Manager enters the plan name, year and total budget and saves; the system creates the plan as Active with a unique reference number.
+3. The Grants Manager starts an edit session and adds tracks, then items under tracks and initiatives under items, each with a name and a budget.
+4. The system assigns hierarchical codes (1, 1.2, 1.2.3) and shows the tree with each level's budget and the plan total.
+5. The system warns on any level whose children's budgets exceed its own budget, showing the difference.
+6. The Grants Manager selects Save changes; the system lists the pending changes and asks for an evidence document if any saved element was changed.
+7. The system saves all changes together, records each one in the plan history and confirms ""{n} changes saved"".
+
+Business rules:
+- A plan requires a name, a year and a total budget of zero or more; levels require a name and a budget of zero or more.
+- The tree has three fixed levels: track → item → initiative.
+- Structure and header changes are made only inside an edit session and saved all together or not at all.
+- Changing or removing an element that was already saved requires one evidence document (PDF, Word, Excel or image, max 10 MB) per save; adding new levels only does not.
+- Children exceeding the parent budget is a warning, not a block.
+- The plan history is append-only: change, before and after values, user, date and document.
+
+Detailed BRD: UC19, UC20, UC21",,Ready
+S-F07-01 – Create the annual plan,Story,S-F07-01,F07,E3,R3,High,,,"As a Grants Manager, I want to create the annual plan with its name, year and total budget, so that the year's budget is recorded in the system.
+
+Note: The form opens prefilled with next year. Creator and creation time are recorded.","1. Given the New plan form, when the Grants Manager saves name ""Plan 2027"", year 2027 and budget 50,000,000 SAR, then the plan appears in the Annual Plans list with a reference number, status Active and budget 50,000,000 SAR
+2. Given the name or year is empty, when the user saves, then the system shows ""Name and year are required"" and does not save
+3. Given the budget is empty, negative or not a number, when the user saves, then the system shows ""Enter a valid budget"" and does not save
+4. Given a plan already exists for 2027, when the user saves another 2027 plan, then the system warns ""A plan already exists for this year"" and saves only after the user confirms",
+S-F07-02 – Build the plan tree with a budget per level,Story,S-F07-02,F07,E3,R3,High,,,"As a Grants Manager, I want to add tracks, items and initiatives with their budgets in an edit session, so that the plan reflects how the budget is distributed.
+
+Note: Only three levels; an initiative cannot have children.","1. Given an edit session on a plan with no levels, when the user adds a track ""Education"" with 10,000,000 SAR, then it is shown with code 1
+2. Given track 1 has one item, when the user adds a second item under it, then the new item gets code 1.2; an initiative under it gets code 1.2.1
+3. Given a level with an empty name or invalid amount, when the user adds it, then the system shows ""Name is required"" or ""Enter a valid amount"" and does not add it
+4. Given the user cancels the edit session, when the plan is reopened, then none of the draft levels exist",
+S-F07-03 – View the plan tree and budget warnings,Story,S-F07-03,F07,E3,R3,High,,,"As a Grants Manager, I want to see the plan tree with each level's budget and a warning where children exceed the parent, so that I can correct the distribution before saving.
+
+Note: Warnings are recalculated on every draft change.","1. Given a plan with levels, when the user opens it, then the tree shows each level's code, name and budget, and the plan total budget
+2. Given item 1.1 has 2,000,000 SAR and its initiatives total 2,300,000 SAR, then item 1.1 shows the warning ""Children exceed budget by 300,000 SAR""
+3. Given the plan total of tracks exceeds the plan budget, then the plan header shows the same type of warning, and saving is still allowed
+4. Given an edit session with unsaved changes, then changed levels are highlighted and the number of unsaved changes is shown",
+S-F07-04 – Save edits with an evidence document,Story,S-F07-04,F07,E3,R3,High,,,"As a Grants Manager, I want changes to saved plan elements to be saved with an evidence document, so that every budget change is justified.
+
+Note: Accepted types: PDF, Word, Excel, image. One document covers the whole session.","1. Given the user changed the budget of a saved level, when they select Save changes, then the system lists the pending changes and requires an evidence document before Save all is enabled
+2. Given the session only added new levels, when the user saves, then no document is required
+3. Given a document of an unaccepted type or larger than 10 MB, when the user attaches it, then the system rejects it with the reason and does not save
+4. Given 3 pending changes and a valid document, when the user selects Save all, then all 3 are saved and the system confirms ""3 changes saved""",
+S-F07-05 – Plans list and plan history,Story,S-F07-05,F07,E3,R3,High,,,"As a Grants Manager or CEO, I want to list the annual plans and see each plan's change history, so that I can find a plan and know who changed what and why.
+
+Note: Filter by year and active status.","1. Given several plans, when the user opens Annual Plans, then only the Foundation's plans are listed, newest year first, with name, year, budget and active status
+2. Given a saved change of item 1.1 from 2,000,000 to 2,500,000 SAR, when the user opens the plan history, then it shows the element, before and after values, user, date and a link to open the document
+3. Given any history entry, when any user tries to edit or delete it, then no such action is available
+4. Given a CEO opens a plan, then the tree and history are visible but New plan and Edit are not offered",
+F24 – Budget monitoring and adjustments,Feature,F24,E3,E3,R7,High,M,F23,"Every plan level shows live committed, due, paid and available figures from contracts and payments, and authorised staff increase, decrease or transfer budget with evidence. The plan can be locked at year end so no new grants are funded from it.
+
+Main flow:
+1. The user opens the plan summary; the system shows for the plan and each level: budget, committed, due, paid and available.
+2. The system flags any level whose available balance is negative with ""Over budget"".
+3. The user drills down from a level to the projects and applications charged to it and its sub-levels.
+4. The Grants Manager selects Increase, Decrease or Transfer, chooses the level(s), enters the amount and a note and attaches the evidence document.
+5. The system validates the operation and applies it to the level, its parent levels and, for increase or decrease, the plan budget in one step.
+6. The system records the operation in the financial operations register with a reference number and in the plan history.
+7. At year end the Grants Manager locks the plan with the decision document; the plan's items are no longer offered for new links.
+
+Business rules:
+- One definition per figure everywhere: committed = signed contract amounts; due = payments in status Due or later and not paid; paid = payments marked Paid (per F23); available = budget − committed.
+- A level's figures include all its sub-levels.
+- Every adjustment requires an amount greater than zero and an evidence document (PDF, Word, Excel or image, max 10 MB); a transfer keeps the plan budget unchanged.
+- Each operation is applied completely or not at all; concurrent operations cannot overwrite each other.
+- The operations register and plan history are append-only.
+- A locked plan accepts no new opportunities or projects; running projects and their payments continue.
+
+Detailed BRD: UC22, UC23, UC24, UC25",,Ready
+S-F24-01 – Live budget figures per plan level,Story,S-F24-01,F24,E3,R7,High,,,"As a Grants Manager, I want each plan level to show committed, due, paid and available amounts, so that I know how much budget is left at any time.
+
+Note: Figures roll up from initiatives to items, tracks and plan.","1. Given item 1.1 has a budget of 2,000,000 SAR, when a contract of 500,000 SAR charged to it is signed, then item 1.1 and its track show committed increased by 500,000 SAR and available reduced by 500,000 SAR
+2. Given a payment of 100,000 SAR on that contract is marked Paid, then paid increases by 100,000 SAR on the item, its track and the plan
+3. Given committed exceeds a level's budget, then the level shows a negative available amount in red with the flag ""Over budget""
+4. Given the same plan, then the figures on the plan summary, the tree and the payments register reconcile",
+S-F24-02 – Drill down to projects and applications on a level,Story,S-F24-02,F24,E3,R7,High,,,"As a Grants Manager, I want to open the projects and applications charged to a level, so that I can explain its figures.","1. Given track 1 has 3 projects on its items, when the user selects ""Projects: 3"" on track 1, then the 3 projects are listed with amount and status
+2. Given a project in the list, when the user selects it, then the project page opens
+3. Given the user lacks access to projects, then the counts are shown but the drill-down is not offered",
+"S-F24-03 – Increase, decrease or transfer budget with evidence",Story,S-F24-03,F24,E3,R7,High,,,"As a Grants Manager, I want to increase, decrease or transfer a level's budget with an evidence document, so that budget changes during the year are controlled.
+
+Note: Transfer requires different source and target levels.","1. Given an increase of 300,000 SAR on item 1.1 with a document, when executed, then item 1.1, track 1 and the plan budget each increase by 300,000 SAR and the system confirms ""Increase executed""
+2. Given item 1.1 has 200,000 SAR available, when the user decreases or transfers 250,000 SAR from it, then the system refuses with ""Amount exceeds the level's available balance (200,000 SAR)""
+3. Given a transfer of 100,000 SAR from item 1.1 to item 2.1, when executed, then 1.1 and its track decrease, 2.1 and its track increase and the plan budget is unchanged
+4. Given an amount of 0 or no document, when the user selects Execute, then the operation is refused with ""Enter an amount greater than zero"" or ""Attach the evidence document""",
+S-F24-04 – Financial operations register,Story,S-F24-04,F24,E3,R7,High,,,"As Finance, I want a register of all budget operations, so that every budget change can be traced and audited.
+
+Note: Each operation also appears in the plan history.","1. Given executed operations, when the user opens the register, then increases, decreases and transfers appear in separate tabs with reference number, plan, level(s), amount, user, note, date and document
+2. Given a filter by plan, then only that plan's operations are listed
+3. Given the user exports the current tab, then the Excel file contains the same rows without document links
+4. Given any operation, then it cannot be edited or deleted",
+S-F24-05 – Lock and reopen the plan,Story,S-F24-05,F24,E3,R7,High,,,"As a Grants Manager, I want to lock a plan at year end and reopen it if needed, so that no new grants are funded from a closed budget.
+
+Note: The plans list shows a lock icon on locked plans.","1. Given an active plan, when the user selects Lock plan without attaching the decision document, then the Lock button stays disabled
+2. Given a locked plan, when a user links an opportunity or creates a project, then its items are not offered, and existing links remain visible
+3. Given a running project on a locked plan, then its payments continue to be processed
+4. Given the user reopens a locked plan with a justification document, then the plan is unlocked and both lock and reopen appear in the plan history with user, date and document",
+F25 – Endowments,Feature,F25,E3,E3,R7,Normal,M,F24,"The Foundation registers its endowments (funding sources), records their funding and sees each endowment's share of every plan level and its use. This shows which endowment pays for which grants.
+
+Main flow:
+1. The Grants Manager registers an endowment with a name and optional description.
+2. Finance records an endowment funding with amount, date and evidence document; the endowment size is updated.
+3. The Grants Manager sets which endowments participate in each plan level.
+4. The system splits each level's budget among its participating endowments so that shares total 100%.
+5. The user opens the endowment report: share, used and available amount per plan and per level, and the projects it funds.
+
+Business rules:
+- Endowment size = total of its recorded fundings; fundings cannot be edited or deleted.
+- A level uses its own split, otherwise inherits its nearest parent's split; inherited shares are marked ""(inherited)"".
+- Endowment shares of each level total exactly 100%; only active endowments take part.
+- With only one active endowment the whole plan counts against it and no split is shown.
+- An endowment with fundings or plan shares cannot be deleted.
+
+Detailed BRD: UC16, UC26, UC27",,"Needs decision: How are endowment shares decided (equal, by size, manual)?"
+S-F25-01 – Register endowments,Story,S-F25-01,F25,E3,R7,Normal,,,"As a Grants Manager, I want to register, activate and deactivate endowments, so that the plan knows its funding sources.
+
+Note: Creation, activation changes and deletion are recorded in the audit trail.","1. Given the Endowments page, when the user adds ""Education Endowment"", then it is listed as Active with size 0 SAR and the system confirms ""Endowment added""
+2. Given the name is empty, when the user saves, then the endowment is not created
+3. Given an endowment with fundings or plan shares, when the user tries to delete it, then deletion is refused and deactivation is offered
+4. Given an endowment is deactivated, then it is no longer offered for new plan participation",
+S-F25-02 – Record endowment funding,Story,S-F25-02,F25,E3,R7,Normal,,,"As Finance, I want to record each funding of an endowment with evidence, so that the endowment size is accurate.
+
+Note: Funding date defaults to today.","1. Given an endowment of 1,000,000 SAR, when Finance records a funding of 250,000 SAR with a document, then the size becomes 1,250,000 SAR and the funding appears in its ledger with date, amount, note and document
+2. Given an amount of zero or less, then the system shows ""Enter a valid amount"" and does not save
+3. Given no document is attached, then the system shows ""Attach the evidence document"" and does not save
+4. Given a recorded funding, then it cannot be edited or deleted",
+S-F25-03 – Set endowment participation per plan level,Story,S-F25-03,F25,E3,R7,Normal,,,"As a Grants Manager, I want to choose which endowments fund each plan level, so that each level's budget is split between its sources.
+
+Note: Split method depends on the open decision; equal split ships first.","1. Given two active endowments participate in item 1.1 of 1,000,000 SAR with an equal split, then each shows 50% and 500,000 SAR
+2. Given initiative 1.1.2 has no own split, then it shows its parent's shares marked ""(inherited)""
+3. Given shares on a level do not total 100%, when the user saves, then the system shows ""Endowment shares must total 100%"" and does not save
+4. Given the only participating endowment of a level is switched off, then the system refuses with ""At least one endowment must participate in every level""",
+S-F25-04 – Endowment report,Story,S-F25-04,F25,E3,R7,Normal,,,"As a Grants Manager, I want to see each endowment's share, use and available amount, so that I can report what each endowment funds.
+
+Note: Used = endowment percentage × committed amounts on its levels (F24 definitions).","1. Given an endowment participates in a plan, when the user opens its report, then it shows per plan and per level the endowment's percentage, share amount, used and available
+2. Given a project charged to a level the endowment funds at 40%, then the project is listed with budget, 40% and the endowment's share
+3. Given the report, then the per-level amounts add up to the endowment's total share of the plan",
+E4 – Grant Opportunities,Epic,E4,,E4,,,,,"The Foundation publishes grant opportunities funded from its annual plan, and the right Charities find them and know whether they can apply.",,
+F08 – Publish a grant opportunity,Feature,F08,E4,E4,R3,High,M,F07,"The Grants Manager creates a grant opportunity linked to an annual plan item, builds its application form and publishes it for a reception window. Calls for grants are announced in one place and never exceed the planned budget.
+
+Main flow:
+1. The Grants Manager selects New opportunity and enters name, description, budget, plan item and reception open and close dates.
+2. The system checks the budget against the plan item's available budget and saves the opportunity as Draft.
+3. The Grants Manager builds the application form (or picks an existing form) with fields and required flags.
+4. The Grants Manager publishes the opportunity; its status becomes Published.
+5. The system treats the opportunity as open while it is Published and today is within the reception window.
+6. When the close date passes, the opportunity stops accepting applications and its status becomes Closed.
+7. The opportunity list shows each opportunity's status, window, budget and application count.
+
+Business rules:
+- Name, budget greater than zero, plan item and open and close dates (close after open) are required.
+- Only items and initiatives (not tracks) of active, unlocked plans can be selected; they are labelled with plan year, code and name.
+- Plan item available budget for opportunities = item budget − budgets of its other non-cancelled opportunities.
+- Status flow: Draft → Published → Closed; a Draft is never visible to Charities.
+- A form used by any opportunity cannot be deleted; changing a form never changes applications already submitted.
+- Changes to a published opportunity are recorded with before and after values, user and date.
+
+Detailed BRD: UC13, UC28, UC29, UC30, UC31",,Ready
+S-F08-01 – Create a draft opportunity linked to a plan item,Story,S-F08-01,F08,E4,R3,High,,,"As a Grants Manager, I want to create an opportunity with its budget, dates and plan item, so that every call for grants is funded from the plan.","1. Given valid name, budget 1,000,000 SAR, plan item 1.1 and dates 01/01/2027–31/01/2027, when the user saves, then the opportunity is created with status Draft
+2. Given item 1.1 has 2,000,000 SAR and another opportunity of 1,500,000 SAR, when the user saves a budget of 600,000 SAR, then the system refuses with ""Budget exceeds the available budget of the plan item (500,000 SAR)""
+3. Given a close date before the open date or a budget of 0, when the user saves, then the system shows the field error and does not save
+4. Given the plan item selector, then it lists only items and initiatives of active plans as ""2027 · 1.1 · Item name""",
+S-F08-02 – Build the application form,Story,S-F08-02,F08,E4,R3,High,,,"As a Grants Manager, I want to build an application form with fields and required flags, so that Charities provide the data each opportunity needs.
+
+Note: A form can be linked to several opportunities; the list shows ""Used in N opportunities"".","1. Given a new form, when the user adds a field, then a label and type are required; type is one of short text, long text, number, date, list, file, email, phone
+2. Given a list field with no options, when the user saves it, then the system refuses and asks for at least one option
+3. Given fields on a form, when the user reorders or marks a field required, then the change is saved and the preview shows the new order and required marks
+4. Given a form used by an opportunity, when the user deletes it, then deletion is refused with ""Form is used by {n} opportunities""",
+"S-F08-03 – Publish, close and reopen an opportunity",Story,S-F08-03,F08,E4,R3,High,,,"As a Grants Manager, I want to publish and close opportunities, so that Charities can apply only during the reception window.
+
+Note: Publish, unpublish and close actions are recorded with user and date.","1. Given a Draft with a linked form, when the user selects Publish, then the status becomes Published
+2. Given a Draft without an application form, when the user selects Publish, then publishing is refused with ""Link an application form first""
+3. Given a Published opportunity whose close date has passed, then its status is Closed and it accepts no new applications
+4. Given the user closes an opportunity early, then it shows Closed, and it can be reopened only while the close date has not passed",
+S-F08-04 – Opportunities list,Story,S-F08-04,F08,E4,R3,High,,,"As a Grants Manager, I want a list of all opportunities with status and application count, so that I can follow the calls for grants.
+
+Note: Application count is 0 until applications exist (F11).","1. Given several opportunities, when the user opens Opportunities, then only the Foundation's opportunities are listed with name, plan item, budget, window, status and number of applications
+2. Given the header, then it shows the number of opportunities, total applications and total budget
+3. Given a filter on status Published, then only Published opportunities are listed",
+F09 – Opportunities on the public page and portal,Feature,F09,E4,E4,R3,High,S,F08,"Published, open opportunities appear on the public landing page and in the Charity portal with a details page. Charities find open grants without contacting the Foundation.
+
+Main flow:
+1. The visitor opens the public landing page without signing in.
+2. The system lists published opportunities whose reception window is open, with name, short description, budget and closing date.
+3. The visitor opens an opportunity; the details page shows description, budget, dates and conditions.
+4. The visitor selects Apply now; if not signed in as a Charity user, the system asks them to sign in or register their Charity.
+5. A signed-in Charity user sees the same open opportunities in the portal and opens the opportunity there.
+
+Business rules:
+- Only opportunities that are Published and within their open and close dates are listed.
+- The landing page and details page are available without sign-in.
+- Budget is shown in SAR and the closing date is the official close date of the opportunity.
+
+Detailed BRD: UC03, UC42",,Ready
+S-F09-01 – Open opportunities on the public page,Story,S-F09-01,F09,E4,R3,High,,,"As a visitor, I want to see open grant opportunities on the public page, so that I know which grants are available.
+
+Note: No sign-in required.","1. Given one Published opportunity within its dates, one Draft and one Closed, when a visitor opens the landing page, then only the Published open one is listed
+2. Given a listed opportunity, then it shows name, short description, budget in SAR and closing date
+3. Given an opportunity's close date passes, when the page is reloaded, then it is no longer listed",
+S-F09-02 – Opportunity details and Apply,Story,S-F09-02,F09,E4,R3,High,,,"As a visitor, I want to open an opportunity's details and start applying, so that I can decide and act.","1. Given a listed opportunity, when the visitor opens it, then the details page shows description, budget, open and close dates and conditions
+2. Given a visitor not signed in selects Apply now, then the system offers Sign in or Register your Charity and returns to the opportunity after sign-in
+3. Given a Draft or Closed opportunity link, when opened, then the system shows ""This opportunity is not open for applications""",
+S-F09-03 – Opportunities in the Charity portal,Story,S-F09-03,F09,E4,R3,High,,,"As a Charity user, I want to see open opportunities in my portal, so that I can find grants without leaving my workspace.
+
+Note: Filtering by eligibility comes with F10.","1. Given a signed-in Charity user, when they open Opportunities in the portal, then the same open opportunities as the public page are listed with name, budget and closing date
+2. Given a signed-in Charity user selects Apply now on the public page, then they are taken to that opportunity in the portal",
+"F10 – Eligibility, partner groups and invitations",Feature,F10,E4,E4,R3,Normal,M,F09,"The Grants Manager sets who may apply to each opportunity (applicant type, region, partner groups, named Charities), invites selected Charities privately and limits applications per Charity. Only the right Charities can apply.
+
+Main flow:
+1. The Grants Manager maintains partner groups (name, description, member Charities).
+2. On an opportunity, the Grants Manager sets eligibility rules: applicant types, regions, partner groups and named Charities, and the maximum applications per Charity.
+3. The system shows a plain-language summary of the targeting; no rules means open to all.
+4. The Grants Manager sends invitations to the targeted groups and named Charities not yet invited.
+5. In the portal, the Charity sees opportunities it can apply to with ""Applied x of y"", and others under ""Not available to you"" with the reasons.
+6. An invited Charity opens its personal link, sees the opportunity terms and continues to apply after signing in.
+
+Business rules:
+- Each non-empty rule must be met; an empty rule means no restriction.
+- Charities named directly or in a targeted group are always eligible; if only named Charities or groups are targeted, all others are ineligible.
+- Group membership is evaluated at the time of the check, so membership changes apply to all opportunities using the group.
+- The application limit counts non-cancelled applications; default is 1.
+- One invitation per Charity and opportunity, with a unique, unguessable link; status Sent → Opened → Applied or Declined, with dates.
+- Eligibility, window and limit are checked again at the moment of applying, not only on screen; an invitation does not bypass the reception window.
+
+Detailed BRD: UC32, UC36, UC43, UC58",,Ready
+S-F10-01 – Manage partner groups,Story,S-F10-01,F10,E4,R3,Normal,,,"As a Grants Manager, I want to create partner groups and manage their members, so that I can target opportunities to sets of Charities.
+
+Note: Group changes are recorded with user and date.","1. Given the Groups page, when the user saves a group with name ""Riyadh health charities"" and 5 members, then it is listed with 5 members and ""Used in 0 opportunities""
+2. Given a group without a name, when saved, then the system refuses
+3. Given a group used by 2 opportunities, when the user deletes it, then the system blocks deletion with ""Group is used by 2 opportunities""
+4. Given a Charity is added to a targeted group, then it becomes eligible for that group's opportunities at the next check",
+S-F10-02 – Set eligibility rules and application limit,Story,S-F10-02,F10,E4,R3,Normal,,,"As a Grants Manager, I want to set eligibility rules and a per-Charity limit on an opportunity, so that only intended Charities apply and none applies too often.
+
+Note: Rules: applicant types, regions, partner groups, named Charities.","1. Given the rules applicant type ""Charity"" and region ""Riyadh"", then the summary reads ""Open to Charities in Riyadh""
+2. Given no rules are set, then the summary reads ""Open to all Charities""
+3. Given a limit of 0, when the user saves, then the system refuses with ""Limit must be at least 1""
+4. Given only group ""Riyadh health charities"" is targeted, then a Charity outside the group is ineligible even if it is in Riyadh",
+S-F10-03 – Charity sees eligibility and reasons in the portal,Story,S-F10-03,F10,E4,R3,Normal,,,"As a Charity user, I want to see which opportunities I can apply to and why others are not available, so that I do not waste effort.
+
+Note: The public page still lists all open opportunities; eligibility is checked in the portal.","1. Given an opportunity limited to Riyadh and a Charity in Jeddah, when the Charity opens the portal, then the opportunity is under ""Not available to you"" with the reason ""Region: Riyadh only""
+2. Given an eligible Charity with a limit of 2 and 1 non-cancelled application, then the opportunity shows ""Applied 1 of 2"" and Apply is offered
+3. Given the Charity has reached the limit, then the opportunity shows ""Application limit reached"" and Apply is not offered
+4. Given a Charity calls Apply directly for an opportunity it is not eligible for, then the system refuses the request",
+S-F10-04 – Send private invitations,Story,S-F10-04,F10,E4,R3,Normal,,,"As a Grants Manager, I want to invite targeted Charities by email, so that they know about the opportunity and can apply directly.
+
+Note: Only named or group-targeted Charities can be invited.","1. Given 8 targeted Charities of which 3 were already invited, when the user selects ""Send invitations (5)"", then 5 invitations are emailed and the system confirms ""5 invitations sent""
+2. Given the invitations list, then each shows Charity, email, sent date and status
+3. Given an invitation was already sent to a Charity, then no second invitation is created for the same opportunity",
+S-F10-05 – Respond to an invitation,Story,S-F10-05,F10,E4,R3,Normal,,,"As an invited Charity user, I want to open my invitation and apply or decline, so that I can respond quickly.
+
+Note: Status Applied is set when the Charity submits an application for the opportunity.","1. Given a valid invitation link, when the Charity user opens it, then the opportunity's name, budget, close date and description are shown without signing in, and the status becomes Opened
+2. Given the user selects Continue to apply, then they sign in and are taken to the opportunity in the portal
+3. Given the user selects Decline, then the status becomes Declined with the date and the Grants Manager sees it
+4. Given an invalid or altered link, then the system shows ""Invitation not found""",
+F28 – Configuration library and governance,Feature,F28,E4,E4,R8,Low,M,F13,"Admins and Grants Managers reuse workflow templates and communication templates, maintain reference lists and applicant types, and change sensitive settings only with an evidence document and a permanent history. Setups are reused instead of rebuilt, and every sensitive change is traceable.
+
+Main flow:
+1. The Grants Manager creates a workflow template with stages, time limits, criteria with weights and a pass score.
+2. On an opportunity, the Grants Manager applies a template after confirming that its stages and criteria will be replaced.
+3. The Grants Manager maintains communication templates (rejection, contract, notification) with placeholders.
+4. The Grants Manager maintains reference lists (entity types, regions, target groups) and opens or closes applicant types for registration.
+5. To change a sensitive setting, the user starts an edit session, makes the changes and selects Save changes.
+6. The system asks for the evidence document and an optional reason, saves the changes and records before and after values, user and time.
+
+Business rules:
+- A template is copied into the opportunity, not referenced; later template changes do not alter existing opportunities.
+- New templates start with a pass score of 70% and three standard stages of 5 days each; criteria weights must total 100%.
+- A template used by any opportunity cannot be deleted.
+- Sensitive settings (workflow templates, applicant types, reference lists, communication templates) are read-only outside an edit session and change only with an evidence document.
+- The document and the history entry are saved together or not at all; history entries cannot be edited or deleted.
+- Reference list values are unique within a list and at most 80 characters.
+
+Detailed BRD: UC14, UC15, UC18, UC34, UC38",,Ready
+S-F28-01 – Maintain workflow templates,Story,S-F28-01,F28,E4,R8,Low,,,"As a Grants Manager, I want to create and edit workflow templates with stages, criteria and a pass score, so that standard setups are defined once.","1. Given the user creates template ""Standard project grant"", then it starts with 3 stages of 5 days each and a pass score of 70%
+2. Given criteria weights totalling 90%, when the user saves, then the system refuses with ""Criteria weights must total 100%""
+3. Given a template used by 4 opportunities, when the user deletes it, then deletion is refused
+4. Given the templates list, then each shows number of stages, number of criteria, pass score and number of opportunities using it",
+S-F28-02 – Apply a template to an opportunity,Story,S-F28-02,F28,E4,R8,Low,,,"As a Grants Manager, I want to apply a template to an opportunity, so that its stages and criteria are set in one step.
+
+Note: Applied completely or not at all.","1. Given an opportunity without applications, when the user applies a template and confirms, then the template's stages, time limits, criteria and pass score are copied and the system confirms ""Template applied""
+2. Given the template is changed later, then opportunities that applied it keep their copied settings
+3. Given the opportunity already has applications, then applying a template is refused with ""Opportunity has applications""
+4. Given the opportunity has stage supervisors, then they are kept after the template is applied",
+S-F28-03 – Maintain communication templates,Story,S-F28-03,F28,E4,R8,Low,,,"As a Grants Manager, I want to maintain rejection, contract and notification templates with placeholders, so that messages are consistent and filled in automatically.
+
+Note: Deleting a template asks for confirmation.","1. Given a template of kind Rejection with text ""Dear {charity_name}, application {reference} …"", when an application is rejected, then the message is sent with the actual Charity name and reference
+2. Given a template without a name or text, when saved, then the system refuses with a validation message
+3. Given the editor, then the available placeholders (reference, opportunity, Charity name, amount) are listed",
+S-F28-04 – Reference lists and applicant types,Story,S-F28-04,F28,E4,R8,Low,,,"As a Grants Manager, I want to maintain reference lists and open or close applicant types for registration, so that registration and profile forms offer the right choices.
+
+Note: Lists: entity types, regions, target groups; values max 80 characters.","1. Given the Regions list, when the user adds a value that already exists, then the system refuses the duplicate
+2. Given a new region ""Al-Ula"" is saved, then it appears as a choice in Charity registration and profile forms
+3. Given an applicant type is closed, then it is not offered on the registration page and the system confirms ""Registration closed: {type}""",
+S-F28-05 – Evidenced edit session and configuration history,Story,S-F28-05,F28,E4,R8,Low,,,"As an Admin, I want sensitive configuration changes to require an evidence document and keep a permanent history, so that every change is traceable.
+
+Note: Document: PDF, Word, Excel or image, max 10 MB.","1. Given a sensitive settings page, when it opens, then values are read-only until the user selects Edit
+2. Given changed values, when the user selects Save changes without a document, then Approve and save stays disabled
+3. Given a saved change, when the user opens the history, then it shows the item, before and after values, reason, user, time and a link to open the document
+4. Given the user cancels the session, then the original values are restored and no history entry is created",
+E5 – Applications & Decisions,Epic,E5,,E5,,,,,"Charities apply online and Foundation staff review, score and decide every application through clear stages, with each decision recorded and traceable.",,
+F11 – Submit a grant application,Feature,F11,E5,E5,R4,High,M,F09,"A Charity fills the opportunity's application form in the portal, attaches the required documents and submits it, so every application reaches the Foundation complete and in one place. AI pre-fill comes later (F30).
+
+Main flow:
+1. The system opens the application form defined for the opportunity.
+2. The delegate enters the core data: project title, description, requested amount, duration (days), implementation region and target groups with beneficiary counts.
+3. The delegate adds the bill of quantities (item, quantity, unit price) where the opportunity requires it.
+4. The delegate answers the opportunity-specific questions and uploads the required attachments.
+5. The delegate selects Submit and confirms.
+6. The system validates mandatory fields, attachments, amounts and the submission window.
+7. The system records the application as Submitted at the Reception stage, keeps a snapshot of the Charity and opportunity data and generates the application number.
+8. The system shows ""Application submitted with number <ref>"" and lists it under My applications.
+
+Business rules:
+- Project title, requested amount, every field marked mandatory and every required attachment must be completed before submission.
+- The requested amount must be greater than zero; when a bill of quantities is used, the requested amount equals the sum of quantity × unit price.
+- The submission window is re-checked at the moment of submission.
+- The application number is unique: REQ + year-month + sequence (e.g. REQ-2026-10-0042).
+- A submitted application is read-only for the Charity unless it is returned for edits (F15).
+- The application, its items, attachments and first history entry are saved together; if any part fails, nothing is submitted.
+
+Detailed BRD: UC44",,Ready
+S-F11-01 – Fill the application form and save a draft,Story,S-F11-01,F11,E5,R4,High,,,"As a Charity delegate, I want to fill the opportunity's application form and save it as a draft, so that I can complete it over several sessions.
+
+Note: Draft applications are not visible to Foundation staff.","1. Given an open opportunity, when the delegate selects Apply, then the form shows the core fields and the opportunity's own questions in the configured order
+2. Given a partly filled form, when the delegate selects Save draft, then the application is saved with status Draft and appears under My applications
+3. Given a Draft application, when the delegate reopens it, then all previously entered values and attachments are shown",
+"S-F11-02 – Enter the requested amount, duration and bill of quantities",Story,S-F11-02,F11,E5,R4,High,,,"As a Charity delegate, I want to enter the requested amount, duration and the items with quantities and prices, so that the Foundation sees exactly what is being funded.
+
+Note: Duration is a whole number of days; region from the standard list of 13 regions.","1. Given the opportunity requires a bill of quantities, when the delegate adds items, then each line total (quantity × unit price) and the grand total are calculated automatically
+2. Given a bill of quantities, then the requested amount equals the grand total and cannot be typed separately
+3. Given a requested amount of zero or a negative quantity, when the delegate saves, then the field is rejected with a validation message",
+S-F11-03 – Upload the required attachments,Story,S-F11-03,F11,E5,R4,High,,,"As a Charity delegate, I want to upload the documents the opportunity requires, so that the application is complete for review.
+
+Note: Allowed: PDF, Word, Excel, image; maximum 10 MB per file.","1. Given the opportunity defines required documents, then the form shows one upload slot per document marked Required
+2. Given a file of a type or size that is not allowed, when the delegate uploads it, then it is refused with the allowed types and maximum size
+3. Given an uploaded attachment, when the delegate removes or replaces it before submission, then only the latest file is kept",
+S-F11-04 – Submit the application and receive its number,Story,S-F11-04,F11,E5,R4,High,,,"As a Charity delegate, I want to submit the completed application and get a reference number, so that I can follow it up with the Foundation.
+
+Note: A snapshot of the Charity and opportunity data is stored at submission for later review.","1. Given a missing required field or attachment, when the delegate selects Submit, then submission is refused and each missing item is listed
+2. Given a complete application on an open opportunity, when the delegate confirms Submit, then the status becomes Submitted at the Reception stage and the number REQ-<yyyy-mm>-<sequence> is shown
+3. Given a submitted application, then the delegate can view it but every field and attachment is read-only
+4. Given the opportunity's close date has passed, when the delegate selects Submit, then submission is refused with ""This opportunity is no longer accepting applications""",
+F13 – Application review by stages,Feature,F13,E5,E5,R4,High,M,"F11, F12","Submitted applications move through Reception → Study → Approval, each stage with named owners, an SLA in days and a task in My Tasks, so every application has a clear owner and a full decision history. Scoring (F14), committee minutes (F16) and AI evaluation (F30) build on this.
+
+Main flow:
+1. The system places the submitted application at the Reception stage and creates a task in My Tasks for each stage owner, due on stage entry date + SLA days.
+2. The Reviewer opens the review queue, filters by stage and opens the application.
+3. The Reviewer studies the dossier: application data, bill of quantities, attachments, Charity profile and history.
+4. The Reviewer approves the stage, with an optional note.
+5. The system moves the application to the next stage, records who decided and when, removes the old tasks and creates tasks for the next stage's owners.
+6. At the Approval stage, the authorised approver gives final approval and the application status becomes Approved.
+
+Business rules:
+- Only the stage owners of the current stage, or a Grants Manager, may decide on it; the rule applies from every entry point.
+- Closure reasons: No allocated budget / Did not reach the pass score / Outside the opportunity scope / Missing requirements / Other.
+- Approval is blocked while edits from the Charity are awaited.
+- Each stage entry restarts the SLA clock; task due date = stage entry date + SLA (default 3 days).
+- Every action (submission, decision, return, note, attachment) is added to an append-only history with user, stage, note and time.
+
+Detailed BRD: UC59, UC60, UC62, UC88",,"Needs decision: Are the three stages fixed, or configurable per opportunity?"
+S-F13-01 – Review queue per stage,Story,S-F13-01,F13,E5,R4,High,,,"As a Reviewer, I want a queue of applications with filters by stage and status, so that I can find the applications waiting for me.
+
+Note: Search by reference, project title or Charity name.","1. Given submitted applications, when the Reviewer opens the queue, then each row shows reference, project title, Charity, stage, status, requested amount and a Late flag
+2. Given the Reviewer filters by stage = Study and status = Pending, then only applications matching both filters are listed
+3. Given an application has been at its stage longer than the stage SLA, then it shows the Late flag with the number of days late
+4. Given a filtered queue, when the Reviewer exports it, then the Excel file contains exactly the filtered rows",
+S-F13-02 – Application dossier and history,Story,S-F13-02,F13,E5,R4,High,,,"As a Reviewer, I want to see the full application, the Charity's profile and the history on one page, so that I can study it without switching screens.","1. Given an application, when the Reviewer opens it, then the page shows the application data, bill of quantities, attachments, Charity profile summary, current stage with SLA progress (""x of y days"") and the history
+2. Given the Reviewer adds a note or a review attachment, then it is saved in the history with user, stage and time
+3. Given the history, then entries cannot be edited or deleted by any user",
+S-F13-03 – Stage tasks created automatically,Story,S-F13-03,F13,E5,R4,High,,,"As a stage owner, I want a task in My Tasks when an application reaches my stage, so that I do not have to watch the queue.
+
+Note: Tasks link directly to the application dossier.","1. Given an application enters the Study stage with SLA 5 days on 1 March, then each Study owner gets a task due 6 March showing project title, reference, Charity and requested amount
+2. Given the application leaves the stage (approved, returned, rejected), then the stage task is removed for all owners without manual closing
+3. Given the stage has no SLA configured, then the task due date is stage entry date + 3 days",
+S-F13-04 – Approve a stage,Story,S-F13-04,F13,E5,R4,High,,,"As a stage owner, I want to approve the application at my stage, so that it moves on to the next stage.","1. Given an application at Reception, when the owner approves, then it moves to Study and the history records the decision, user and time
+2. Given an application at the Approval stage, when the authorised approver gives final approval, then its status becomes Approved
+3. Given a user who is not an owner of the current stage or a Grants Manager, when they try to decide, then the action is refused and nothing is recorded
+4. Given an application with status Awaiting Charity edits, then the Approve action is not available",
+S-F13-05 – Return for edits or reject,Story,S-F13-05,F13,E5,R4,High,,,"As a stage owner, I want to return an application for edits or reject it with a reason, so that the Charity knows what to do next.
+
+Note: An optional apology message to the Charity may be added on rejection.","1. Given the owner selects Return for edits, when no note is entered, then the confirm button stays disabled
+2. Given a return with a note, then the status becomes Awaiting Charity edits at the same stage and the note is visible to the Charity
+3. Given the owner selects Reject, then a closure reason from the standard list is mandatory, the status becomes Rejected and the Charity receives a notification with the reason",
+F14 – Evaluation criteria and pass score,Feature,F14,E5,E5,R4,High,S,F13,"Each opportunity has weighted evaluation criteria and a pass score; Reviewers score each criterion, and approval is blocked when the score is below the pass score, so applications are scored consistently and weak ones cannot be approved by mistake.
+
+Main flow:
+1. The Grants Manager adds evaluation criteria with weights to the opportunity and sets the pass score.
+2. The system shows the total of the weights and saves only when it equals 100%.
+3. The Reviewer opens the application at the Study stage and selects Evaluate.
+4. The Reviewer scores each criterion from 0 to 100 and adds a note per criterion.
+5. The system calculates the weighted total score and shows it in the dossier and the review queue.
+6. When any user tries to approve the Study stage, the system compares the score with the pass score and allows or blocks the approval.
+
+Business rules:
+- Criteria weights must total exactly 100%.
+- Pass score is between 0 and 100; default 80%.
+- Study-stage approval is blocked when the score is missing or below the pass score, from every entry point (application page, task, committee minute).
+- Criteria cannot be changed once an application on the opportunity has been scored.
+
+Detailed BRD: UC33",,Ready
+"S-F14-01 – Define criteria, weights and pass score",Story,S-F14-01,F14,E5,R4,High,,,"As a Grants Manager, I want to define weighted evaluation criteria and a pass score for an opportunity, so that all applications are measured the same way.
+
+Note: Pass score defaults to 80%.","1. Given criteria weights totalling 90%, when the Grants Manager saves, then saving is refused and the total is shown in red with ""Weights must total 100%""
+2. Given weights totalling 100% and a pass score of 75, when saved, then the criteria and pass score are stored on the opportunity
+3. Given a pass score above 100 or below 0, then it is refused
+4. Given an application on the opportunity has already been scored, then the criteria and weights are read-only",
+S-F14-02 – Score an application,Story,S-F14-02,F14,E5,R4,High,,,"As a Reviewer, I want to score each criterion with a note, so that my assessment is recorded and comparable.
+
+Note: Weighted total = Σ (criterion score × weight).","1. Given an application at the Study stage, when the Reviewer enters a score of 0–100 for every criterion and saves, then the weighted total is calculated and shown
+2. Given a criterion without a score, then the evaluation cannot be saved
+3. Given two Reviewers scored 70 and 90, then the application score shown is 80",
+S-F14-03 – Block approval below the pass score,Story,S-F14-03,F14,E5,R4,High,,,"As a Grants Manager, I want approval blocked when the score is missing or below the pass score, so that weak applications cannot be approved by mistake.
+
+Note: The same check runs from tasks (F27) and committee minutes (F16).","1. Given an application with score 72% and pass score 80%, when a stage owner approves the Study stage, then approval is refused with ""Average score 72% is below the pass score 80%""
+2. Given an application with no score, when a stage owner approves the Study stage, then approval is refused with ""Enter at least one evaluation before approving the Study stage""
+3. Given an application with score 85% and pass score 80%, then the Study stage can be approved",
+S-F14-04 – Show evaluations in the dossier,Story,S-F14-04,F14,E5,R4,High,,,"As a Reviewer, I want to see each Reviewer's scores and notes in the dossier, so that the decision-maker can understand the result.","1. Given a scored application, then the dossier shows, per Reviewer, the score per criterion, the notes, the weighted total and the evaluation date
+2. Given a Charity delegate views the application in the portal, then no evaluation scores or notes are shown",
+F15 – Charity follow-up and requested edits,Feature,F15,E5,E5,R4,High,M,F13,"The Charity sees where each application is, edits and resubmits when asked, and accepts or refuses staff-proposed changes to amounts or quantities, so follow-up happens in the portal instead of by phone.
+
+Main flow:
+1. The Charity delegate opens My applications and sees each application's reference, opportunity, amount, stage, status and the action required or the expected reply date.
+2. When the application is returned for edits, the delegate sees ""Edits requested: <reviewer note>"".
+3. The delegate updates the flagged data or attachments and selects Resubmit.
+4. The system returns the application to the same stage, records the resubmission and recreates the stage task.
+5. When staff propose new figures, the delegate sees the old and new amount, duration or quantities with the staff note.
+6. The delegate accepts the proposal, or refuses it with a reason; the system applies or discards the new figures and records the response.
+
+Business rules:
+- Expected reply date = stage entry date + stage SLA days.
+- The Charity can edit a submitted application only while its status is Awaiting Charity edits.
+- Staff-proposed figures apply only after the Charity accepts; a refusal requires a reason.
+- Only one figure proposal may be pending per application; Approve is blocked while it is pending.
+- Internal evaluation scores and staff notes (other than the edit-request note) are never shown to the Charity.
+- Every resubmission, proposal and response is recorded in the history with before and after values.
+
+Detailed BRD: UC45, UC63",,Ready
+S-F15-01 – Track my applications,Story,S-F15-01,F15,E5,R4,High,,,"As a Charity delegate, I want to see the status of each application and what is expected from me, so that I know where it stands without calling the Foundation.","1. Given a pending application at Study entered on 1 March with SLA 5 days, then My applications shows stage Study and expected reply 6 March
+2. Given an application awaiting Charity action, then the row shows ""Action required: <action>"" instead of the expected reply date
+3. Given a rejected application, then the row shows status Rejected and the closure reason",
+S-F15-02 – Edit and resubmit a returned application,Story,S-F15-02,F15,E5,R4,High,,,"As a Charity delegate, I want to correct a returned application and resubmit it, so that the review can continue.
+
+Note: The same submission validations as F11 apply on resubmit.","1. Given an application with status Awaiting Charity edits, then the delegate sees the Reviewer's note and can change the data and attachments
+2. Given the delegate selects Resubmit, then the application returns to Pending at the same stage, the history records the resubmission and the stage owners get a new task
+3. Given an application that is not Awaiting Charity edits, then its fields are read-only and Resubmit is not shown",
+S-F15-03 – Propose new figures to the Charity,Story,S-F15-03,F15,E5,R4,High,,,"As a Reviewer, I want to propose a new requested amount, duration or quantities, so that the grant matches what the Foundation can fund.","1. Given a pending application, when the Reviewer enters a new amount 80,000 (was 100,000) with a note and confirms, then the proposal is sent and the application shows ""Figures awaiting Charity response""
+2. Given a proposal that changes no figure, when the Reviewer confirms, then it is refused with ""No figure was changed""
+3. Given a proposal is already pending, then a second proposal cannot be created
+4. Given a bill of quantities, when the Reviewer changes quantities, then the new total is recalculated as Σ quantity × unit price",
+S-F15-04 – Accept or refuse proposed figures,Story,S-F15-04,F15,E5,R4,High,,,"As a Charity delegate, I want to accept or refuse the proposed figures, so that the application is only changed with my agreement.","1. Given a pending proposal, when the delegate accepts, then the new figures replace the old ones and the history records old and new values
+2. Given the delegate selects Refuse without a reason, then the action is blocked with ""Enter the reason for refusal""
+3. Given the delegate refuses with a reason, then the original figures stay, the proposal is cleared and the Grants Manager gets a follow-up task",
+F16 – Committee decisions by minute,Feature,F16,E5,E5,R4,High,M,F14,"The Committee Secretary records one committee minute with its signed file and applies its decision to all the applications it covers in one step, so committee decisions are recorded once and every affected application is traceable to the minute.
+
+Main flow:
+1. The Secretary selects pending applications of the same committee and stage, from the review queue or My Tasks.
+2. The Secretary opens Decide by minute and enters the minute number, minute date and members; the committee name is pre-filled.
+3. The Secretary chooses the decision per application: Approve, Reject or Return.
+4. The Secretary enters a note (mandatory for Reject) and attaches the signed minute file.
+5. The Secretary confirms Apply to n applications.
+6. The system stores the minute once and applies each decision under the same rules as an individual decision, including the pass score.
+7. The system links every decided application to the minute and shows the number succeeded and failed with the reason for each failure.
+
+Business rules:
+- Only the Committee Secretary of the stage can create a minute decision for its applications.
+- Minute number, minute date and the signed minute file are mandatory; file types PDF, Word, Excel or image, maximum 10 MB.
+- Each application is decided with the same rules as an individual decision: authorisation, pass score, no pending edits or proposals.
+- One minute record is stored per decision and linked from the history of every application it decided.
+- A finalized minute cannot be edited or deleted.
+
+Detailed BRD: UC64, UC95",,Ready
+S-F16-01 – Select applications for a committee minute,Story,S-F16-01,F16,E5,R4,High,,,"As a Committee Secretary, I want to select several applications of my committee, so that I can decide them together.
+
+Note: Available in the review queue and in My Tasks.","1. Given the Secretary ticks a first application, then applications of other committees or stages become unselectable
+2. Given n applications are selected, then the selection bar shows ""n applications selected"" with Decide by minute and Clear selection
+3. Given a user who is not the stage's Committee Secretary, then the selection boxes are not shown",
+S-F16-02 – Record the minute with its signed file,Story,S-F16-02,F16,E5,R4,High,,,"As a Committee Secretary, I want to record the minute details and attach the signed minute, so that every decision is backed by the official document.
+
+Note: Minute date defaults to today; committee name pre-filled from the stage set-up.","1. Given the minute number, date or file is missing, then Apply stays disabled and the missing item is named (e.g. ""Minute file is required"")
+2. Given a 12 MB file or an unsupported type, when uploaded, then it is refused with ""The file must be PDF, Word, Excel or image and no larger than 10 MB""
+3. Given Reject is chosen for an application without a note, then Apply is blocked with ""Enter the rejection reason in the note""",
+S-F16-03 – Apply the decision to all selected applications,Story,S-F16-03,F16,E5,R4,High,,,"As a Committee Secretary, I want the minute's decisions applied to all selected applications in one step, so that I do not decide each one separately.","1. Given 5 selected applications with decision Approve that all pass the rules, when the Secretary confirms, then all 5 become Approved and the system shows ""Decision applied to 5 applications""
+2. Given 1 of 5 applications is below the pass score, when confirmed, then 4 are decided and the result shows ""Succeeded: 4 · Failed: 1"" with the reason for the failed one
+3. Given none of the selected applications can be decided, then no minute is stored",
+S-F16-04 – Link decisions to the minute,Story,S-F16-04,F16,E5,R4,High,,,"As a Grants Manager, I want each application decided by minute to link to that minute, so that the decision can be audited.","1. Given an application decided by minute, then its history shows the decision with the minute number and a link to open the minute and its file
+2. Given a minute, when opened, then it lists the date, members, file and every application with its decision and outcome
+3. Given a finalized minute, then it cannot be edited or deleted",
+E6 – Contracts & Projects,Epic,E6,,E6,,,,,Turn every approved grant into a signed contract and a planned project whose progress is proven with evidence before money is released.,,
+F17 – Contract and project from an approved application,Feature,F17,E6,E6,R5,High,M,F16,"Approved applications are transferred into one contract and one project with the approved amount, cost items and payment schedule, without retyping. The contract is tracked until signed, and execution cannot start before signature.
+
+Main flow:
+1. The Grants Manager opens the approved application and reviews the bill of quantities and payment schedule (instalment title, % of amount, days after start).
+2. The Grants Manager adjusts the instalments and saves; the system checks the percentages total 100%.
+3. The Grants Manager selects 'Approve contract and transfer' and confirms the project manager.
+4. The system creates one contract (status Being prepared) with a unique contract number and the approved amount, and one project (status Planning) with its budget, dates, project manager and scheduled payments.
+5. The system marks the application Transferred, records the contract and project references in its history and opens the project.
+6. The Grants Manager advances the contract: Being prepared → Awaiting charity → Awaiting signature → Signed, and uploads the signed contract.
+7. The charity views and prints the contract in the portal; staff consult the contracts register.
+
+Business rules:
+- Exactly one contract and one project per approved application (splitting is out of scope → F33).
+- Contract amount = project budget = approved grant amount.
+- Instalment percentages must total 100%; instalment amount = % × approved amount.
+- Contract status moves forward only; the signature date is recorded when it becomes Signed.
+- Bill of quantities and payment schedule become read-only once the application is transferred.
+- Project execution cannot start while the contract is not Signed.
+
+Detailed BRD: UC67, UC69, UC70, UC71",,Ready
+S-F17-01 – Set the payment schedule,Story,S-F17-01,F17,E6,R5,High,,,"As a Grants Manager, I want to define the payment schedule of an approved application as percentages per instalment, so that payments are agreed before the contract is created.
+
+Note: Fields per instalment: title, percentage, due after (days from start); amount is calculated.","1. Given instalments of 20%, 50% and 30% on an approved amount of SAR 100,000, when I save, then the amounts shown are SAR 20,000, 50,000 and 30,000.
+2. Given instalments totalling 90%, when I save, then the system refuses with 'Instalment percentages must total 100%' and nothing is saved.
+3. Given the application has been transferred, when I open the schedule, then it is read-only.",
+S-F17-02 – Transfer an approved application into a contract and project,Story,S-F17-02,F17,E6,R5,High,,,"As a Grants Manager, I want to approve the contract and transfer the application in one step, so that the grant becomes a trackable project without retyping.
+
+Note: Project manager defaults to the opportunity's default manager and can be changed before confirming.","1. Given an approved, non-transferred application of SAR 100,000, when I confirm the transfer, then one contract (Being prepared, unique number, SAR 100,000) and one project (Planning, budget SAR 100,000) are created and the application shows Transferred.
+2. Given the transfer succeeded, then the project has one scheduled payment per instalment and the application history records the contract and project references.
+3. Given the funding plan item's budget is locked, when I confirm, then the system shows 'The budget of <plan> is locked' and no contract, project or payment is created.
+4. Given an application already transferred, then the transfer action is not available.",
+S-F17-03 – Track contract signing,Story,S-F17-03,F17,E6,R5,High,,,"As a Grants Manager, I want to move the contract through its signing steps and store the signed copy, so that we know which grants are legally binding.","1. Given a contract in Being prepared, when I advance it, then it moves to Awaiting charity, then Awaiting signature, then Signed, and never backwards.
+2. Given I try to set Signed without uploading the signed contract file, then the system refuses.
+3. Given the contract becomes Signed, then the signature date is recorded and shown on the contract and the project.",
+S-F17-04 – View and print the contract,Story,S-F17-04,F17,E6,R5,High,,,"As a Charity user, I want to view and print my contract from the portal, so that I know my obligations and payment schedule.","1. Given my charity has a contract, when I open the project in the portal, then I see the contract parties, value, duration, instalments and bank account, read-only.
+2. Given I select Print / PDF, then a printable document without editing controls is produced.
+3. Given another charity's contract, when I try to open it, then access is denied.",
+S-F17-05 – Contracts register,Story,S-F17-05,F17,E6,R5,High,,,"As a Grants Manager, I want a register of all contracts, so that I can follow signing status across the portfolio.","1. Given the contracts register, then each row shows contract number, charity, application, value, linked project, status and date, with a count per status.
+2. Given I click the 'Awaiting signature' count, then only contracts in that status are listed.",
+F18 – Project plan and start of execution,Feature,F18,E6,E6,R5,High,M,F17,"Each project gets an agreed execution plan of sequential milestones, charity activities, required evidence, due dates and linked payments before work starts. The portfolio list shows every project's status and flags stalled ones.
+
+Main flow:
+1. The Project Manager opens the project plan.
+2. The Project Manager adds milestones in sequence with a weight (%), and under each milestone the charity activities with due date and required evidence.
+3. The Project Manager links each scheduled payment to a milestone.
+4. The system shows the milestone weight total and the linked payments total against the project budget.
+5. The Project Manager selects 'Approve plan and start execution'.
+6. The system checks the start conditions and moves the project to In progress; the first milestone opens for the charity.
+
+Business rules:
+- Execution can start only when the contract is Signed, the plan has at least one milestone with at least one activity, milestone weights total 100% and linked payments total the project budget.
+- Milestones are sequential: only the current milestone is open; later ones stay locked until the previous one is approved.
+- Charity actions are locked while the project is in Planning.
+- A project is Stalled when any activity is past its due date and not approved; the same rule applies in counters and on the project page.
+- Project progress = weighted average of activity progress.
+
+Detailed BRD: UC72, UC74",,Ready
+S-F18-01 – Build the project plan,Story,S-F18-01,F18,E6,R5,High,,,"As a Project Manager, I want to define milestones, activities, required evidence and due dates, so that the charity knows exactly what to deliver and when.
+
+Note: Activity fields: title, weight, due date, required evidence (one or more named items).","1. Given a project in Planning, when I add a milestone with weight 40% and two activities with due dates and required evidence, then they are saved in sequence order.
+2. Given milestone weights totalling 90%, then the plan shows the total in red and the warning 'Milestone weights must total 100%'.
+3. Given an activity due date after the project end date, when I save, then the system refuses.",
+S-F18-02 – Link payments to milestones,Story,S-F18-02,F18,E6,R5,High,,,"As a Project Manager, I want to link each scheduled payment to a milestone, so that money is released only when that milestone is proven.
+
+Note: A payment not linked to a milestone (e.g. advance) is allowed and marked as such.","1. Given the project's scheduled payments, when I link a payment to a milestone, then the milestone shows the payment title and amount.
+2. Given linked payments total less or more than the project budget, then the plan shows the difference and cannot be approved.",
+S-F18-03 – Approve the plan and start execution,Story,S-F18-03,F18,E6,R5,High,,,"As a Project Manager, I want to approve the plan and start execution, so that the charity can begin work against an agreed baseline.","1. Given a Signed contract and a complete plan, when I select 'Approve plan and start execution', then the project status becomes In progress and the first milestone becomes open for the charity.
+2. Given the contract is not Signed, when I try to start, then the system refuses and lists 'Contract not signed' among the unmet conditions.
+3. Given a project In progress, then the plan editing actions are no longer available.",
+S-F18-04 – Project portfolio and stalled flag,Story,S-F18-04,F18,E6,R5,High,,,"As a Grants Manager, I want a projects list with status counters and a stalled flag, so that I can see at a glance which projects need attention.","1. Given the projects list, then counters show total, Planning, In progress and Stalled, and clicking a counter filters the list.
+2. Given an activity passes its due date without approval, then the project shows Stalled with the reason '<n> overdue items' in the list and on the project page.
+3. Given each row, then it shows reference, charity, value, progress %, status and project manager, and the list can be exported to Excel.",
+S-F18-05 – Charity view of its projects,Story,S-F18-05,F18,E6,R5,High,,,"As a Charity user, I want to see my charity's projects with status, progress and plan, so that I know what is expected of us.","1. Given my charity has projects, when I open Projects in the portal, then I see only my charity's projects with reference, status and progress.
+2. Given a project in Planning, then I can view it but all activity actions are locked.",
+F19 – Charity progress reports and milestone approval,Feature,F19,E6,E6,R5,High,M,F18,"The charity uploads evidence for each activity and submits a milestone report in the portal; the Project Manager verifies and approves or returns them. Approving a milestone makes its linked payment due, so money follows proven progress.
+
+Main flow:
+1. The charity user opens the current milestone and uploads files for each required evidence item of an activity.
+2. The charity user marks the activity complete and submits it for the Grantor's approval.
+3. The system creates a verification task for the Project Manager in My Tasks.
+4. The Project Manager reviews the evidence and approves the activity or returns it with notes.
+5. When all activities are approved, the charity writes and submits the milestone report.
+6. The Project Manager approves the report and then the milestone.
+7. The system marks the milestone complete, makes its linked payment Due and opens the next milestone.
+
+Business rules:
+- An activity can be submitted only when its milestone is open, its prerequisite activities are approved, and each required evidence item has at least one file.
+- Evidence files up to 10 MB each.
+- Returning an activity or report requires notes.
+- Milestone approval is available only for the current milestone, after all its activities and its report are approved.
+- A milestone payment stays On hold until its milestone is approved, then becomes Due.
+- Only the assigned Project Manager approves activities, reports and milestones.
+
+Detailed BRD: UC47, UC75, UC76",,Ready
+S-F19-01 – Submit activity evidence,Story,S-F19-01,F19,E6,R5,High,,,"As a Charity user, I want to upload evidence for an activity and submit it, so that the Grantor can verify our work.","1. Given an open activity with two required evidence items, when I upload a file for each and submit, then the activity status becomes Awaiting grantor approval.
+2. Given a required evidence item has no file, when I submit, then the system refuses and names the missing item.
+3. Given a file larger than 10 MB, when I upload it, then it is rejected with 'File exceeds 10 MB'.
+4. Given a milestone that is not yet open, then activity actions are not available.",
+S-F19-02 – Verify evidence and approve or return an activity,Story,S-F19-02,F19,E6,R5,High,,,"As a Project Manager, I want to approve a submitted activity or return it with notes, so that only proven work counts.","1. Given a submitted activity, then I have a verification task in My Tasks linking to it.
+2. Given I approve the activity, then its status becomes Approved and the dependent activities unlock.
+3. Given I return the activity without notes, then the system refuses; with notes, the status becomes Returned and the charity sees the notes.",
+S-F19-03 – Resubmit returned work,Story,S-F19-03,F19,E6,R5,High,,,"As a Charity user, I want to see returned items with the Grantor's notes and resubmit them, so that I can fix issues quickly.","1. Given an activity or report was returned, then it appears in my portal inbox with the return notes.
+2. Given I correct the evidence and resubmit, then the status becomes Awaiting grantor approval again and the Project Manager gets a new task.",
+S-F19-04 – Submit the milestone report,Story,S-F19-04,F19,E6,R5,High,,,"As a Charity user, I want to submit a progress report for the milestone, so that the Grantor has a summary of what was achieved.","1. Given all activities of the current milestone are approved, when I write the achievement summary and submit, then the report status becomes Awaiting grantor approval.
+2. Given the achievement summary is empty, then submit is refused.
+3. Given a milestone already has a report awaiting approval or approved, then I cannot submit a second one.",
+S-F19-05 – Approve the milestone and make the payment due,Story,S-F19-05,F19,E6,R5,High,,,"As a Project Manager, I want to approve the report and the milestone, so that the linked payment becomes due and the next milestone opens.","1. Given the milestone report is submitted, when I return it, then a reason is mandatory and the charity sees it.
+2. Given all activities and the report are approved, when I approve the milestone, then it becomes Complete, its linked payment changes from On hold to Due and the next milestone opens.
+3. Given any activity or the report is not approved, then milestone approval is not available.",
+F20 – Plan revisions and project closure,Feature,F20,E6,E6,R5,Normal,M,F19,"Changes to a project plan after execution starts go through a reasoned revision request approved by a different person, and projects are closed only after all milestones are approved and a final evaluation is written.
+
+Main flow:
+1. The Project Manager opens 'Request plan revision', enters a reason and edits the remaining milestones, activities, dates or payment links.
+2. The system shows the differences (added, changed, removed) and checks that total payments do not exceed the project budget.
+3. The Project Manager submits the request; an approval task goes to the Grants Manager.
+4. A different authorised person approves (optional note) or rejects (mandatory note); on approval the system applies all changes and records the revision.
+5. After the last milestone is approved, the Project Manager writes the final evaluation.
+6. The Project Manager approves closure; the system sets the project to Closed and the evaluation becomes read-only.
+
+Business rules:
+- After execution starts, the plan changes only through an approved revision.
+- Approved activities, approved milestones and payments already in approval are never changed by a revision.
+- The requester cannot approve their own revision; one pending revision per project.
+- A revision is applied completely or not at all; total payments after revision must not exceed the project budget (checked again at approval).
+- Closure requires all milestones approved and a non-empty final evaluation.
+- A closed project accepts no new activities, revisions or payments.
+
+Detailed BRD: UC77, UC78",,Ready
+S-F20-01 – Request a plan revision,Story,S-F20-01,F20,E6,R5,Normal,,,"As a Project Manager, I want to propose changes to the remaining plan with a reason, so that the project can adapt in a controlled way.
+
+Note: The request shows differences: added, changed, removed items.","1. Given a project In progress, when I submit a revision with a reason of at least 5 characters, then its status is Awaiting approval and the Grants Manager gets a task.
+2. Given the revision changes an approved activity or a payment already in approval, then the system refuses that change.
+3. Given the revised payments exceed the project budget, then the request cannot be submitted.
+4. Given a revision is already Awaiting approval for the project, then 'Request plan revision' is not available.",
+S-F20-02 – Approve or reject a plan revision,Story,S-F20-02,F20,E6,R5,Normal,,,"As a Grants Manager, I want to review the reason and differences and decide, so that only justified changes are applied.","1. Given I requested the revision myself, when I try to approve it, then the system refuses.
+2. Given I approve, then all changes are applied to the plan in one step and the revision is Approved.
+3. Given I reject without a note, then the system refuses; with a note, the plan stays unchanged and the requester sees the note.
+4. Given a revision is already decided, then no second decision is possible.",
+S-F20-03 – Revision history,Story,S-F20-03,F20,E6,R5,Normal,,,"As a Grants Manager, I want to see all revisions of a project, so that every change to the agreed plan is documented.","1. Given a project with revisions, then the history lists each with requester, approver, dates, reason, decision note and differences.
+2. Given a revision was rejected, then it still appears in the history with status Rejected.",
+S-F20-04 – Close the project with a final evaluation,Story,S-F20-04,F20,E6,R5,Normal,,,"As a Project Manager, I want to close a completed project with a final evaluation, so that results are documented and the project is locked.
+
+Note: Final evaluation covers impact achieved, adherence to plan and lessons learned.","1. Given any milestone is not approved, then the closure step is locked and lists the open milestones.
+2. Given all milestones are approved and the final evaluation is empty, then 'Approve closure' is disabled.
+3. Given I approve closure with an evaluation, then the project status becomes Closed and the evaluation is read-only.
+4. Given a Closed project, then no activities, revisions or payments can be added.",
+E7 – Payments,Epic,E7,,E7,,,,,"Release grant payments only against approved milestones, through a controlled approval chain, to a verified account, and close every payment with proof.",,
+F21 – Payment approval chain,Feature,F21,E7,E7,R6,High,M,F19,"Due payments are submitted for a three-level sequential approval (Project Manager → Grants Manager → CEO) with tasks in My Tasks, so no payment is released without the required approvals.
+
+Main flow:
+1. The Project Manager opens the project's due payments list and submits a due payment for approval.
+2. The system sets the payment to Awaiting approval (level 1 of 3) and creates a task for the project's Project Manager.
+3. The approver opens the task, reviews payment title, amount, due date, level and linked milestone, and approves.
+4. The system records the decision and creates the level-2 task for Grants Managers, then the level-3 task for the CEO.
+5. When the CEO approves, the payment becomes Approved and is ready for disbursement by Finance.
+6. At each step, the decided task is removed from My Tasks.
+
+Business rules:
+- Level 1: the project's assigned Project Manager only; level 2: a Grants Manager; level 3: the CEO.
+- The same person cannot approve more than one level of the same payment.
+- A milestone payment cannot be submitted while its milestone is not approved.
+- Every approval and rejection is recorded with level, person, date, decision and reason, visible on the payment.
+- The task due date is the payment due date.
+
+Detailed BRD: UC80, UC81, UC89",,Needs decision: Are there amount thresholds that change the approval chain?
+S-F21-01 – Due payments list and submission,Story,S-F21-01,F21,E7,R6,High,,,"As a Project Manager, I want to see my project's due payments and submit one for approval, so that the charity is paid on time.","1. Given a project with payments, then the payments tab lists each with title, amount, due date, linked milestone and status (On hold, Due, Awaiting approval, Approved).
+2. Given a Due payment, when I submit it, then its status becomes Awaiting approval – level 1 of 3.
+3. Given a payment whose milestone is not approved, then it shows On hold and cannot be submitted.
+4. Given an advance payment not linked to a milestone, when an authorised user marks it Due, then it can be submitted.",
+S-F21-02 – Approve a payment step by step,Story,S-F21-02,F21,E7,R6,High,,,"As an approver (Project Manager, Grants Manager or CEO), I want to approve the payment at my level, so that it moves to the next approver.","1. Given level 1 is approved by the project's Project Manager, then the payment moves to level 2 and Grants Managers get the task.
+2. Given level 2 is approved, then the CEO gets the level-3 task; when the CEO approves, the payment status becomes Approved.
+3. Given I approved level 1 and I also hold the Grants Manager role, when I try to approve level 2 of the same payment, then the system refuses.
+4. Given a Project Manager of another project, then they neither see the level-1 task nor can approve it.",
+S-F21-03 – Reject a payment with reason,Story,S-F21-03,F21,E7,R6,High,,,"As an approver, I want to reject a payment with a reason, so that the Project Manager knows what to fix.
+
+Note: Reason up to 1,000 characters.","1. Given I reject without a reason, then the system refuses with 'Rejection reason is required'.
+2. Given I reject with a reason, then the payment returns to Due, the reason is shown on the payment, and the open task is removed.
+3. Given a rejected payment is resubmitted, then approval restarts at level 1.",
+S-F21-04 – Payment approval tasks and history,Story,S-F21-04,F21,E7,R6,High,,,"As an approver, I want payment approvals in My Tasks and a visible approval history, so that nothing waits unnoticed and every decision is traceable.","1. Given a payment reaches my level, then a task with payment title, project, level, amount and due date appears in My Tasks with the due date of the payment.
+2. Given a level is decided, then that task disappears for all its holders.
+3. Given a payment, then its history shows every approval and rejection with level, person, date and reason.",
+"F22 – Disbursement order, transfer and receipt",Feature,F22,E7,E7,R6,High,M,"F21, F06","After final approval, a numbered disbursement order is issued to Finance, the payee is the charity's verified bank account, Finance records the bank transfer with its notice, and the charity closes the payment by uploading the receipt voucher.
+
+Main flow:
+1. The system issues a disbursement order with a unique sequential number and the final approval date, and creates a task for Finance.
+2. The Finance Officer opens the order showing charity, project, payment and bank details (bank, account name, IBAN) and every approval of the latest cycle, and prints it.
+3. The Finance Officer executes the transfer at the bank, uploads the bank transfer notice, optionally enters the transfer reference and confirms.
+4. The system records the transfer date, sets the payment to Awaiting receipt and notifies the charity.
+5. The charity user views the transfer notice, uploads the receipt voucher, optionally enters its number and confirms receipt.
+6. The system records the receipt date and closes the payment as Paid.
+
+Business rules:
+- The payee is the charity's verified bank account by default.
+- IBAN must match the Saudi format: SA followed by 22 digits.
+- Any payee change after an approval restarts the approval chain; no payee change after transfer is confirmed.
+- Transfer cannot be confirmed without at least one transfer notice; receipt cannot be confirmed without at least one receipt voucher.
+- Only Finance Officers record transfers; only the charity owning the project confirms receipt.
+- Order, transfer notice and voucher stay viewable, read-only, on the paid payment.
+
+Detailed BRD: UC82, UC83, UC84",,Ready
+S-F22-01 – Issue the disbursement order,Story,S-F22-01,F22,E7,R6,High,,,"As a Finance Officer, I want a numbered disbursement order for each fully approved payment, so that I pay exactly what was approved.","1. Given the CEO approves a payment, then a disbursement order is issued with a unique sequential number and the approval date, the payment status becomes Awaiting transfer and Finance gets a task.
+2. Given the order, then it shows charity, project, payment amount and purpose, bank name, account name, IBAN and each approval level with approver name and date.
+3. Given the payment was rejected and re-approved, then the order shows only the approvals of the latest cycle.
+4. Given I select Print, then the order prints without editing controls.",
+S-F22-02 – Change the payee to a third party,Story,S-F22-02,F22,E7,R6,High,,,"As a Grants Manager, I want to direct a payment to a third-party account with justification, so that agreed exceptions are possible and controlled.","1. Given I choose Third party without account name, IBAN or justification, then the system refuses to save.
+2. Given an IBAN not matching SA + 22 digits, then it is rejected with 'Invalid IBAN'.
+3. Given the payee is changed after any approval level, then the approval chain restarts at level 1 and the change is logged with user and time.
+4. Given the transfer has been confirmed, then the payee can no longer be changed.",
+S-F22-03 – Record the bank transfer,Story,S-F22-03,F22,E7,R6,High,,,"As a Finance Officer, I want to record the transfer with the bank notice, so that the payment is documented and the charity is informed.","1. Given a payment Awaiting transfer, when I confirm without a transfer notice, then the system asks me to attach the bank transfer notice first.
+2. Given the charity's bank account is not verified, when I try to confirm, then the system refuses with 'Charity bank account not verified'.
+3. Given I upload the notice and confirm, then the transfer date (and reference if entered) is recorded, the status becomes Awaiting receipt and the charity is notified.",
+S-F22-04 – Confirm receipt and close the payment,Story,S-F22-04,F22,E7,R6,High,,,"As a Charity user, I want to upload the receipt voucher for a transferred payment, so that the payment is closed.
+
+Note: Receipt actions are shown to the charity only when the payment is Awaiting receipt or Paid.","1. Given a payment Awaiting receipt, then I can view the transfer notice and upload the receipt voucher.
+2. Given I confirm receipt without a voucher, then the system refuses.
+3. Given I upload the voucher and confirm, then the receipt date (and number if entered) is recorded and the status becomes Paid.
+4. Given a Paid payment, then the disbursement order, transfer notice and voucher are viewable, read-only, by staff and the charity.",
+F23 – Payments register and commitments,Feature,F23,E7,E7,R6,High,S,F22,"Finance and management see every payment with its status and who it waits for, and each charity's committed, due and paid totals, with Excel export.
+
+Main flow:
+1. The user opens the payments register.
+2. The system shows summary cards with totals: Overdue (with count), Due, Awaiting approval, Awaiting transfer/receipt, Paid.
+3. The system lists payments by due date with number, project, charity, title, amount, due date, due band, status and who it is waiting for.
+4. The user clicks a card or filters by status, charity or project.
+5. The user exports the filtered list to Excel.
+6. The user opens a charity's profile and sees its committed, paid, remaining and due-and-overdue totals.
+
+Business rules:
+- One overdue rule everywhere: not Paid, not cancelled, due date before today.
+- Waiting on: Project Manager (Due), the current-level approver (Awaiting approval), Finance (Awaiting transfer), the charity (Awaiting receipt).
+- Charity committed total = sum of its contract amounts = paid + due + not yet due; cancelled payments excluded.
+- 'Paid' follows the single definition agreed in the open decision and is used in every total.
+- The export contains exactly the rows of the filtered list.
+
+Detailed BRD: UC79, UC85",,Needs decision: Single definition of “paid” (after transfer or after receipt?)
+S-F23-01 – Payments register with status cards,Story,S-F23-01,F23,E7,R6,High,,,"As a Finance Officer, I want one register of all payments with status totals, so that I see what must be paid and what is late.
+
+Note: Due bands: overdue n days, today, within 7 days, within 30 days, more than a month.","1. Given the register, then five cards show the total amount for Overdue (with count), Due, Awaiting approval, Awaiting transfer/receipt and Paid.
+2. Given a payment not Paid with due date before today, then it shows 'Overdue <n> days' and is counted in the Overdue card.
+3. Given I click the Overdue card, then only overdue payments are listed.",
+S-F23-02 – See who each payment waits for,Story,S-F23-02,F23,E7,R6,High,,,"As a Grants Manager, I want each payment to show who it is waiting for, so that I can chase the right person.","1. Given a payment at approval level 2, then 'Waiting on' shows 'Grants Manager'.
+2. Given a payment Awaiting receipt, then 'Waiting on' shows the charity name.
+3. Given I am a Project Manager, then the register shows only payments of my projects.",
+S-F23-03 – Charity commitments,Story,S-F23-03,F23,E7,R6,High,,,"As a Grants Manager, I want each charity's committed, paid, remaining and due-and-overdue totals, so that I know what the Foundation still owes.","1. Given a charity with two contracts of SAR 100,000 and 50,000, then its committed total is SAR 150,000 and paid + remaining equals SAR 150,000.
+2. Given a cancelled payment, then it is excluded from all the charity's totals.",
+S-F23-04 – Export the register,Story,S-F23-04,F23,E7,R6,High,,,"As a Finance Officer, I want to export the filtered register to Excel, so that I can reconcile with the bank and accounting.","1. Given a filtered register of 37 rows, when I export, then the Excel file contains the same 37 rows with the same columns and amounts.
+2. Given the export, then amounts are numeric (SAR) and dates are real date values.",
+E8 – Work Management & Insight,Epic,E8,,E8,,,,,"Staff see and finish their pending work from one place, and management gets live figures and reports without asking the team.",,
+F12 – My Tasks inbox,Feature,F12,E8,E8,R4,High,M,F02,"Every staff member has one inbox with the tasks assigned to them, their due dates and overdue flags, plus manual tasks and meetings, so no pending work is lost. Bulk decisions and focus mode come later (F27).
+
+Main flow:
+1. The system shows the user's open tasks with type, title, assignee, due date and an overdue flag, and the open / completed counts.
+2. The user searches by title, description or reference and filters by type: All / Manual / Meetings / Applications / Payments.
+3. The user sorts by nearest due date or newest added.
+4. The user creates a manual task or meeting, assigns it and sets a due date.
+5. The assignee changes the task status (To do → In progress → Done) and adds comments.
+6. The user switches to the calendar view to see tasks by due date.
+
+Business rules:
+- The inbox combines manual tasks, meetings and system tasks (application stages, later payments) assigned to the user.
+- An open task past its due date is flagged overdue with the number of days late, using the Riyadh local date.
+- Only the creator or the assignee can edit, change status or delete a manual task; meeting invitees can only view it.
+- Task title is required, 1–200 characters; assignee must be an active staff member of the organization (default: me).
+- Users see only tasks of their own organization.
+
+Detailed BRD: UC90, UC91, UC92, UC93",,Ready
+S-F12-01 – See my tasks with due dates and overdue flags,Story,S-F12-01,F12,E8,R4,High,,,"As a staff member, I want one list of the tasks assigned to me with their due dates, so that I know what to do first.
+
+Note: Open-task count is shown on the My Tasks menu item.","1. Given a task is assigned to the user, then it appears in their inbox with its type, title and due date
+2. Given an open task due 3 days ago, then it is flagged ""Overdue 3 days""
+3. Given the user filters by type Applications, then only application tasks are listed and each type tab shows its count
+4. Given sort = nearest due date, then tasks are ordered by due date with undated tasks last",
+S-F12-02 – Create and assign a manual task,Story,S-F12-02,F12,E8,R4,High,,,"As a staff member, I want to create a task and assign it to myself or a colleague, so that follow-up work is tracked.
+
+Note: Fields: title, description, assignee, due date, status (default To do).","1. Given an empty title or a title over 200 characters, then Save is disabled with ""Task title is required and must not exceed 200 characters""
+2. Given a valid task assigned to a colleague, when saved, then it appears in the colleague's inbox and in the creator's Assigned by me scope
+3. Given a deactivated staff member, then they are not offered as an assignee",
+S-F12-03 – Change status and comment on a manual task,Story,S-F12-03,F12,E8,R4,High,,,"As an assignee, I want to update the status of a task and add comments, so that the creator can follow progress.","1. Given the assignee sets the status to Done, then the task leaves the open list, the completed count increases and the completion time is recorded
+2. Given a user who is neither creator nor assignee, when they try to change the task, then the action is refused
+3. Given a comment is added, then it is shown on the task with author and time to both creator and assignee",
+S-F12-04 – Schedule a meeting,Story,S-F12-04,F12,E8,R4,High,,,"As a staff member, I want to schedule a meeting with date, time, place and attendees, so that it appears in everyone's inbox and calendar.","1. Given a meeting with date, time, location or link and two invitees, when saved, then it appears for the organizer and both invitees under Meetings as ""Meeting · HH:MM""
+2. Given the type is switched back to Task before saving, then time, location and invitees are cleared
+3. Given the organizer cancels the meeting, then it is removed from the invitees' inboxes",
+S-F12-05 – Calendar view,Story,S-F12-05,F12,E8,R4,High,,,"As a staff member, I want to see my tasks in a monthly calendar, so that I can plan my workload by date.","1. Given the user switches to Calendar, then each task appears on its due date and undated tasks are listed in a separate No date section
+2. Given a day has more than three tasks, then three are shown and ""+N more"" opens the rest",
+F26 – Executive dashboard and reports,Feature,F26,E8,E8,R7,Normal,M,F23,"Management sees budget, applications, projects, payments and delays on one dashboard, runs standard reports with Excel export, and reviews staff workload, so they get the numbers without asking the team.
+
+Main flow:
+1. The system shows the headline figures: total applications (with pending), approved amount, active projects and paid amount with spend rate.
+2. The system shows charts: applications by status and by stage, projects by status, payments by status, and delays.
+3. The user opens the reports center and selects a report: applications, projects, payments or charities.
+4. The user filters the report, chooses columns and opens a record from a row.
+5. The user exports the report to Excel.
+6. The Grants Manager opens a staff member's profile to see their workload and performance.
+
+Business rules:
+- Every figure is calculated from the same registers it summarises (applications, projects, payments register) and matches them.
+- ""Paid"" uses the same definition as the payments register (F23).
+- All figures and reports are limited to the user's organization.
+- An export contains exactly the filtered rows and visible columns.
+- Staff performance is visible only to the Grants Manager, CEO and Admin.
+
+Detailed BRD: UC12, UC86, UC87",,Needs decision: Which reports does management request today?
+S-F26-01 – Executive dashboard headline figures and charts,Story,S-F26-01,F26,E8,R7,Normal,,,"As the CEO, I want a dashboard of the key grant figures, so that I see the state of the programme without asking the team.","1. Given the dashboard, then it shows total applications with the number pending, approved amount, active projects and paid amount with spend rate
+2. Given 12 applications pending at Study in the applications register, then the pending-by-stage chart shows 12 for Study
+3. Given the paid amount on the dashboard, then it equals the total of payments with status Paid in the payments register
+4. Given a chart with no data, then it shows ""No data""",
+S-F26-02 – Opportunities performance table,Story,S-F26-02,F26,E8,R7,Normal,,,"As the CEO, I want each grant opportunity's budget, applications, approvals and consumption, so that I can compare opportunities.","1. Given the dashboard, then each opportunity shows budget, applications, approved applications, approval rate, approved value and budget consumption %
+2. Given an opportunity with 20 applications and 5 approved, then the approval rate shows 25%
+3. Given the user exports the table, then the Excel file contains the same rows and values",
+S-F26-03 – Standard reports with filters and export,Story,S-F26-03,F26,E8,R7,Normal,,,"As a Finance Officer, I want standard reports on applications, projects, payments and charities, so that I can answer management questions quickly.
+
+Note: Report list to be confirmed by the open decision.","1. Given the reports center, then the reports Applications by stage, Projects and payments, Payments and Charities are available
+2. Given the user filters a report, when exporting, then the Excel file contains exactly the filtered rows with the visible columns
+3. Given a report row, when the user selects it, then the related application, project or Charity opens",
+S-F26-04 – Staff workload and performance,Story,S-F26-04,F26,E8,R7,Normal,,,"As a Grants Manager, I want to see each staff member's open tasks, overdue tasks and decisions, so that I can balance the workload.
+
+Note: Decisions = application stage decisions and payment approvals by that person.","1. Given a staff member's profile, then it shows decisions in the last 30 days, completed tasks, average completion time and open tasks
+2. Given the staff member has overdue open tasks, then they are listed with due date and days late
+3. Given a Reviewer opens another staff member's profile, then access is denied",
+F27 – Productivity tools,Feature,F27,E8,E8,R7,Low,M,"F13, F21","Global search, saved list views and exports, decisions directly from tasks (including bulk decisions) and a focus mode help staff spend less time navigating and deciding, without bypassing any business rule.
+
+Main flow:
+1. The user opens global search (search icon or Ctrl/Cmd+K) and types at least two characters.
+2. The system returns matching Charities, applications, projects and payments the user may access, grouped by type.
+3. On a list page the user sets filters and columns, saves them as their default view and exports the list.
+4. In My Tasks the user selects Approve, Return or Reject directly on an application or payment task.
+5. The system shows a decision summary, applies the same rules as on the record and removes the task when decided.
+6. The user starts focus mode and processes open tasks one at a time.
+
+Business rules:
+- Search results and exports include only records the user's role and organization may access.
+- Decisions from a task, bulk selection or focus mode apply exactly the same rules as on the record (authorisation, pass score, pending edits, payment approval chain).
+- Return and reject always require a reason of up to 1000 characters.
+- Saved views are personal and kept across devices; search text is not saved.
+- Focus mode excludes meetings and shows tasks ordered by due date.
+
+Detailed BRD: UC04, UC06, UC07, UC94, UC96",,Ready
+S-F27-01 – Global search,Story,S-F27-01,F27,E8,R7,Low,,,"As a staff member, I want to search across Charities, applications, projects and payments from any page, so that I reach a record in seconds.
+
+Note: Search by name, title and reference number.","1. Given the user types ""REQ-2026"", then matching applications are listed under Applications with their reference and Charity
+2. Given a record the user's role may not access, then it never appears in the results
+3. Given fewer than two characters, then the system asks the user to type at least two characters
+4. Given the user opens a result, then it is added to their Recent items",
+S-F27-02 – Saved views and list exports,Story,S-F27-02,F27,E8,R7,Low,,,"As a staff member, I want to save my filters and columns as my default view and export any list, so that I do not set them up every time.
+
+Note: Export formats: Excel (right-to-left) and CSV.","1. Given the user saves a view on the applications list, when they reopen the list on another device, then the same filters and columns are applied
+2. Given the user selects Reset view, then the standard view is restored
+3. Given a filtered list of 230 rows over 10 pages, when exported, then the Excel file contains all 230 rows with the visible columns",
+S-F27-03 – Decide directly from a task,Story,S-F27-03,F27,E8,R7,Low,,,"As a Reviewer, I want to approve, return or reject from my task list, so that I do not open each record for simple decisions.","1. Given the user selects Approve on an application task, then a summary with Charity, amount, score and a link to the full application is shown before confirmation
+2. Given an application with score 70% and pass score 80%, when approved from the task, then the decision is refused with the pass-score message and the task stays
+3. Given Return or Reject without a reason, then the confirm button stays disabled
+4. Given a payment task, then only Approve and Reject are offered",
+S-F27-04 – Bulk decisions,Story,S-F27-04,F27,E8,R7,Low,,,"As a Grants Manager, I want to apply the same decision to several selected tasks, so that I clear routine approvals quickly.
+
+Note: Committee-stage items are decided by minute (F16), not by bulk decision.","1. Given the user selects tasks of different types or stages, then the bulk decision is not offered
+2. Given 6 selected tasks approved in bulk where 1 fails a rule, then 5 are decided and the result shows ""Succeeded: 5 · Failed: 1"" with the reason
+3. Given a bulk reject, then one reason is mandatory and recorded on every decided item",
+S-F27-05 – Focus mode,Story,S-F27-05,F27,E8,R7,Low,,,"As a staff member, I want to process my open tasks one by one in a focus view, so that I work through my queue without distraction.
+
+Note: Meetings are excluded from focus mode.","1. Given the user starts focus mode, then the first open task by due date is shown with ""Done today N"", ""Remaining N"" and time on task
+2. Given a manual task, when the user selects Complete, then it is marked Done and the next task is shown
+3. Given at least two tasks remain, when the user selects Skip, then the task moves to the end of the queue; with one task left Skip is not available
+4. Given no tasks remain, then the system shows ""No tasks remaining"" and the number completed today",
+E9 – Advanced Grants & AI,Epic,E9,,E9,,,,,"Extend the working grant core with AI assistance and additional grant models (in-kind, tendered, multi-project) while people keep every decision.",,
+F30 – AI assistance,Feature,F30,E9,E9,R8,Low,M,F13,"AI saves time on application forms, document checks and evaluation, and answers questions on grant data, while people confirm every value and take every decision.
+
+Main flow:
+1. The charity user uploads a document on the application form and selects 'Fill with AI'; the system shows proposed values marked as AI-proposed.
+2. The charity user reviews, edits and confirms; only confirmed values are saved.
+3. On each uploaded attachment, the system runs an advisory AI check and shows a verdict and issues.
+4. The External AI Evaluation Agent sends an evaluation report (score, criteria, summary, recommendation) for an application; the system validates and stores it.
+5. The reviewer reads the AI evaluation in the dossier and records their own opinion; a contradicting opinion needs a justification.
+6. A staff user asks the AI assistant a question; it answers from data the user may access and proposes links to pages where any action is confirmed.
+
+Business rules:
+- AI output is advisory: nothing is saved, approved or blocked by AI without a person's action.
+- The AI assistant is read-only and uses only the user's organization data within their permissions, decided by the system.
+- Evaluation reports are accepted only from an authenticated agent of the same Foundation; overall score 0–100, criterion scores 0–10 (max 50 criteria).
+- AI evaluation results are visible to grants staff only, never to charities.
+- Every AI request and received report is logged (user or agent, time, application or data area).
+
+Detailed BRD: UC05, UC48, UC61",,"Needs decision: Which AI provider, and what data may be sent to it?"
+S-F30-01 – AI pre-fill of application forms,Story,S-F30-01,F30,E9,R8,Low,,,"As a Charity user, I want AI to propose form values from my uploaded documents, so that I fill the application faster.","1. Given I upload a document and select 'Fill with AI', then proposed values appear in the form marked as AI-proposed.
+2. Given I leave the form without confirming, then no proposed value is saved.
+3. Given I edit a proposed value and confirm, then my edited value is saved.",
+S-F30-02 – Advisory AI document check,Story,S-F30-02,F30,E9,R8,Low,,,"As a Reviewer, I want an AI check on each attachment, so that I spot wrong or weak documents early.","1. Given an attachment is uploaded, then the dossier shows the AI verdict (OK / Flagged) with the issues found.
+2. Given a document is flagged, then the user can still submit or approve, after a confirmation prompt.
+3. Given the AI check is unavailable, then the attachment is accepted and marked 'Not checked'.",
+S-F30-03 – Receive external AI evaluation reports,Story,S-F30-03,F30,E9,R8,Low,,,"As a Grants Manager, I want the external evaluation agent to post its report on an application, so that reviewers get a structured AI evaluation.
+
+Note: Fields: score 0–100, colour band, label (≤80 chars), summary (≤2,000), recommendation (≤200), criterion scores.","1. Given a report with valid agent credentials and a known application reference, then it is stored with the time received and logged in the application history.
+2. Given an overall score of 120 or a criterion score of 11, then the report is rejected with the list of problems.
+3. Given invalid credentials or an application of another Foundation, then the report is rejected.",
+S-F30-04 – Use the AI evaluation in review,Story,S-F30-04,F30,E9,R8,Low,,,"As a Reviewer, I want to read the AI evaluation and record my own opinion, so that AI informs but does not replace my judgement.","1. Given an application with an AI evaluation, then the dossier shows score, label, recommendation, summary and per-criterion scores; the charity never sees them.
+2. Given my opinion contradicts the AI recommendation, when I save without a justification, then the system refuses.
+3. Given one or more reviewers decided against the AI recommendation, then the decision-maker sees a warning with the count.",
+S-F30-05 – AI assistant for grant questions,Story,S-F30-05,F30,E9,R8,Low,,,"As a Grants Manager, I want to ask questions about grant data in Arabic, so that I get answers without building reports.
+
+Note: Charity users have no access to the assistant.","1. Given I ask 'Which payments are due this month?', then the answer lists figures from actual data in SAR with Western digits.
+2. Given data outside my permissions, then the assistant does not use or reveal it.
+3. Given a change is needed, then the assistant shows a link to the page where I confirm it; it never changes records itself.
+4. Given any request, then it is logged with user, time, question and data areas read.",
+F31 – In-kind grants,Feature,F31,E9,E9,R8,Low,M,F14,"The Foundation can grant products from its own stock, not only money: products are offered through product opportunities, charities request quantities, approval deducts stock and delivery is recorded.
+
+Main flow:
+1. The Grants Manager maintains the product catalog: name, description, unit, unit price and stock.
+2. The Grants Manager creates a product opportunity and ticks the catalog products offered.
+3. The charity user submits a product request with quantities per product.
+4. The request is reviewed and scored like other applications.
+5. At final approval the system checks stock, deducts the approved quantities and sets the grant to Awaiting delivery.
+6. After handover, the Grants Manager records the delivered quantities; the grant becomes Delivered.
+
+Business rules:
+- Product name and unit are mandatory; unit price and stock are zero or more.
+- Each product appears at most once per opportunity.
+- Stock is deducted once, at final approval, and never becomes negative.
+- A product referenced by any request cannot be deleted, only archived.
+- In-kind grants do not create contracts or payments.
+
+Detailed BRD: UC35, UC68",,Ready
+S-F31-01 – Maintain the product catalog,Story,S-F31-01,F31,E9,R8,Low,,,"As a Grants Manager, I want to manage products with unit, price and stock, so that we know what we can grant.
+
+Note: Units: unit, device, basket, session, month, kilo, book, licence.","1. Given I add a product without a name, then the system refuses with 'Product name is required'.
+2. Given a product referenced by a request, when I try to delete it, then the system offers only Archive.
+3. Given the catalog, then each product shows name, unit, unit price and current stock.",
+S-F31-02 – Offer products in an opportunity,Story,S-F31-02,F31,E9,R8,Low,,,"As a Grants Manager, I want to select catalog products for a product opportunity, so that charities can request them.","1. Given a product opportunity, when I tick products, then they are offered with unit price and available stock.
+2. Given a product already on the opportunity, then it cannot be added twice.",
+S-F31-03 – Request products,Story,S-F31-03,F31,E9,R8,Low,,,"As a Charity user, I want to request quantities of offered products, so that I receive goods for my beneficiaries.","1. Given I request 50 units of a product with 30 in stock, then the request is refused with 'Requested quantity of <product> exceeds available (30)'.
+2. Given I submit without any product quantity, then the system refuses with 'Select at least one product and quantity'.
+3. Given a valid request, then it enters review with total value = Σ quantity × unit price.",
+S-F31-04 – Approve and deliver an in-kind grant,Story,S-F31-04,F31,E9,R8,Low,,,"As a Grants Manager, I want approval to deduct stock and to record delivery, so that stock is accurate and delivery is tracked.","1. Given final approval of 20 units with 30 in stock, then stock becomes 10 and the grant is Awaiting delivery.
+2. Given stock fell below the approved quantity, then final approval is blocked with the product name and available quantity.
+3. Given a grant Awaiting delivery, when I record delivered quantities, then it becomes Delivered and the history records the delivery; stock is not deducted again.
+4. Given an approved in-kind grant, then no contract transfer is offered.",
+F32 – Tendered projects (RFP),Feature,F32,E9,E9,R8,Low,M,F17,"The Foundation can tender a defined project, receive offers from invited charities, compare them side by side and award the best evaluated offer, which then becomes a contract and project.
+
+Main flow:
+1. The Grants Manager enters scope of work, deliverables, duration, weighted activities and payment milestones (% of winning amount, days after award).
+2. The system checks activity weights and payment percentages each total 100% and publishes the details to invited charities.
+3. Invited charities submit technical and financial offers.
+4. Reviewers evaluate offers against the criteria and pass score.
+5. The Grants Manager compares offers side by side and selects 'Award' on one evaluated, passing offer.
+6. The system awards it, closes all other offers with a notice, and creates the contract and project with activities and payments.
+
+Business rules:
+- Activity weights and payment percentages must each total 100%.
+- The opportunity budget is the financial ceiling for offers.
+- Only one offer per RFP can be awarded, and only a pending offer that was evaluated and passed.
+- Payments = milestone % × winning amount; due dates counted from the award date.
+- The award is all-or-nothing.
+
+Detailed BRD: UC37",,Ready
+S-F32-01 – Define the tendered project,Story,S-F32-01,F32,E9,R8,Low,,,"As a Grants Manager, I want to define the scope, deliverables, activities and payment milestones of a tender, so that charities bid on the same requirements.","1. Given activity weights totalling 95%, when I save, then the system refuses with 'Activity weights must total 100%'.
+2. Given payment percentages totalling 110%, then the system refuses with 'Payment percentages must total 100%'.
+3. Given valid details, then invited charities see them in the portal.",
+S-F32-02 – Submit an offer,Story,S-F32-02,F32,E9,R8,Low,,,"As a Charity user, I want to submit a technical and financial offer to an RFP I am invited to, so that I can compete for the project.","1. Given a budget ceiling of SAR 500,000, when I submit a financial offer of SAR 520,000, then it is refused with 'Financial offer exceeds the ceiling (500,000)'.
+2. Given I am not invited, then I cannot see or bid on the RFP.
+3. Given a valid offer, then it appears to staff with status Pending.",
+S-F32-03 – Compare offers,Story,S-F32-03,F32,E9,R8,Low,,,"As a Grants Manager, I want to see offers side by side, so that I can choose the best value.","1. Given several offers, then each card shows charity, financial offer, average evaluation score against the pass score and status, and the lowest financial offer is marked.
+2. Given an offer not yet evaluated, then it shows 'Not evaluated' and cannot be awarded.",
+S-F32-04 – Award the RFP,Story,S-F32-04,F32,E9,R8,Low,,,"As a Grants Manager, I want to award the best evaluated offer, so that the project starts with the winning charity.","1. Given an offer below the pass score, then Award is not available.
+2. Given I award a passing offer of SAR 450,000 with milestones 30%/70%, then a contract and project of SAR 450,000 are created with payments of SAR 135,000 and 315,000.
+3. Given an award, then all other offers are closed as Not awarded and their charities receive the notice 'Thank you for your interest; the project was awarded to another offer'.
+4. Given an RFP already awarded, then no second award is possible.",
+"F33 – Multi-project grants, merges and funding conditions",Feature,F33,E9,E9,R8,Low,M,F17,"Complex grants are handled without workarounds: one application can be split into several projects, applications of the same charity can be merged, co-funding conditions and indicators are tracked, and the Foundation can run internal initiatives.
+
+Main flow:
+1. The Grants Manager registers co-funders with their contribution as Confirmed or as an approval condition, attaching the donor's approval when received.
+2. The Grants Manager links plan indicators to the application with a required quantity.
+3. To merge, the Grants Manager selects pending or approved applications of the same charity and grant type; the system shows the impact and builds one merged application.
+4. At transfer, the Grants Manager chooses Split and assigns each cost item to a named project; each project's budget is the sum of its items.
+5. The system creates one contract and the projects, carrying co-funding and indicators over.
+6. Separately, the Grants Manager creates an internal initiative run by the Foundation, in Planning status.
+
+Business rules:
+- Split projects' budgets total the approved amount; split needs ≥2 cost items and every project ≥1 item.
+- Merging is allowed only for applications of the same charity and grant type, not transferred and not already merged; merged applications produce one contract.
+- A co-funding condition becomes confirmed only with the donor's approval evidence attached.
+- An indicator cannot be linked beyond its remaining target across all applications and projects.
+- Internal initiatives need a name, a budget > 0 and an end date not before the start date.
+
+Detailed BRD: UC65, UC66, UC73",,Ready
+S-F33-01 – Split an application into several projects,Story,S-F33-01,F33,E9,R8,Low,,,"As a Grants Manager, I want to split an approved application into several projects, so that distinct components are managed separately.","1. Given an application with one cost item, then the Split option is not available.
+2. Given a project in split mode has no cost item, then confirmation is disabled with 'Each project needs at least one item'.
+3. Given a split of SAR 300,000 into two projects, then one contract of SAR 300,000 and two projects whose budgets total SAR 300,000 are created.",
+S-F33-02 – Merge applications of the same charity,Story,S-F33-02,F33,E9,R8,Low,,,"As a Grants Manager, I want to merge several applications of one charity, so that they are decided and contracted as one grant.","1. Given applications of different charities, then the merge is refused with 'Applications belong to different charities'.
+2. Given a valid merge, then one merged application with the total amount is created and the absorbed applications are closed with 'Merged into <ref>'.
+3. Given the merge would move a finally approved application back into review, then a second confirmation is required.
+4. Given the merged application's contract has moved past Being prepared, then unmerge is not available.",
+S-F33-03 – Co-funding conditions,Story,S-F33-03,F33,E9,R8,Low,,,"As a Grants Manager, I want to record co-funders and their approval conditions, so that we do not approve a grant whose co-funding is not secured.","1. Given a co-funder without a name or with amount 0, then the system refuses with 'Enter donor name and amount'.
+2. Given a co-funding condition without the donor's approval attached, when final approval is attempted, then it is blocked.
+3. Given I attach the donor's approval, then the condition becomes Confirmed and is logged in the history.",
+S-F33-04 – Link plan indicators,Story,S-F33-04,F33,E9,R8,Low,,,"As a Grants Manager, I want to link plan indicators with target quantities to an application, so that grant results roll up to the plan.
+
+Note: Milestone-type indicators are linked with a target of 1.","1. Given an indicator with 40 remaining, when I link 50, then the system refuses with 'Only 40 remain for this indicator'.
+2. Given the application is transferred, then indicators can no longer be changed from the application and are carried to the project(s).",
+S-F33-05 – Create an internal initiative,Story,S-F33-05,F33,E9,R8,Low,,,"As a Grants Manager, I want to create an initiative run by the Foundation, so that internal work is followed like grant projects.
+
+Note: Executor can be internal or a registered charity.","1. Given a name and a budget of SAR 80,000, when I save, then the initiative is created in Planning with me as project manager by default and appears in the projects list as source Initiative.
+2. Given a budget of 0 or an end date before the start date, then the system refuses with the specific error.",

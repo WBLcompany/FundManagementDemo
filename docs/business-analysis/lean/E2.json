@@ -177,7 +177,7 @@
         {
           "id": "S-F04-04",
           "title": "Charity register with search, filters and export",
-          "story": "As a Grants Manager, I want a directory of all our Charities with filters and Excel export, so that I can find and analyse partners quickly.",
+          "story": "As a Grants Manager, I want a directory of all our Charities with filters and Excel export, so that I can find and analyse Charities quickly.",
           "acceptance": [
             "Given the register, then each Charity shows name, licence number, region, charity status and account status (Not activated, Invited, Active).",
             "Given the user filters by charity status, then only Charities with that status are listed, and summary counts per status are shown above the list.",

@@ -160,7 +160,7 @@ def word(epics, feats, template, out):
             B.para_fmt(p, after=60, keep_next=True)
             p.paragraph_format.space_before = B.Pt(8)
             B.add_run(p, "User stories", bold=True, color=B.TEAL_DARK, size=11)
-            t = B.new_table(doc, [1000, 3600, 5655], header=["ID", "Story", "Acceptance criteria"])
+            t = B.new_table(doc, [1200, 3500, 5555], header=["ID", "Story", "Acceptance criteria"])
             for s in f["stories"]:
                 story = [f"{s['title']}", s["story"]] + ([f"Note: {s['notes']}"] if s.get("notes") else [])
                 r = B.add_row(t, [s["id"], story, s["acceptance"]])
