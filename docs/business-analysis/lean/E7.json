@@ -35,7 +35,7 @@
           "The system sets the payment to Awaiting approval (level 1 of 3) and creates a task for the project's Project Manager.",
           "The approver opens the task, reviews payment title, amount, due date, level and linked milestone, and approves.",
           "The system records the decision and creates the level-2 task for Grants Managers, then the level-3 task for the CEO.",
-          "When the CEO approves, the payment becomes Approved and passes to Finance for disbursement (F22).",
+          "When the CEO approves, the payment becomes Approved and is ready for disbursement by Finance.",
           "At each step, the decided task is removed from My Tasks."
         ],
         "alternative_flows": [

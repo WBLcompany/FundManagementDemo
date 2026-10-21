@@ -1,0 +1,399 @@
+{
+  "epic": "E9",
+  "name": "Advanced Grants & AI",
+  "goal": "Extend the working grant core with AI assistance and additional grant models (in-kind, tendered, multi-project) while people keep every decision.",
+  "features": [
+    {
+      "id": "F30",
+      "name": "AI assistance",
+      "release": "R8",
+      "priority": "Could",
+      "size": "M",
+      "depends_on": [
+        "F13"
+      ],
+      "summary": "AI saves time on application forms, document checks and evaluation, and answers questions on grant data, while people confirm every value and take every decision.",
+      "old_ucs": [
+        "UC05",
+        "UC48",
+        "UC61"
+      ],
+      "decision": "Which AI provider, and what data may be sent to it?",
+      "use_case": {
+        "actors": [
+          "Charity user",
+          "Reviewer",
+          "Grants Manager",
+          "External AI Evaluation Agent"
+        ],
+        "trigger": "A user asks the AI for help (pre-fill, check, question), or the evaluation agent sends a report for an application.",
+        "preconditions": [
+          "The AI service is configured for the Foundation.",
+          "The user's role is allowed to use the AI feature concerned."
+        ],
+        "main_flow": [
+          "The charity user uploads a document on the application form and selects 'Fill with AI'; the system shows proposed values marked as AI-proposed.",
+          "The charity user reviews, edits and confirms; only confirmed values are saved.",
+          "On each uploaded attachment, the system runs an advisory AI check and shows a verdict and issues.",
+          "The External AI Evaluation Agent sends an evaluation report (score, criteria, summary, recommendation) for an application; the system validates and stores it.",
+          "The reviewer reads the AI evaluation in the dossier and records their own opinion; a contradicting opinion needs a justification.",
+          "A staff user asks the AI assistant a question; it answers from data the user may access and proposes links to pages where any action is confirmed."
+        ],
+        "alternative_flows": [
+          "If the AI service fails or times out, then the system shows 'Could not get a response' and the user continues manually.",
+          "If an evaluation report is invalid or for an unknown application, then it is rejected with the list of problems."
+        ],
+        "business_rules": [
+          "AI output is advisory: nothing is saved, approved or blocked by AI without a person's action.",
+          "The AI assistant is read-only and uses only the user's organization data within their permissions, decided by the system.",
+          "Evaluation reports are accepted only from an authenticated agent of the same Foundation; overall score 0–100, criterion scores 0–10 (max 50 criteria).",
+          "AI evaluation results are visible to grants staff only, never to charities.",
+          "Every AI request and received report is logged (user or agent, time, application or data area)."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F30-01",
+          "title": "AI pre-fill of application forms",
+          "story": "As a Charity user, I want AI to propose form values from my uploaded documents, so that I fill the application faster.",
+          "acceptance": [
+            "Given I upload a document and select 'Fill with AI', then proposed values appear in the form marked as AI-proposed.",
+            "Given I leave the form without confirming, then no proposed value is saved.",
+            "Given I edit a proposed value and confirm, then my edited value is saved."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F30-02",
+          "title": "Advisory AI document check",
+          "story": "As a Reviewer, I want an AI check on each attachment, so that I spot wrong or weak documents early.",
+          "acceptance": [
+            "Given an attachment is uploaded, then the dossier shows the AI verdict (OK / Flagged) with the issues found.",
+            "Given a document is flagged, then the user can still submit or approve, after a confirmation prompt.",
+            "Given the AI check is unavailable, then the attachment is accepted and marked 'Not checked'."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F30-03",
+          "title": "Receive external AI evaluation reports",
+          "story": "As a Grants Manager, I want the external evaluation agent to post its report on an application, so that reviewers get a structured AI evaluation.",
+          "acceptance": [
+            "Given a report with valid agent credentials and a known application reference, then it is stored with the time received and logged in the application history.",
+            "Given an overall score of 120 or a criterion score of 11, then the report is rejected with the list of problems.",
+            "Given invalid credentials or an application of another Foundation, then the report is rejected."
+          ],
+          "notes": "Fields: score 0–100, colour band, label (≤80 chars), summary (≤2,000), recommendation (≤200), criterion scores."
+        },
+        {
+          "id": "S-F30-04",
+          "title": "Use the AI evaluation in review",
+          "story": "As a Reviewer, I want to read the AI evaluation and record my own opinion, so that AI informs but does not replace my judgement.",
+          "acceptance": [
+            "Given an application with an AI evaluation, then the dossier shows score, label, recommendation, summary and per-criterion scores; the charity never sees them.",
+            "Given my opinion contradicts the AI recommendation, when I save without a justification, then the system refuses.",
+            "Given one or more reviewers decided against the AI recommendation, then the decision-maker sees a warning with the count."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F30-05",
+          "title": "AI assistant for grant questions",
+          "story": "As a Grants Manager, I want to ask questions about grant data in Arabic, so that I get answers without building reports.",
+          "acceptance": [
+            "Given I ask 'Which payments are due this month?', then the answer lists figures from actual data in SAR with Western digits.",
+            "Given data outside my permissions, then the assistant does not use or reveal it.",
+            "Given a change is needed, then the assistant shows a link to the page where I confirm it; it never changes records itself.",
+            "Given any request, then it is logged with user, time, question and data areas read."
+          ],
+          "notes": "Charity users have no access to the assistant."
+        }
+      ]
+    },
+    {
+      "id": "F31",
+      "name": "In-kind grants",
+      "release": "R8",
+      "priority": "Could",
+      "size": "M",
+      "depends_on": [
+        "F14"
+      ],
+      "summary": "The Foundation can grant products from its own stock, not only money: products are offered through product opportunities, charities request quantities, approval deducts stock and delivery is recorded.",
+      "old_ucs": [
+        "UC35",
+        "UC68"
+      ],
+      "decision": "",
+      "use_case": {
+        "actors": [
+          "Grants Manager",
+          "Charity user"
+        ],
+        "trigger": "The Foundation wants to grant products from its catalog.",
+        "preconditions": [
+          "The product catalog exists with stock.",
+          "A product opportunity is published."
+        ],
+        "main_flow": [
+          "The Grants Manager maintains the product catalog: name, description, unit, unit price and stock.",
+          "The Grants Manager creates a product opportunity and ticks the catalog products offered.",
+          "The charity user submits a product request with quantities per product.",
+          "The request is reviewed and scored like other applications.",
+          "At final approval the system checks stock, deducts the approved quantities and sets the grant to Awaiting delivery.",
+          "After handover, the Grants Manager records the delivered quantities; the grant becomes Delivered."
+        ],
+        "alternative_flows": [
+          "If a requested quantity exceeds available stock, then the request is refused naming the product and available quantity.",
+          "If stock is insufficient at final approval, then approval is blocked."
+        ],
+        "business_rules": [
+          "Product name and unit are mandatory; unit price and stock are zero or more.",
+          "Each product appears at most once per opportunity.",
+          "Stock is deducted once, at final approval, and never becomes negative.",
+          "A product referenced by any request cannot be deleted, only archived.",
+          "In-kind grants do not create contracts or payments."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F31-01",
+          "title": "Maintain the product catalog",
+          "story": "As a Grants Manager, I want to manage products with unit, price and stock, so that we know what we can grant.",
+          "acceptance": [
+            "Given I add a product without a name, then the system refuses with 'Product name is required'.",
+            "Given a product referenced by a request, when I try to delete it, then the system offers only Archive.",
+            "Given the catalog, then each product shows name, unit, unit price and current stock."
+          ],
+          "notes": "Units: unit, device, basket, session, month, kilo, book, licence."
+        },
+        {
+          "id": "S-F31-02",
+          "title": "Offer products in an opportunity",
+          "story": "As a Grants Manager, I want to select catalog products for a product opportunity, so that charities can request them.",
+          "acceptance": [
+            "Given a product opportunity, when I tick products, then they are offered with unit price and available stock.",
+            "Given a product already on the opportunity, then it cannot be added twice."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F31-03",
+          "title": "Request products",
+          "story": "As a Charity user, I want to request quantities of offered products, so that I receive goods for my beneficiaries.",
+          "acceptance": [
+            "Given I request 50 units of a product with 30 in stock, then the request is refused with 'Requested quantity of <product> exceeds available (30)'.",
+            "Given I submit without any product quantity, then the system refuses with 'Select at least one product and quantity'.",
+            "Given a valid request, then it enters review with total value = Σ quantity × unit price."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F31-04",
+          "title": "Approve and deliver an in-kind grant",
+          "story": "As a Grants Manager, I want approval to deduct stock and to record delivery, so that stock is accurate and delivery is tracked.",
+          "acceptance": [
+            "Given final approval of 20 units with 30 in stock, then stock becomes 10 and the grant is Awaiting delivery.",
+            "Given stock fell below the approved quantity, then final approval is blocked with the product name and available quantity.",
+            "Given a grant Awaiting delivery, when I record delivered quantities, then it becomes Delivered and the history records the delivery; stock is not deducted again.",
+            "Given an approved in-kind grant, then no contract transfer is offered."
+          ],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": "F32",
+      "name": "Tendered projects (RFP)",
+      "release": "R8",
+      "priority": "Could",
+      "size": "M",
+      "depends_on": [
+        "F17"
+      ],
+      "summary": "The Foundation can tender a defined project, receive offers from invited charities, compare them side by side and award the best evaluated offer, which then becomes a contract and project.",
+      "old_ucs": [
+        "UC37"
+      ],
+      "decision": "",
+      "use_case": {
+        "actors": [
+          "Grants Manager",
+          "Charity user"
+        ],
+        "trigger": "The Foundation wants a defined project delivered by the best charity offer.",
+        "preconditions": [
+          "An RFP opportunity with a budget ceiling exists.",
+          "Charities are invited to it."
+        ],
+        "main_flow": [
+          "The Grants Manager enters scope of work, deliverables, duration, weighted activities and payment milestones (% of winning amount, days after award).",
+          "The system checks activity weights and payment percentages each total 100% and publishes the details to invited charities.",
+          "Invited charities submit technical and financial offers.",
+          "Reviewers evaluate offers against the criteria and pass score.",
+          "The Grants Manager compares offers side by side and selects 'Award' on one evaluated, passing offer.",
+          "The system awards it, closes all other offers with a notice, and creates the contract and project with activities and payments."
+        ],
+        "alternative_flows": [
+          "If an offer exceeds the budget ceiling, then it is refused on submission.",
+          "If the award fails, then nothing is awarded or created."
+        ],
+        "business_rules": [
+          "Activity weights and payment percentages must each total 100%.",
+          "The opportunity budget is the financial ceiling for offers.",
+          "Only one offer per RFP can be awarded, and only a pending offer that was evaluated and passed.",
+          "Payments = milestone % × winning amount; due dates counted from the award date.",
+          "The award is all-or-nothing."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F32-01",
+          "title": "Define the tendered project",
+          "story": "As a Grants Manager, I want to define the scope, deliverables, activities and payment milestones of a tender, so that charities bid on the same requirements.",
+          "acceptance": [
+            "Given activity weights totalling 95%, when I save, then the system refuses with 'Activity weights must total 100%'.",
+            "Given payment percentages totalling 110%, then the system refuses with 'Payment percentages must total 100%'.",
+            "Given valid details, then invited charities see them in the portal."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F32-02",
+          "title": "Submit an offer",
+          "story": "As a Charity user, I want to submit a technical and financial offer to an RFP I am invited to, so that I can compete for the project.",
+          "acceptance": [
+            "Given a budget ceiling of SAR 500,000, when I submit a financial offer of SAR 520,000, then it is refused with 'Financial offer exceeds the ceiling (500,000)'.",
+            "Given I am not invited, then I cannot see or bid on the RFP.",
+            "Given a valid offer, then it appears to staff with status Pending."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F32-03",
+          "title": "Compare offers",
+          "story": "As a Grants Manager, I want to see offers side by side, so that I can choose the best value.",
+          "acceptance": [
+            "Given several offers, then each card shows charity, financial offer, average evaluation score against the pass score and status, and the lowest financial offer is marked.",
+            "Given an offer not yet evaluated, then it shows 'Not evaluated' and cannot be awarded."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F32-04",
+          "title": "Award the RFP",
+          "story": "As a Grants Manager, I want to award the best evaluated offer, so that the project starts with the winning charity.",
+          "acceptance": [
+            "Given an offer below the pass score, then Award is not available.",
+            "Given I award a passing offer of SAR 450,000 with milestones 30%/70%, then a contract and project of SAR 450,000 are created with payments of SAR 135,000 and 315,000.",
+            "Given an award, then all other offers are closed as Not awarded and their charities receive the notice 'Thank you for your interest; the project was awarded to another offer'.",
+            "Given an RFP already awarded, then no second award is possible."
+          ],
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "id": "F33",
+      "name": "Multi-project grants, merges and funding conditions",
+      "release": "R8",
+      "priority": "Could",
+      "size": "M",
+      "depends_on": [
+        "F17"
+      ],
+      "summary": "Complex grants are handled without workarounds: one application can be split into several projects, applications of the same charity can be merged, co-funding conditions and indicators are tracked, and the Foundation can run internal initiatives.",
+      "old_ucs": [
+        "UC65",
+        "UC66",
+        "UC73"
+      ],
+      "decision": "",
+      "use_case": {
+        "actors": [
+          "Grants Manager",
+          "Project Manager"
+        ],
+        "trigger": "A grant needs a non-standard structure (split, merge, co-funding, indicators) or the Foundation runs its own initiative.",
+        "preconditions": [
+          "The application is not yet transferred (for split, merge, co-funding and indicators)."
+        ],
+        "main_flow": [
+          "The Grants Manager registers co-funders with their contribution as Confirmed or as an approval condition, attaching the donor's approval when received.",
+          "The Grants Manager links plan indicators to the application with a required quantity.",
+          "To merge, the Grants Manager selects pending or approved applications of the same charity and grant type; the system shows the impact and builds one merged application.",
+          "At transfer, the Grants Manager chooses Split and assigns each cost item to a named project; each project's budget is the sum of its items.",
+          "The system creates one contract and the projects, carrying co-funding and indicators over.",
+          "Separately, the Grants Manager creates an internal initiative run by the Foundation, in Planning status."
+        ],
+        "alternative_flows": [
+          "If a co-funding condition is unconfirmed, then final approval and transfer are blocked.",
+          "If the contract is still Being prepared, then a merge can be undone, restoring every original application."
+        ],
+        "business_rules": [
+          "Split projects' budgets total the approved amount; split needs ≥2 cost items and every project ≥1 item.",
+          "Merging is allowed only for applications of the same charity and grant type, not transferred and not already merged; merged applications produce one contract.",
+          "A co-funding condition becomes confirmed only with the donor's approval evidence attached.",
+          "An indicator cannot be linked beyond its remaining target across all applications and projects.",
+          "Internal initiatives need a name, a budget > 0 and an end date not before the start date."
+        ]
+      },
+      "stories": [
+        {
+          "id": "S-F33-01",
+          "title": "Split an application into several projects",
+          "story": "As a Grants Manager, I want to split an approved application into several projects, so that distinct components are managed separately.",
+          "acceptance": [
+            "Given an application with one cost item, then the Split option is not available.",
+            "Given a project in split mode has no cost item, then confirmation is disabled with 'Each project needs at least one item'.",
+            "Given a split of SAR 300,000 into two projects, then one contract of SAR 300,000 and two projects whose budgets total SAR 300,000 are created."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F33-02",
+          "title": "Merge applications of the same charity",
+          "story": "As a Grants Manager, I want to merge several applications of one charity, so that they are decided and contracted as one grant.",
+          "acceptance": [
+            "Given applications of different charities, then the merge is refused with 'Applications belong to different charities'.",
+            "Given a valid merge, then one merged application with the total amount is created and the absorbed applications are closed with 'Merged into <ref>'.",
+            "Given the merge would move a finally approved application back into review, then a second confirmation is required.",
+            "Given the merged application's contract has moved past Being prepared, then unmerge is not available."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F33-03",
+          "title": "Co-funding conditions",
+          "story": "As a Grants Manager, I want to record co-funders and their approval conditions, so that we do not approve a grant whose co-funding is not secured.",
+          "acceptance": [
+            "Given a co-funder without a name or with amount 0, then the system refuses with 'Enter donor name and amount'.",
+            "Given a co-funding condition without the donor's approval attached, when final approval is attempted, then it is blocked.",
+            "Given I attach the donor's approval, then the condition becomes Confirmed and is logged in the history."
+          ],
+          "notes": ""
+        },
+        {
+          "id": "S-F33-04",
+          "title": "Link plan indicators",
+          "story": "As a Grants Manager, I want to link plan indicators with target quantities to an application, so that grant results roll up to the plan.",
+          "acceptance": [
+            "Given an indicator with 40 remaining, when I link 50, then the system refuses with 'Only 40 remain for this indicator'.",
+            "Given the application is transferred, then indicators can no longer be changed from the application and are carried to the project(s)."
+          ],
+          "notes": "Milestone-type indicators are linked with a target of 1."
+        },
+        {
+          "id": "S-F33-05",
+          "title": "Create an internal initiative",
+          "story": "As a Grants Manager, I want to create an initiative run by the Foundation, so that internal work is followed like grant projects.",
+          "acceptance": [
+            "Given a name and a budget of SAR 80,000, when I save, then the initiative is created in Planning with me as project manager by default and appears in the projects list as source Initiative.",
+            "Given a budget of 0 or an end date before the start date, then the system refuses with the specific error."
+          ],
+          "notes": "Executor can be internal or a registered charity."
+        }
+      ]
+    }
+  ]
+}
