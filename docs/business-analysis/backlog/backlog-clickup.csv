@@ -1,0 +1,425 @@
+﻿Task Name,Custom ID,Release,Priority,Size,Depends On,Tags,Description,Acceptance Criteria,BRD Use Cases,Ready
+F01 – Staff accounts and secure sign-in,F01,R1 Foundation,High,M,,"R1,Must,size-M","Value: Every action in the system is done by a known person.
+
+Scope:
+- Individual staff accounts (name, email, role, department)
+- Sign in / sign out, forgotten password, session timeout
+- Add, edit and deactivate staff (no deletion of history)
+- Audit trail of sign-ins and account changes
+
+Not in this feature: Charity (partner) accounts → F03; custom roles → F29
+
+Depends on: None
+BRD use cases: UC01, UC08, UC09","1. Given an active staff account, when the user signs in with correct credentials, then their home page opens
+2. Given wrong credentials, when the user signs in, then access is refused with a generic message
+3. Given a deactivated account, when the user tries to sign in, then access is refused
+4. Given any sign-in or account change, then it is recorded with user and time","UC01, UC08, UC09",Ready
+F02 – Role-based workspace,F02,R1 Foundation,High,M,F01,"R1,Must,size-M","Value: Each person sees only the menus, pages and actions of their role.
+
+Scope:
+- Fixed system roles: Admin, Grants Manager, Reviewer, Committee Secretary, Project Manager, Finance, CEO
+- Menu and home page per role
+- Access enforced by the system on every page and action, not only by hiding menus
+- Departments list for organizing staff
+
+Not in this feature: Editable / custom roles → F29
+
+Depends on: F01
+BRD use cases: UC02, UC11
+Decision needed: Q149 — should system roles be editable? (does not block: fixed roles ship first)","1. Given a Reviewer, when they open the system, then only their sections appear in the menu
+2. Given a user opens a page outside their role by link, then the system blocks it with an access-denied message
+3. Given the Admin changes a user's role, then the new access applies at the next action","UC02, UC11",Needs decision
+F03 – Charity self-registration,F03,R2 Partner registry,High,M,F02,"R2,Must,size-M","Value: Charities register online instead of sending papers.
+
+Scope:
+- Registration with licence number, organization data and delegate details
+- Delegate mobile / email verification by one-time code
+- Required documents upload (licence, delegate authorization)
+- Registration status visible to the applicant
+
+Not in this feature: Joining an already registered charity → F05
+
+Depends on: F02
+BRD use cases: UC39
+Decision needed: Which identity verification is required for delegates (OTP only, or national ID)?","1. Given a new licence number, when the delegate completes the form and verifies the code, then a registration request is created with status Pending
+2. Given a licence number already registered, then the system stops a duplicate registration
+3. Given a missing required document, then the request cannot be submitted",UC39,Needs decision
+F04 – Registration review and partner register,F04,R2 Partner registry,High,M,F03,"R2,Must,size-M","Value: One trusted register of approved charities.
+
+Scope:
+- Queue of registration requests with documents
+- Approve / return / reject with reason
+- On approval: charity record and delegate account created
+- Partner directory with search, filters and Excel export
+- Add a charity manually and invite its delegate to activate the account
+
+Not in this feature: Bank verification and licence updates → F06
+
+Depends on: F03
+BRD use cases: UC49, UC50, UC56, UC57","1. Given a pending request, when the Grants Manager approves it, then the charity appears in the register and the delegate can sign in
+2. Given a request is returned or rejected, then a reason is mandatory and the applicant sees it
+3. Given the directory, when the user filters by status, then only matching charities are listed","UC49, UC50, UC56, UC57",Ready
+F05 – Charity portal access and team,F05,R2 Partner registry,High,M,F04,"R2,Must,size-M","Value: Charities manage their own users without calling the foundation.
+
+Scope:
+- Charity users sign in to the portal; choose the charity if they belong to more than one
+- Primary delegate adds / deactivates team members (project manager, finance, member)
+- Transfer of the primary delegation
+- Join request to an existing charity
+
+Depends on: F04
+BRD use cases: UC40, UC41, UC55
+Decision needed: Can one person belong to more than one charity? (open comment in BRD)","1. Given a primary delegate, when they add a team member, then that person can sign in to the charity portal
+2. Given a non-delegate member, then they cannot add or remove team members
+3. Given the delegation is transferred, then the old delegate loses delegate rights immediately","UC40, UC41, UC55",Needs decision
+F06 – Charity profile and verification,F06,R2 Partner registry,High,M,F05,"R2,Must,size-M","Value: Funding goes only to verified charities and verified bank accounts.
+
+Scope:
+- Charity 360 profile: data, documents, decision history
+- Confirm or block a charity (with reason)
+- Bank account (IBAN certificate) verification by staff
+- Licence / official data update requested by the charity and reviewed by staff
+
+Depends on: F05
+BRD use cases: UC46, UC51, UC52, UC53, UC54","1. Given a charity uploads a new IBAN certificate, then the account stays Unverified until staff verify it
+2. Given a blocked charity, then it cannot submit new applications
+3. Given any confirm / block / verify decision, then it appears in the charity's history with user and time","UC46, UC51, UC52, UC53, UC54",Ready
+F07 – Annual plan and budget structure,F07,R3 Plan & opportunities,High,M,F02,"R3,Must,size-M","Value: The annual budget is defined in the system instead of spreadsheets.
+
+Scope:
+- Create the annual plan with total budget
+- Plan tree: tracks → items → initiatives with budget per level
+- Edits recorded with an evidence document
+- Warning when child budgets exceed the parent
+
+Not in this feature: Budget adjustments and plan lock → F24; endowments → F25
+
+Depends on: F02
+BRD use cases: UC19, UC20, UC21","1. Given a new plan, when levels are added, then the tree shows each level's budget and the plan total
+2. Given children budgets exceed the parent, then the system warns before saving
+3. Given changes are saved, then an evidence document is required and the change is in the plan history","UC19, UC20, UC21",Ready
+F08 – Publish a grant opportunity,F08,R3 Plan & opportunities,High,M,F07,"R3,Must,size-M","Value: The foundation announces calls for grants in one place.
+
+Scope:
+- Create opportunity: name, description, budget, plan item, open / close dates
+- Application form from a simple form builder (fields, required flags)
+- Draft → Published → Closed status
+- Opportunity list with status and application count
+
+Not in this feature: Eligibility targeting and invitations → F10; workflow templates → F28
+
+Depends on: F07
+BRD use cases: UC13, UC28, UC29, UC30, UC31","1. Given a draft opportunity, then it is not visible to charities until published
+2. Given a published opportunity, when the close date passes, then it stops accepting applications
+3. Given the opportunity budget exceeds the plan item's available budget, then the system refuses to save","UC13, UC28, UC29, UC30, UC31",Ready
+F09 – Opportunities on the public page and portal,F09,R3 Plan & opportunities,High,S,F08,"R3,Must,size-S","Value: Charities find open grants without contacting the foundation.
+
+Scope:
+- Public landing page listing published, open opportunities
+- Portal list of opportunities the charity can apply to
+- Opportunity details page with dates, budget and conditions
+
+Not in this feature: Filtering by eligibility → F10
+
+Depends on: F08
+BRD use cases: UC03, UC42","1. Given a published opportunity within its dates, then it appears on the public page and in the portal
+2. Given a visitor who is not signed in clicks Apply, then they are asked to sign in or register","UC03, UC42",Ready
+"F10 – Eligibility, partner groups and invitations",F10,R3 Plan & opportunities,Normal,M,F09,"R3,Should,size-M","Value: Only the right charities can apply to each opportunity.
+
+Scope:
+- Eligibility rules per opportunity (applicant type, region, groups)
+- Partner groups for targeting
+- Private invitations to selected charities
+- Limit of applications per charity
+
+Depends on: F09
+BRD use cases: UC32, UC36, UC43, UC58","1. Given a charity that does not meet the rules, then the opportunity is not offered to it and it cannot apply
+2. Given an invited charity, when it opens the invitation, then it can apply even if the opportunity is private
+3. Given the per-charity limit is reached, then a new application is refused","UC32, UC36, UC43, UC58",Ready
+F11 – Submit a grant application,F11,R4 Applications & decisions,High,M,F09,"R4,Must,size-M","Value: Applications arrive complete and in one place.
+
+Scope:
+- Fill the opportunity's form in the portal, save as draft
+- Required attachments per opportunity
+- Requested amount, duration and bill of quantities (items)
+- Submit with confirmation; application number generated
+
+Not in this feature: AI pre-fill → F30
+
+Depends on: F09
+BRD use cases: UC44","1. Given a missing required field or attachment, then the application cannot be submitted
+2. Given a submitted application, then the charity sees it with status Submitted and cannot edit it
+3. Given the opportunity is closed, then submission is refused",UC44,Ready
+F12 – My Tasks inbox,F12,R4 Applications & decisions,High,M,F02,"R4,Must,size-M","Value: Every staff member sees their pending work in one list.
+
+Scope:
+- Inbox with tasks assigned to me, due dates and overdue flags
+- Manual tasks: create, assign, change status, comment
+- Meetings with date and attendees
+- List and calendar views
+
+Not in this feature: Bulk decisions and focus mode → F27
+
+Depends on: F02
+BRD use cases: UC90, UC91, UC92, UC93","1. Given a task is assigned to a user, then it appears in their inbox with its due date
+2. Given a task passes its due date, then it is flagged overdue
+3. Given a manual task, then only its creator or assignee can change it","UC90, UC91, UC92, UC93",Ready
+F13 – Application review by stages,F13,R4 Applications & decisions,High,M,"F11, F12","R4,Must,size-M","Value: Applications move through Reception → Study → Approval with clear owners and SLAs.
+
+Scope:
+- Review queue per stage with filters
+- Application dossier: data, attachments, history
+- Stage decision: approve to next stage, return for edits, reject (reason required)
+- Stage tasks created automatically in My Tasks with SLA days
+
+Not in this feature: Scoring and pass score → F14; committee minutes → F16; AI evaluation → F30
+
+Depends on: F11, F12
+BRD use cases: UC59, UC60, UC62, UC88
+Decision needed: Are the three stages fixed, or configurable per opportunity?","1. Given an application at a stage, then a task is created for that stage's owners
+2. Given a reviewer approves, then the application moves to the next stage and the history records who and when
+3. Given a rejection, then a reason is mandatory and the charity is notified","UC59, UC60, UC62, UC88",Needs decision
+F14 – Evaluation criteria and pass score,F14,R4 Applications & decisions,High,S,F13,"R4,Must,size-S","Value: Applications are scored consistently and weak ones cannot be approved by mistake.
+
+Scope:
+- Evaluation criteria with weights per opportunity
+- Reviewers score each criterion with notes
+- Pass score: approval blocked below it, wherever the decision is taken
+
+Depends on: F13
+BRD use cases: UC33","1. Given criteria weights that do not total 100%, then they cannot be saved
+2. Given the total score is below the pass score, then approval is blocked
+3. Given a scored application, then the dossier shows each reviewer's score and notes",UC33,Ready
+F15 – Charity follow-up and requested edits,F15,R4 Applications & decisions,High,M,F13,"R4,Must,size-M","Value: Charities see where their application is and respond quickly.
+
+Scope:
+- Application status and expected reply date in the portal
+- Returned for edits: charity edits the data / attachments and resubmits
+- Staff-proposed changes to amounts or quantities accepted or refused by the charity
+
+Depends on: F13
+BRD use cases: UC45, UC63","1. Given an application is returned for edits, then the charity can change its data and resubmit to the same stage
+2. Given staff propose a new amount, then it applies only after the charity accepts it
+3. Given a final decision, then the charity sees the decision and reason","UC45, UC63",Ready
+F16 – Committee decisions by minute,F16,R4 Applications & decisions,High,M,F14,"R4,Must,size-M","Value: Committee decisions are recorded once and applied to all the applications they cover.
+
+Scope:
+- Committee secretary selects applications at the Approval stage
+- Minute with date, members, decision per application and the signed minute file
+- Decisions applied to all selected applications in one step
+
+Depends on: F14
+BRD use cases: UC64, UC95","1. Given a minute is saved with decisions, then each application moves according to its decision
+2. Given a minute without the signed file, then it cannot be finalized
+3. Given an application decided by minute, then its history links to the minute","UC64, UC95",Ready
+F17 – Contract and project from an approved application,F17,R5 Contracts & projects,High,M,F16,"R5,Must,size-M","Value: Approved grants become signed contracts and trackable projects without retyping.
+
+Scope:
+- Contract generated from the application (parties, amount, items, payment schedule)
+- Payment schedule as % of amount per milestone
+- Contract signing status
+- Project created with budget and project manager
+
+Not in this feature: Splitting one application into several projects → F30C
+
+Depends on: F16
+BRD use cases: UC67, UC69, UC70, UC71","1. Given an approved application, when the Grants Manager transfers it, then one contract and one project are created with the approved amount
+2. Given the payment schedule does not total 100%, then the transfer is refused
+3. Given a contract is not signed, then project execution cannot start","UC67, UC69, UC70, UC71",Ready
+F18 – Project plan and start of execution,F18,R5 Contracts & projects,High,M,F17,"R5,Must,size-M","Value: Each project has an agreed plan before work starts.
+
+Scope:
+- Project plan: milestones, activities, due dates, linked payments
+- Start execution (requires signed contract and complete plan)
+- Project portfolio list with status and overdue (stalled) flag
+
+Not in this feature: Plan changes after start → F20
+
+Depends on: F17
+BRD use cases: UC72, UC74","1. Given a signed contract and a complete plan, when the project manager starts execution, then the project status becomes In progress
+2. Given an activity passes its due date without approval, then the project is flagged stalled","UC72, UC74",Ready
+F19 – Charity progress reports and milestone approval,F19,R5 Contracts & projects,High,M,F18,"R5,Must,size-M","Value: Progress is proven with evidence before money is released.
+
+Scope:
+- Charity submits task progress, evidence files and milestone reports in the portal
+- Project manager verifies evidence: accept or return with note
+- Milestone approved → its payment becomes due
+
+Not in this feature: Indicators → F30C
+
+Depends on: F18
+BRD use cases: UC47, UC75, UC76","1. Given a charity submits a milestone report with evidence, then the project manager gets a task to verify it
+2. Given evidence is returned, then the charity sees the note and can resubmit
+3. Given a milestone is approved, then its linked payment becomes Due","UC47, UC75, UC76",Ready
+F20 – Plan revisions and project closure,F20,R5 Contracts & projects,Normal,M,F19,"R5,Should,size-M","Value: Changes and closure are controlled and documented.
+
+Scope:
+- Request a plan revision with reason; approved by a different person
+- Close the project after all milestones are approved, with a final evaluation
+
+Depends on: F19
+BRD use cases: UC77, UC78","1. Given a revision request, then the requester cannot approve it
+2. Given unapproved milestones, then the project cannot be closed
+3. Given a project is closed, then no new tasks or payments can be added","UC77, UC78",Ready
+F21 – Payment approval chain,F21,R6 Payments,High,M,F19,"R6,Must,size-M","Value: No payment is released without the required approvals.
+
+Scope:
+- Due payments list per project
+- Submit a due payment for approval
+- Three-level approval: project manager → Grants Manager → CEO; reject with reason returns it to Due
+- Approval tasks created in My Tasks
+
+Depends on: F19
+BRD use cases: UC80, UC81, UC89
+Decision needed: Are there amount thresholds that change the approval chain?","1. Given a due payment is submitted, then the project's manager gets an approval task
+2. Given step 1 is approved, then the Grants Manager gets the next task; after step 2 the CEO
+3. Given any rejection, then a reason is mandatory and the payment returns to Due
+4. Given a person approved one step, then they cannot approve another step of the same payment","UC80, UC81, UC89",Needs decision
+"F22 – Disbursement order, transfer and receipt",F22,R6 Payments,High,M,"F21, F06","R6,Must,size-M","Value: Finance pays the right account and every payment is closed with proof.
+
+Scope:
+- Disbursement order issued after final approval
+- Payee confirmed (charity's verified bank account; third party only with re-approval)
+- Finance records the bank transfer and uploads the transfer notice
+- Charity uploads the receipt voucher; payment closed as Paid
+
+Depends on: F21, F06
+BRD use cases: UC82, UC83, UC84","1. Given a payment is fully approved, then a disbursement order is issued with a unique number
+2. Given the bank account is not verified, then the transfer cannot be recorded
+3. Given the payee is changed after approval, then the approval chain restarts
+4. Given the receipt voucher is uploaded, then the payment status becomes Paid","UC82, UC83, UC84",Ready
+F23 – Payments register and commitments,F23,R6 Payments,High,S,F22,"R6,Must,size-S","Value: Finance and management see every payment and what is still owed.
+
+Scope:
+- Payments register with status, partner, project and amounts
+- Commitments per charity (scheduled vs paid)
+- Excel export
+
+Depends on: F22
+BRD use cases: UC79, UC85
+Decision needed: Single definition of “paid” (after transfer or after receipt?)","1. Given the register, then each payment shows its current status and who it waits for
+2. Given a charity, then its committed, due and paid totals add up to its contracts' amounts","UC79, UC85",Needs decision
+F24 – Budget monitoring and adjustments,F24,R7 Insight & efficiency,High,M,F23,"R7,Must,size-M","Value: The foundation always knows used, committed, paid and available budget.
+
+Scope:
+- Live budget figures per plan level: committed, due, paid, available
+- Budget increase / decrease / transfer with evidence document
+- Financial operations register and plan history
+- Lock and reopen the plan
+
+Depends on: F23
+BRD use cases: UC22, UC23, UC24, UC25","1. Given a contract is signed, then the plan item's committed amount increases by the contract amount
+2. Given a decrease larger than the available amount, then it is refused
+3. Given any adjustment, then an evidence document is required and the operation is in the register","UC22, UC23, UC24, UC25",Ready
+F25 – Endowments,F25,R7 Insight & efficiency,Normal,M,F24,"R7,Should,size-M","Value: Each endowment's share of the plan and its use are visible.
+
+Scope:
+- Register endowments (funding sources)
+- Record endowment funding
+- Endowment share per plan level and endowment report
+
+Depends on: F24
+BRD use cases: UC16, UC26, UC27
+Decision needed: How are endowment shares decided (equal, by size, manual)?","1. Given endowments participate in a plan item, then the item's budget is split by their shares
+2. Given an endowment is used in a plan, then it cannot be deleted","UC16, UC26, UC27",Needs decision
+F26 – Executive dashboard and reports,F26,R7 Insight & efficiency,Normal,M,F23,"R7,Should,size-M","Value: Management gets the numbers without asking the team.
+
+Scope:
+- Dashboard: budget, applications by stage, projects, payments, delays
+- Standard reports (applications, projects, payments, partners) with filters and Excel export
+- Staff workload and performance view
+
+Depends on: F23
+BRD use cases: UC12, UC86, UC87
+Decision needed: Which reports does management request today?","1. Given the dashboard, then figures match the registers they come from
+2. Given a report with filters, when exported, then the Excel file contains the same rows","UC12, UC86, UC87",Needs decision
+F27 – Productivity tools,F27,R7 Insight & efficiency,Low,M,"F13, F21","R7,Could,size-M","Value: Staff spend less time navigating and deciding.
+
+Scope:
+- Global search across partners, applications, projects and payments
+- Saved views and list exports
+- Decide directly from a task, and bulk decisions
+- Focus mode for processing tasks one by one
+
+Depends on: F13, F21
+BRD use cases: UC04, UC06, UC07, UC94, UC96","1. Given a search term, then results show only records the user may access
+2. Given a decision from a task or focus mode, then the same rules apply as on the application page (e.g. pass score)","UC04, UC06, UC07, UC94, UC96",Ready
+F28 – Configuration library and governance,F28,R8 Advanced grant types & AI,Low,M,F13,"R8,Could,size-M","Value: Admins reuse setups and every sensitive change is traceable.
+
+Scope:
+- Workflow templates reusable across opportunities
+- Communication templates and reference lists
+- Applicant types open / closed for registration
+- Sensitive configuration changes require an evidence document and keep history
+
+Depends on: F13
+BRD use cases: UC14, UC15, UC18, UC34, UC38","1. Given a template is applied to an opportunity, then its stages and criteria are copied
+2. Given a sensitive setting is changed, then an evidence document is required and the old value is kept in history","UC14, UC15, UC18, UC34, UC38",Ready
+F29 – Custom roles and permissions,F29,R8 Advanced grant types & AI,Normal,M,F02,"R8,Should,size-M","Value: The foundation adapts access to its own structure.
+
+Scope:
+- Permission matrix (view / write / delete) by role
+- Create custom roles, optionally copying a system role
+- Enable / disable permissions for a whole role, with change history
+
+Depends on: F02
+BRD use cases: UC10
+Decision needed: Q149 — may system roles be edited, or only custom roles?","1. Given a permission is disabled for a role, then every user with that role loses it at their next action
+2. Given a custom role is assigned to staff, then it cannot be deleted
+3. Given any permission change, then it is recorded with user, time and before / after",UC10,Needs decision
+F30 – AI assistance,F30,R8 Advanced grant types & AI,Low,M,F13,"R8,Could,size-M","Value: AI saves time on forms and evaluation while people keep every decision.
+
+Scope:
+- AI pre-fill of application forms from uploaded documents (charity confirms)
+- AI document check on attachments (advisory)
+- AI evaluation summary for reviewers and external AI evaluation report
+- AI assistant for questions on grant data (read-only, proposes links)
+
+Depends on: F13
+BRD use cases: UC05, UC48, UC61
+Decision needed: Which AI provider, and what data may be sent to it?","1. Given AI proposes values, then nothing is saved until the user confirms
+2. Given an AI check flags a document, then the user can still proceed (advisory only)
+3. Given the AI assistant answers, then it uses only data the user may access","UC05, UC48, UC61",Needs decision
+F31 – In-kind (product) grants,F31,R8 Advanced grant types & AI,Low,M,F14,"R8,Could,size-M","Value: The foundation can grant products from its stock, not only money.
+
+Scope:
+- Product catalog with stock
+- Product opportunities and product requests
+- Approval deducts stock; delivery recorded
+
+Depends on: F14
+BRD use cases: UC35, UC68","1. Given a request above available stock, then it is refused
+2. Given a product grant is approved, then stock is deducted once and delivery is tracked","UC35, UC68",Ready
+F32 – Tendered projects (RFP),F32,R8 Advanced grant types & AI,Low,M,F17,"R8,Could,size-M","Value: The foundation can tender a defined project and award the best offer.
+
+Scope:
+- Define the tendered project (scope, deliverables, budget)
+- Invited charities submit offers; side-by-side comparison
+- Award to one evaluated offer; others closed with notice; contract and project created
+
+Depends on: F17
+BRD use cases: UC37","1. Given an offer above the budget, then it is refused
+2. Given an RFP is awarded, then only an evaluated offer above the pass score can win
+3. Given an award, then all other offers are closed and notified",UC37,Ready
+"F33 – Multi-project grants, merges and funding conditions",F33,R8 Advanced grant types & AI,Low,M,F17,"R8,Could,size-M","Value: Complex grants are handled without workarounds.
+
+Scope:
+- Split one application into several projects
+- Merge applications of the same charity
+- Funding conditions, co-funding and indicators
+- Internal initiatives run by the foundation
+
+Depends on: F17
+BRD use cases: UC65, UC66, UC73","1. Given an application is split, then the projects' budgets total the approved amount
+2. Given co-funding conditions are unconfirmed, then final approval is blocked
+3. Given merged applications, then one contract is created","UC65, UC66, UC73",Ready
+F34 – Multi-organization platform,F34,R8 Advanced grant types & AI,Low,M,F02,"R8,Won't (this year),size-M","Value: Several grantor foundations can use the same platform separately.
+
+Scope:
+- Platform admin registers and suspends grantor organizations
+- Strict data isolation between organizations
+
+Depends on: F02
+BRD use cases: UC17
+Decision needed: Is Manih for one foundation or several?","1. Given two organizations, then users of one never see the other's data
+2. Given an organization is suspended, then its users cannot sign in",UC17,Needs decision
