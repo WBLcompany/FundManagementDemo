@@ -17,81 +17,79 @@ UC15 – Maintain reference lists and applicant-type availability,UC15,pending,4
 UC16 – Register and manage endowments,UC16,pending,4.3.8,Administration & Configuration
 UC17 – Manage grantor organizations on the platform,UC17,pending,4.3.9,Administration & Configuration
 UC18 – Change key configuration with a supporting document,UC18,pending,4.3.10,Administration & Configuration
-UC19 – Browse the annual plans portfolio,UC19,draft,4.4.1,"Annual Plan, Budget & Endowments"
-UC20 – Create an annual plan,UC20,draft,4.4.2,"Annual Plan, Budget & Endowments"
-"UC21 – Build, restructure and approve a plan in an evidenced edit session",UC21,draft,4.4.3,"Annual Plan, Budget & Endowments"
-UC22 – Monitor plan budget performance,UC22,draft,4.4.4,"Annual Plan, Budget & Endowments"
-"UC23 – Adjust a plan budget (increase, decrease or transfer)",UC23,draft,4.4.5,"Annual Plan, Budget & Endowments"
-UC24 – Review financial operations and plan change history,UC24,draft,4.4.6,"Annual Plan, Budget & Endowments"
-UC25 – Lock and reopen a plan budget,UC25,draft,4.4.7,"Annual Plan, Budget & Endowments"
-UC26 – Record endowment funding,UC26,draft,4.4.8,"Annual Plan, Budget & Endowments"
-UC27 – Manage endowment participation and review endowment share,UC27,draft,4.4.9,"Annual Plan, Budget & Endowments"
-"UC28 – Link applications, projects and opportunities to plan items",UC28,draft,4.4.10,"Annual Plan, Budget & Endowments"
-UC29 – Monitor the grant opportunities portfolio and performance,UC29,draft,4.5.1,"Grant Opportunities, Products & Workflow Templates"
-UC30 – Create a grant opportunity,UC30,draft,4.5.2,"Grant Opportunities, Products & Workflow Templates"
-"UC31 – Maintain opportunity information, reception window and status",UC31,draft,4.5.3,"Grant Opportunities, Products & Workflow Templates"
-UC32 – Define eligibility targeting and application quota,UC32,draft,4.5.4,"Grant Opportunities, Products & Workflow Templates"
-"UC33 – Configure the opportunity workflow, evaluation, form and post-approval defaults",UC33,draft,4.5.5,"Grant Opportunities, Products & Workflow Templates"
-UC34 – Manage workflow templates and apply them to opportunities,UC34,draft,4.5.6,"Grant Opportunities, Products & Workflow Templates"
-UC35 – Manage the product catalog and product grant opportunities,UC35,draft,4.5.7,"Grant Opportunities, Products & Workflow Templates"
-UC36 – Invite targeted partners to an opportunity,UC36,draft,4.5.8,"Grant Opportunities, Products & Workflow Templates"
-UC37 – Define a tendered project (RFP) and award it to the best offer,UC37,draft,4.5.9,"Grant Opportunities, Products & Workflow Templates"
-"UC38 – Govern configuration changes with evidence, rollback and history",UC38,draft,4.5.10,"Grant Opportunities, Products & Workflow Templates"
-UC39 – Self-register a partner organization,UC39,draft,4.6.1,Partner Portal & Grant Application
-UC40 – Join a registered organization or request a delegate change,UC40,draft,4.6.2,Partner Portal & Grant Application
-UC41 – Access the partner portal and select the represented organization,UC41,draft,4.6.3,Partner Portal & Grant Application
-UC42 – Discover open grant opportunities and check eligibility,UC42,draft,4.6.4,Partner Portal & Grant Application
-UC43 – Respond to a private opportunity invitation,UC43,draft,4.6.5,Partner Portal & Grant Application
-UC44 – Prepare and submit a grant application,UC44,draft,4.6.6,Partner Portal & Grant Application
-UC45 – Track applications and respond to grantor requests,UC45,draft,4.6.7,Partner Portal & Grant Application
-UC46 – Maintain the organization profile,UC46,draft,4.6.8,Partner Portal & Grant Application
-UC47 – Participate in project execution and confirm payment receipt,UC47,draft,4.6.9,Partner Portal & Grant Application
-UC48 – Receive an external AI evaluation report for an application,UC48,draft,4.6.10,Partner Portal & Grant Application
-UC49 – Review and decide a partner registration request,UC49,draft,4.7.1,Partner Organizations Management
-"UC50 – Browse, filter and export the partner directory",UC50,draft,4.7.2,Partner Organizations Management
-UC51 – View the partner 360 profile and decision timeline,UC51,draft,4.7.3,Partner Organizations Management
-UC52 – Confirm or block a partner organization,UC52,draft,4.7.4,Partner Organizations Management
-UC53 – Verify or reject a partner bank account,UC53,draft,4.7.5,Partner Organizations Management
-UC54 – Review a partner license and official data update,UC54,draft,4.7.6,Partner Organizations Management
-UC55 – Manage the partner team and primary delegate,UC55,draft,4.7.7,Partner Organizations Management
-UC56 – Invite a partner to activate its account,UC56,draft,4.7.8,Partner Organizations Management
-UC57 – Add a partner organization manually,UC57,draft,4.7.9,Partner Organizations Management
-UC58 – Manage partner groups for opportunity targeting,UC58,draft,4.7.10,Partner Organizations Management
-UC59 – Manage the grant applications review queue,UC59,draft,4.8.1,"Application Review, Evaluation & Decision"
-UC60 – Study the application dossier and its audit trail,UC60,draft,4.8.2,"Application Review, Evaluation & Decision"
-UC61 – Evaluate an application with AI decision support,UC61,draft,4.8.3,"Application Review, Evaluation & Decision"
-UC62 – Take a stage decision on an application,UC62,draft,4.8.4,"Application Review, Evaluation & Decision"
-UC63 – Return an application to the partner for edits or revised figures,UC63,draft,4.8.5,"Application Review, Evaluation & Decision"
-UC64 – Record a committee decision by minute,UC64,draft,4.8.6,"Application Review, Evaluation & Decision"
-"UC65 – Set funding conditions, indicators and initiative placement",UC65,draft,4.8.7,"Application Review, Evaluation & Decision"
-UC66 – Merge and unmerge applications of the same partner,UC66,draft,4.8.8,"Application Review, Evaluation & Decision"
-UC67 – Approve the contract and transfer an approved application to projects,UC67,draft,4.8.9,"Application Review, Evaluation & Decision"
-UC68 – Approve and deliver an in-kind (product) grant,UC68,draft,4.8.10,"Application Review, Evaluation & Decision"
-UC69 – Prepare the bill of quantities and payment schedule,UC69,draft,4.9.1,"Projects, Contracts & Execution Monitoring"
-UC70 – Approve the contract and transfer the application into project(s),UC70,draft,4.9.2,"Projects, Contracts & Execution Monitoring"
-UC71 – Manage contract signing and the contracts register,UC71,draft,4.9.3,"Projects, Contracts & Execution Monitoring"
-UC72 – Monitor the project portfolio and project status,UC72,draft,4.9.4,"Projects, Contracts & Execution Monitoring"
-UC73 – Create an internal initiative,UC73,draft,4.9.5,"Projects, Contracts & Execution Monitoring"
-UC74 – Plan the project and start execution,UC74,draft,4.9.6,"Projects, Contracts & Execution Monitoring"
-UC75 – Execute tasks and report progress,UC75,draft,4.9.7,"Projects, Contracts & Execution Monitoring"
-UC76 – Verify work and approve milestones,UC76,draft,4.9.8,"Projects, Contracts & Execution Monitoring"
-UC77 – Request and approve a plan revision,UC77,draft,4.9.9,"Projects, Contracts & Execution Monitoring"
-UC78 – Close the project and confirm results,UC78,draft,4.9.10,"Projects, Contracts & Execution Monitoring"
-UC79 – Monitor the payments register,UC79,draft,4.10.1,"Payments, Disbursement & Financial Reporting"
-UC80 – Make a payment due and submit it for approval,UC80,draft,4.10.2,"Payments, Disbursement & Financial Reporting"
-UC81 – Approve or reject a payment,UC81,draft,4.10.3,"Payments, Disbursement & Financial Reporting"
-UC82 – Issue the disbursement order and confirm the payee,UC82,draft,4.10.4,"Payments, Disbursement & Financial Reporting"
-UC83 – Record the bank transfer,UC83,draft,4.10.5,"Payments, Disbursement & Financial Reporting"
-UC84 – Confirm receipt and close the payment,UC84,draft,4.10.6,"Payments, Disbursement & Financial Reporting"
-UC85 – Monitor financial position and partner commitments,UC85,draft,4.10.7,"Payments, Disbursement & Financial Reporting"
-UC86 – View the executive indicators dashboard,UC86,draft,4.10.8,"Payments, Disbursement & Financial Reporting"
-UC87 – Produce operational and financial reports,UC87,draft,4.10.9,"Payments, Disbursement & Financial Reporting"
-UC88 – Receive application stage tasks automatically,UC88,draft,4.11.1,Work Management & Tasks
-UC89 – Receive payment approval and execution tasks,UC89,draft,4.11.2,Work Management & Tasks
-UC90 – Organise and monitor my work inbox,UC90,draft,4.11.3,Work Management & Tasks
-"UC91 – Create, assign and edit a manual task",UC91,draft,4.11.4,Work Management & Tasks
-UC92 – Schedule a meeting,UC92,draft,4.11.5,Work Management & Tasks
-UC93 – Track progress and close a manual task,UC93,draft,4.11.6,Work Management & Tasks
-UC94 – Take a decision directly from a task,UC94,draft,4.11.7,Work Management & Tasks
-UC95 – Decide several committee items with one minute,UC95,draft,4.11.8,Work Management & Tasks
-UC96 – Process tasks in focus mode,UC96,draft,4.11.9,Work Management & Tasks
+UC19 – View and Monitor Annual Plans,UC19,draft,4.4.1,Annual Plan
+UC20 – Create an Annual Plan,UC20,draft,4.4.2,Annual Plan
+UC21 – Edit and Approve an Annual Plan,UC21,draft,4.4.3,Annual Plan
+UC22 – Manage Budget Operations and History,UC22,draft,4.4.4,Annual Plan
+UC23 – Lock or Reopen an Annual Plan,UC23,draft,4.4.5,Annual Plan
+UC24 – Record endowment funding,UC24,draft,4.5.1,Endowments and Plan Funding Links
+UC25 – Manage endowment participation and review endowment share,UC25,draft,4.5.2,Endowments and Plan Funding Links
+"UC26 – Link applications, projects and opportunities to plan items",UC26,draft,4.5.3,Endowments and Plan Funding Links
+UC27 – Monitor the grant opportunities portfolio and performance,UC27,draft,4.6.1,"Grant Opportunities, Products & Workflow Templates"
+UC28 – Create a grant opportunity,UC28,draft,4.6.2,"Grant Opportunities, Products & Workflow Templates"
+"UC29 – Maintain opportunity information, reception window and status",UC29,draft,4.6.3,"Grant Opportunities, Products & Workflow Templates"
+UC30 – Define eligibility targeting and application quota,UC30,draft,4.6.4,"Grant Opportunities, Products & Workflow Templates"
+"UC31 – Configure the opportunity workflow, evaluation, form and post-approval defaults",UC31,draft,4.6.5,"Grant Opportunities, Products & Workflow Templates"
+UC32 – Manage workflow templates and apply them to opportunities,UC32,draft,4.6.6,"Grant Opportunities, Products & Workflow Templates"
+UC33 – Manage the product catalog and product grant opportunities,UC33,draft,4.6.7,"Grant Opportunities, Products & Workflow Templates"
+UC34 – Invite targeted partners to an opportunity,UC34,draft,4.6.8,"Grant Opportunities, Products & Workflow Templates"
+UC35 – Define a tendered project (RFP) and award it to the best offer,UC35,draft,4.6.9,"Grant Opportunities, Products & Workflow Templates"
+"UC36 – Govern configuration changes with evidence, rollback and history",UC36,draft,4.6.10,"Grant Opportunities, Products & Workflow Templates"
+UC37 – Self-register a partner organization,UC37,draft,4.7.1,Partner Portal & Grant Application
+UC38 – Join a registered organization or request a delegate change,UC38,draft,4.7.2,Partner Portal & Grant Application
+UC39 – Access the partner portal and select the represented organization,UC39,draft,4.7.3,Partner Portal & Grant Application
+UC40 – Discover open grant opportunities and check eligibility,UC40,draft,4.7.4,Partner Portal & Grant Application
+UC41 – Respond to a private opportunity invitation,UC41,draft,4.7.5,Partner Portal & Grant Application
+UC42 – Prepare and submit a grant application,UC42,draft,4.7.6,Partner Portal & Grant Application
+UC43 – Track applications and respond to grantor requests,UC43,draft,4.7.7,Partner Portal & Grant Application
+UC44 – Maintain the organization profile,UC44,draft,4.7.8,Partner Portal & Grant Application
+UC45 – Participate in project execution and confirm payment receipt,UC45,draft,4.7.9,Partner Portal & Grant Application
+UC46 – Receive an external AI evaluation report for an application,UC46,draft,4.7.10,Partner Portal & Grant Application
+UC47 – Review and decide a partner registration request,UC47,draft,4.8.1,Partner Organizations Management
+"UC48 – Browse, filter and export the partner directory",UC48,draft,4.8.2,Partner Organizations Management
+UC49 – View the partner 360 profile and decision timeline,UC49,draft,4.8.3,Partner Organizations Management
+UC50 – Confirm or block a partner organization,UC50,draft,4.8.4,Partner Organizations Management
+UC51 – Verify or reject a partner bank account,UC51,draft,4.8.5,Partner Organizations Management
+UC52 – Review a partner license and official data update,UC52,draft,4.8.6,Partner Organizations Management
+UC53 – Manage the partner team and primary delegate,UC53,draft,4.8.7,Partner Organizations Management
+UC54 – Invite a partner to activate its account,UC54,draft,4.8.8,Partner Organizations Management
+UC55 – Add a partner organization manually,UC55,draft,4.8.9,Partner Organizations Management
+UC56 – Manage partner groups for opportunity targeting,UC56,draft,4.8.10,Partner Organizations Management
+UC57 – Manage the grant applications review queue,UC57,draft,4.9.1,"Application Review, Evaluation & Decision"
+UC58 – Study the application dossier and its audit trail,UC58,draft,4.9.2,"Application Review, Evaluation & Decision"
+UC59 – Evaluate an application with AI decision support,UC59,draft,4.9.3,"Application Review, Evaluation & Decision"
+UC60 – Take a stage decision on an application,UC60,draft,4.9.4,"Application Review, Evaluation & Decision"
+UC61 – Return an application to the partner for edits or revised figures,UC61,draft,4.9.5,"Application Review, Evaluation & Decision"
+UC62 – Record a committee decision by minute,UC62,draft,4.9.6,"Application Review, Evaluation & Decision"
+"UC63 – Set funding conditions, indicators and initiative placement",UC63,draft,4.9.7,"Application Review, Evaluation & Decision"
+UC64 – Merge and unmerge applications of the same partner,UC64,draft,4.9.8,"Application Review, Evaluation & Decision"
+UC65 – Approve the contract and transfer an approved application to projects,UC65,draft,4.9.9,"Application Review, Evaluation & Decision"
+UC66 – Approve and deliver an in-kind (product) grant,UC66,draft,4.9.10,"Application Review, Evaluation & Decision"
+UC67 – Prepare the bill of quantities and payment schedule,UC67,draft,4.10.1,"Projects, Contracts & Execution Monitoring"
+UC68 – Approve the contract and transfer the application into project(s),UC68,draft,4.10.2,"Projects, Contracts & Execution Monitoring"
+UC69 – Manage contract signing and the contracts register,UC69,draft,4.10.3,"Projects, Contracts & Execution Monitoring"
+UC70 – Monitor the project portfolio and project status,UC70,draft,4.10.4,"Projects, Contracts & Execution Monitoring"
+UC71 – Create an internal initiative,UC71,draft,4.10.5,"Projects, Contracts & Execution Monitoring"
+UC72 – Plan the project and start execution,UC72,draft,4.10.6,"Projects, Contracts & Execution Monitoring"
+UC73 – Execute tasks and report progress,UC73,draft,4.10.7,"Projects, Contracts & Execution Monitoring"
+UC74 – Verify work and approve milestones,UC74,draft,4.10.8,"Projects, Contracts & Execution Monitoring"
+UC75 – Request and approve a plan revision,UC75,draft,4.10.9,"Projects, Contracts & Execution Monitoring"
+UC76 – Close the project and confirm results,UC76,draft,4.10.10,"Projects, Contracts & Execution Monitoring"
+UC77 – Monitor the payments register,UC77,draft,4.11.1,"Payments, Disbursement & Financial Reporting"
+UC78 – Make a payment due and submit it for approval,UC78,draft,4.11.2,"Payments, Disbursement & Financial Reporting"
+UC79 – Approve or reject a payment,UC79,draft,4.11.3,"Payments, Disbursement & Financial Reporting"
+UC80 – Issue the disbursement order and confirm the payee,UC80,draft,4.11.4,"Payments, Disbursement & Financial Reporting"
+UC81 – Record the bank transfer,UC81,draft,4.11.5,"Payments, Disbursement & Financial Reporting"
+UC82 – Confirm receipt and close the payment,UC82,draft,4.11.6,"Payments, Disbursement & Financial Reporting"
+UC83 – Monitor financial position and partner commitments,UC83,draft,4.11.7,"Payments, Disbursement & Financial Reporting"
+UC84 – View the executive indicators dashboard,UC84,draft,4.11.8,"Payments, Disbursement & Financial Reporting"
+UC85 – Produce operational and financial reports,UC85,draft,4.11.9,"Payments, Disbursement & Financial Reporting"
+UC86 – Receive application stage tasks automatically,UC86,draft,4.12.1,Work Management & Tasks
+UC87 – Receive payment approval and execution tasks,UC87,draft,4.12.2,Work Management & Tasks
+UC88 – Organise and monitor my work inbox,UC88,draft,4.12.3,Work Management & Tasks
+"UC89 – Create, assign and edit a manual task",UC89,draft,4.12.4,Work Management & Tasks
+UC90 – Schedule a meeting,UC90,draft,4.12.5,Work Management & Tasks
+UC91 – Track progress and close a manual task,UC91,draft,4.12.6,Work Management & Tasks
+UC92 – Take a decision directly from a task,UC92,draft,4.12.7,Work Management & Tasks
+UC93 – Decide several committee items with one minute,UC93,draft,4.12.8,Work Management & Tasks
+UC94 – Process tasks in focus mode,UC94,draft,4.12.9,Work Management & Tasks
