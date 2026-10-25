@@ -1,0 +1,848 @@
+[
+ {
+  "uc": "UC01",
+  "name": "Sign in and reach my role workspace",
+  "section": "4.2.1",
+  "area": "Access, Workspace & Platform Services",
+  "title": "As a staff member or partner user, I want to sign in with my own credentials so that I reach the workspace for my role and every action I take is attributed to me.",
+  "description": "Every person who uses Manih signs in with an individual account. After successful sign-in the system identifies the person's organization and role and opens the home page for that role (for example My Tasks for operational staff, the dashboard for executives, and My Portal for partner users). No grant data is visible before sign-in, and demonstration shortcuts are not available in the live service.",
+  "status": "approved"
+ },
+ {
+  "uc": "UC02",
+  "name": "Work within a role-based workspace",
+  "section": "4.2.2",
+  "area": "Access, Workspace & Platform Services",
+  "title": "As a staff member, I want a workspace that shows only the sections relevant to my role, with counts of my pending work, so that I can focus on what needs my action.",
+  "description": "Once signed in, each user sees a navigation menu limited to the sections their role is authorised for, with badges showing the number of open tasks in each area. Platform-level administration is visible only to the System Administrator, organization settings only to authorised organization staff, and partner users get a simplified portal layout. The same workspace adapts to phones and tablets.",
+  "status": "approved"
+ },
+ {
+  "uc": "UC03",
+  "name": "View the public landing page and open grant opportunities",
+  "section": "4.2.3",
+  "area": "Access, Workspace & Platform Services",
+  "title": "As a prospective partner organization, I want to see what the platform offers and which grant opportunities are currently open so that I can decide whether to register and apply.",
+  "description": "The public landing page explains the purpose of the grant platform and lists the grant opportunities that are published and open for applications, with their budget and closing date. From here visitors can browse opportunities, register their organization or sign in.",
+  "status": "approved"
+ },
+ {
+  "uc": "UC04",
+  "name": "Find records with global search",
+  "section": "4.2.4",
+  "area": "Access, Workspace & Platform Services",
+  "title": "As a staff member, I want to search across partners, applications, projects, payments, opportunities, plans and colleagues from anywhere so that I can open what I need without navigating through menus.",
+  "description": "A search box available on every page (also via a keyboard shortcut) lets users find any record they are entitled to see, using Arabic-tolerant matching. Results are grouped by record type and the user's recently opened items are offered for quick return.",
+  "status": "approved"
+ },
+ {
+  "uc": "UC05",
+  "name": "Ask the AI Assistant about grant data",
+  "section": "4.2.5",
+  "area": "Access, Workspace & Platform Services",
+  "title": "As a staff member, I want to ask the AI Assistant (رفيق المنح) questions about opportunities, applications, partners, projects, payments, plans and tasks so that I get quick answers and suggested next steps without building reports.",
+  "description": "The AI Assistant is a conversational helper in Arabic available to foundation staff. It reads the foundation's data within the user's access rights to answer questions and summarise status. It never changes data itself: when an action is needed, it proposes the action as a link that opens the relevant page, where the user reviews and confirms it.",
+  "status": "approved"
+ },
+ {
+  "uc": "UC06",
+  "name": "Work with lists, export data and save preferred views",
+  "section": "4.2.6",
+  "area": "Access, Workspace & Platform Services",
+  "title": "As a staff member, I want to search, filter, choose columns, export and save my preferred view of any list so that I can analyse and share data efficiently.",
+  "description": "All lists in the system (applications, partners, projects, payments, plans and others) offer the same tools: free-text search, additional filters, filter-by-indicator cards, column selection, paging, and export to Excel or CSV. Each user can pin the current arrangement as their personal default view and restore the original at any time.",
+  "status": "approved"
+ },
+ {
+  "uc": "UC07",
+  "name": "Personalise the appearance of the workspace",
+  "section": "4.2.7",
+  "area": "Access, Workspace & Platform Services",
+  "title": "As a user, I want to choose light or dark mode and a colour palette so that the interface suits my preference.",
+  "description": "Users can switch between light and dark display and choose one of the approved colour palettes (طيني، أخضر مائي، خزامى) from Settings > Appearance. The choice is applied immediately and remembered.",
+  "status": "approved"
+ },
+ {
+  "uc": "UC08",
+  "name": "General platform requirements",
+  "section": "4.2.8",
+  "area": "Access, Workspace & Platform Services",
+  "title": "As the foundation, I want the whole platform to meet common security, accountability, localisation and usability standards so that grant data is protected and every user has a consistent Arabic experience.",
+  "description": "This use case collects cross-cutting requirements that apply to every module of Manih: secure individual sign-in, role-based authorization enforced by the system, isolation of each grantor organization's data, a tamper-proof audit trail, Arabic right-to-left presentation with Western digits, and consistent loading, error and guidance behaviour.",
+  "status": "approved"
+ },
+ {
+  "uc": "UC09",
+  "name": "Manage the organization's team members",
+  "section": "4.3.1",
+  "area": "Administration & Configuration",
+  "title": "As a Grants Manager, I want to add employees, assign their role and department, and remove leavers so that the right people can work on grants with the right authority.",
+  "description": "The Team tab (فريق العمل) lists the organization's staff with their email, role and department. The Grants Manager adds new employees, changes their role or department when responsibilities change, and removes people who leave. The assigned role determines what each person can see and do throughout the system.",
+  "status": "approved"
+ },
+ {
+  "uc": "UC10",
+  "name": "Define roles and permissions",
+  "section": "4.3.2",
+  "area": "Administration & Configuration",
+  "title": "As a Grants Manager, I want to view the permissions of each role and create custom roles with tailored permissions so that access matches our organization's positions and is actually enforced.",
+  "description": "The Roles & Permissions tab (الأدوار والصلاحيات) shows a permission matrix of 13 permissions in four groups (applications and review, finance and payments, projects and evidence, settings and customisation) with view, write and delete levels. Built-in system roles are read-only; the Grants Manager can create custom roles, optionally starting from a system role, adjust their permissions, delete unused roles, and review a history of every change.",
+  "status": "approved"
+ },
+ {
+  "uc": "UC11",
+  "name": "Organize departments",
+  "section": "4.3.3",
+  "area": "Administration & Configuration",
+  "title": "As a Grants Manager, I want to maintain the organization's departments and see who belongs to each so that staff and projects can be organized by department.",
+  "description": "The Departments tab (الإدارات) shows each department with its number of members and their names. The Grants Manager adds new departments and removes obsolete ones; staff and projects of a removed department become unassigned.",
+  "status": "pending"
+ },
+ {
+  "uc": "UC12",
+  "name": "Review a staff member's workload and performance",
+  "section": "4.3.4",
+  "area": "Administration & Configuration",
+  "title": "As a Grants Manager, I want to open a staff member's profile with key indicators, open tasks and managed projects so that I can balance workload across the team.",
+  "description": "The staff profile (ملف الموظف وأداؤه) summarises a person's recent decisions, completed and open tasks, average task completion time, overdue items and the projects they manage.",
+  "status": "pending"
+ },
+ {
+  "uc": "UC13",
+  "name": "Build and maintain application forms",
+  "section": "4.3.5",
+  "area": "Administration & Configuration",
+  "title": "As a Grants Manager, I want a library of reusable application forms whose fields I can define so that each grant opportunity collects exactly the information we need from applicants.",
+  "description": "The Application Forms tab (نماذج التقديم) holds reusable forms. Each form lists its fields with label, type (text, long text, number, date, list, file, email, phone), required flag and options. A form is linked to grant opportunities, and applicants see its fields after the standard partner data. The tab also links to each opportunity's workflow, criteria and form configuration.",
+  "status": "pending"
+ },
+ {
+  "uc": "UC14",
+  "name": "Maintain communication templates",
+  "section": "4.3.6",
+  "area": "Administration & Configuration",
+  "title": "As a Grants Manager, I want to maintain apology, contract and notification templates with placeholders so that communications to partners are consistent and generated without retyping.",
+  "description": "The Templates tab (القوالب) holds standard texts of three kinds: apology (اعتذار), contract (عقد) and notification (إشعار). Templates may include placeholders such as {ref}, {program}, {beneficiary} and {amount}, which the system fills in when the communication is produced.",
+  "status": "pending"
+ },
+ {
+  "uc": "UC15",
+  "name": "Maintain reference lists and applicant-type availability",
+  "section": "4.3.7",
+  "area": "Administration & Configuration",
+  "title": "As a Grants Manager, I want to maintain our lists of entity types, regions and target groups and decide which applicant types may self-register so that forms use our terminology and only eligible partners register.",
+  "description": "The Taxonomies tab (التصنيفات) manages the organization's reference lists (entity types, regions, target groups) used as choices in forms. It also contains the applicant-type switches (أنواع المتقدمين): each type that can register through the portal (associations, non-profit foundations, companies, individuals, endowments, other) can be opened or closed for registration. Government entities are added internally only.",
+  "status": "pending"
+ },
+ {
+  "uc": "UC16",
+  "name": "Register and manage endowments",
+  "section": "4.3.8",
+  "area": "Administration & Configuration",
+  "title": "As a Grants Manager, I want to register the endowments that fund our grants, see their current size and deactivate them when needed so that the annual plan's funding sources are known and protected.",
+  "description": "The Endowments tab (الأوقاف) lists the organization's funding sources with description, current size (total of fundings received) and active status. Active endowments take part in annual-plan allocation; with a single endowment the whole plan is counted against it, and with several the plan is split between them.",
+  "status": "pending"
+ },
+ {
+  "uc": "UC17",
+  "name": "Manage grantor organizations on the platform",
+  "section": "4.3.9",
+  "area": "Administration & Configuration",
+  "title": "As the System Administrator, I want to create grantor organizations and suspend or reactivate them so that I can onboard new grantors and control their access to the platform.",
+  "description": "The platform administration page (الجهات والمستخدمون) lists all grantor organizations with official email, number of users, creation date and status (فعّالة / موقوفة). The System Administrator creates new organizations and suspends or reactivates them. This page is separate from each organization's own settings, which the System Administrator does not manage by default.",
+  "status": "pending"
+ },
+ {
+  "uc": "UC18",
+  "name": "Change key configuration with a supporting document",
+  "section": "4.3.10",
+  "area": "Administration & Configuration",
+  "title": "As a Grants Manager, I want to change grant opportunities, workflow engines and the product catalogue in a controlled edit session that requires a supporting document so that every configuration change is justified and auditable.",
+  "description": "Key configuration pages are read-only by default. To change them, the Grants Manager starts an edit session (وضع التعديل), makes the changes, and confirms them by attaching a supporting document (المستند الشاهد) with an optional note. The system keeps a permanent change history (سجل التغييرات) showing before and after values, who made the change, when, and the supporting document.",
+  "status": "pending"
+ },
+ {
+  "uc": "UC19",
+  "name": "View and Monitor Annual Plans",
+  "section": "4.4.1",
+  "area": "Annual Plan",
+  "title": "As an authorized user, I want to view annual plans and monitor their budget performance, so that I can understand the organization’s plan portfolio and access the actions available to me.",
+  "description": "The user views the organization's annual plans, portfolio indicators and each plan's financial position. The user can search/filter, export the register, open a plan summary, and navigate to available plan actions.",
+  "status": "pending"
+ },
+ {
+  "uc": "UC20",
+  "name": "Create an Annual Plan",
+  "section": "4.4.2",
+  "area": "Annual Plan",
+  "title": "As an Authorized user, I want to create an annual plan manually or using AI-assisted suggestions, so that I can define the plan.",
+  "description": "The user creates a new annual plan by entering its name, year and total budget, or by using optional AI suggestions. The plan starts as active and not yet approved; its structure (tracks and initiatives) is built later in the plan edit session. Only one annual plan may exist per year within the same organization.",
+  "status": "pending"
+ },
+ {
+  "uc": "UC21",
+  "name": "Edit and Approve an Annual Plan",
+  "section": "4.4.3",
+  "area": "Annual Plan",
+  "title": "As an authorized user, I want to edit an annual plan's details and structure and submit it for approval, so that the plan reflects the agreed budget and initiatives.",
+  "description": "The user edits the plan header and hierarchy in one edit session. The system previews changes and warnings, then saves all changes together with required evidence and records an audit trail.",
+  "status": "pending"
+ },
+ {
+  "uc": "UC22",
+  "name": "Manage Budget Operations and History",
+  "section": "4.4.4",
+  "area": "Annual Plan",
+  "title": "As an authorized finance user, I want to increase, decrease or transfer plan budgets and review the recorded operations, so that budget changes are controlled and traceable.",
+  "description": "The user performs a budget increase, decrease or transfer with official evidence. The system validates the operation, updates affected levels, and records it in a financial operations register and permanent plan history.",
+  "status": "pending"
+ },
+ {
+  "uc": "UC23",
+  "name": "Lock or Reopen an Annual Plan",
+  "section": "4.4.5",
+  "area": "Annual Plan",
+  "title": "As an authorized user, I want to lock or reopen an annual plan with a documented decision, so that new approvals are controlled.",
+  "description": "Locking a plan prevents new projects from being approved against it while existing projects and payments continue. Before locking, the user decides how outstanding obligations will be handled and attaches the decision evidence. An authorized user can reopen the plan.",
+  "status": "pending"
+ },
+ {
+  "uc": "UC24",
+  "name": "Record endowment funding",
+  "section": "4.5.1",
+  "area": "Endowments and Plan Funding Links",
+  "title": "As a Finance Officer, I want to record each funding movement of an endowment with its official document so that the endowment's current size is known and traceable.",
+  "description": "Endowments are the funding sources of the plan. Each time an endowment is topped up, the Finance Officer records the amount, date and supporting document. The endowment's current size is the total of its recorded fundings and is used to distribute plan shares in proportion to endowment size.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC25",
+  "name": "Manage endowment participation and review endowment share",
+  "section": "4.5.2",
+  "area": "Endowments and Plan Funding Links",
+  "title": "As a Grants Manager, I want to set which endowments fund each plan item and see each endowment's share, usage and funded projects so that funding sources are transparent to management and endowment boards.",
+  "description": "When the organization has two or more active endowments, each plan item is funded by a set of endowments with percentage shares. By default all endowments participate equally; a level can have its own split, otherwise it inherits its parent's split. The endowment page shows the endowment's share of each plan, how much of that share is used and available, and the projects it funds.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC26",
+  "name": "Link applications, projects and opportunities to plan items",
+  "section": "4.5.3",
+  "area": "Endowments and Plan Funding Links",
+  "title": "As a Grants Manager, I want every application, project and grant opportunity linked to a plan item or initiative so that spending is always charged to the right part of the plan.",
+  "description": "Grant opportunities carry a default plan item; applications and projects are linked to a plan item, and applicants on general opportunities choose the initiative their request serves. Only items of active, unlocked plans can be selected. Initiatives run by the foundation itself are managed as projects with activity-based progress.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC27",
+  "name": "Monitor the grant opportunities portfolio and performance",
+  "section": "4.6.1",
+  "area": "Grant Opportunities, Products & Workflow Templates",
+  "title": "As a Grants Manager, I want to see all grant opportunities with their reception status, budget, applications and stage performance so that I can manage intake and act on delays.",
+  "description": "The opportunities list gives the Grants Manager the portfolio view: number of opportunities, total applications and total budgets, plus each opportunity's kind, reception window, budget, open/closed status, publication and number of applications. Each opportunity has a summary showing applications by outcome, requested versus approved amounts, days left, applications per stage with delays, and top applicant partners and regions.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC28",
+  "name": "Create a grant opportunity",
+  "section": "4.6.2",
+  "area": "Grant Opportunities, Products & Workflow Templates",
+  "title": "As a Grants Manager, I want a guided flow to create an opportunity with its kind, budget, reception window and a default workflow so that it is ready to configure in minutes.",
+  "description": "A four-step guided flow creates a new opportunity: identity (title, kind, description), dates and budget (including whether it is a general opportunity), a preview of the default workflow and evaluation criteria, and a final review. The AI Assistant can propose the fields from a free-text description. The opportunity is created with a standard three-stage workflow and three weighted criteria, and opens for further configuration.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC29",
+  "name": "Maintain opportunity information, reception window and status",
+  "section": "4.6.3",
+  "area": "Grant Opportunities, Products & Workflow Templates",
+  "title": "As a Grants Manager, I want to edit an opportunity's basic information, quota, reception window, publication and active status so that it reflects the approved announcement and I can stop or resume intake.",
+  "description": "Within an evidence-backed edit session, the Grants Manager updates the opportunity's title, description, budget, maximum applications per partner, announcement date, reception window, target account types, eligibility conditions, publication and active status. Closing an opportunity early or reactivating it is done through the active switch. The general/initiative-specific setting and the default plan item determine how applications are charged to the annual plan.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC30",
+  "name": "Define eligibility targeting and application quota",
+  "section": "4.6.4",
+  "area": "Grant Opportunities, Products & Workflow Templates",
+  "title": "As a Grants Manager, I want to target an opportunity by classification, region, governorate, governance score, partner groups or named partners so that only intended partners can apply.",
+  "description": "The Grants Manager defines who may apply: partner groups, national classification groups and sub-classifications, regions, governorates or cities, a minimum governance score and named partners. Partners named explicitly or belonging to a targeted group are always eligible; other rules must all be met. In the partner portal each partner sees which open opportunities they qualify for, the reasons if not, and how many applications they have left.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC31",
+  "name": "Configure the opportunity workflow, evaluation, form and post-approval defaults",
+  "section": "4.6.5",
+  "area": "Grant Opportunities, Products & Workflow Templates",
+  "title": "As a Grants Manager, I want to set each stage's approval type, time limit, supervisors and allowed actions, the evaluation criteria and pass score, the application form and the transfer defaults so that applications are reviewed consistently and approved ones become projects without manual setup.",
+  "description": "Each opportunity has its own review workflow. For each stage the Grants Manager chooses the approval type (supervisors, evaluation criteria or committee), the committee and its secretary where applicable, the time limit in days, the supervisors and the actions reviewers may take. The manager also maintains weighted evaluation criteria and the pass score, attaches one form from the organization's form library, and sets defaults used when an approved application is transferred to a project.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC32",
+  "name": "Manage workflow templates and apply them to opportunities",
+  "section": "4.6.6",
+  "area": "Grant Opportunities, Products & Workflow Templates",
+  "title": "As a Grants Manager, I want a library of reusable workflow templates that I can apply to an opportunity and whose performance I can analyse so that opportunities get a proven process in one step and bottlenecks are visible.",
+  "description": "Workflow templates («محركات سير الإجراء») bundle stages, time limits, evaluation criteria and a pass score. The Grants Manager creates and maintains templates, applies one to an opportunity (which copies its content into the opportunity), and analyses each template's performance across the opportunities that use it. A template used by any opportunity cannot be deleted.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC33",
+  "name": "Manage the product catalog and product grant opportunities",
+  "section": "4.6.7",
+  "area": "Grant Opportunities, Products & Workflow Templates",
+  "title": "As a Grants Manager, I want to maintain a catalog of ready products with unit, price and stock, offer selected products in product opportunities and track their movement so that partners request only available items and stock is planned.",
+  "description": "The organization keeps a catalog of in-kind products with unit, unit price and quantity in stock. For a product opportunity, the Grants Manager selects which catalog products are offered. Partners can request up to the available quantity; stock is deducted at final approval and the request is then delivered. Each product has a history of requested, approved and delivered quantities by month, opportunity and region.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC34",
+  "name": "Invite targeted partners to an opportunity",
+  "section": "4.6.8",
+  "area": "Grant Opportunities, Products & Workflow Templates",
+  "title": "As a Grants Manager, I want to send private invitations to the targeted partners and track their response so that the right partners respond to the opportunity and I can follow up.",
+  "description": "For opportunities targeted at named partners or partner groups, the Grants Manager sends private invitations. Each partner receives at most one invitation per opportunity with a personal link. The system tracks whether the invitation was sent, opened, answered with an offer or declined, and whether the partner's account is activated.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC35",
+  "name": "Define a tendered project (RFP) and award it to the best offer",
+  "section": "4.6.9",
+  "area": "Grant Opportunities, Products & Workflow Templates",
+  "title": "As a Grants Manager, I want to specify a tendered project, compare the offers received and award it to one offer so that the contract and project are created and the other bidders are informed.",
+  "description": "For a tendered project the foundation defines the scope of work, deliverables, implementation duration, weighted activities and a payment plan expressed as percentages of the winning offer. Invited partners submit offers within the budget ceiling. The Grants Manager compares offers by price and evaluation score and awards the project to one offer; the system creates the contract and project with the planned activities and payments and closes the other offers with an apology.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC36",
+  "name": "Govern configuration changes with evidence, rollback and history",
+  "section": "4.6.10",
+  "area": "Grant Opportunities, Products & Workflow Templates",
+  "title": "As a Grants Manager, I want configuration changes to opportunities, workflow templates and the product catalog to require an evidence document and to be reversible and traceable so that every change is justified and auditable.",
+  "description": "Opportunity, template and catalog configuration is view-only by default. Selecting «تعديل» starts an edit session; changes are confirmed only when the user attaches a supporting document and optionally a reason. The user can discard the session to return to the previous configuration. Every confirmed session is logged with before and after values, the actor, date, note and document.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC37",
+  "name": "Self-register a partner organization",
+  "section": "4.7.1",
+  "area": "Partner Portal & Grant Application",
+  "title": "As a prospective Partner Organization, I want to register my organization using its official identifier so that I can apply for the foundation's grants once the grantor approves it.",
+  "description": "A visitor selects the type of applicant and enters the official identifier (license number, commercial registration or national ID). If the organization is new, the system prefills the registration form from the official registry, the visitor completes and verifies contact details, and submits the request for review. The organization is created only after the System Administrator approves every field (see BEN).",
+  "status": "draft"
+ },
+ {
+  "uc": "UC38",
+  "name": "Join a registered organization or request a delegate change",
+  "section": "4.7.2",
+  "area": "Partner Portal & Grant Application",
+  "title": "As a representative of an already registered organization, I want to prove my relation to it or request a change of its delegate so that I can work on its behalf.",
+  "description": "When the identifier belongs to a registered organization, the system shows its masked delegates. The visitor either proves the relation with a one-time code sent to the current delegate, or submits a delegate-change request with a reason for the grantor to review.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC39",
+  "name": "Access the partner portal and select the represented organization",
+  "section": "4.7.3",
+  "area": "Partner Portal & Grant Application",
+  "title": "As a Partner Delegate, I want to sign in to my portal and choose which organization I am acting for so that my applications and data are recorded under the right organization.",
+  "description": "After sign-in, the partner user lands on the portal home showing the organization they represent, their applications, open opportunities and projects. A user who belongs to several organizations can switch the represented organization at any time.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC40",
+  "name": "Discover open grant opportunities and check eligibility",
+  "section": "4.7.4",
+  "area": "Partner Portal & Grant Application",
+  "title": "As a Partner Organization, I want to see the open opportunities with clear eligibility and remaining quota so that I only spend effort on opportunities I can apply for.",
+  "description": "The portal lists published opportunities whose submission window is open, evaluates each against the represented organization's profile, and shows why an opportunity is not available. It also shows how many applications the organization has already submitted against the allowed maximum.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC41",
+  "name": "Respond to a private opportunity invitation",
+  "section": "4.7.5",
+  "area": "Partner Portal & Grant Application",
+  "title": "As an invited Partner Organization, I want to open my invitation, activate my account if needed and go straight to applying, or decline, so that the grantor knows my intention.",
+  "description": "Grants Managers invite selected partners to private opportunities (typically requests for proposals). The invitation link shows the opportunity details; the partner can activate the organization account, proceed to the application, or decline. The invitation status is tracked for the grantor.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC42",
+  "name": "Prepare and submit a grant application",
+  "section": "4.7.6",
+  "area": "Partner Portal & Grant Application",
+  "title": "As a Partner Organization, I want to complete the opportunity's application form, attach the required documents and submit it so that the foundation can review my request.",
+  "description": "The application form adapts to the opportunity: a project grant (title, description, amount, duration, region, target groups), an in-kind product request (quantities within available stock) or an offer against a request for proposals (technical and financial offers). Opportunity-specific questions and document fields are added from the form library. The partner may use the AI Assistant to prefill the form from a free-text description or an attached proposal.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC43",
+  "name": "Track applications and respond to grantor requests",
+  "section": "4.7.7",
+  "area": "Partner Portal & Grant Application",
+  "title": "As a Partner Organization, I want to see each application's stage, status, required action and expected reply date, and respond to edit requests and proposed changes, so that my application keeps moving.",
+  "description": "The portal lists the organization's applications with their stage and status, what the partner must do and when a reply is expected. When a Reviewer requests an edit, the partner updates and resubmits; when the Grants Manager proposes changes to the amount, duration or product quantities, the partner accepts or objects with a reason. No numeric change takes effect without the partner's consent.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC44",
+  "name": "Maintain the organization profile",
+  "section": "4.7.8",
+  "area": "Partner Portal & Grant Application",
+  "title": "As the primary Partner Delegate, I want to keep our contact data, bank account and license data current so that the foundation can reach us and pay us correctly.",
+  "description": "The organization profile tab shows official, contact, bank and team data. The primary delegate edits contact data directly (with verification of new phone or email), updates the bank account and IBAN certificate (which returns the account to «قيد التحقق» until the grantor verifies it), and submits license renewals with the license document for automatic AI verification or grantor review.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC45",
+  "name": "Participate in project execution and confirm payment receipt",
+  "section": "4.7.9",
+  "area": "Partner Portal & Grant Application",
+  "title": "As a Partner Organization with an awarded project, I want to submit completed tasks with evidence, submit phase reports and confirm receipt of payments so that milestones are approved and payments are closed.",
+  "description": "Once an application is approved and turned into a project, the partner follows it from «مشاريعي»: contract, progress, finance breakdown and indicators are read-only. The partner marks tasks as completed with the required evidence, submits phase reports, and for transferred payments uploads the receipt voucher and confirms receipt.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC46",
+  "name": "Receive an external AI evaluation report for an application",
+  "section": "4.7.10",
+  "area": "Partner Portal & Grant Application",
+  "title": "As the External AI Evaluation Agent, I want to post my evaluation of an application so that grants staff can use it during review.",
+  "description": "The foundation operates its own AI grant-evaluation agent. The agent sends its result for an application (overall score, colour band, label, summary, full report, recommendation and per-criterion scores) to the system, which stores it on the application for display to grants staff only.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC47",
+  "name": "Review and decide a partner registration request",
+  "section": "4.8.1",
+  "area": "Partner Organizations Management",
+  "title": "As a System Administrator, I want to verify each field of a partner registration request and approve or return it so that only correct, verified organizations enter the partner register.",
+  "description": "Requests submitted through partner self-registration (UC37) are reviewed field by field, with each field showing whether it came from the official registry, was edited by the registrant, or was entered manually. When every field is accepted the partner organization and its primary delegate are created; if any field is rejected the request is returned for correction.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC48",
+  "name": "Browse, filter and export the partner directory",
+  "section": "4.8.2",
+  "area": "Partner Organizations Management",
+  "title": "As a Grants Manager, I want to browse, filter, search and export the partner directory so that I can quickly find partners that need attention.",
+  "description": "The directory lists all partner organizations of the foundation with their type, location, number of applications, bank verification status, partner status and account activation status. Summary cards act as quick filters and the list can be exported for offline analysis.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC49",
+  "name": "View the partner 360 profile and decision timeline",
+  "section": "4.8.3",
+  "area": "Partner Organizations Management",
+  "title": "As a Grants Manager, I want a single 360 view of a partner and an attributable timeline of all decisions so that I can assess its history and audit who changed what and why.",
+  "description": "The profile brings together the partner's statuses, key figures (applications, approved applications, approved amounts, paid amounts, running projects), projects and payments, applications, bank account, organization data, team, pending license reviews and a timeline of every decision and change.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC50",
+  "name": "Confirm or block a partner organization",
+  "section": "4.8.4",
+  "area": "Partner Organizations Management",
+  "title": "As a Grants Manager, I want to confirm a partner or block it with a recorded reason so that only trusted organizations receive grants.",
+  "description": "Staff confirm a partner once satisfied with its data and documents, which marks it as a verified partner. A partner can be blocked when it should no longer be trusted; blocking requires confirmation and a reason, and is recorded in the timeline.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC51",
+  "name": "Verify or reject a partner bank account",
+  "section": "4.8.5",
+  "area": "Partner Organizations Management",
+  "title": "As a Grants Manager, I want to inspect the IBAN certificate and verify or reject the partner's bank account so that payments only go to a confirmed account.",
+  "description": "A partner's bank account starts as pending verification and returns to pending whenever the partner changes it (UC44). Staff inspect the IBAN certificate and either verify the account, stamping who verified it and when, or reject it with a reason the partner can act on.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC52",
+  "name": "Review a partner license and official data update",
+  "section": "4.8.6",
+  "area": "Partner Organizations Management",
+  "title": "As a System Administrator, I want to review license updates that the AI check could not fully match so that partner official data stays correct.",
+  "description": "When a partner submits a license renewal (UC44), the AI Assistant compares the document with the entered data. Exact matches are applied automatically; all others create a review task for grantor staff, who compare current, requested and document values and approve or reject with a note to the partner.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC53",
+  "name": "Manage the partner team and primary delegate",
+  "section": "4.8.7",
+  "area": "Partner Organizations Management",
+  "title": "As a Grants Manager or the partner's primary delegate, I want to add and deactivate team members and transfer the primary delegation so that the right people act for the partner and there is always one accountable delegate.",
+  "description": "Each partner has a team of members with roles (primary delegate, project manager, finance officer, member) and exactly one active primary delegate. Staff (on behalf of the foundation) and the primary delegate (self-service) can add members, deactivate members who left and transfer the primary delegation with a reason.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC54",
+  "name": "Invite a partner to activate its account",
+  "section": "4.8.8",
+  "area": "Partner Organizations Management",
+  "title": "As a Grants Manager, I want to invite a non-activated partner using its verified official email so that its delegate can activate the account and use the portal.",
+  "description": "Partners approved or recorded by the foundation may not yet have an active account. Staff send an activation invitation to the partner's verified official email; the representative verifies identity and becomes the primary delegate.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC55",
+  "name": "Add a partner organization manually",
+  "section": "4.8.9",
+  "area": "Partner Organizations Management",
+  "title": "As a Grants Manager, I want to record a partner organization that did not self-register so that it can be targeted and funded.",
+  "description": "In exceptional cases staff record a partner directly, optionally prefilled by the AI Assistant from pasted text or an attached certificate. Because partners should normally enter only through approved registration, this path must be controlled, checked for duplicates and logged.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC56",
+  "name": "Manage partner groups for opportunity targeting",
+  "section": "4.8.10",
+  "area": "Partner Organizations Management",
+  "title": "As a Grants Manager, I want to create and maintain named groups of partners so that I can target grant opportunities to a predefined set of partners.",
+  "description": "Partner groups are reusable named lists of partners selected when targeting a grant opportunity (see PRG). Membership changes take effect for every opportunity that targets the group, so deletions and changes must be visible and controlled.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC57",
+  "name": "Manage the grant applications review queue",
+  "section": "4.9.1",
+  "area": "Application Review, Evaluation & Decision",
+  "title": "As a Grants Manager, I want one queue of all grant applications with their stage, status, AI score and delay so that I can prioritise the requests that need attention.",
+  "description": "Grants staff need a single cross-opportunity list of all applications to locate, prioritise and report on the review backlog. The list shows each application's project, partner, current stage, status, AI evaluation score and requested amount, highlights late applications, and supports filtering, personal saved views and export.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC58",
+  "name": "Study the application dossier and its audit trail",
+  "section": "4.9.2",
+  "area": "Application Review, Evaluation & Decision",
+  "title": "As a Reviewer, I want the complete application dossier, partner profile, service-level status and decision history on one page so that I can decide without switching screens and every decision remains auditable.",
+  "description": "The application workspace brings together the project data, dynamic form answers, product lines, partner profile, supporting files, the approval chain per stage and the full operations log. Partner and opportunity data are frozen at submission and at final approval so the basis of each decision is preserved even if master data changes later.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC59",
+  "name": "Evaluate an application with AI decision support",
+  "section": "4.9.3",
+  "area": "Application Review, Evaluation & Decision",
+  "title": "As a Reviewer, I want the external AI evaluation, my own opinion and a comparison with similar applications side by side so that my assessment is evidence-based and consistent.",
+  "description": "An external AI evaluation agent operated by the foundation scores each application, checks eligibility conditions and produces a detailed study (strengths, risks, gaps, cost per beneficiary, suggested payment schedule and initiative). Reviewers record their own accept/reject opinion, must justify any disagreement with the AI recommendation, can compare the application with another in the same opportunity, and can send feedback to the agent for re-evaluation. AI output is advisory only.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC60",
+  "name": "Take a stage decision on an application",
+  "section": "4.9.4",
+  "area": "Application Review, Evaluation & Decision",
+  "title": "As a stage supervisor (Reviewer or Grants Manager), I want to approve, skip, send back, reject or reopen an application according to the stage rules so that it progresses through the approval journey under control.",
+  "description": "Each application passes through three stages: Reception, Study and Approval. The authorised decision-maker of the current stage can approve (moving it to the next stage, or final approval at the last stage), skip the stage when the workflow allows, return it to the previous stage, or reject it with a standard reason and optional apology message. Closed applications can be reopened. Study-stage approval is gated by the opportunity's pass score.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC61",
+  "name": "Return an application to the partner for edits or revised figures",
+  "section": "4.9.5",
+  "area": "Application Review, Evaluation & Decision",
+  "title": "As a Reviewer, I want to return an application to the partner with the required changes, or propose revised amount, duration or quantities for the partner's acceptance, so that incomplete applications are fixed without rejection and figures change only with the partner's consent.",
+  "description": "Instead of rejecting, staff can return an application to the partner with a mandatory note describing what must be corrected. While doing so, staff can propose new figures (requested amount and duration for project grants, product quantities for in-kind grants); the proposal applies only when the partner accepts it in the partner portal.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC62",
+  "name": "Record a committee decision by minute",
+  "section": "4.9.6",
+  "area": "Application Review, Evaluation & Decision",
+  "title": "As a Committee Secretary, I want to apply one committee decision to several applications at the same stage with a single signed minute so that a meeting's outcome is recorded once and every decision is traceable to its minute.",
+  "description": "Committee stages decide many applications in one meeting. The committee secretary selects the applications of their committee at the same stage, enters the minute details, attaches the signed minute (with an advisory AI check of the document) and applies approve, reject or return to all of them at once. Each application's history references the minute, and per-item results are reported.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC63",
+  "name": "Set funding conditions, indicators and initiative placement",
+  "section": "4.9.7",
+  "area": "Application Review, Evaluation & Decision",
+  "title": "As a Grants Manager, I want to register co-funders and approval conditions, commit plan indicators and relocate an application to the right initiative before contracting so that funding, outcomes and plan consumption are correct from the start.",
+  "description": "Before an application becomes a contract, staff can record contributions from other donors (confirmed or as a condition of approval, confirmed when the donor's approval is attached), link the strategic plan indicators that the project will deliver with required quantities, and move the application to a different initiative with a recorded reason. All of these follow the application into the resulting project.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC64",
+  "name": "Merge and unmerge applications of the same partner",
+  "section": "4.9.8",
+  "area": "Application Review, Evaluation & Decision",
+  "title": "As a Grants Manager, I want to merge several eligible requests of the same partner into one request, and undo the merge while the contract is still being prepared, so that the partner is contracted once without losing prior approvals.",
+  "description": "When a partner has several related requests, staff can merge them into one unified request that will produce a single contract. The merged request restarts at the stage after the lowest stage already approved among its parts, and stays approved only if every part was finally approved. Absorbed requests are closed with a link to the merged request. The merge can be undone while the resulting contract is still being prepared.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC65",
+  "name": "Approve the contract and transfer an approved application to projects",
+  "section": "4.9.9",
+  "area": "Application Review, Evaluation & Decision",
+  "title": "As a Grants Manager, I want to approve the contract and transfer an approved application into one or several projects so that execution and disbursement can start.",
+  "description": "Once a project-type application is finally approved, the Grants Manager converts it into one contract (in preparation) and one or more projects. The bill of quantities can be split into several named projects, each with its own budget; payments are scheduled from the approved payment schedule. The project manager, contract requirement and plan item are taken from the opportunity defaults, and transfer is refused when the plan's budget is locked.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC66",
+  "name": "Approve and deliver an in-kind (product) grant",
+  "section": "4.9.10",
+  "area": "Application Review, Evaluation & Decision",
+  "title": "As a Grants Manager, I want final approval of an in-kind request to reserve the products and then record their delivery so that in-kind grants are tracked to handover.",
+  "description": "For product grants, final approval reserves the approved quantities from the available stock and marks the grant as awaiting delivery. Staff then record delivery of the products to the partner. In-kind grants do not go through contract transfer.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC67",
+  "name": "Prepare the bill of quantities and payment schedule",
+  "section": "4.10.1",
+  "area": "Projects, Contracts & Execution Monitoring",
+  "title": "As a Grants Manager, I want to prepare and validate a costed bill of quantities and payment schedule for an approved application so that the contract and payments are based on a consistent, agreed budget.",
+  "description": "Before contracting, the Grants Manager breaks the requested grant amount into cost items (bill of quantities) and a schedule of instalments. The AI Assistant can propose a first draft from the application, which the Grants Manager reviews and adjusts. The system checks that the items add up to the requested amount and that instalments add up to 100% before saving.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC68",
+  "name": "Approve the contract and transfer the application into project(s)",
+  "section": "4.10.2",
+  "area": "Projects, Contracts & Execution Monitoring",
+  "title": "As a Grants Manager, I want to approve the contract and convert an approved application into one or several projects so that execution can be planned and monitored.",
+  "description": "Once the budget is agreed, the Grants Manager approves the contract and transfers the application into execution. The grant can become a single project or be split into several projects (e.g. by location or component) under one contract. The system creates the contract, the project(s) and their scheduled payments, and carries over commitments agreed at application stage (indicators, initiative funding shares and co-funding).",
+  "status": "draft"
+ },
+ {
+  "uc": "UC69",
+  "name": "Manage contract signing and the contracts register",
+  "section": "4.10.3",
+  "area": "Projects, Contracts & Execution Monitoring",
+  "title": "As a Grants Manager, I want to move each grant contract through preparation and signature and keep a register of all contracts so that execution only starts under a signed agreement.",
+  "description": "Each contract goes through preparation, partner review and signature. Staff and partners can view and print a contract document generated from the agreed project, partner and payment data. A contracts register gives an overview of all contracts, their status and the projects created from them.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC70",
+  "name": "Monitor the project portfolio and project status",
+  "section": "4.10.4",
+  "area": "Projects, Contracts & Execution Monitoring",
+  "title": "As a Grants Manager or CEO, I want to see all projects and initiatives with their status, progress and finances so that I can identify stalled projects and act early.",
+  "description": "Management needs a portfolio view of all grant projects and internal initiatives, with status counters, progress and value, and a detailed project overview. Projects with overdue, unapproved work are flagged as stalled. Partners see their own projects from the partner portal without grantor-only actions.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC71",
+  "name": "Create an internal initiative",
+  "section": "4.10.5",
+  "area": "Projects, Contracts & Execution Monitoring",
+  "title": "As a Grants Manager, I want to register an internal initiative linked to a strategic plan item so that work funded directly by the foundation is planned and monitored like grant projects.",
+  "description": "Besides grants, the foundation runs its own initiatives, executed internally or with a partner. The Grants Manager registers the initiative with its plan item, budget, dates, department and manager. The AI Assistant can prefill the form from a short description.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC72",
+  "name": "Plan the project and start execution",
+  "section": "4.10.6",
+  "area": "Projects, Contracts & Execution Monitoring",
+  "title": "As a Project Manager, I want to build the project execution plan, spread the agreed indicators over its activities and start execution only when everything is in place so that the partner works against a clear, measurable plan.",
+  "description": "During planning, the Project Manager builds the execution plan as a sequence of milestones (phases), each with partner tasks, required evidence, due dates and a linked payment. The AI Assistant can draft the plan from the application and the foundation's payment policies. Each quantitative indicator target is distributed across plan activities. Execution starts only when the plan exists, the contract is signed and indicators are fully distributed.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC73",
+  "name": "Execute tasks and report progress",
+  "section": "4.10.7",
+  "area": "Projects, Contracts & Execution Monitoring",
+  "title": "As a Partner Organization, I want to upload evidence for my tasks, mark them complete and submit a report for each milestone so that the grantor can verify my work and release the payment.",
+  "description": "During execution, the partner organization works through the open milestone. For each task it uploads the required evidence and marks the task complete for grantor approval. At the end of each milestone it submits a milestone report. Returned tasks or reports can be corrected and resubmitted.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC74",
+  "name": "Verify work and approve milestones",
+  "section": "4.10.8",
+  "area": "Projects, Contracts & Execution Monitoring",
+  "title": "As a Project Manager, I want to review the partner's evidence and reports, approve or return them, and approve a whole milestone so that only verified work triggers a payment.",
+  "description": "The Project Manager reviews each submitted task with the help of an advisory AI check of the evidence, and approves, returns with notes or revokes approval. Milestone reports are approved or returned. When the milestone is complete, approving it makes the linked payment due, which then follows the payment approval process.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC75",
+  "name": "Request and approve a plan revision",
+  "section": "4.10.9",
+  "area": "Projects, Contracts & Execution Monitoring",
+  "title": "As a Project Manager, I want to request a revision of the remaining plan with a justification, approved by another authorised person, so that the plan can adapt without changing completed work or exceeding the budget.",
+  "description": "After execution starts, the plan can only change through a formal revision. The requester gives a reason and optional supporting document; the AI Assistant proposes changes to the remaining work only. A different authorised person reviews the differences and approves or rejects them. All revisions remain in a history.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC76",
+  "name": "Close the project and confirm results",
+  "section": "4.10.10",
+  "area": "Projects, Contracts & Execution Monitoring",
+  "title": "As a Project Manager, I want to record a final evaluation, confirm the achieved indicators and approve closure once all milestones and payments are settled so that the project is formally closed with its results recorded.",
+  "description": "When every milestone is approved, the closure step opens. The Project Manager confirms milestone-type indicators, records a final evaluation (impact, adherence to plan, lessons learned) and approves closure after a checklist confirms that all payments, including retention, are settled. Indicator achievements roll up to the strategic plan.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC77",
+  "name": "Monitor the payments register",
+  "section": "4.11.1",
+  "area": "Payments, Disbursement & Financial Reporting",
+  "title": "As a Finance Officer, I want to see all project payments with their status, due date, amount and who they are waiting on so that I can follow up delays and manage my own work queue.",
+  "description": "The payments register gives Finance and management one list of every project payment. Summary cards show the total value of overdue, open, in-approval, awaiting-transfer and paid payments, and act as filters. Each payment shows how close it is to its due date and who must act next. The list can be exported for reconciliation.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC78",
+  "name": "Make a payment due and submit it for approval",
+  "section": "4.11.2",
+  "area": "Payments, Disbursement & Financial Reporting",
+  "title": "As a Project Manager, I want a payment to become due when the related work is delivered and then submit it for approval so that only earned payments enter the approval chain.",
+  "description": "Payments are scheduled when a grant becomes a project. A milestone payment becomes due automatically when the milestone is approved; advance and other scheduled payments are marked due by authorised staff. The Project Manager then submits the due payment to start the approval chain.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC79",
+  "name": "Approve or reject a payment",
+  "section": "4.11.3",
+  "area": "Payments, Disbursement & Financial Reporting",
+  "title": "As an approver (Project Manager, Grants Manager or CEO), I want to review and approve or reject a payment at my level so that only properly authorised payments reach Finance.",
+  "description": "Each payment passes three sequential approvals: the project's own Project Manager, then the Grants Manager, then the CEO. Each approver sees the payment, its amount, due date, approval level and an advisory AI opinion on the supporting evidence. A rejection, with a reason, returns the payment to 'Due' and the chain restarts. The final approval issues the disbursement order to Finance.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC80",
+  "name": "Issue the disbursement order and confirm the payee",
+  "section": "4.11.4",
+  "area": "Payments, Disbursement & Financial Reporting",
+  "title": "As a Finance Officer, I want an authorised disbursement order with complete beneficiary and bank details, and to direct the payment to a third party when justified, so that I transfer the correct amount to the correct account.",
+  "description": "After final approval, the disbursement order is Finance's authorised instruction to pay. It shows the beneficiary, project and payment data, bank account and all approvals, and can be printed. By default the partner organization is paid; in justified cases (e.g. an agreement with a government body) the payment can be directed to a third party such as an operator or supplier.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC81",
+  "name": "Record the bank transfer",
+  "section": "4.11.5",
+  "area": "Payments, Disbursement & Financial Reporting",
+  "title": "As a Finance Officer, I want to attach the bank transfer notice and confirm the transfer so that the payment is evidenced and the partner is asked for the receipt voucher.",
+  "description": "Finance executes the bank transfer outside the system (bank or ERP), following the disbursement order. Finance then uploads the bank transfer notice, optionally enters the transfer reference, and confirms. The payment moves to 'Awaiting receipt' and the partner is asked to upload a receipt voucher.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC82",
+  "name": "Confirm receipt and close the payment",
+  "section": "4.11.6",
+  "area": "Payments, Disbursement & Financial Reporting",
+  "title": "As a Partner Organization, I want to see the transfer notice and upload my receipt voucher so that the payment is formally closed.",
+  "description": "The partner sees that the payment was transferred, views the bank transfer notice and uploads its signed receipt voucher. Confirming receipt closes the payment as paid. Staff can then view the full evidence trail (order, transfer notice, receipt) for audit.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC83",
+  "name": "Monitor financial position and partner commitments",
+  "section": "4.11.7",
+  "area": "Payments, Disbursement & Financial Reporting",
+  "title": "As a Finance Officer or Grants Manager, I want to see how each project, plan and plan item budget splits into paid, due, approved and available amounts, and each partner's planned versus paid amounts, so that I can control budget consumption and commitments.",
+  "description": "Every budget (project, strategic plan or plan item) is shown as a split into paid, due, approved-not-yet-due and available amounts, with a separate indication of amounts under review. Spend rates show how much of the budget and of approved commitments has actually been paid. For each partner, a monthly chart compares planned against paid amounts and highlights arrears.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC84",
+  "name": "View the executive indicators dashboard",
+  "section": "4.11.8",
+  "area": "Payments, Disbursement & Financial Reporting",
+  "title": "As the CEO, I want a dashboard of key indicators and status charts across applications, projects and payments so that I can monitor the whole grant cycle from application to disbursement.",
+  "description": "The dashboard gives executives a one-page view: total applications, approved amounts, active projects and actual spend, with charts of applications, projects and payments by status, pending applications by stage, applications by region, and a comparison table of grant opportunities.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC85",
+  "name": "Produce operational and financial reports",
+  "section": "4.11.9",
+  "area": "Payments, Disbursement & Financial Reporting",
+  "title": "As a Finance Officer or Grants Manager, I want ready-made reports on plan execution, applications, overdue tasks, project payments and partners so that I can export, print and present them.",
+  "description": "The reports center provides five standard reports: plan and budget execution, applications by stage, overdue tasks, projects and payments, and partner organizations. Each report can be searched, its columns chosen, saved as a personal view, exported to Excel or CSV and printed.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC86",
+  "name": "Receive application stage tasks automatically",
+  "section": "4.12.1",
+  "area": "Work Management & Tasks",
+  "title": "As a Reviewer or Committee Secretary, I want applications waiting at the stage I own to appear automatically in my tasks with a service-level due date so that I act on them in time.",
+  "description": "Whenever an application is pending at a review stage, the system generates a task for the people responsible for that stage: its configured supervisors and committee secretary. Grants Managers and System Administrators oversee all pending stage tasks of the organization. The task's due date follows the stage service level, and the task disappears automatically as soon as the application leaves the stage, so there is never a separate task status to maintain.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC87",
+  "name": "Receive payment approval and execution tasks",
+  "section": "4.12.2",
+  "area": "Work Management & Tasks",
+  "title": "As a payment approver (Project Manager, Grants Manager or CEO), I want payments awaiting my approval step to appear in my tasks so that disbursements to partners are not delayed.",
+  "description": "Each payment awaiting approval passes through an approval chain: the project's manager, then a Grants Manager, then the CEO. The system generates a task for whoever owns the current step, with the payment due date. Finance should equally receive tasks for approved payments awaiting transfer and for receipt follow-up.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC88",
+  "name": "Organise and monitor my work inbox",
+  "section": "4.12.3",
+  "area": "Work Management & Tasks",
+  "title": "As a staff member, I want to view, search, filter, sort and plan my tasks in list or calendar form and follow up tasks I delegated so that I focus on the most urgent work.",
+  "description": "«مهامي» is the single inbox for all task types: manual tasks, meetings, application tasks and payment tasks. Users switch between a list and a monthly calendar, search, filter by task type, sort by due date or newest, see overdue items highlighted and switch to the tasks they assigned to others. Users can save their preferred layout, and open-task counts are shown on the main menu.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC89",
+  "name": "Create, assign and edit a manual task",
+  "section": "4.12.4",
+  "area": "Work Management & Tasks",
+  "title": "As a staff member, I want to create a task, assign it to a colleague with a due date and keep it up to date so that ad-hoc work is tracked alongside the formal workflow.",
+  "description": "Besides system-generated work, staff create manual tasks for themselves or colleagues. The AI Assistant can propose the task details from a free-text description. The assignee must be an active member of the same organization. The original creator is preserved when the task is edited or reassigned.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC90",
+  "name": "Schedule a meeting",
+  "section": "4.12.5",
+  "area": "Work Management & Tasks",
+  "title": "As a staff member, I want to schedule a meeting with a time, place or link and invited colleagues so that all invitees see it in their tasks and calendar.",
+  "description": "A meeting («موعد») is a manual task with a date, start time, location or online link and a list of invited colleagues. Invitees see the meeting in their own inbox under «المواعيد» and in the calendar. Meetings are not processed in focus mode.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC91",
+  "name": "Track progress and close a manual task",
+  "section": "4.12.6",
+  "area": "Work Management & Tasks",
+  "title": "As an assignee, I want to update the status of my task and, as its creator, cancel or delete obsolete tasks so that others see progress and lists stay clean.",
+  "description": "Manual tasks move between «بانتظار التنفيذ», «جارٍ العمل» and «منجزة»; a completed task can be reopened. Status change times are kept so that completion time can be measured on the staff profile. Creators should be able to cancel or delete tasks and meetings that are no longer needed.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC92",
+  "name": "Take a decision directly from a task",
+  "section": "4.12.7",
+  "area": "Work Management & Tasks",
+  "title": "As an approver, I want to approve, return or reject an application or payment directly from my task, with a summary and risk warning, so that I decide quickly but safely.",
+  "description": "Application and payment tasks carry quick actions. Approving opens a summary (partner, amount, AI score, recommendation and summary) and warns when the AI does not recommend the application or its score is below the pass score; in that case a justification is mandatory. Return and reject always require a reason. Decisions follow exactly the same rules as on the application or payment record.",
+  "status": "draft"
+ },
+ {
+  "uc": "UC93",
+  "name": "Decide several committee items with one minute",
+  "section": "4.12.8",
+  "area": "Work Management & Tasks",
+  "title": "As a Committee Secretary, I want to select several applications of my committee at the same stage from my tasks and record one minute decision so that committee outcomes are documented once.",
+  "description": "Tasks of committee stages where the user is the configured secretary can be selected together, provided they belong to the same committee and stage. A selection bar shows the count and opens the committee minute decision (see UC62).",
+  "status": "draft"
+ },
+ {
+  "uc": "UC94",
+  "name": "Process tasks in focus mode",
+  "section": "4.12.9",
+  "area": "Work Management & Tasks",
+  "title": "As a staff member, I want a focus mode that shows one task at a time with a timer so that I can clear my queue without distraction while the same decision controls apply.",
+  "description": "Focus mode («وضع التركيز») presents the user's open tasks (excluding meetings) one at a time, ordered by due date, with the Riyadh time and Hijri/Gregorian date, the number of tasks completed today, time spent on the current task and tasks remaining. The user can skip, complete manual tasks or decide on system tasks. Leaving focus mode to look at details keeps the session running with a floating indicator.",
+  "status": "draft"
+ }
+]

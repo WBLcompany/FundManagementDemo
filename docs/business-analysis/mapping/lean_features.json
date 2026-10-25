@@ -1,0 +1,369 @@
+[
+ {
+  "id": "F01",
+  "name": "Staff accounts and secure sign-in",
+  "epic": "E1 Access & Roles",
+  "release": "R1",
+  "ucs": [
+   "UC01",
+   "UC08",
+   "UC09"
+  ]
+ },
+ {
+  "id": "F02",
+  "name": "Role-based workspace",
+  "epic": "E1 Access & Roles",
+  "release": "R1",
+  "ucs": [
+   "UC02",
+   "UC11"
+  ]
+ },
+ {
+  "id": "F29",
+  "name": "Custom roles and permissions",
+  "epic": "E1 Access & Roles",
+  "release": "R8",
+  "ucs": [
+   "UC10"
+  ]
+ },
+ {
+  "id": "F34",
+  "name": "Multi-organization platform",
+  "epic": "E1 Access & Roles",
+  "release": "R8",
+  "ucs": [
+   "UC17"
+  ]
+ },
+ {
+  "id": "F03",
+  "name": "Charity self-registration",
+  "epic": "E2 Charity Registry",
+  "release": "R2",
+  "ucs": [
+   "UC37"
+  ]
+ },
+ {
+  "id": "F04",
+  "name": "Registration review and charity register",
+  "epic": "E2 Charity Registry",
+  "release": "R2",
+  "ucs": [
+   "UC47",
+   "UC48",
+   "UC54",
+   "UC55"
+  ]
+ },
+ {
+  "id": "F05",
+  "name": "Charity portal access and team",
+  "epic": "E2 Charity Registry",
+  "release": "R2",
+  "ucs": [
+   "UC38",
+   "UC39",
+   "UC53"
+  ]
+ },
+ {
+  "id": "F06",
+  "name": "Charity profile and verification",
+  "epic": "E2 Charity Registry",
+  "release": "R2",
+  "ucs": [
+   "UC44",
+   "UC49",
+   "UC50",
+   "UC51",
+   "UC52"
+  ]
+ },
+ {
+  "id": "F07",
+  "name": "Annual plan and budget structure",
+  "epic": "E3 Annual Plan & Budget",
+  "release": "R3",
+  "ucs": [
+   "UC19",
+   "UC20",
+   "UC21"
+  ]
+ },
+ {
+  "id": "F24",
+  "name": "Budget monitoring and adjustments",
+  "epic": "E3 Annual Plan & Budget",
+  "release": "R7",
+  "ucs": [
+   "UC19",
+   "UC22",
+   "UC23"
+  ]
+ },
+ {
+  "id": "F25",
+  "name": "Endowments",
+  "epic": "E3 Annual Plan & Budget",
+  "release": "R7",
+  "ucs": [
+   "UC16",
+   "UC24",
+   "UC25"
+  ]
+ },
+ {
+  "id": "F08",
+  "name": "Publish a grant opportunity",
+  "epic": "E4 Grant Opportunities",
+  "release": "R3",
+  "ucs": [
+   "UC13",
+   "UC26",
+   "UC27",
+   "UC28",
+   "UC29"
+  ]
+ },
+ {
+  "id": "F09",
+  "name": "Opportunities on the public page and portal",
+  "epic": "E4 Grant Opportunities",
+  "release": "R3",
+  "ucs": [
+   "UC03",
+   "UC40"
+  ]
+ },
+ {
+  "id": "F10",
+  "name": "Eligibility, partner groups and invitations",
+  "epic": "E4 Grant Opportunities",
+  "release": "R3",
+  "ucs": [
+   "UC30",
+   "UC34",
+   "UC41",
+   "UC56"
+  ]
+ },
+ {
+  "id": "F28",
+  "name": "Configuration library and governance",
+  "epic": "E4 Grant Opportunities",
+  "release": "R8",
+  "ucs": [
+   "UC14",
+   "UC15",
+   "UC18",
+   "UC32",
+   "UC36"
+  ]
+ },
+ {
+  "id": "F11",
+  "name": "Submit a grant application",
+  "epic": "E5 Applications & Decisions",
+  "release": "R4",
+  "ucs": [
+   "UC42"
+  ]
+ },
+ {
+  "id": "F13",
+  "name": "Application review by stages",
+  "epic": "E5 Applications & Decisions",
+  "release": "R4",
+  "ucs": [
+   "UC57",
+   "UC58",
+   "UC60",
+   "UC86"
+  ]
+ },
+ {
+  "id": "F14",
+  "name": "Evaluation criteria and pass score",
+  "epic": "E5 Applications & Decisions",
+  "release": "R4",
+  "ucs": [
+   "UC31"
+  ]
+ },
+ {
+  "id": "F15",
+  "name": "Charity follow-up and requested edits",
+  "epic": "E5 Applications & Decisions",
+  "release": "R4",
+  "ucs": [
+   "UC43",
+   "UC61"
+  ]
+ },
+ {
+  "id": "F16",
+  "name": "Committee decisions by minute",
+  "epic": "E5 Applications & Decisions",
+  "release": "R4",
+  "ucs": [
+   "UC62",
+   "UC93"
+  ]
+ },
+ {
+  "id": "F17",
+  "name": "Contract and project from an approved application",
+  "epic": "E6 Contracts & Projects",
+  "release": "R5",
+  "ucs": [
+   "UC65",
+   "UC67",
+   "UC68",
+   "UC69"
+  ]
+ },
+ {
+  "id": "F18",
+  "name": "Project plan and start of execution",
+  "epic": "E6 Contracts & Projects",
+  "release": "R5",
+  "ucs": [
+   "UC70",
+   "UC72"
+  ]
+ },
+ {
+  "id": "F19",
+  "name": "Charity progress reports and milestone approval",
+  "epic": "E6 Contracts & Projects",
+  "release": "R5",
+  "ucs": [
+   "UC45",
+   "UC73",
+   "UC74"
+  ]
+ },
+ {
+  "id": "F20",
+  "name": "Plan revisions and project closure",
+  "epic": "E6 Contracts & Projects",
+  "release": "R5",
+  "ucs": [
+   "UC75",
+   "UC76"
+  ]
+ },
+ {
+  "id": "F21",
+  "name": "Payment approval chain",
+  "epic": "E7 Payments",
+  "release": "R6",
+  "ucs": [
+   "UC78",
+   "UC79",
+   "UC87"
+  ]
+ },
+ {
+  "id": "F22",
+  "name": "Disbursement order, transfer and receipt",
+  "epic": "E7 Payments",
+  "release": "R6",
+  "ucs": [
+   "UC80",
+   "UC81",
+   "UC82"
+  ]
+ },
+ {
+  "id": "F23",
+  "name": "Payments register and commitments",
+  "epic": "E7 Payments",
+  "release": "R6",
+  "ucs": [
+   "UC77",
+   "UC83"
+  ]
+ },
+ {
+  "id": "F12",
+  "name": "My Tasks inbox",
+  "epic": "E8 Work Management & Insight",
+  "release": "R4",
+  "ucs": [
+   "UC88",
+   "UC89",
+   "UC90",
+   "UC91"
+  ]
+ },
+ {
+  "id": "F26",
+  "name": "Executive dashboard and reports",
+  "epic": "E8 Work Management & Insight",
+  "release": "R7",
+  "ucs": [
+   "UC12",
+   "UC84",
+   "UC85"
+  ]
+ },
+ {
+  "id": "F27",
+  "name": "Productivity tools",
+  "epic": "E8 Work Management & Insight",
+  "release": "R7",
+  "ucs": [
+   "UC04",
+   "UC06",
+   "UC07",
+   "UC92",
+   "UC94"
+  ]
+ },
+ {
+  "id": "F30",
+  "name": "AI assistance",
+  "epic": "E9 Advanced Grants & AI",
+  "release": "R8",
+  "ucs": [
+   "UC05",
+   "UC46",
+   "UC59"
+  ]
+ },
+ {
+  "id": "F31",
+  "name": "In-kind grants",
+  "epic": "E9 Advanced Grants & AI",
+  "release": "R8",
+  "ucs": [
+   "UC33",
+   "UC66"
+  ]
+ },
+ {
+  "id": "F32",
+  "name": "Tendered projects (RFP)",
+  "epic": "E9 Advanced Grants & AI",
+  "release": "R8",
+  "ucs": [
+   "UC35"
+  ]
+ },
+ {
+  "id": "F33",
+  "name": "Multi-project grants, merges and funding conditions",
+  "epic": "E9 Advanced Grants & AI",
+  "release": "R8",
+  "ucs": [
+   "UC63",
+   "UC64",
+   "UC71"
+  ]
+ }
+]

@@ -1,0 +1,3087 @@
+{
+ "uc_map": [
+  {
+   "uc": "UC01",
+   "name": "Sign in and reach my role workspace",
+   "clickup": [
+    {
+     "id": "z90uw3vgn4",
+     "feature": "F-02.01 · Sign-in with Nafath and OIDC provider",
+     "epic": "EP-02 · Identity, memberships and permissions",
+     "coverage": "Partial",
+     "note": "Covers individual sign-in (Nafath/email+code, MFA, tenant in token); routing to a role-specific home page not specified"
+    },
+    {
+     "id": "z90uw3vgnb",
+     "feature": "F-02.08 · Navigation built from permissions",
+     "epic": "EP-02 · Identity, memberships and permissions",
+     "coverage": "Partial",
+     "note": "Role-filtered menu after sign-in; role landing page (My Tasks / dashboard / My Portal) not stated"
+    }
+   ],
+   "gap_note": "Partial only: Covers individual sign-in (Nafath/email+code, MFA, tenant in token); routing to a role-specific home page not specified; Role-filtered menu after sign-in; role landing page (My Tasks / dashboard / My Portal) not stated"
+  },
+  {
+   "uc": "UC02",
+   "name": "Work within a role-based workspace",
+   "clickup": [
+    {
+     "id": "z90uw3vgnb",
+     "feature": "F-02.08 · Navigation built from permissions",
+     "epic": "EP-02 · Identity, memberships and permissions",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgne",
+     "feature": "F-03.03 · App shell: sidebar, top bar and user menu",
+     "epic": "EP-03 · Design system and shared UI",
+     "coverage": "Partial",
+     "note": "App shell and mobile drawer only; open-task count badges per area not specified"
+    },
+    {
+     "id": "z90uw3vgu5",
+     "feature": "F-20.03 · Accessibility and mobile",
+     "epic": "EP-20 · Quality, security and launch",
+     "coverage": "Partial",
+     "note": "Mobile/360px support only"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC03",
+   "name": "View the public landing page and open grant opportunities",
+   "clickup": [],
+   "gap_note": "Not in ClickUp. No public (unauthenticated) landing page with published open opportunities; F-07.03 is for signed-in associations."
+  },
+  {
+   "uc": "UC04",
+   "name": "Find records with global search",
+   "clickup": [
+    {
+     "id": "z90uw3vgt6",
+     "feature": "F-16.01 · Instant search and command palette",
+     "epic": "EP-16 · Search, reports and questions",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC05",
+   "name": "Ask the AI Assistant about grant data",
+   "clickup": [
+    {
+     "id": "z90uw3vgt1",
+     "feature": "F-15.05 · In-page assistant: Muhsin and Manih",
+     "epic": "EP-15 · AI layer: Manih and Muhsin",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgtf",
+     "feature": "F-16.04 · Natural language questions",
+     "epic": "EP-16 · Search, reports and questions",
+     "coverage": "Partial",
+     "note": "Natural-language data questions for managers only; not the conversational page assistant"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC06",
+   "name": "Work with lists, export data and save preferred views",
+   "clickup": [
+    {
+     "id": "z90uw3vgnh",
+     "feature": "F-03.05 · Unified data table and pinned views",
+     "epic": "EP-03 · Design system and shared UI",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC07",
+   "name": "Personalise the appearance of the workspace",
+   "clickup": [],
+   "gap_note": "Not in ClickUp. No user-facing light/dark or palette switch; F-03.01 design tokens are only an enabler."
+  },
+  {
+   "uc": "UC08",
+   "name": "General platform requirements",
+   "clickup": [
+    {
+     "id": "z90uw3vgn4",
+     "feature": "F-02.01 · Sign-in with Nafath and OIDC provider",
+     "epic": "EP-02 · Identity, memberships and permissions",
+     "coverage": "Partial",
+     "note": "Secure individual sign-in"
+    },
+    {
+     "id": "z90uw3vgn6",
+     "feature": "F-02.03 · ABAC evaluator, conditions library and deny rules",
+     "epic": "EP-02 · Identity, memberships and permissions",
+     "coverage": "Partial",
+     "note": "System-enforced authorization"
+    },
+    {
+     "id": "z90uw3vgmy",
+     "feature": "F-01.02 · Funder isolation with tenant_id and RLS",
+     "epic": "EP-01 · Platform technical foundation",
+     "coverage": "Partial",
+     "note": "Funder data isolation"
+    },
+    {
+     "id": "z90uw3vgmz",
+     "feature": "F-01.03 · Immutable audit log",
+     "epic": "EP-01 · Platform technical foundation",
+     "coverage": "Partial",
+     "note": "Tamper-proof audit trail"
+    },
+    {
+     "id": "z90uw3vgnk",
+     "feature": "F-03.07 · Arabic display of numbers, dates and amounts",
+     "epic": "EP-03 · Design system and shared UI",
+     "coverage": "Partial",
+     "note": "Arabic/RTL presentation with Western digits"
+    },
+    {
+     "id": "z90uw3vgnj",
+     "feature": "F-03.06 · Interaction patterns: action dialogs, notifications, empty states",
+     "epic": "EP-03 · Design system and shared UI",
+     "coverage": "Partial",
+     "note": "Consistent loading, empty and error behaviour"
+    }
+   ],
+   "gap_note": "Covered collectively across EP-01/02/03 foundation features; no single feature."
+  },
+  {
+   "uc": "UC09",
+   "name": "Manage the organization's team members",
+   "clickup": [
+    {
+     "id": "z90uw3vgn8",
+     "feature": "F-02.05 · User and invitation management",
+     "epic": "EP-02 · Identity, memberships and permissions",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC10",
+   "name": "Define roles and permissions",
+   "clickup": [
+    {
+     "id": "z90uw3vgn7",
+     "feature": "F-02.04 · Permission group management per party",
+     "epic": "EP-02 · Identity, memberships and permissions",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC11",
+   "name": "Organize departments",
+   "clickup": [],
+   "gap_note": "Not in ClickUp. No department management; departments may be a user attribute in F-02.05 but not explicit."
+  },
+  {
+   "uc": "UC12",
+   "name": "Review a staff member's workload and performance",
+   "clickup": [
+    {
+     "id": "z90uw3vgr0",
+     "feature": "F-11.05 · Staff member page",
+     "epic": "EP-11 · My Tasks and dashboards",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC13",
+   "name": "Build and maintain application forms",
+   "clickup": [
+    {
+     "id": "z90uw3vgp2",
+     "feature": "F-05.06 · Template-based application form builder",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgp1",
+     "feature": "F-05.05 · Inherited settings: conditions, criteria, form, workflow",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Partial",
+     "note": "Links a form to track/initiative/opportunity by inheritance"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC14",
+   "name": "Maintain communication templates",
+   "clickup": [
+    {
+     "id": "z90uw3vgnu",
+     "feature": "F-04.06 · Templates and taxonomies",
+     "epic": "EP-04 · Onboarding, policies and framework versions",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC15",
+   "name": "Maintain reference lists and applicant-type availability",
+   "clickup": [
+    {
+     "id": "z90uw3vgnu",
+     "feature": "F-04.06 · Templates and taxonomies",
+     "epic": "EP-04 · Onboarding, policies and framework versions",
+     "coverage": "Partial",
+     "note": "Taxonomies covered; applicant-type registration switches (open/close per applicant type) not covered"
+    }
+   ],
+   "gap_note": "Partial only: Taxonomies covered; applicant-type registration switches (open/close per applicant type) not covered"
+  },
+  {
+   "uc": "UC16",
+   "name": "Register and manage endowments",
+   "clickup": [],
+   "gap_note": "Not in ClickUp. Endowments are explicitly out of scope of the EP-05 annual plan features."
+  },
+  {
+   "uc": "UC17",
+   "name": "Manage grantor organizations on the platform",
+   "clickup": [
+    {
+     "id": "z90uw3vgtu",
+     "feature": "F-18.01 · Platform dashboard and funders",
+     "epic": "EP-18 · WBL console",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC18",
+   "name": "Change key configuration with a supporting document",
+   "clickup": [
+    {
+     "id": "z90uw3vgmz",
+     "feature": "F-01.03 · Immutable audit log",
+     "epic": "EP-01 · Platform technical foundation",
+     "coverage": "Partial",
+     "note": "Before/after change history only; no generic evidence-backed edit session for key configuration"
+    },
+    {
+     "id": "z90uw3vgnp",
+     "feature": "F-04.03 · Policy approval, derived settings and framework version",
+     "epic": "EP-04 · Onboarding, policies and framework versions",
+     "coverage": "Partial",
+     "note": "Approval and versioning of policy-derived settings, not supporting-document confirmation"
+    }
+   ],
+   "gap_note": "No generic evidence-backed edit session / change history for key configuration."
+  },
+  {
+   "uc": "UC19",
+   "name": "View and Monitor Annual Plans",
+   "clickup": [
+    {
+     "id": "z90uw3vgny",
+     "feature": "F-05.01 · View and Monitor Annual Plans",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC20",
+   "name": "Create an Annual Plan",
+   "clickup": [
+    {
+     "id": "z90uw3xhrf",
+     "feature": "F-05.00 · Create an Annual Plan",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC21",
+   "name": "Edit and Approve an Annual Plan",
+   "clickup": [
+    {
+     "id": "z90uw3vgnz",
+     "feature": "F-05.02 · Edit and Approve an Annual Plan",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC22",
+   "name": "Manage Budget Operations and History",
+   "clickup": [
+    {
+     "id": "z90uw3vgp0",
+     "feature": "F-05.03 · Manage Budget Operations and History",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC23",
+   "name": "Lock or Reopen an Annual Plan",
+   "clickup": [
+    {
+     "id": "z90uw3xhrg",
+     "feature": "F-05.04 · Lock or Reopen an Annual Plan",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC24",
+   "name": "Record endowment funding",
+   "clickup": [],
+   "gap_note": "Not in ClickUp. Endowment funding records are explicitly out of scope (EP-05 scope note)."
+  },
+  {
+   "uc": "UC25",
+   "name": "Manage endowment participation and review endowment share",
+   "clickup": [],
+   "gap_note": "Not in ClickUp. Endowment shares per plan item and endowment page not in backlog."
+  },
+  {
+   "uc": "UC26",
+   "name": "Link applications, projects and opportunities to plan items",
+   "clickup": [
+    {
+     "id": "z90uw3vgny",
+     "feature": "F-05.01 · View and Monitor Annual Plans",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Partial",
+     "note": "Opportunities sit inside the plan hierarchy; linking of applications/projects to plan items and the active/unlocked-plan rule are not stated"
+    },
+    {
+     "id": "z90uw3vgq4",
+     "feature": "F-08.05 · Classify applications without a track",
+     "epic": "EP-08 · Application intake and sources",
+     "coverage": "Partial",
+     "note": "Assigns a track to unclassified applications; applicant choosing an initiative on general opportunities missing"
+    },
+    {
+     "id": "z90uw3vgr2",
+     "feature": "F-12.02 · Project list and project page",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Partial",
+     "note": "Initiatives listed with projects; activity-based progress handled in F-12.03"
+    }
+   ],
+   "gap_note": "Partial only: Opportunities sit inside the plan hierarchy; linking of applications/projects to plan items and the active/unlocked-plan rule are not stated; Assigns a track to unclassified applications; applicant choosing an initiative on general opportunities missing; Initiatives listed with projects; activity-ba"
+  },
+  {
+   "uc": "UC27",
+   "name": "Monitor the grant opportunities portfolio and performance",
+   "clickup": [
+    {
+     "id": "z90uw3vgny",
+     "feature": "F-05.01 · View and Monitor Annual Plans",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Partial",
+     "note": "Shows opportunities with allocated/approved/available amounts; per-opportunity summary (outcomes, stage delays, top partners/regions) missing"
+    },
+    {
+     "id": "z90uw3vgqx",
+     "feature": "F-11.03 · Funder dashboard and inbox",
+     "epic": "EP-11 · My Tasks and dashboards",
+     "coverage": "Partial",
+     "note": "Period indicators for grants manager; not an opportunity-portfolio view"
+    }
+   ],
+   "gap_note": "Partial only: Shows opportunities with allocated/approved/available amounts; per-opportunity summary (outcomes, stage delays, top partners/regions) missing; Period indicators for grants manager; not an opportunity-portfolio view"
+  },
+  {
+   "uc": "UC28",
+   "name": "Create a grant opportunity",
+   "clickup": [
+    {
+     "id": "z90uw3vgp5",
+     "feature": "F-05.08 · Opportunity basics, application type, access and publishing",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgp6",
+     "feature": "F-05.09 · Create an opportunity from a description",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Partial",
+     "note": "AI drafting of the opportunity from a description only"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC29",
+   "name": "Maintain opportunity information, reception window and status",
+   "clickup": [
+    {
+     "id": "z90uw3vgp5",
+     "feature": "F-05.08 · Opportunity basics, application type, access and publishing",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Partial",
+     "note": "Basics, period, access and publishing; evidence-backed edit session, early close/reactivate switch and max applications per partner not stated"
+    },
+    {
+     "id": "z90uw3vgp7",
+     "feature": "F-05.10 · Targeting, eligibility and eligibility testing",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Partial",
+     "note": "Eligibility/targeting part only"
+    }
+   ],
+   "gap_note": "Partial only: Basics, period, access and publishing; evidence-backed edit session, early close/reactivate switch and max applications per partner not stated; Eligibility/targeting part only"
+  },
+  {
+   "uc": "UC30",
+   "name": "Define eligibility targeting and application quota",
+   "clickup": [
+    {
+     "id": "z90uw3vgp7",
+     "feature": "F-05.10 · Targeting, eligibility and eligibility testing",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgrn",
+     "feature": "F-14.02 · Live association groups",
+     "epic": "EP-14 · Associations at the funder",
+     "coverage": "Partial",
+     "note": "Partner groups used for targeting"
+    },
+    {
+     "id": "z90uw3vgpq",
+     "feature": "F-07.04 · Readiness check and readiness dashboard",
+     "epic": "EP-07 · Opportunities and guided application",
+     "coverage": "Partial",
+     "note": "Partner sees reasons for not qualifying; remaining application quota not shown"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC31",
+   "name": "Configure the opportunity workflow, evaluation, form and post-approval defaults",
+   "clickup": [
+    {
+     "id": "z90uw3vgq7",
+     "feature": "F-09.01 · Workflow stages and engines",
+     "epic": "EP-09 · Workflow and review",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgp1",
+     "feature": "F-05.05 · Inherited settings: conditions, criteria, form, workflow",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Partial",
+     "note": "Inherited conditions/criteria/form/workflow per opportunity"
+    },
+    {
+     "id": "z90uw3vgp3",
+     "feature": "F-05.07 · Track scoring settings",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Partial",
+     "note": "Pass mark and scoring settings at track level"
+    },
+    {
+     "id": "z90uw3vgp2",
+     "feature": "F-05.06 · Template-based application form builder",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Partial",
+     "note": "Form attachment"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC32",
+   "name": "Manage workflow templates and apply them to opportunities",
+   "clickup": [
+    {
+     "id": "z90uw3vgq7",
+     "feature": "F-09.01 · Workflow stages and engines",
+     "epic": "EP-09 · Workflow and review",
+     "coverage": "Partial",
+     "note": "Stages start from a ready-made engine; template CRUD, apply-by-copy, performance analytics and delete-protection not covered"
+    }
+   ],
+   "gap_note": "Partial only: Stages start from a ready-made engine; template CRUD, apply-by-copy, performance analytics and delete-protection not covered"
+  },
+  {
+   "uc": "UC33",
+   "name": "Manage the product catalog and product grant opportunities",
+   "clickup": [
+    {
+     "id": "z90uw3vgp9",
+     "feature": "F-05.12 · Item catalog with balances and caps",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgq5",
+     "feature": "F-08.06 · Documents, fetch status and product basket",
+     "epic": "EP-08 · Application intake and sources",
+     "coverage": "Partial",
+     "note": "Product basket on incoming applications only"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC34",
+   "name": "Invite targeted partners to an opportunity",
+   "clickup": [
+    {
+     "id": "z90uw3vgp8",
+     "feature": "F-05.11 · Tendered projects: invitations, bids and award",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Partial",
+     "note": "Invitations exist only for tendered projects; one-invitation-per-partner personal links and sent/opened/answered/declined tracking not stated"
+    }
+   ],
+   "gap_note": "Invitation flow only for tenders."
+  },
+  {
+   "uc": "UC35",
+   "name": "Define a tendered project (RFP) and award it to the best offer",
+   "clickup": [
+    {
+     "id": "z90uw3vgp8",
+     "feature": "F-05.11 · Tendered projects: invitations, bids and award",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC36",
+   "name": "Govern configuration changes with evidence, rollback and history",
+   "clickup": [
+    {
+     "id": "z90uw3vgmz",
+     "feature": "F-01.03 · Immutable audit log",
+     "epic": "EP-01 · Platform technical foundation",
+     "coverage": "Partial",
+     "note": "Before/after history only; edit session with supporting document and discard/rollback not covered as a generic capability"
+    },
+    {
+     "id": "z90uw3vgnw",
+     "feature": "F-04.07 · Compare two framework versions",
+     "epic": "EP-04 · Onboarding, policies and framework versions",
+     "coverage": "Partial",
+     "note": "Version comparison with approver and reason applies to policy framework, not opportunity/template/catalog config"
+    }
+   ],
+   "gap_note": "Generic configuration governance (edit session, evidence, discard, history) missing."
+  },
+  {
+   "uc": "UC37",
+   "name": "Self-register a partner organization",
+   "clickup": [
+    {
+     "id": "z90uw3vgpa",
+     "feature": "F-06.01 · Register by license number and fetch National Register data",
+     "epic": "EP-06 · Association registration and profile",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgpb",
+     "feature": "F-06.02 · Verification, delegation and alternative path",
+     "epic": "EP-06 · Association registration and profile",
+     "coverage": "Partial",
+     "note": "Contact verification and Under-review state; field-by-field administrator approval not stated"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC38",
+   "name": "Join a registered organization or request a delegate change",
+   "clickup": [
+    {
+     "id": "z90uw3vgpb",
+     "feature": "F-06.02 · Verification, delegation and alternative path",
+     "epic": "EP-06 · Association registration and profile",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgpa",
+     "feature": "F-06.01 · Register by license number and fetch National Register data",
+     "epic": "EP-06 · Association registration and profile",
+     "coverage": "Partial",
+     "note": "Detects already-registered association and offers Request to join"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC39",
+   "name": "Access the partner portal and select the represented organization",
+   "clickup": [
+    {
+     "id": "z90uw3vgph",
+     "feature": "F-07.01 · Association dashboard",
+     "epic": "EP-07 · Opportunities and guided application",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgn5",
+     "feature": "F-02.02 · Multiple memberships and context switcher",
+     "epic": "EP-02 · Identity, memberships and permissions",
+     "coverage": "Partial",
+     "note": "Switching the represented organization"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC40",
+   "name": "Discover open grant opportunities and check eligibility",
+   "clickup": [
+    {
+     "id": "z90uw3vgpm",
+     "feature": "F-07.03 · Opportunities page and digest notification",
+     "epic": "EP-07 · Opportunities and guided application",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgpj",
+     "feature": "F-07.02 · Match and rank opportunities by specialty",
+     "epic": "EP-07 · Opportunities and guided application",
+     "coverage": "Partial",
+     "note": "Ranking by specialty fit with match reason"
+    },
+    {
+     "id": "z90uw3vgpq",
+     "feature": "F-07.04 · Readiness check and readiness dashboard",
+     "epic": "EP-07 · Opportunities and guided application",
+     "coverage": "Partial",
+     "note": "Readiness/what is missing; used vs allowed application count not stated"
+    },
+    {
+     "id": "z90uw3vgp7",
+     "feature": "F-05.10 · Targeting, eligibility and eligibility testing",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Partial",
+     "note": "Eligibility rule set and reasons"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC41",
+   "name": "Respond to a private opportunity invitation",
+   "clickup": [
+    {
+     "id": "z90uw3vgp8",
+     "feature": "F-05.11 · Tendered projects: invitations, bids and award",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Partial",
+     "note": "Invited associations can bid on tenders; invitation landing page, account activation and decline with status tracking not stated"
+    }
+   ],
+   "gap_note": "Partial only: Invited associations can bid on tenders; invitation landing page, account activation and decline with status tracking not stated"
+  },
+  {
+   "uc": "UC42",
+   "name": "Prepare and submit a grant application",
+   "clickup": [
+    {
+     "id": "z90uw3vgpw",
+     "feature": "F-07.06 · Review, declaration and submission",
+     "epic": "EP-07 · Opportunities and guided application",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgpv",
+     "feature": "F-07.05 · Interactive application with Muhsin",
+     "epic": "EP-07 · Opportunities and guided application",
+     "coverage": "Partial",
+     "note": "AI-guided filling of the form"
+    },
+    {
+     "id": "z90uw3vgpy",
+     "feature": "F-07.08 · Use a ready-made proposal",
+     "epic": "EP-07 · Opportunities and guided application",
+     "coverage": "Partial",
+     "note": "AI conversion of an existing proposal"
+    },
+    {
+     "id": "z90uw3vgp9",
+     "feature": "F-05.12 · Item catalog with balances and caps",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Partial",
+     "note": "In-kind quantity requests within caps"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC43",
+   "name": "Track applications and respond to grantor requests",
+   "clickup": [
+    {
+     "id": "z90uw3vgpx",
+     "feature": "F-07.07 · My Applications and what is required from me",
+     "epic": "EP-07 · Opportunities and guided application",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgqd",
+     "feature": "F-09.07 · Request for information pauses the SLA timer",
+     "epic": "EP-09 · Workflow and review",
+     "coverage": "Partial",
+     "note": "Requests for information reach the association; partner consent to proposed amount/duration/quantity changes not stated"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC44",
+   "name": "Maintain the organization profile",
+   "clickup": [
+    {
+     "id": "z90uw3vgpc",
+     "feature": "F-06.03 · Unified association profile with Muhsin",
+     "epic": "EP-06 · Association registration and profile",
+     "coverage": "Partial",
+     "note": "Unified profile view"
+    },
+    {
+     "id": "z90uw3vgpe",
+     "feature": "F-06.05 · Request a register data update",
+     "epic": "EP-06 · Association registration and profile",
+     "coverage": "Partial",
+     "note": "Register data update requests with attachment"
+    },
+    {
+     "id": "z90uw3vgrt",
+     "feature": "F-14.05 · Bank account and verification",
+     "epic": "EP-14 · Associations at the funder",
+     "coverage": "Partial",
+     "note": "IBAN change returns account to pending verification"
+    },
+    {
+     "id": "z90uw3vgpd",
+     "feature": "F-06.04 · Documents with expiry dates and document AI",
+     "epic": "EP-06 · Association registration and profile",
+     "coverage": "Partial",
+     "note": "Document upload with AI type/expiry suggestion; license renewal flow and contact (phone/email) re-verification not stated"
+    }
+   ],
+   "gap_note": "Partial only: Unified profile view; Register data update requests with attachment; IBAN change returns account to pending verification; Document upload with AI type/expiry suggestion; license renewal flow and contact (phone/email) re-verification not stated"
+  },
+  {
+   "uc": "UC45",
+   "name": "Participate in project execution and confirm payment receipt",
+   "clickup": [
+    {
+     "id": "z90uw3vgr4",
+     "feature": "F-12.04 · Deliverables, reminders, and escalation",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Partial",
+     "note": "Deliverable submission and reminders"
+    },
+    {
+     "id": "z90uw3vgr8",
+     "feature": "F-12.06 · Reports and final report",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Partial",
+     "note": "Periodic and final reports"
+    },
+    {
+     "id": "z90uw3vgrj",
+     "feature": "F-13.05 · Receipt acknowledgement and dealings suspension",
+     "epic": "EP-13 · Payments and disbursement",
+     "coverage": "Partial",
+     "note": "Receipt acknowledgement SLA; partner read-only My Projects view not stated"
+    }
+   ],
+   "gap_note": "Partial only: Deliverable submission and reminders; Periodic and final reports; Receipt acknowledgement SLA; partner read-only My Projects view not stated"
+  },
+  {
+   "uc": "UC46",
+   "name": "Receive an external AI evaluation report for an application",
+   "clickup": [
+    {
+     "id": "z90uw3vgry",
+     "feature": "F-15.02 · Application analysis and its states",
+     "epic": "EP-15 · AI layer: Manih and Muhsin",
+     "coverage": "Partial",
+     "note": "Background analysis with states, but by WBL Manih via adapter; inbound result from the foundation's own external agent (score, band, report, per-criterion) not covered"
+    },
+    {
+     "id": "z90uw3vgrx",
+     "feature": "F-15.01 · Manih adapter and asynchronous contract",
+     "epic": "EP-15 · AI layer: Manih and Muhsin",
+     "coverage": "Partial",
+     "note": "Single AI adapter contract; no inbound endpoint for an external evaluator"
+    }
+   ],
+   "gap_note": "Inbound integration from the foundation's external AI evaluation agent not in backlog."
+  },
+  {
+   "uc": "UC47",
+   "name": "Review and decide a partner registration request",
+   "clickup": [
+    {
+     "id": "z90uw3vgpb",
+     "feature": "F-06.02 · Verification, delegation and alternative path",
+     "epic": "EP-06 · Association registration and profile",
+     "coverage": "Partial",
+     "note": "Staff approval of delegation letter / Under-review state"
+    },
+    {
+     "id": "z90uw3vgrp",
+     "feature": "F-14.03 · Funder-side association profile and update requests",
+     "epic": "EP-14 · Associations at the funder",
+     "coverage": "Partial",
+     "note": "Shows register data with source and approves/rejects updates; field-by-field review of new registrations not stated"
+    }
+   ],
+   "gap_note": "Partial only: Staff approval of delegation letter / Under-review state; Shows register data with source and approves/rejects updates; field-by-field review of new registrations not stated"
+  },
+  {
+   "uc": "UC48",
+   "name": "Browse, filter and export the partner directory",
+   "clickup": [
+    {
+     "id": "z90uw3vgrm",
+     "feature": "F-14.01 · Association directory",
+     "epic": "EP-14 · Associations at the funder",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgnh",
+     "feature": "F-03.05 · Unified data table and pinned views",
+     "epic": "EP-03 · Design system and shared UI",
+     "coverage": "Partial",
+     "note": "Generic filter/export table"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC49",
+   "name": "View the partner 360 profile and decision timeline",
+   "clickup": [
+    {
+     "id": "z90uw3vgrp",
+     "feature": "F-14.03 · Funder-side association profile and update requests",
+     "epic": "EP-14 · Associations at the funder",
+     "coverage": "Partial",
+     "note": "Funder-side profile with register data"
+    },
+    {
+     "id": "z90uw3vgrv",
+     "feature": "F-14.06 · Team, primary representative and action log",
+     "epic": "EP-14 · Associations at the funder",
+     "coverage": "Partial",
+     "note": "Team and action log"
+    },
+    {
+     "id": "z90uw3vgrm",
+     "feature": "F-14.01 · Association directory",
+     "epic": "EP-14 · Associations at the funder",
+     "coverage": "Partial",
+     "note": "Key figures per association in directory; consolidated 360 with payments, projects and decision timeline not stated"
+    }
+   ],
+   "gap_note": "Partial only: Funder-side profile with register data; Team and action log; Key figures per association in directory; consolidated 360 with payments, projects and decision timeline not stated"
+  },
+  {
+   "uc": "UC50",
+   "name": "Confirm or block a partner organization",
+   "clickup": [
+    {
+     "id": "z90uw3vgrq",
+     "feature": "F-14.04 · Association account status with the foundation",
+     "epic": "EP-14 · Associations at the funder",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC51",
+   "name": "Verify or reject a partner bank account",
+   "clickup": [
+    {
+     "id": "z90uw3vgrt",
+     "feature": "F-14.05 · Bank account and verification",
+     "epic": "EP-14 · Associations at the funder",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC52",
+   "name": "Review a partner license and official data update",
+   "clickup": [
+    {
+     "id": "z90uw3vgrp",
+     "feature": "F-14.03 · Funder-side association profile and update requests",
+     "epic": "EP-14 · Associations at the funder",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgpe",
+     "feature": "F-06.05 · Request a register data update",
+     "epic": "EP-06 · Association registration and profile",
+     "coverage": "Partial",
+     "note": "Association-side update request"
+    },
+    {
+     "id": "z90uw3vgpd",
+     "feature": "F-06.04 · Documents with expiry dates and document AI",
+     "epic": "EP-06 · Association registration and profile",
+     "coverage": "Partial",
+     "note": "Document AI; auto-apply of exact AI matches not stated"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC53",
+   "name": "Manage the partner team and primary delegate",
+   "clickup": [
+    {
+     "id": "z90uw3vgrv",
+     "feature": "F-14.06 · Team, primary representative and action log",
+     "epic": "EP-14 · Associations at the funder",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgpg",
+     "feature": "F-06.06 · Association users and delegation hierarchy",
+     "epic": "EP-06 · Association registration and profile",
+     "coverage": "Partial",
+     "note": "Self-service management of association users by authorized signatory"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC54",
+   "name": "Invite a partner to activate its account",
+   "clickup": [],
+   "gap_note": "Not in ClickUp. No partner account-activation invitation; F-02.05 covers staff invitations, F-08.04 a one-time completion link only."
+  },
+  {
+   "uc": "UC55",
+   "name": "Add a partner organization manually",
+   "clickup": [],
+   "gap_note": "Not in ClickUp. No controlled manual partner creation (with duplicate check and AI prefill)."
+  },
+  {
+   "uc": "UC56",
+   "name": "Manage partner groups for opportunity targeting",
+   "clickup": [
+    {
+     "id": "z90uw3vgrn",
+     "feature": "F-14.02 · Live association groups",
+     "epic": "EP-14 · Associations at the funder",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC57",
+   "name": "Manage the grant applications review queue",
+   "clickup": [
+    {
+     "id": "z90uw3vgq2",
+     "feature": "F-08.03 · Application list with analysis status and stage",
+     "epic": "EP-08 · Application intake and sources",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC58",
+   "name": "Study the application dossier and its audit trail",
+   "clickup": [
+    {
+     "id": "z90uw3vgqa",
+     "feature": "F-09.04 · Review file and automated checks",
+     "epic": "EP-09 · Workflow and review",
+     "coverage": "Partial",
+     "note": "Review file with checks"
+    },
+    {
+     "id": "z90uw3vgng",
+     "feature": "F-03.04 · Entity page template and EntityRef",
+     "epic": "EP-03 · Design system and shared UI",
+     "coverage": "Partial",
+     "note": "Entity page template"
+    },
+    {
+     "id": "z90uw3vgnp",
+     "feature": "F-04.03 · Policy approval, derived settings and framework version",
+     "epic": "EP-04 · Onboarding, policies and framework versions",
+     "coverage": "Partial",
+     "note": "Application pinned to framework version; freezing of partner/opportunity data at submission and final approval not stated"
+    },
+    {
+     "id": "z90uw3vgq9",
+     "feature": "F-09.03 · Application actions by stage and permission",
+     "epic": "EP-09 · Workflow and review",
+     "coverage": "Partial",
+     "note": "Action log per application"
+    }
+   ],
+   "gap_note": "Partial only: Review file with checks; Entity page template; Application pinned to framework version; freezing of partner/opportunity data at submission and final approval not stated; Action log per application"
+  },
+  {
+   "uc": "UC59",
+   "name": "Evaluate an application with AI decision support",
+   "clickup": [
+    {
+     "id": "z90uw3vgqb",
+     "feature": "F-09.05 · Scoring against criteria and pass mark",
+     "epic": "EP-09 · Workflow and review",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgqc",
+     "feature": "F-09.06 · Independent review mode",
+     "epic": "EP-09 · Workflow and review",
+     "coverage": "Partial",
+     "note": "Independent review mode"
+    },
+    {
+     "id": "z90uw3vgqa",
+     "feature": "F-09.04 · Review file and automated checks",
+     "epic": "EP-09 · Workflow and review",
+     "coverage": "Partial",
+     "note": "AI summary and automated checks"
+    },
+    {
+     "id": "z90uw3vgqe",
+     "feature": "F-09.08 · Budget review and proposed schedule",
+     "epic": "EP-09 · Workflow and review",
+     "coverage": "Partial",
+     "note": "Budget review and proposed schedule"
+    },
+    {
+     "id": "z90uw3vgry",
+     "feature": "F-15.02 · Application analysis and its states",
+     "epic": "EP-15 · AI layer: Manih and Muhsin",
+     "coverage": "Partial",
+     "note": "Analysis states; comparing with another application and sending feedback for re-evaluation not stated"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC60",
+   "name": "Take a stage decision on an application",
+   "clickup": [
+    {
+     "id": "z90uw3vgq9",
+     "feature": "F-09.03 · Application actions by stage and permission",
+     "epic": "EP-09 · Workflow and review",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgqb",
+     "feature": "F-09.05 · Scoring against criteria and pass mark",
+     "epic": "EP-09 · Workflow and review",
+     "coverage": "Partial",
+     "note": "Pass mark gating"
+    },
+    {
+     "id": "z90uw3vgqu",
+     "feature": "F-10.06 · Decision notification and decline letter",
+     "epic": "EP-10 · Approvals, committees and decisions",
+     "coverage": "Partial",
+     "note": "Decline letter for rejections"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC61",
+   "name": "Return an application to the partner for edits or revised figures",
+   "clickup": [
+    {
+     "id": "z90uw3vgq9",
+     "feature": "F-09.03 · Application actions by stage and permission",
+     "epic": "EP-09 · Workflow and review",
+     "coverage": "Partial",
+     "note": "Request-changes action"
+    },
+    {
+     "id": "z90uw3vgpx",
+     "feature": "F-07.07 · My Applications and what is required from me",
+     "epic": "EP-07 · Opportunities and guided application",
+     "coverage": "Partial",
+     "note": "Shown under Required from you; staff-proposed figures applying only on partner acceptance not stated"
+    }
+   ],
+   "gap_note": "Partial only: Request-changes action; Shown under Required from you; staff-proposed figures applying only on partner acceptance not stated"
+  },
+  {
+   "uc": "UC62",
+   "name": "Record a committee decision by minute",
+   "clickup": [
+    {
+     "id": "z90uw3vgqm",
+     "feature": "F-10.02 · Single committee decision with minutes",
+     "epic": "EP-10 · Approvals, committees and decisions",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgqn",
+     "feature": "F-10.03 · Extract decisions from minutes",
+     "epic": "EP-10 · Approvals, committees and decisions",
+     "coverage": "Partial",
+     "note": "AI extraction/check of signed minutes"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC63",
+   "name": "Set funding conditions, indicators and initiative placement",
+   "clickup": [],
+   "gap_note": "Not in ClickUp. Co-funding from other donors, linking plan indicators and moving to another initiative not in backlog."
+  },
+  {
+   "uc": "UC64",
+   "name": "Merge and unmerge applications of the same partner",
+   "clickup": [],
+   "gap_note": "Not in ClickUp. Merge/unmerge of applications into one request not in backlog (F-08.02 merges source answers, a different concept)."
+  },
+  {
+   "uc": "UC65",
+   "name": "Approve the contract and transfer an approved application to projects",
+   "clickup": [
+    {
+     "id": "z90uw3vgr1",
+     "feature": "F-12.01 · Agreement generation and contract stages",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Partial",
+     "note": "Agreement generation from template"
+    },
+    {
+     "id": "z90uw3vgr2",
+     "feature": "F-12.02 · Project list and project page",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Partial",
+     "note": "Project auto-created from approved application; split into several projects, BoQ-based budgets and refusal when plan is locked not stated"
+    }
+   ],
+   "gap_note": "Partial only: Agreement generation from template; Project auto-created from approved application; split into several projects, BoQ-based budgets and refusal when plan is locked not stated"
+  },
+  {
+   "uc": "UC66",
+   "name": "Approve and deliver an in-kind (product) grant",
+   "clickup": [
+    {
+     "id": "z90uw3vgp9",
+     "feature": "F-05.12 · Item catalog with balances and caps",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Partial",
+     "note": "Stock balances and no overselling"
+    },
+    {
+     "id": "z90uw3vgu0",
+     "feature": "F-19.01 · Supplier portal and delivery confirmation",
+     "epic": "EP-19 · Suppliers",
+     "coverage": "Partial",
+     "note": "Supplier delivery confirmation; reservation at final approval and staff-recorded delivery not stated"
+    }
+   ],
+   "gap_note": "Partial only: Stock balances and no overselling; Supplier delivery confirmation; reservation at final approval and staff-recorded delivery not stated"
+  },
+  {
+   "uc": "UC67",
+   "name": "Prepare the bill of quantities and payment schedule",
+   "clickup": [
+    {
+     "id": "z90uw3vgqe",
+     "feature": "F-09.08 · Budget review and proposed schedule",
+     "epic": "EP-09 · Workflow and review",
+     "coverage": "Partial",
+     "note": "Proposed schedule of deliverables and payments"
+    },
+    {
+     "id": "z90uw3vgrc",
+     "feature": "F-13.01 · Payment statuses and schedule",
+     "epic": "EP-13 · Payments and disbursement",
+     "coverage": "Partial",
+     "note": "Payment schedule with percentages; bill of quantities (cost items summing to requested amount) not covered"
+    }
+   ],
+   "gap_note": "Bill of quantities not in backlog."
+  },
+  {
+   "uc": "UC68",
+   "name": "Approve the contract and transfer the application into project(s)",
+   "clickup": [
+    {
+     "id": "z90uw3vgr1",
+     "feature": "F-12.01 · Agreement generation and contract stages",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Partial",
+     "note": "Contract created"
+    },
+    {
+     "id": "z90uw3vgr2",
+     "feature": "F-12.02 · Project list and project page",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Partial",
+     "note": "Project created from approved application; multi-project split and carrying over indicators/initiative shares/co-funding not stated"
+    },
+    {
+     "id": "z90uw3vgrc",
+     "feature": "F-13.01 · Payment statuses and schedule",
+     "epic": "EP-13 · Payments and disbursement",
+     "coverage": "Partial",
+     "note": "Scheduled payments"
+    }
+   ],
+   "gap_note": "Partial only: Contract created; Project created from approved application; multi-project split and carrying over indicators/initiative shares/co-funding not stated; Scheduled payments"
+  },
+  {
+   "uc": "UC69",
+   "name": "Manage contract signing and the contracts register",
+   "clickup": [
+    {
+     "id": "z90uw3vgr1",
+     "feature": "F-12.01 · Agreement generation and contract stages",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC70",
+   "name": "Monitor the project portfolio and project status",
+   "clickup": [
+    {
+     "id": "z90uw3vgr2",
+     "feature": "F-12.02 · Project list and project page",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgr4",
+     "feature": "F-12.04 · Deliverables, reminders, and escalation",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Partial",
+     "note": "Delay escalation; stalled-project flag not stated"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC71",
+   "name": "Create an internal initiative",
+   "clickup": [
+    {
+     "id": "z90uw3vgr2",
+     "feature": "F-12.02 · Project list and project page",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Partial",
+     "note": "Initiatives appear with projects; initiative registration form (plan item, budget, department, manager) and AI prefill not stated"
+    }
+   ],
+   "gap_note": "Partial only: Initiatives appear with projects; initiative registration form (plan item, budget, department, manager) and AI prefill not stated"
+  },
+  {
+   "uc": "UC72",
+   "name": "Plan the project and start execution",
+   "clickup": [
+    {
+     "id": "z90uw3vgr3",
+     "feature": "F-12.03 · Project plan with activities and edit session",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Partial",
+     "note": "Weighted activities and draft edits; milestones with evidence and linked payments, indicator distribution and start-execution gates not stated"
+    },
+    {
+     "id": "z90uw3vgr4",
+     "feature": "F-12.04 · Deliverables, reminders, and escalation",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Partial",
+     "note": "Deliverables linked to payments"
+    }
+   ],
+   "gap_note": "Partial only: Weighted activities and draft edits; milestones with evidence and linked payments, indicator distribution and start-execution gates not stated; Deliverables linked to payments"
+  },
+  {
+   "uc": "UC73",
+   "name": "Execute tasks and report progress",
+   "clickup": [
+    {
+     "id": "z90uw3vgr4",
+     "feature": "F-12.04 · Deliverables, reminders, and escalation",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgr8",
+     "feature": "F-12.06 · Reports and final report",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Partial",
+     "note": "Periodic reports"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC74",
+   "name": "Verify work and approve milestones",
+   "clickup": [
+    {
+     "id": "z90uw3vgr4",
+     "feature": "F-12.04 · Deliverables, reminders, and escalation",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC75",
+   "name": "Request and approve a plan revision",
+   "clickup": [
+    {
+     "id": "z90uw3vgr5",
+     "feature": "F-12.05 · Change request and agreement addendum",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC76",
+   "name": "Close the project and confirm results",
+   "clickup": [
+    {
+     "id": "z90uw3vgr9",
+     "feature": "F-12.07 · Closure, settlement, and performance evaluation",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC77",
+   "name": "Monitor the payments register",
+   "clickup": [
+    {
+     "id": "z90uw3vgrc",
+     "feature": "F-13.01 · Payment statuses and schedule",
+     "epic": "EP-13 · Payments and disbursement",
+     "coverage": "Partial",
+     "note": "Statuses New to Paid; summary value cards, due-date proximity and next actor not stated"
+    },
+    {
+     "id": "z90uw3vgqz",
+     "feature": "F-11.04 · Finance and CEO dashboards",
+     "epic": "EP-11 · My Tasks and dashboards",
+     "coverage": "Partial",
+     "note": "Finance dashboard of due/suspended/returned payments"
+    },
+    {
+     "id": "z90uw3vgnh",
+     "feature": "F-03.05 · Unified data table and pinned views",
+     "epic": "EP-03 · Design system and shared UI",
+     "coverage": "Partial",
+     "note": "Export"
+    }
+   ],
+   "gap_note": "Partial only: Statuses New to Paid; summary value cards, due-date proximity and next actor not stated; Finance dashboard of due/suspended/returned payments; Export"
+  },
+  {
+   "uc": "UC78",
+   "name": "Make a payment due and submit it for approval",
+   "clickup": [
+    {
+     "id": "z90uw3vgr4",
+     "feature": "F-12.04 · Deliverables, reminders, and escalation",
+     "epic": "EP-12 · Agreements, projects and deliverables",
+     "coverage": "Partial",
+     "note": "Accepting a deliverable unlocks the linked payment"
+    },
+    {
+     "id": "z90uw3vgrc",
+     "feature": "F-13.01 · Payment statuses and schedule",
+     "epic": "EP-13 · Payments and disbursement",
+     "coverage": "Partial",
+     "note": "Payment statuses"
+    },
+    {
+     "id": "z90uw3vgrg",
+     "feature": "F-13.03 · Blockers and automatic suspension",
+     "epic": "EP-13 · Payments and disbursement",
+     "coverage": "Partial",
+     "note": "Blockers prevent submission; manual marking of advance payments as due and PM submit step not stated"
+    }
+   ],
+   "gap_note": "Partial only: Accepting a deliverable unlocks the linked payment; Payment statuses; Blockers prevent submission; manual marking of advance payments as due and PM submit step not stated"
+  },
+  {
+   "uc": "UC79",
+   "name": "Approve or reject a payment",
+   "clickup": [
+    {
+     "id": "z90uw3vgrf",
+     "feature": "F-13.02 · Payment approval chain",
+     "epic": "EP-13 · Payments and disbursement",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC80",
+   "name": "Issue the disbursement order and confirm the payee",
+   "clickup": [
+    {
+     "id": "z90uw3vgrk",
+     "feature": "F-13.06 · Payment order export and finance system reference",
+     "epic": "EP-13 · Payments and disbursement",
+     "coverage": "Partial",
+     "note": "Payment order export and finance reference; printable disbursement order with approvals and third-party payee not covered"
+    }
+   ],
+   "gap_note": "Partial only: Payment order export and finance reference; printable disbursement order with approvals and third-party payee not covered"
+  },
+  {
+   "uc": "UC81",
+   "name": "Record the bank transfer",
+   "clickup": [
+    {
+     "id": "z90uw3vgrh",
+     "feature": "F-13.04 · Transfer recording and receipt voucher",
+     "epic": "EP-13 · Payments and disbursement",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC82",
+   "name": "Confirm receipt and close the payment",
+   "clickup": [
+    {
+     "id": "z90uw3vgrh",
+     "feature": "F-13.04 · Transfer recording and receipt voucher",
+     "epic": "EP-13 · Payments and disbursement",
+     "coverage": "Partial",
+     "note": "Receipt voucher closes the payment; partner-side upload and evidence-trail view not explicit"
+    },
+    {
+     "id": "z90uw3vgrj",
+     "feature": "F-13.05 · Receipt acknowledgement and dealings suspension",
+     "epic": "EP-13 · Payments and disbursement",
+     "coverage": "Partial",
+     "note": "Receipt acknowledgement SLA and escalation"
+    }
+   ],
+   "gap_note": "Partial only: Receipt voucher closes the payment; partner-side upload and evidence-trail view not explicit; Receipt acknowledgement SLA and escalation"
+  },
+  {
+   "uc": "UC83",
+   "name": "Monitor financial position and partner commitments",
+   "clickup": [
+    {
+     "id": "z90uw3vgny",
+     "feature": "F-05.01 · View and Monitor Annual Plans",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Partial",
+     "note": "Plan-level allocated/approved/available amounts"
+    },
+    {
+     "id": "z90uw3vgqz",
+     "feature": "F-11.04 · Finance and CEO dashboards",
+     "epic": "EP-11 · My Tasks and dashboards",
+     "coverage": "Partial",
+     "note": "Finance/CEO views"
+    },
+    {
+     "id": "z90uw3vgtd",
+     "feature": "F-16.02 · Standard reports",
+     "epic": "EP-16 · Search, reports and questions",
+     "coverage": "Partial",
+     "note": "Disbursement reports; paid/due/committed split, spend rates and partner planned-vs-paid chart not stated"
+    }
+   ],
+   "gap_note": "Partial only: Plan-level allocated/approved/available amounts; Finance/CEO views; Disbursement reports; paid/due/committed split, spend rates and partner planned-vs-paid chart not stated"
+  },
+  {
+   "uc": "UC84",
+   "name": "View the executive indicators dashboard",
+   "clickup": [
+    {
+     "id": "z90uw3vgte",
+     "feature": "F-16.03 · Indicators dashboard with filters and export",
+     "epic": "EP-16 · Search, reports and questions",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgqz",
+     "feature": "F-11.04 · Finance and CEO dashboards",
+     "epic": "EP-11 · My Tasks and dashboards",
+     "coverage": "Partial",
+     "note": "CEO dashboard"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC85",
+   "name": "Produce operational and financial reports",
+   "clickup": [
+    {
+     "id": "z90uw3vgtd",
+     "feature": "F-16.02 · Standard reports",
+     "epic": "EP-16 · Search, reports and questions",
+     "coverage": "Partial",
+     "note": "Disbursement, plan/deed alignment and outputs reports; applications-by-stage, overdue tasks and partner reports not stated"
+    },
+    {
+     "id": "z90uw3vgnh",
+     "feature": "F-03.05 · Unified data table and pinned views",
+     "epic": "EP-03 · Design system and shared UI",
+     "coverage": "Partial",
+     "note": "Column choice, saved views, export"
+    }
+   ],
+   "gap_note": "Partial only: Disbursement, plan/deed alignment and outputs reports; applications-by-stage, overdue tasks and partner reports not stated; Column choice, saved views, export"
+  },
+  {
+   "uc": "UC86",
+   "name": "Receive application stage tasks automatically",
+   "clickup": [
+    {
+     "id": "z90uw3vgqv",
+     "feature": "F-11.01 · My Tasks: derived and manual tasks",
+     "epic": "EP-11 · My Tasks and dashboards",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC87",
+   "name": "Receive payment approval and execution tasks",
+   "clickup": [
+    {
+     "id": "z90uw3vgqv",
+     "feature": "F-11.01 · My Tasks: derived and manual tasks",
+     "epic": "EP-11 · My Tasks and dashboards",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC88",
+   "name": "Organise and monitor my work inbox",
+   "clickup": [
+    {
+     "id": "z90uw3vgqw",
+     "feature": "F-11.02 · Task views: list, kanban, and calendar",
+     "epic": "EP-11 · My Tasks and dashboards",
+     "coverage": "Full",
+     "note": ""
+    },
+    {
+     "id": "z90uw3vgqv",
+     "feature": "F-11.01 · My Tasks: derived and manual tasks",
+     "epic": "EP-11 · My Tasks and dashboards",
+     "coverage": "Partial",
+     "note": "Single inbox content"
+    }
+   ],
+   "gap_note": ""
+  },
+  {
+   "uc": "UC89",
+   "name": "Create, assign and edit a manual task",
+   "clickup": [
+    {
+     "id": "z90uw3vgqv",
+     "feature": "F-11.01 · My Tasks: derived and manual tasks",
+     "epic": "EP-11 · My Tasks and dashboards",
+     "coverage": "Partial",
+     "note": "Manual tasks exist; assigning to colleagues, preserving creator and AI-proposed details not stated"
+    }
+   ],
+   "gap_note": "Partial only: Manual tasks exist; assigning to colleagues, preserving creator and AI-proposed details not stated"
+  },
+  {
+   "uc": "UC90",
+   "name": "Schedule a meeting",
+   "clickup": [
+    {
+     "id": "z90uw3vgqv",
+     "feature": "F-11.01 · My Tasks: derived and manual tasks",
+     "epic": "EP-11 · My Tasks and dashboards",
+     "coverage": "Partial",
+     "note": "Meetings appear in My Tasks; scheduling with time, location/link and invitees not stated"
+    }
+   ],
+   "gap_note": "Partial only: Meetings appear in My Tasks; scheduling with time, location/link and invitees not stated"
+  },
+  {
+   "uc": "UC91",
+   "name": "Track progress and close a manual task",
+   "clickup": [
+    {
+     "id": "z90uw3vgqv",
+     "feature": "F-11.01 · My Tasks: derived and manual tasks",
+     "epic": "EP-11 · My Tasks and dashboards",
+     "coverage": "Partial",
+     "note": "Manual tasks; status lifecycle, reopen, cancel/delete not stated"
+    },
+    {
+     "id": "z90uw3vgqw",
+     "feature": "F-11.02 · Task views: list, kanban, and calendar",
+     "epic": "EP-11 · My Tasks and dashboards",
+     "coverage": "Partial",
+     "note": "Kanban view implies statuses"
+    }
+   ],
+   "gap_note": "Partial only: Manual tasks; status lifecycle, reopen, cancel/delete not stated; Kanban view implies statuses"
+  },
+  {
+   "uc": "UC92",
+   "name": "Take a decision directly from a task",
+   "clickup": [
+    {
+     "id": "z90uw3vgqv",
+     "feature": "F-11.01 · My Tasks: derived and manual tasks",
+     "epic": "EP-11 · My Tasks and dashboards",
+     "coverage": "Partial",
+     "note": "Lists items awaiting decision; quick-action decisions with AI warning and mandatory justification not stated"
+    },
+    {
+     "id": "z90uw3vgq9",
+     "feature": "F-09.03 · Application actions by stage and permission",
+     "epic": "EP-09 · Workflow and review",
+     "coverage": "Partial",
+     "note": "Same action rules on the application"
+    }
+   ],
+   "gap_note": "Partial only: Lists items awaiting decision; quick-action decisions with AI warning and mandatory justification not stated; Same action rules on the application"
+  },
+  {
+   "uc": "UC93",
+   "name": "Decide several committee items with one minute",
+   "clickup": [
+    {
+     "id": "z90uw3vgqm",
+     "feature": "F-10.02 · Single committee decision with minutes",
+     "epic": "EP-10 · Approvals, committees and decisions",
+     "coverage": "Partial",
+     "note": "Bulk committee decision by minute exists, but not launched from task selection"
+    }
+   ],
+   "gap_note": "Partial only: Bulk committee decision by minute exists, but not launched from task selection"
+  },
+  {
+   "uc": "UC94",
+   "name": "Process tasks in focus mode",
+   "clickup": [],
+   "gap_note": "Not in ClickUp. Focus mode not in backlog."
+  }
+ ],
+ "clickup_map": [
+  {
+   "id": "z90uw3vgmx",
+   "feature": "F-01.01 · Monorepo and CI pipeline",
+   "epic": "EP-01 · Platform technical foundation",
+   "status": "done",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Engineering: monorepo and CI pipeline."
+  },
+  {
+   "id": "z90uw3vgmy",
+   "feature": "F-01.02 · Funder isolation with tenant_id and RLS",
+   "epic": "EP-01 · Platform technical foundation",
+   "status": "done",
+   "ucs": [
+    "UC08"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgmz",
+   "feature": "F-01.03 · Immutable audit log",
+   "epic": "EP-01 · Platform technical foundation",
+   "status": "done",
+   "ucs": [
+    "UC08",
+    "UC18",
+    "UC36"
+   ],
+   "note": "0 Full / 3 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgn0",
+   "feature": "F-01.04 · Outbox, background worker and SLA timers",
+   "epic": "EP-01 · Platform technical foundation",
+   "status": "in progress",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Technical: event outbox, background worker and SLA timers (enabler for task due dates and escalations)."
+  },
+  {
+   "id": "z90uw3vgn1",
+   "feature": "F-01.05 · File service and scanning",
+   "epic": "EP-01 · Platform technical foundation",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Technical: file upload, malware scanning and signed links."
+  },
+  {
+   "id": "z90uw3vgn2",
+   "feature": "F-01.06 · Reference numbers per funder",
+   "epic": "EP-01 · Platform technical foundation",
+   "status": "done",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Per-funder reference numbering (enabler)."
+  },
+  {
+   "id": "z90uw3vgn3",
+   "feature": "F-01.07 · Optimistic concurrency and conflict message",
+   "epic": "EP-01 · Platform technical foundation",
+   "status": "done",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Optimistic concurrency / conflict message."
+  },
+  {
+   "id": "z90uw3vgn4",
+   "feature": "F-02.01 · Sign-in with Nafath and OIDC provider",
+   "epic": "EP-02 · Identity, memberships and permissions",
+   "status": "on hold",
+   "ucs": [
+    "UC01",
+    "UC08"
+   ],
+   "note": "0 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgn5",
+   "feature": "F-02.02 · Multiple memberships and context switcher",
+   "epic": "EP-02 · Identity, memberships and permissions",
+   "status": "done",
+   "ucs": [
+    "UC39"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgn6",
+   "feature": "F-02.03 · ABAC evaluator, conditions library and deny rules",
+   "epic": "EP-02 · Identity, memberships and permissions",
+   "status": "done",
+   "ucs": [
+    "UC08"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgn7",
+   "feature": "F-02.04 · Permission group management per party",
+   "epic": "EP-02 · Identity, memberships and permissions",
+   "status": "done",
+   "ucs": [
+    "UC10"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgn8",
+   "feature": "F-02.05 · User and invitation management",
+   "epic": "EP-02 · Identity, memberships and permissions",
+   "status": "done",
+   "ucs": [
+    "UC09"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgn9",
+   "feature": "F-02.06 · Permission check tool",
+   "epic": "EP-02 · Identity, memberships and permissions",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Admin tool to explain a permission decision."
+  },
+  {
+   "id": "z90uw3vgna",
+   "feature": "F-02.07 · Temporary permissions and field masking",
+   "epic": "EP-02 · Identity, memberships and permissions",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Temporary permissions (external evaluator) and field masking for finance."
+  },
+  {
+   "id": "z90uw3vgnb",
+   "feature": "F-02.08 · Navigation built from permissions",
+   "epic": "EP-02 · Identity, memberships and permissions",
+   "status": "in progress",
+   "ucs": [
+    "UC01",
+    "UC02"
+   ],
+   "note": "1 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgnc",
+   "feature": "F-03.01 · Design tokens and CSS variables from tokens.json",
+   "epic": "EP-03 · Design system and shared UI",
+   "status": "done",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Design tokens (enabler; could underpin UC07 theming)."
+  },
+  {
+   "id": "z90uw3vgnd",
+   "feature": "F-03.02 · Component library on Angular CDK",
+   "epic": "EP-03 · Design system and shared UI",
+   "status": "in progress",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): UI component library."
+  },
+  {
+   "id": "z90uw3vgne",
+   "feature": "F-03.03 · App shell: sidebar, top bar and user menu",
+   "epic": "EP-03 · Design system and shared UI",
+   "status": "done",
+   "ucs": [
+    "UC02"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgng",
+   "feature": "F-03.04 · Entity page template and EntityRef",
+   "epic": "EP-03 · Design system and shared UI",
+   "status": "backlog",
+   "ucs": [
+    "UC58"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgnh",
+   "feature": "F-03.05 · Unified data table and pinned views",
+   "epic": "EP-03 · Design system and shared UI",
+   "status": "backlog",
+   "ucs": [
+    "UC06",
+    "UC48",
+    "UC77",
+    "UC85"
+   ],
+   "note": "1 Full / 3 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgnj",
+   "feature": "F-03.06 · Interaction patterns: action dialogs, notifications, empty states",
+   "epic": "EP-03 · Design system and shared UI",
+   "status": "in progress",
+   "ucs": [
+    "UC08"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgnk",
+   "feature": "F-03.07 · Arabic display of numbers, dates and amounts",
+   "epic": "EP-03 · Design system and shared UI",
+   "status": "done",
+   "ucs": [
+    "UC08"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgnm",
+   "feature": "F-04.01 · Setup status and guided setup checklist",
+   "epic": "EP-04 · Onboarding, policies and framework versions",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Funder onboarding: guided setup checklist."
+  },
+  {
+   "id": "z90uw3vgnn",
+   "feature": "F-04.02 · AI policy builder from files or description",
+   "epic": "EP-04 · Onboarding, policies and framework versions",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): AI policy builder from uploaded policy files."
+  },
+  {
+   "id": "z90uw3vgnp",
+   "feature": "F-04.03 · Policy approval, derived settings and framework version",
+   "epic": "EP-04 · Onboarding, policies and framework versions",
+   "status": "backlog",
+   "ucs": [
+    "UC18",
+    "UC58"
+   ],
+   "note": "0 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgnr",
+   "feature": "F-04.04 · Simulate settings on past applications",
+   "epic": "EP-04 · Onboarding, policies and framework versions",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Simulate new rules on past applications."
+  },
+  {
+   "id": "z90uw3vgnt",
+   "feature": "F-04.05 · Manih features per organization",
+   "epic": "EP-04 · Onboarding, policies and framework versions",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Toggle Manih AI features per organization."
+  },
+  {
+   "id": "z90uw3vgnu",
+   "feature": "F-04.06 · Templates and taxonomies",
+   "epic": "EP-04 · Onboarding, policies and framework versions",
+   "status": "backlog",
+   "ucs": [
+    "UC14",
+    "UC15"
+   ],
+   "note": "1 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgnw",
+   "feature": "F-04.07 · Compare two framework versions",
+   "epic": "EP-04 · Onboarding, policies and framework versions",
+   "status": "backlog",
+   "ucs": [
+    "UC36"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3xhrf",
+   "feature": "F-05.00 · Create an Annual Plan",
+   "epic": "EP-05 · Funding structure and opportunities",
+   "status": "backlog",
+   "ucs": [
+    "UC20"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgny",
+   "feature": "F-05.01 · View and Monitor Annual Plans",
+   "epic": "EP-05 · Funding structure and opportunities",
+   "status": "backlog",
+   "ucs": [
+    "UC19",
+    "UC26",
+    "UC27",
+    "UC83"
+   ],
+   "note": "1 Full / 3 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgnz",
+   "feature": "F-05.02 · Edit and Approve an Annual Plan",
+   "epic": "EP-05 · Funding structure and opportunities",
+   "status": "backlog",
+   "ucs": [
+    "UC21"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgp0",
+   "feature": "F-05.03 · Manage Budget Operations and History",
+   "epic": "EP-05 · Funding structure and opportunities",
+   "status": "backlog",
+   "ucs": [
+    "UC22"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3xhrg",
+   "feature": "F-05.04 · Lock or Reopen an Annual Plan",
+   "epic": "EP-05 · Funding structure and opportunities",
+   "status": "backlog",
+   "ucs": [
+    "UC23"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgp1",
+   "feature": "F-05.05 · Inherited settings: conditions, criteria, form, workflow",
+   "epic": "EP-05 · Funding structure and opportunities",
+   "status": "backlog",
+   "ucs": [
+    "UC13",
+    "UC31"
+   ],
+   "note": "0 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgp2",
+   "feature": "F-05.06 · Template-based application form builder",
+   "epic": "EP-05 · Funding structure and opportunities",
+   "status": "backlog",
+   "ucs": [
+    "UC13",
+    "UC31"
+   ],
+   "note": "1 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgp3",
+   "feature": "F-05.07 · Track scoring settings",
+   "epic": "EP-05 · Funding structure and opportunities",
+   "status": "backlog",
+   "ucs": [
+    "UC31"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgp5",
+   "feature": "F-05.08 · Opportunity basics, application type, access and publishing",
+   "epic": "EP-05 · Funding structure and opportunities",
+   "status": "backlog",
+   "ucs": [
+    "UC28",
+    "UC29"
+   ],
+   "note": "1 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgp6",
+   "feature": "F-05.09 · Create an opportunity from a description",
+   "epic": "EP-05 · Funding structure and opportunities",
+   "status": "backlog",
+   "ucs": [
+    "UC28"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgp7",
+   "feature": "F-05.10 · Targeting, eligibility and eligibility testing",
+   "epic": "EP-05 · Funding structure and opportunities",
+   "status": "backlog",
+   "ucs": [
+    "UC29",
+    "UC30",
+    "UC40"
+   ],
+   "note": "1 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgp8",
+   "feature": "F-05.11 · Tendered projects: invitations, bids and award",
+   "epic": "EP-05 · Funding structure and opportunities",
+   "status": "backlog",
+   "ucs": [
+    "UC34",
+    "UC35",
+    "UC41"
+   ],
+   "note": "1 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgp9",
+   "feature": "F-05.12 · Item catalog with balances and caps",
+   "epic": "EP-05 · Funding structure and opportunities",
+   "status": "backlog",
+   "ucs": [
+    "UC33",
+    "UC42",
+    "UC66"
+   ],
+   "note": "1 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgpa",
+   "feature": "F-06.01 · Register by license number and fetch National Register data",
+   "epic": "EP-06 · Association registration and profile",
+   "status": "backlog",
+   "ucs": [
+    "UC37",
+    "UC38"
+   ],
+   "note": "1 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgpb",
+   "feature": "F-06.02 · Verification, delegation and alternative path",
+   "epic": "EP-06 · Association registration and profile",
+   "status": "backlog",
+   "ucs": [
+    "UC37",
+    "UC38",
+    "UC47"
+   ],
+   "note": "1 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgpc",
+   "feature": "F-06.03 · Unified association profile with Muhsin",
+   "epic": "EP-06 · Association registration and profile",
+   "status": "backlog",
+   "ucs": [
+    "UC44"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgpd",
+   "feature": "F-06.04 · Documents with expiry dates and document AI",
+   "epic": "EP-06 · Association registration and profile",
+   "status": "backlog",
+   "ucs": [
+    "UC44",
+    "UC52"
+   ],
+   "note": "0 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgpe",
+   "feature": "F-06.05 · Request a register data update",
+   "epic": "EP-06 · Association registration and profile",
+   "status": "backlog",
+   "ucs": [
+    "UC44",
+    "UC52"
+   ],
+   "note": "0 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgpg",
+   "feature": "F-06.06 · Association users and delegation hierarchy",
+   "epic": "EP-06 · Association registration and profile",
+   "status": "backlog",
+   "ucs": [
+    "UC53"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgph",
+   "feature": "F-07.01 · Association dashboard",
+   "epic": "EP-07 · Opportunities and guided application",
+   "status": "backlog",
+   "ucs": [
+    "UC39"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgpj",
+   "feature": "F-07.02 · Match and rank opportunities by specialty",
+   "epic": "EP-07 · Opportunities and guided application",
+   "status": "backlog",
+   "ucs": [
+    "UC40"
+   ],
+   "note": "0 Full / 1 Partial link(s); Specialty-based opportunity ranking (supports UC40)."
+  },
+  {
+   "id": "z90uw3vgpm",
+   "feature": "F-07.03 · Opportunities page and digest notification",
+   "epic": "EP-07 · Opportunities and guided application",
+   "status": "backlog",
+   "ucs": [
+    "UC40"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgpq",
+   "feature": "F-07.04 · Readiness check and readiness dashboard",
+   "epic": "EP-07 · Opportunities and guided application",
+   "status": "backlog",
+   "ucs": [
+    "UC30",
+    "UC40"
+   ],
+   "note": "0 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgpv",
+   "feature": "F-07.05 · Interactive application with Muhsin",
+   "epic": "EP-07 · Opportunities and guided application",
+   "status": "backlog",
+   "ucs": [
+    "UC42"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgpw",
+   "feature": "F-07.06 · Review, declaration and submission",
+   "epic": "EP-07 · Opportunities and guided application",
+   "status": "backlog",
+   "ucs": [
+    "UC42"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgpx",
+   "feature": "F-07.07 · My Applications and what is required from me",
+   "epic": "EP-07 · Opportunities and guided application",
+   "status": "backlog",
+   "ucs": [
+    "UC43",
+    "UC61"
+   ],
+   "note": "1 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgpy",
+   "feature": "F-07.08 · Use a ready-made proposal",
+   "epic": "EP-07 · Opportunities and guided application",
+   "status": "backlog",
+   "ucs": [
+    "UC42"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgpz",
+   "feature": "F-08.01 · Application sources and natural key",
+   "epic": "EP-08 · Application intake and sources",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Multi-source intake (Ataa, Atheer, import, API) with dedup natural key."
+  },
+  {
+   "id": "z90uw3vgq0",
+   "feature": "F-08.02 · Merge answers and source status",
+   "epic": "EP-08 · Application intake and sources",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Merge answers across sources and show source status."
+  },
+  {
+   "id": "z90uw3vgq2",
+   "feature": "F-08.03 · Application list with analysis status and stage",
+   "epic": "EP-08 · Application intake and sources",
+   "status": "backlog",
+   "ucs": [
+    "UC57"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgq3",
+   "feature": "F-08.04 · Completion form without an account",
+   "epic": "EP-08 · Application intake and sources",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): One-time completion form for applications that arrived without answers."
+  },
+  {
+   "id": "z90uw3vgq4",
+   "feature": "F-08.05 · Classify applications without a track",
+   "epic": "EP-08 · Application intake and sources",
+   "status": "backlog",
+   "ucs": [
+    "UC26"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgq5",
+   "feature": "F-08.06 · Documents, fetch status and product basket",
+   "epic": "EP-08 · Application intake and sources",
+   "status": "backlog",
+   "ucs": [
+    "UC33"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgq6",
+   "feature": "F-08.07 · Partner API for applications",
+   "epic": "EP-08 · Application intake and sources",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Partner API for submitting applications."
+  },
+  {
+   "id": "z90uw3vgq7",
+   "feature": "F-09.01 · Workflow stages and engines",
+   "epic": "EP-09 · Workflow and review",
+   "status": "backlog",
+   "ucs": [
+    "UC31",
+    "UC32"
+   ],
+   "note": "1 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgq8",
+   "feature": "F-09.02 · Automatic assignment, reassignment and absence",
+   "epic": "EP-09 · Workflow and review",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Automatic assignment, reassignment and absence handling."
+  },
+  {
+   "id": "z90uw3vgq9",
+   "feature": "F-09.03 · Application actions by stage and permission",
+   "epic": "EP-09 · Workflow and review",
+   "status": "backlog",
+   "ucs": [
+    "UC58",
+    "UC60",
+    "UC61",
+    "UC92"
+   ],
+   "note": "1 Full / 3 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgqa",
+   "feature": "F-09.04 · Review file and automated checks",
+   "epic": "EP-09 · Workflow and review",
+   "status": "backlog",
+   "ucs": [
+    "UC58",
+    "UC59"
+   ],
+   "note": "0 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgqb",
+   "feature": "F-09.05 · Scoring against criteria and pass mark",
+   "epic": "EP-09 · Workflow and review",
+   "status": "backlog",
+   "ucs": [
+    "UC59",
+    "UC60"
+   ],
+   "note": "1 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgqc",
+   "feature": "F-09.06 · Independent review mode",
+   "epic": "EP-09 · Workflow and review",
+   "status": "backlog",
+   "ucs": [
+    "UC59"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgqd",
+   "feature": "F-09.07 · Request for information pauses the SLA timer",
+   "epic": "EP-09 · Workflow and review",
+   "status": "backlog",
+   "ucs": [
+    "UC43"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgqe",
+   "feature": "F-09.08 · Budget review and proposed schedule",
+   "epic": "EP-09 · Workflow and review",
+   "status": "backlog",
+   "ucs": [
+    "UC59",
+    "UC67"
+   ],
+   "note": "0 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgqf",
+   "feature": "F-09.09 · Conflict of interest",
+   "epic": "EP-09 · Workflow and review",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Conflict-of-interest declaration and reassignment."
+  },
+  {
+   "id": "z90uw3vgqh",
+   "feature": "F-09.10 · External evaluator and site visits",
+   "epic": "EP-09 · Workflow and review",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): External evaluator assignment and site visits."
+  },
+  {
+   "id": "z90uw3vgqk",
+   "feature": "F-10.01 · Approval engine with amount limits",
+   "epic": "EP-10 · Approvals, committees and decisions",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Amount-based approval levels for applications."
+  },
+  {
+   "id": "z90uw3vgqm",
+   "feature": "F-10.02 · Single committee decision with minutes",
+   "epic": "EP-10 · Approvals, committees and decisions",
+   "status": "backlog",
+   "ucs": [
+    "UC62",
+    "UC93"
+   ],
+   "note": "1 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgqn",
+   "feature": "F-10.03 · Extract decisions from minutes",
+   "epic": "EP-10 · Approvals, committees and decisions",
+   "status": "backlog",
+   "ucs": [
+    "UC62"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgqp",
+   "feature": "F-10.04 · Committee presentation file",
+   "epic": "EP-10 · Approvals, committees and decisions",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Committee presentation PDF per meeting."
+  },
+  {
+   "id": "z90uw3vgqt",
+   "feature": "F-10.05 · Decision rationale and decision log",
+   "epic": "EP-10 · Approvals, committees and decisions",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Decision rationale page for auditors."
+  },
+  {
+   "id": "z90uw3vgqu",
+   "feature": "F-10.06 · Decision notification and decline letter",
+   "epic": "EP-10 · Approvals, committees and decisions",
+   "status": "backlog",
+   "ucs": [
+    "UC60"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgqv",
+   "feature": "F-11.01 · My Tasks: derived and manual tasks",
+   "epic": "EP-11 · My Tasks and dashboards",
+   "status": "backlog",
+   "ucs": [
+    "UC86",
+    "UC87",
+    "UC88",
+    "UC89",
+    "UC90",
+    "UC91",
+    "UC92"
+   ],
+   "note": "2 Full / 5 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgqw",
+   "feature": "F-11.02 · Task views: list, kanban, and calendar",
+   "epic": "EP-11 · My Tasks and dashboards",
+   "status": "backlog",
+   "ucs": [
+    "UC88",
+    "UC91"
+   ],
+   "note": "1 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgqx",
+   "feature": "F-11.03 · Funder dashboard and inbox",
+   "epic": "EP-11 · My Tasks and dashboards",
+   "status": "backlog",
+   "ucs": [
+    "UC27"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgqz",
+   "feature": "F-11.04 · Finance and CEO dashboards",
+   "epic": "EP-11 · My Tasks and dashboards",
+   "status": "backlog",
+   "ucs": [
+    "UC77",
+    "UC83",
+    "UC84"
+   ],
+   "note": "0 Full / 3 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgr0",
+   "feature": "F-11.05 · Staff member page",
+   "epic": "EP-11 · My Tasks and dashboards",
+   "status": "backlog",
+   "ucs": [
+    "UC12"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgr1",
+   "feature": "F-12.01 · Agreement generation and contract stages",
+   "epic": "EP-12 · Agreements, projects and deliverables",
+   "status": "backlog",
+   "ucs": [
+    "UC65",
+    "UC68",
+    "UC69"
+   ],
+   "note": "1 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgr2",
+   "feature": "F-12.02 · Project list and project page",
+   "epic": "EP-12 · Agreements, projects and deliverables",
+   "status": "backlog",
+   "ucs": [
+    "UC26",
+    "UC65",
+    "UC68",
+    "UC70",
+    "UC71"
+   ],
+   "note": "1 Full / 4 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgr3",
+   "feature": "F-12.03 · Project plan with activities and edit session",
+   "epic": "EP-12 · Agreements, projects and deliverables",
+   "status": "backlog",
+   "ucs": [
+    "UC72"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgr4",
+   "feature": "F-12.04 · Deliverables, reminders, and escalation",
+   "epic": "EP-12 · Agreements, projects and deliverables",
+   "status": "backlog",
+   "ucs": [
+    "UC45",
+    "UC70",
+    "UC72",
+    "UC73",
+    "UC74",
+    "UC78"
+   ],
+   "note": "2 Full / 4 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgr5",
+   "feature": "F-12.05 · Change request and agreement addendum",
+   "epic": "EP-12 · Agreements, projects and deliverables",
+   "status": "backlog",
+   "ucs": [
+    "UC75"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgr8",
+   "feature": "F-12.06 · Reports and final report",
+   "epic": "EP-12 · Agreements, projects and deliverables",
+   "status": "backlog",
+   "ucs": [
+    "UC45",
+    "UC73"
+   ],
+   "note": "0 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgr9",
+   "feature": "F-12.07 · Closure, settlement, and performance evaluation",
+   "epic": "EP-12 · Agreements, projects and deliverables",
+   "status": "backlog",
+   "ucs": [
+    "UC76"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgrc",
+   "feature": "F-13.01 · Payment statuses and schedule",
+   "epic": "EP-13 · Payments and disbursement",
+   "status": "backlog",
+   "ucs": [
+    "UC67",
+    "UC68",
+    "UC77",
+    "UC78"
+   ],
+   "note": "0 Full / 4 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgrf",
+   "feature": "F-13.02 · Payment approval chain",
+   "epic": "EP-13 · Payments and disbursement",
+   "status": "backlog",
+   "ucs": [
+    "UC79"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgrg",
+   "feature": "F-13.03 · Blockers and automatic suspension",
+   "epic": "EP-13 · Payments and disbursement",
+   "status": "backlog",
+   "ucs": [
+    "UC78"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgrh",
+   "feature": "F-13.04 · Transfer recording and receipt voucher",
+   "epic": "EP-13 · Payments and disbursement",
+   "status": "backlog",
+   "ucs": [
+    "UC81",
+    "UC82"
+   ],
+   "note": "1 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgrj",
+   "feature": "F-13.05 · Receipt acknowledgement and dealings suspension",
+   "epic": "EP-13 · Payments and disbursement",
+   "status": "backlog",
+   "ucs": [
+    "UC45",
+    "UC82"
+   ],
+   "note": "0 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgrk",
+   "feature": "F-13.06 · Payment order export and finance system reference",
+   "epic": "EP-13 · Payments and disbursement",
+   "status": "backlog",
+   "ucs": [
+    "UC80"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgrm",
+   "feature": "F-14.01 · Association directory",
+   "epic": "EP-14 · Associations at the funder",
+   "status": "backlog",
+   "ucs": [
+    "UC48",
+    "UC49"
+   ],
+   "note": "1 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgrn",
+   "feature": "F-14.02 · Live association groups",
+   "epic": "EP-14 · Associations at the funder",
+   "status": "backlog",
+   "ucs": [
+    "UC30",
+    "UC56"
+   ],
+   "note": "1 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgrp",
+   "feature": "F-14.03 · Funder-side association profile and update requests",
+   "epic": "EP-14 · Associations at the funder",
+   "status": "backlog",
+   "ucs": [
+    "UC47",
+    "UC49",
+    "UC52"
+   ],
+   "note": "1 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgrq",
+   "feature": "F-14.04 · Association account status with the foundation",
+   "epic": "EP-14 · Associations at the funder",
+   "status": "backlog",
+   "ucs": [
+    "UC50"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgrt",
+   "feature": "F-14.05 · Bank account and verification",
+   "epic": "EP-14 · Associations at the funder",
+   "status": "backlog",
+   "ucs": [
+    "UC44",
+    "UC51"
+   ],
+   "note": "1 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgrv",
+   "feature": "F-14.06 · Team, primary representative and action log",
+   "epic": "EP-14 · Associations at the funder",
+   "status": "backlog",
+   "ucs": [
+    "UC49",
+    "UC53"
+   ],
+   "note": "1 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgrw",
+   "feature": "F-14.07 · Association classification",
+   "epic": "EP-14 · Associations at the funder",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Funder-configured association classification."
+  },
+  {
+   "id": "z90uw3vgrx",
+   "feature": "F-15.01 · Manih adapter and asynchronous contract",
+   "epic": "EP-15 · AI layer: Manih and Muhsin",
+   "status": "backlog",
+   "ucs": [
+    "UC46"
+   ],
+   "note": "0 Full / 1 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgry",
+   "feature": "F-15.02 · Application analysis and its states",
+   "epic": "EP-15 · AI layer: Manih and Muhsin",
+   "status": "backlog",
+   "ucs": [
+    "UC46",
+    "UC59"
+   ],
+   "note": "0 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgrz",
+   "feature": "F-15.03 · Personal data masking and AI shutoff",
+   "epic": "EP-15 · AI layer: Manih and Muhsin",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): PII masking before AI and global AI shutoff."
+  },
+  {
+   "id": "z90uw3vgt0",
+   "feature": "F-15.04 · AI components in the interface",
+   "epic": "EP-15 · AI layer: Manih and Muhsin",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): AI output UI components (evidence, accept/edit/rate)."
+  },
+  {
+   "id": "z90uw3vgt1",
+   "feature": "F-15.05 · In-page assistant: Muhsin and Manih",
+   "epic": "EP-15 · AI layer: Manih and Muhsin",
+   "status": "backlog",
+   "ucs": [
+    "UC05"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgt3",
+   "feature": "F-15.06 · Contextual action hints",
+   "epic": "EP-15 · AI layer: Manih and Muhsin",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Contextual action hints."
+  },
+  {
+   "id": "z90uw3vgt4",
+   "feature": "F-15.07 · Correspondence drafts",
+   "epic": "EP-15 · AI layer: Manih and Muhsin",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): AI correspondence drafts."
+  },
+  {
+   "id": "z90uw3vgt5",
+   "feature": "F-15.08 · Evaluation suite and thresholds",
+   "epic": "EP-15 · AI layer: Manih and Muhsin",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): AI evaluation suite and release thresholds."
+  },
+  {
+   "id": "z90uw3vgt6",
+   "feature": "F-16.01 · Instant search and command palette",
+   "epic": "EP-16 · Search, reports and questions",
+   "status": "backlog",
+   "ucs": [
+    "UC04"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgtd",
+   "feature": "F-16.02 · Standard reports",
+   "epic": "EP-16 · Search, reports and questions",
+   "status": "backlog",
+   "ucs": [
+    "UC83",
+    "UC85"
+   ],
+   "note": "0 Full / 2 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgte",
+   "feature": "F-16.03 · Indicators dashboard with filters and export",
+   "epic": "EP-16 · Search, reports and questions",
+   "status": "backlog",
+   "ucs": [
+    "UC84"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgtf",
+   "feature": "F-16.04 · Natural language questions",
+   "epic": "EP-16 · Search, reports and questions",
+   "status": "backlog",
+   "ucs": [
+    "UC05"
+   ],
+   "note": "0 Full / 1 Partial link(s); Natural-language data questions via semantic layer."
+  },
+  {
+   "id": "z90uw3vgth",
+   "feature": "F-16.05 · 360Giving export",
+   "epic": "EP-16 · Search, reports and questions",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): 360Giving export."
+  },
+  {
+   "id": "z90uw3vgtq",
+   "feature": "F-17.01 · In-app and official email notifications",
+   "epic": "EP-17 · Notifications and messaging",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): In-app and official-email notifications (BRD only mentions notifications inside individual UCs)."
+  },
+  {
+   "id": "z90uw3vgtr",
+   "feature": "F-17.02 · User notification preferences",
+   "epic": "EP-17 · Notifications and messaging",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): User notification channel preferences."
+  },
+  {
+   "id": "z90uw3vgtt",
+   "feature": "F-17.03 · WhatsApp for reminders and urgent alerts",
+   "epic": "EP-17 · Notifications and messaging",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): WhatsApp reminders and urgent alerts."
+  },
+  {
+   "id": "z90uw3vgtu",
+   "feature": "F-18.01 · Platform dashboard and funders",
+   "epic": "EP-18 · WBL console",
+   "status": "done",
+   "ucs": [
+    "UC17"
+   ],
+   "note": "1 Full / 0 Partial link(s)"
+  },
+  {
+   "id": "z90uw3vgtv",
+   "feature": "F-18.02 · Usage and billing",
+   "epic": "EP-18 · WBL console",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): WBL usage tracking and billing."
+  },
+  {
+   "id": "z90uw3vgtw",
+   "feature": "F-18.03 · Temporary support access",
+   "epic": "EP-18 · WBL console",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Funder-granted temporary support access for WBL."
+  },
+  {
+   "id": "z90uw3vgtx",
+   "feature": "F-18.04 · Unified associations",
+   "epic": "EP-18 · WBL console",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Cross-funder unified association records."
+  },
+  {
+   "id": "z90uw3vgtz",
+   "feature": "F-18.05 · AI, templates, integrations and security",
+   "epic": "EP-18 · WBL console",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): WBL console: AI settings, templates, integrations, security log."
+  },
+  {
+   "id": "z90uw3vgu0",
+   "feature": "F-19.01 · Supplier portal and delivery confirmation",
+   "epic": "EP-19 · Suppliers",
+   "status": "backlog",
+   "ucs": [
+    "UC66"
+   ],
+   "note": "0 Full / 1 Partial link(s); Supplier portal and delivery confirmation."
+  },
+  {
+   "id": "z90uw3vgu1",
+   "feature": "F-19.02 · Supplier matching and payment",
+   "epic": "EP-19 · Suppliers",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Supplier matching and payment."
+  },
+  {
+   "id": "z90uw3vgu2",
+   "feature": "F-20.01 · In-Kingdom hosting",
+   "epic": "EP-20 · Quality, security and launch",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): In-Kingdom hosting (NFR)."
+  },
+  {
+   "id": "z90uw3vgu3",
+   "feature": "F-20.02 · Performance, availability and backups",
+   "epic": "EP-20 · Quality, security and launch",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Performance, availability, backups (NFR)."
+  },
+  {
+   "id": "z90uw3vgu5",
+   "feature": "F-20.03 · Accessibility and mobile",
+   "epic": "EP-20 · Quality, security and launch",
+   "status": "backlog",
+   "ucs": [
+    "UC02"
+   ],
+   "note": "0 Full / 1 Partial link(s); Accessibility and mobile (NFR)."
+  },
+  {
+   "id": "z90uw3vgu7",
+   "feature": "F-20.04 · Security hardening and trust file",
+   "epic": "EP-20 · Quality, security and launch",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Security hardening and trust file (NFR)."
+  },
+  {
+   "id": "z90uw3vgu9",
+   "feature": "F-20.05 · Migrating the funder's existing data",
+   "epic": "EP-20 · Quality, security and launch",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Migration of Al-Malahi existing data."
+  },
+  {
+   "id": "z90uw3vgua",
+   "feature": "F-20.06 · Launch acceptance with Al-Malahi",
+   "epic": "EP-20 · Quality, security and launch",
+   "status": "backlog",
+   "ucs": [],
+   "note": "ClickUp only (not in BRD): Launch acceptance testing with Al-Malahi."
+  }
+ ]
+}

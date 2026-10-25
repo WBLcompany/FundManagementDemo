@@ -1,0 +1,1199 @@
+[
+ {
+  "id": "z90uw3vgnz",
+  "feature": "F-05.02 · Edit and Approve an Annual Plan",
+  "epic": "EP-05 · Funding structure and opportunities",
+  "story": "As a grants manager, I want to manage each level while keeping balances consistent.",
+  "acceptance": "A level with children cannot be deleted; an opportunity with applications is archived; edits require a supporting document",
+  "text": "Feature: Edit and Approve an Annual Plan\n\nBRD reference: Section 4.4 (Annual Plan) · UC21\n\nGoal: As an authorized user, I want to edit an annual plan's details and structure and submit it for approval, so that the plan reflects the agreed budget and initiatives.\n\nSummary: The user edits the plan header and hierarchy in one edit session. The system previews changes and warnings, then saves all changes together with required evidence and records an audit trail.\n\nStories: the ready story with its full details (scenario, business requirements, errors and fields) is the subtask UC21 – Edit and Approve an Annual Plan.\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · Sprint 2\nReferences: N-34, BR-FND-02, RUL-01–RUL-06\nSize: L (8 points) · AI: No · Depends on: F-05.01\nScope: Annual Plan only — endowment funding and consumption from applications, projects and payments are handled separate",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgny",
+  "feature": "F-05.01 · View and Monitor Annual Plans",
+  "epic": "EP-05 · Funding structure and opportunities",
+  "story": "As a grants manager, I want to view portfolios, tracks, initiatives and opportunities with allocated, approved and available amounts.",
+  "acceptance": "A track can be funded from more than one portfolio; the matrix matches the tree",
+  "text": "Feature: View and Monitor Annual Plans\n\nBRD reference: Section 4.4 (Annual Plan) · UC19\n\nGoal: As an authorized user, I want to view annual plans and monitor their budget performance, so that I can understand the organization’s plan portfolio and access the actions available to me.\n\nSummary: The user views the organization's annual plans, portfolio indicators and each plan's financial position. The user can search/filter, export the register, open a plan summary, and navigate to available plan actions.\n\nStories: the ready story with its full details (scenario, business requirements, errors and fields) is the subtask UC19 – View and Monitor Annual Plans.\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · Sprint 2\nReferences: N-29, BR-FND-01, BR-FND-05\nSize: L (8 points) · AI: No · Depends on: F-01.02\nScope: Annual Plan only — endowment funding and consumption from applications, proj",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgnw",
+  "feature": "F-04.07 · Compare two framework versions",
+  "epic": "EP-04 · Onboarding, policies and framework versions",
+  "story": "As an auditor, I want the differences between two versions, plus who approved them and why.",
+  "acceptance": "Differences are shown with the approver and the reason",
+  "text": "Story: As an auditor, I want the differences between two versions, plus who approved them and why.\n\nAcceptance criterion: Differences are shown with the approver and the reason\n\nParty: Funder\nPriority · Release · Sprint: Could · R2 · S6 (ClickUp Sprint 4)\nReferences: R-088\nSize: M (5 points) · AI: Yes · Depends on: F-04.03\nIn prototype: — · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgnu",
+  "feature": "F-04.06 · Templates and taxonomies",
+  "epic": "EP-04 · Onboarding, policies and framework versions",
+  "story": "As a system administrator, I want decline, contract and notification templates with variables, and taxonomies that lists read from.",
+  "acceptance": "Lists come from taxonomies, not hard-coded values",
+  "text": "Story: As a system administrator, I want decline, contract and notification templates with variables, and taxonomies that lists read from.\n\nAcceptance criterion: Lists come from taxonomies, not hard-coded values\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S2 (ClickUp Sprint 2)\nReferences: R-001, §4.2 Analysis\nSize: M (5 points) · AI: No · Depends on: F-04.03\nIn prototype: Partial · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgnt",
+  "feature": "F-04.05 · Manih features per organization",
+  "epic": "EP-04 · Onboarding, policies and framework versions",
+  "story": "As a system administrator, I want to enable or disable the completion form, eligibility check, automatic feedback and the analysis portfolio.",
+  "acceptance": "The setting applies to new items and is recorded in the audit log",
+  "text": "Story: As a system administrator, I want to enable or disable the completion form, eligibility check, automatic feedback and the analysis portfolio.\n\nAcceptance criterion: The setting applies to new items and is recorded in the audit log\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S2 (ClickUp Sprint 2)\nReferences: BR-CFG-08\nSize: S (3 points) · AI: No · Depends on: F-04.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgnr",
+  "feature": "F-04.04 · Simulate settings on past applications",
+  "epic": "EP-04 · Onboarding, policies and framework versions",
+  "story": "As a system administrator, I want to see how new rules would affect our past decisions before approving them.",
+  "acceptance": "Shows the decisions that differ and why",
+  "text": "Story: As a system administrator, I want to see how new rules would affect our past decisions before approving them.\n\nAcceptance criterion: Shows the decisions that differ and why\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S2 (ClickUp Sprint 2)\nReferences: BR-CFG-03\nSize: M (5 points) · AI: No · Depends on: F-04.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgnp",
+  "feature": "F-04.03 · Policy approval, derived settings and framework version",
+  "epic": "EP-04 · Onboarding, policies and framework versions",
+  "story": "As a system administrator, I want two approvals, followed by a new framework version that applies to new applications.",
+  "acceptance": "Each application is pinned to the version it was submitted under; decisions are stamped with that version number",
+  "text": "Story: As a system administrator, I want two approvals, followed by a new framework version that applies to new applications.\n\nAcceptance criterion: Each application is pinned to the version it was submitted under; decisions are stamped with that version number\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S2 (ClickUp Sprint 2)\nReferences: R-004, R-005, R-087, BR-CFG-02, D-04\nSize: L (8 points) · AI: No · Depends on: F-01.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgnn",
+  "feature": "F-04.02 · AI policy builder from files or description",
+  "epic": "EP-04 · Onboarding, policies and framework versions",
+  "story": "As a system administrator, I want to upload our policies or describe them so that Manih builds a draft in which every clause points to its source.",
+  "acceptance": "Every clause has a source; the manual alternative works",
+  "text": "Story: As a system administrator, I want to upload our policies or describe them so that Manih builds a draft in which every clause points to its source.\n\nAcceptance criterion: Every clause has a source; the manual alternative works\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S2 (ClickUp Sprint 2)\nReferences: R-003, N-30, BR-CFG-01\nSize: L (8 points) · AI: Yes · Depends on: F-15.01\nIn prototype: Yes · Cut candidate: Yes",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgnm",
+  "feature": "F-04.01 · Setup status and guided setup checklist",
+  "epic": "EP-04 · Onboarding, policies and framework versions",
+  "story": "As a funder system administrator, I want to see what is missing before opening applications.",
+  "acceptance": "Applications cannot open while a mandatory item is missing",
+  "text": "Story: As a funder system administrator, I want to see what is missing before opening applications.\n\nAcceptance criterion: Applications cannot open while a mandatory item is missing\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S2 (ClickUp Sprint 2)\nReferences: R-006, N-14, BR-CFG-09\nSize: S (3 points) · AI: No · Depends on: F-04.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgnk",
+  "feature": "F-03.07 · Arabic display of numbers, dates and amounts",
+  "epic": "EP-03 · Design system and shared UI",
+  "story": "As a user, I want Western digits, properly aligned amounts and references, and both calendar dates on official documents.",
+  "acceptance": "References are wrapped in <bdi>; dates use Riyadh time",
+  "text": "Story: As a user, I want Western digits, properly aligned amounts and references, and both calendar dates on official documents.\n\nAcceptance criterion: References are wrapped in <bdi>; dates use Riyadh time\n\nParty: All parties\nPriority · Release · Sprint: Must · MVP · S1 (ClickUp Sprint 1)\nReferences: N-13, D-11\nSize: S (3 points) · AI: No · Depends on: F-03.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "done"
+ },
+ {
+  "id": "z90uw3vgnj",
+  "feature": "F-03.06 · Interaction patterns: action dialogs, notifications, empty states",
+  "epic": "EP-03 · Design system and shared UI",
+  "story": "As a user, I want to know the effect of an action before confirming it, and clear messages for empty and error states.",
+  "acceptance": "Every final action has a dialog stating its effect; Skeleton loaders are shown while loading",
+  "text": "Story: As a user, I want to know the effect of an action before confirming it, and clear messages for empty and error states.\n\nAcceptance criterion: Every final action has a dialog stating its effect; Skeleton loaders are shown while loading\n\nParty: All parties\nPriority · Release · Sprint: Must · MVP · S1 (ClickUp Sprint 1)\nReferences: BR-WF-05, §23.8 Analysis\nSize: S (3 points) · AI: No · Depends on: F-03.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "in progress"
+ },
+ {
+  "id": "z90uw3vgnh",
+  "feature": "F-03.05 · Unified data table and pinned views",
+  "epic": "EP-03 · Design system and shared UI",
+  "story": "As a staff member, I want tables I can search, filter and export, and to pin my preferred view.",
+  "acceptance": "XLSX export uses RTL direction; the table opens with the pinned view",
+  "text": "Story: As a staff member, I want tables I can search, filter and export, and to pin my preferred view.\n\nAcceptance criterion: XLSX export uses RTL direction; the table opens with the pinned view\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S1 (ClickUp Sprint 1)\nReferences: BR-UX-01, §4.12 Analysis\nSize: M (5 points) · AI: No · Depends on: F-03.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgng",
+  "feature": "F-03.04 · Entity page template and EntityRef",
+  "epic": "EP-03 · Design system and shared UI",
+  "story": "As a user, I want a consistent page for every item, and every mention of an item to be a link if I have view access.",
+  "acceptance": "Users without view access see the name without a link",
+  "text": "Story: As a user, I want a consistent page for every item, and every mention of an item to be a link if I have view access.\n\nAcceptance criterion: Users without view access see the name without a link\n\nParty: All parties\nPriority · Release · Sprint: Must · MVP · S0 (ClickUp Sprint 1)\nReferences: R-097, T-05\nSize: M (5 points) · AI: No · Depends on: F-03.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgne",
+  "feature": "F-03.03 · App shell: sidebar, top bar and user menu",
+  "epic": "EP-03 · Design system and shared UI",
+  "story": "As a user, I want a fixed sidebar and top bar, and a user menu for profile, notifications and security.",
+  "acceptance": "One layout for all three parties; on mobile the menu is a drawer from the right",
+  "text": "Story: As a user, I want a fixed sidebar and top bar, and a user menu for profile, notifications and security.\n\nAcceptance criterion: One layout for all three parties; on mobile the menu is a drawer from the right\n\nParty: All parties\nPriority · Release · Sprint: Must · MVP · S0 (ClickUp Sprint 1)\nReferences: N-31\nSize: M (5 points) · AI: No · Depends on: F-03.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "done"
+ },
+ {
+  "id": "z90uw3vgnd",
+  "feature": "F-03.02 · Component library on Angular CDK",
+  "epic": "EP-03 · Design system and shared UI",
+  "story": "As a developer, I want buttons, fields, tables, drawers and dialogs that work in RTL and are accessible.",
+  "acceptance": "A showcase page displays components in all their states; axe reports no critical errors",
+  "text": "Story: As a developer, I want buttons, fields, tables, drawers and dialogs that work in RTL and are accessible.\n\nAcceptance criterion: A showcase page displays components in all their states; axe reports no critical errors\n\nParty: Technical\nPriority · Release · Sprint: Must · MVP · S0 (ClickUp Sprint 1)\nReferences: T-03, N-10\nSize: L (8 points) · AI: No · Depends on: F-03.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "in progress"
+ },
+ {
+  "id": "z90uw3vgnc",
+  "feature": "F-03.01 · Design tokens and CSS variables from tokens.json",
+  "epic": "EP-03 · Design system and shared UI",
+  "story": "As a developer, I want a single source for colors, fonts and spacing.",
+  "acceptance": "No HEX value appears in any component",
+  "text": "Story: As a developer, I want a single source for colors, fonts and spacing.\n\nAcceptance criterion: No HEX value appears in any component\n\nParty: Technical\nPriority · Release · Sprint: Must · MVP · S0 (ClickUp Sprint 1)\nReferences: T-02\nSize: S (3 points) · AI: No · Depends on: F-01.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "done"
+ },
+ {
+  "id": "z90uw3vgnb",
+  "feature": "F-02.08 · Navigation built from permissions",
+  "epic": "EP-02 · Identity, memberships and permissions",
+  "story": "As a user, I want the menu to show only what I have access to.",
+  "acceptance": "A user with two groups sees the union of both groups' screens",
+  "text": "Story: As a user, I want the menu to show only what I have access to.\n\nAcceptance criterion: A user with two groups sees the union of both groups' screens\n\nParty: All parties\nPriority · Release · Sprint: Must · MVP · S1 (ClickUp Sprint 1)\nReferences: D-16, BR-IAM-02\nSize: S (3 points) · AI: No · Depends on: F-02.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "in progress"
+ },
+ {
+  "id": "z90uw3vgna",
+  "feature": "F-02.07 · Temporary permissions and field masking",
+  "epic": "EP-02 · Identity, memberships and permissions",
+  "story": "As a funder, I want to assign an external evaluator temporarily, and have finance see only the payment fields.",
+  "acceptance": "Access is revoked when the end date passes; finance cannot open the proposal",
+  "text": "Story: As a funder, I want to assign an external evaluator temporarily, and have finance see only the payment fields.\n\nAcceptance criterion: Access is revoked when the end date passes; finance cannot open the proposal\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S1 (ClickUp Sprint 1)\nReferences: N-19, N-20, R-081, R-041\nSize: M (5 points) · AI: No · Depends on: F-02.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgn9",
+  "feature": "F-02.06 · Permission check tool",
+  "epic": "EP-02 · Identity, memberships and permissions",
+  "story": "As a permissions administrator, I want to ask \"Can this person do this action on this item?\" and see the reason.",
+  "acceptance": "The result and the decision steps come from the same evaluator",
+  "text": "Story: As a permissions administrator, I want to ask \"Can this person do this action on this item?\" and see the reason.\n\nAcceptance criterion: The result and the decision steps come from the same evaluator\n\nParty: All parties\nPriority · Release · Sprint: Should · MVP · S1 (ClickUp Sprint 1)\nReferences: N-17, BR-IAM-05\nSize: S (3 points) · AI: No · Depends on: F-02.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgn8",
+  "feature": "F-02.05 · User and invitation management",
+  "epic": "EP-02 · Identity, memberships and permissions",
+  "story": "As a permissions administrator, I want to add a user by invitation and set their groups and attributes.",
+  "acceptance": "A segregation-of-duties warning appears before saving; users cannot edit their own access",
+  "text": "Story: As a permissions administrator, I want to add a user by invitation and set their groups and attributes.\n\nAcceptance criterion: A segregation-of-duties warning appears before saving; users cannot edit their own access\n\nParty: All parties\nPriority · Release · Sprint: Must · MVP · S1 (ClickUp Sprint 1)\nReferences: R-012, R-091, N-18\nSize: M (5 points) · AI: No · Depends on: F-02.04\nIn prototype: Yes · Cut candidate: No",
+  "status": "done"
+ },
+ {
+  "id": "z90uw3vgn7",
+  "feature": "F-02.04 · Permission group management per party",
+  "epic": "EP-02 · Identity, memberships and permissions",
+  "story": "As a permissions administrator, I want to copy a template into a custom group and edit its matrix as a draft.",
+  "acceptance": "Edits stay in draft until a second approver (four-eyes) approves them; system templates cannot be deleted",
+  "text": "Story: As a permissions administrator, I want to copy a template into a custom group and edit its matrix as a draft.\n\nAcceptance criterion: Edits stay in draft until a second approver (four-eyes) approves them; system templates cannot be deleted\n\nParty: All parties\nPriority · Release · Sprint: Must · MVP · S1 (ClickUp Sprint 1)\nReferences: N-16, T-17b\nSize: L (8 points) · AI: No · Depends on: F-02.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "done"
+ },
+ {
+  "id": "z90uw3vgn6",
+  "feature": "F-02.03 · ABAC evaluator, conditions library and deny rules",
+  "epic": "EP-02 · Identity, memberships and permissions",
+  "story": "As the system, I want to decide every action based on the user's groups and their conditions, evaluating deny rules first.",
+  "acceptance": "The parity test between the evaluator and RLS passes; no check relies on a role's name",
+  "text": "Story: As the system, I want to decide every action based on the user's groups and their conditions, evaluating deny rules first.\n\nAcceptance criterion: The parity test between the evaluator and RLS passes; no check relies on a role's name\n\nParty: Technical\nPriority · Release · Sprint: Must · MVP · S1 (ClickUp Sprint 1)\nReferences: R-110, T-15, D-14, BR-IAM-01–04\nSize: XL (13 points) · AI: No · Depends on: F-01.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "done"
+ },
+ {
+  "id": "z90uw3vgn5",
+  "feature": "F-02.02 · Multiple memberships and context switcher",
+  "epic": "EP-02 · Identity, memberships and permissions",
+  "story": "As a person who belongs to more than one association or organization, I want to switch between them from the top bar.",
+  "acceptance": "Switching changes the data, permissions and menu together",
+  "text": "Story: As a person who belongs to more than one association or organization, I want to switch between them from the top bar.\n\nAcceptance criterion: Switching changes the data, permissions and menu together\n\nParty: All parties\nPriority · Release · Sprint: Must · MVP · S1 (ClickUp Sprint 1)\nReferences: N-27, BR-REG-06\nSize: M (5 points) · AI: No · Depends on: F-02.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "done"
+ },
+ {
+  "id": "z90uw3vgn4",
+  "feature": "F-02.01 · Sign-in with Nafath and OIDC provider",
+  "epic": "EP-02 · Identity, memberships and permissions",
+  "story": "As a user, I want to sign in once with Nafath, with a fallback using email and a verification code.",
+  "acceptance": "MFA is mandatory for funder and WBL staff; the token carries tenant_id and party",
+  "text": "Story: As a user, I want to sign in once with Nafath, with a fallback using email and a verification code.\n\nAcceptance criterion: MFA is mandatory for funder and WBL staff; the token carries tenant_id and party\n\nParty: All parties\nPriority · Release · Sprint: Must · MVP · S1 (ClickUp Sprint 1)\nReferences: N-27, N-28, D-21, T-14\nSize: L (8 points) · AI: No · Depends on: F-01.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "on hold"
+ },
+ {
+  "id": "z90uw3vgn3",
+  "feature": "F-01.07 · Optimistic concurrency and conflict message",
+  "epic": "EP-01 · Platform technical foundation",
+  "story": "As a user, I want to know if someone else edited the record before me, instead of overwriting their changes.",
+  "acceptance": "An update with a stale version returns 409 with the message \"Another user has modified this record\"",
+  "text": "Story: As a user, I want to know if someone else edited the record before me, instead of overwriting their changes.\n\nAcceptance criterion: An update with a stale version returns 409 with the message \"Another user has modified this record\"\n\nParty: Technical\nPriority · Release · Sprint: Must · MVP · S1 (ClickUp Sprint 1)\nReferences: invariant 2, §23.8 Analysis\nSize: S (3 points) · AI: No · Depends on: F-01.02\nIn prototype: — · Cut candidate: No",
+  "status": "done"
+ },
+ {
+  "id": "z90uw3vgn2",
+  "feature": "F-01.06 · Reference numbers per funder",
+  "epic": "EP-01 · Platform technical foundation",
+  "story": "As a staff member, I want readable reference numbers that never repeat within each funder.",
+  "acceptance": "A counter per funder, prefix and year, with no 99,999 cap",
+  "text": "Story: As a staff member, I want readable reference numbers that never repeat within each funder.\n\nAcceptance criterion: A counter per funder, prefix and year, with no 99,999 cap\n\nParty: Technical\nPriority · Release · Sprint: Must · MVP · S1 (ClickUp Sprint 1)\nReferences: §4.12 Analysis, open question\nSize: S (3 points) · AI: No · Depends on: F-01.02\nIn prototype: — · Cut candidate: No",
+  "status": "done"
+ },
+ {
+  "id": "z90uw3vgn1",
+  "feature": "F-01.05 · File service and scanning",
+  "epic": "EP-01 · Platform technical foundation",
+  "story": "As a user, I want to upload files that are scanned and stored under my funder's path, accessed through short-lived signed links.",
+  "acceptance": "An infected file never reaches the storage path; size is ≤ 25MB and only allowed file types are accepted",
+  "text": "Story: As a user, I want to upload files that are scanned and stored under my funder's path, accessed through short-lived signed links.\n\nAcceptance criterion: An infected file never reaches the storage path; size is ≤ 25MB and only allowed file types are accepted\n\nParty: Technical\nPriority · Release · Sprint: Must · MVP · S2 (ClickUp Sprint 2)\nReferences: §8 Security, ClamAV\nSize: M (5 points) · AI: No · Depends on: F-01.02\nIn prototype: — · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgn0",
+  "feature": "F-01.04 · Outbox, background worker and SLA timers",
+  "epic": "EP-01 · Platform technical foundation",
+  "story": "As the system, I want every event delivered to its consumer exactly once, and overdue SLA timers detected.",
+  "acceptance": "Each event is consumed exactly once; an overdue due_at fires sla.breached",
+  "text": "Story: As the system, I want every event delivered to its consumer exactly once, and overdue SLA timers detected.\n\nAcceptance criterion: Each event is consumed exactly once; an overdue due_at fires sla.breached\n\nParty: Technical\nPriority · Release · Sprint: Must · MVP · S1 (ClickUp Sprint 1)\nReferences: R-096, T-17, D-07\nSize: M (5 points) · AI: No · Depends on: F-01.02\nIn prototype: — · Cut candidate: No",
+  "status": "in progress"
+ },
+ {
+  "id": "z90uw3vgmz",
+  "feature": "F-01.03 · Immutable audit log",
+  "epic": "EP-01 · Platform technical foundation",
+  "story": "As an auditor, I want a log of every change that cannot be edited or deleted, recording who, when, and the before and after values.",
+  "acceptance": "Any UPDATE/DELETE attempt is rejected; a hash chain is kept per funder",
+  "text": "Story: As an auditor, I want a log of every change that cannot be edited or deleted, recording who, when, and the before and after values.\n\nAcceptance criterion: Any UPDATE/DELETE attempt is rejected; a hash chain is kept per funder\n\nParty: Technical\nPriority · Release · Sprint: Must · MVP · S1 (ClickUp Sprint 1)\nReferences: R-095, T-16\nSize: M (5 points) · AI: No · Depends on: F-01.02\nIn prototype: — · Cut candidate: No",
+  "status": "done"
+ },
+ {
+  "id": "z90uw3vgmy",
+  "feature": "F-01.02 · Funder isolation with tenant_id and RLS",
+  "epic": "EP-01 · Platform technical foundation",
+  "story": "As a funder, I want no one else to see my data, even if the code has a bug.",
+  "acceptance": "The adversarial isolation test (pgTAP) fails when a table has no policy; the funder is taken from the token claim only",
+  "text": "Story: As a funder, I want no one else to see my data, even if the code has a bug.\n\nAcceptance criterion: The adversarial isolation test (pgTAP) fails when a table has no policy; the funder is taken from the token claim only\n\nParty: Technical\nPriority · Release · Sprint: Must · MVP · S1 (ClickUp Sprint 1)\nReferences: R-109, T-12, T-13, invariant 1\nSize: L (8 points) · AI: No · Depends on: F-01.01\nIn prototype: — · Cut candidate: No",
+  "status": "done"
+ },
+ {
+  "id": "z90uw3vgmx",
+  "feature": "F-01.01 · Monorepo and CI pipeline",
+  "epic": "EP-01 · Platform technical foundation",
+  "story": "As the development team, I want a single repository containing web, src, db and docs, with CI that builds only what changed, so that every change is a single pull request.",
+  "acceptance": "./scripts/verify.sh passes; a change in web does not trigger a build of src",
+  "text": "Story: As the development team, I want a single repository containing web, src, db and docs, with CI that builds only what changed, so that every change is a single pull request.\n\nAcceptance criterion: ./scripts/verify.sh passes; a change in web does not trigger a build of src\n\nParty: Technical\nPriority · Release · Sprint: Must · MVP · S0 (ClickUp Sprint 1)\nReferences: T-01, D-23\nSize: M (5 points) · AI: No · Depends on: —\nIn prototype: — · Cut candidate: No",
+  "status": "done"
+ },
+ {
+  "id": "z90uw3vgp0",
+  "feature": "F-05.03 · Manage Budget Operations and History",
+  "epic": "EP-05 · Funding structure and opportunities",
+  "story": "As a grants manager, I want to adjust track funding through a documented operation.",
+  "acceptance": "A supporting document is mandatory; an ADJ number is issued; amounts cannot exceed the available balance",
+  "text": "Feature: Manage Budget Operations and History\n\nBRD reference: Section 4.4 (Annual Plan) · UC22\n\nGoal: As an authorized finance user, I want to increase, decrease or transfer plan budgets and review the recorded operations, so that budget changes are controlled and traceable.\n\nSummary: The user performs a budget increase, decrease or transfer with official evidence. The system validates the operation, updates affected levels, and records it in a financial operations register and permanent plan history.\n\nStories: the ready story with its full details (scenario, business requirements, errors and fields) is the subtask UC22 – Manage Budget Operations and History.\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · Sprint 2\nReferences: BR-FND-08\nSize: M (5 points) · AI: No · Depends on: F-05.01\nScope: Annual Plan only — endowment funding and consumption from applications, projects and pa",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgp1",
+  "feature": "F-05.05 · Inherited settings: conditions, criteria, form, workflow",
+  "epic": "EP-05 · Funding structure and opportunities",
+  "story": "As a grants manager, I want to define these on the track and customize them at the initiative or opportunity level.",
+  "acceptance": "Every card shows where its value comes from; \"Reset to inherited\" works",
+  "text": "Story: As a grants manager, I want to define these on the track and customize them at the initiative or opportunity level.\n\nAcceptance criterion: Every card shows where its value comes from; \"Reset to inherited\" works\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S2 (ClickUp Sprint 2)\nReferences: N-35, BR-CFG-04, BR-WF-01\nSize: L (8 points) · AI: No · Depends on: F-05.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgp2",
+  "feature": "F-05.06 · Template-based application form builder",
+  "epic": "EP-05 · Funding structure and opportunities",
+  "story": "As a grants manager, I want a form per project type (course, food baskets, etc.) whose fields I can edit, with Manih suggesting fields.",
+  "acceptance": "Answers are stored by field ID; the form is versioned",
+  "text": "Story: As a grants manager, I want a form per project type (course, food baskets, etc.) whose fields I can edit, with Manih suggesting fields.\n\nAcceptance criterion: Answers are stored by field ID; the form is versioned\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S2 (ClickUp Sprint 2)\nReferences: BR-CFG-05\nSize: L (8 points) · AI: Yes · Depends on: F-05.05\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgp3",
+  "feature": "F-05.07 · Track scoring settings",
+  "epic": "EP-05 · Funding structure and opportunities",
+  "story": "As a grants manager, I want to set a pass mark, score bands, an automatic response, and calibration examples for each track.",
+  "acceptance": "Pass mark is 50–100; the automatic response applies below the pass mark",
+  "text": "Story: As a grants manager, I want to set a pass mark, score bands, an automatic response, and calibration examples for each track.\n\nAcceptance criterion: Pass mark is 50–100; the automatic response applies below the pass mark\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S2 (ClickUp Sprint 2)\nReferences: BR-CFG-07, RUL-12\nSize: S (3 points) · AI: No · Depends on: F-05.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgp5",
+  "feature": "F-05.08 · Opportunity basics, application type, access and publishing",
+  "epic": "EP-05 · Funding structure and opportunities",
+  "story": "As a grants manager, I want to create an opportunity with a budget, a cap, a period, fields, a type, and an access method.",
+  "acceptance": "Cap ≤ budget; publishing requires a second approver (four-eyes)",
+  "text": "Story: As a grants manager, I want to create an opportunity with a budget, a cap, a period, fields, a type, and an access method.\n\nAcceptance criterion: Cap ≤ budget; publishing requires a second approver (four-eyes)\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S2 (ClickUp Sprint 2)\nReferences: BR-FND-04, R-019, R-020, R-021\nSize: M (5 points) · AI: No · Depends on: F-05.05\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgp6",
+  "feature": "F-05.09 · Create an opportunity from a description",
+  "epic": "EP-05 · Funding structure and opportunities",
+  "story": "As a grants manager, I want to describe the opportunity to Manih so that it builds a draft for me to review.",
+  "acceptance": "The draft is not saved before confirmation",
+  "text": "Story: As a grants manager, I want to describe the opportunity to Manih so that it builds a draft for me to review.\n\nAcceptance criterion: The draft is not saved before confirmation\n\nParty: Funder\nPriority · Release · Sprint: Could · MVP · S3 (ClickUp Sprint 2)\nReferences: BR-FND-07\nSize: S (3 points) · AI: Yes · Depends on: F-05.08\nIn prototype: Yes · Cut candidate: Yes",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgp7",
+  "feature": "F-05.10 · Targeting, eligibility and eligibility testing",
+  "epic": "EP-05 · Funding structure and opportunities",
+  "story": "As a grants manager, I want to target associations by name, group, or conditions, and test an association's eligibility with the reason.",
+  "acceptance": "One rule set serves both the gate and the review; a reason is given for each failed condition",
+  "text": "Story: As a grants manager, I want to target associations by name, group, or conditions, and test an association's eligibility with the reason.\n\nAcceptance criterion: One rule set serves both the gate and the review; a reason is given for each failed condition\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S2 (ClickUp Sprint 2)\nReferences: BR-ELG-01, R-015\nSize: M (5 points) · AI: No · Depends on: F-05.08\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgp8",
+  "feature": "F-05.11 · Tendered projects: invitations, bids and award",
+  "epic": "EP-05 · Funding structure and opportunities",
+  "story": "As a grants manager, I want to tender a specific project, invite associations, compare bids, and award with minutes.",
+  "acceptance": "No award to a bid below the pass mark; an award creates a contract, a project, and payments",
+  "text": "Story: As a grants manager, I want to tender a specific project, invite associations, compare bids, and award with minutes.\n\nAcceptance criterion: No award to a bid below the pass mark; an award creates a contract, a project, and payments\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S4 (ClickUp Sprint 3)\nReferences: BR-RFP-01, BR-RFP-02, RUL-21\nSize: L (8 points) · AI: No · Depends on: F-05.08, F-10.02\nIn prototype: Yes · Cut candidate: Yes",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgp9",
+  "feature": "F-05.12 · Item catalog with balances and caps",
+  "epic": "EP-05 · Funding structure and opportunities",
+  "story": "As a grants manager, I want an item catalog with a total balance, a per-association cap, and a time-based cap.",
+  "acceptance": "An application that exceeds a cap is returned with the reason; no overselling",
+  "text": "Story: As a grants manager, I want an item catalog with a total balance, a per-association cap, and a time-based cap.\n\nAcceptance criterion: An application that exceeds a cap is returned with the reason; no overselling\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S3 (ClickUp Sprint 2)\nReferences: R-008, R-020\nSize: M (5 points) · AI: No · Depends on: F-05.08\nIn prototype: Partial · Cut candidate: Yes",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgpa",
+  "feature": "F-06.01 · Register by license number and fetch National Register data",
+  "epic": "EP-06 · Association registration and profile",
+  "story": "As an association representative, I want to register with my license number so that the association's data is fetched without manual entry.",
+  "acceptance": "Register data cannot be edited manually; an already registered association → \"Request to join\"",
+  "text": "Story: As an association representative, I want to register with my license number so that the association's data is fetched without manual entry.\n\nAcceptance criterion: Register data cannot be edited manually; an already registered association → \"Request to join\"\n\nParty: Association\nPriority · Release · Sprint: Must · MVP · S2 (ClickUp Sprint 2)\nReferences: R-009, BR-REG-02, BR-REG-03\nSize: L (8 points) · AI: No · Depends on: F-02.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgpb",
+  "feature": "F-06.02 · Verification, delegation and alternative path",
+  "epic": "EP-06 · Association registration and profile",
+  "story": "As an association representative, I want to verify with a code sent to the official number, or with a delegation letter approved by a staff member.",
+  "acceptance": "No account without a code or approval; the account stays \"Under review\" until verified",
+  "text": "Story: As an association representative, I want to verify with a code sent to the official number, or with a delegation letter approved by a staff member.\n\nAcceptance criterion: No account without a code or approval; the account stays \"Under review\" until verified\n\nParty: Association\nPriority · Release · Sprint: Must · MVP · S2 (ClickUp Sprint 2)\nReferences: R-010, R-011, BR-REG-05\nSize: M (5 points) · AI: No · Depends on: F-06.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgpc",
+  "feature": "F-06.03 · Unified association profile with Muhsin",
+  "epic": "EP-06 · Association registration and profile",
+  "story": "As an association representative, I want a single profile with a completion percentage and Muhsin's assessment of strengths and weaknesses.",
+  "acceptance": "The funder cannot see Muhsin's assessment",
+  "text": "Story: As an association representative, I want a single profile with a completion percentage and Muhsin's assessment of strengths and weaknesses.\n\nAcceptance criterion: The funder cannot see Muhsin's assessment\n\nParty: Association\nPriority · Release · Sprint: Must · MVP · S2 (ClickUp Sprint 2)\nReferences: N-22, BR-ASC-02\nSize: L (8 points) · AI: Yes · Depends on: F-06.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgpd",
+  "feature": "F-06.04 · Documents with expiry dates and document AI",
+  "epic": "EP-06 · Association registration and profile",
+  "story": "As an association representative, I want to upload a document and get its type and expiry date suggested, and be alerted before it expires.",
+  "acceptance": "Alerts at 30, then 14, then 7 days; readiness is lost on expiry",
+  "text": "Story: As an association representative, I want to upload a document and get its type and expiry date suggested, and be alerted before it expires.\n\nAcceptance criterion: Alerts at 30, then 14, then 7 days; readiness is lost on expiry\n\nParty: Association\nPriority · Release · Sprint: Must · MVP · S2 (ClickUp Sprint 2)\nReferences: R-013, R-017, N-01, BR-ASC-03\nSize: M (5 points) · AI: Yes · Depends on: F-06.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgpe",
+  "feature": "F-06.05 · Request a register data update",
+  "epic": "EP-06 · Association registration and profile",
+  "story": "As an association representative, I want to request an update to a data item with an attachment, approved by each funder I work with.",
+  "acceptance": "The status is visible to the association: Pending, Changes requested, Rejected, Approved",
+  "text": "Story: As an association representative, I want to request an update to a data item with an attachment, approved by each funder I work with.\n\nAcceptance criterion: The status is visible to the association: Pending, Changes requested, Rejected, Approved\n\nParty: Association\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: BR-ASC-04, BR-ORG-04\nSize: M (5 points) · AI: No · Depends on: F-06.03, F-14.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgpg",
+  "feature": "F-06.06 · Association users and delegation hierarchy",
+  "epic": "EP-06 · Association registration and profile",
+  "story": "As an authorized signatory, I want to add association users and assign or change their groups with a code.",
+  "acceptance": "Changes require a code; the official authority holder requires verification and funder review",
+  "text": "Story: As an authorized signatory, I want to add association users and assign or change their groups with a code.\n\nAcceptance criterion: Changes require a code; the official authority holder requires verification and funder review\n\nParty: Association\nPriority · Release · Sprint: Must · MVP · S2 (ClickUp Sprint 2)\nReferences: R-012, R-092, R-093\nSize: M (5 points) · AI: No · Depends on: F-02.04\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgph",
+  "feature": "F-07.01 · Association dashboard",
+  "epic": "EP-07 · Opportunities and guided application",
+  "story": "As an association representative, I want the most important action right now, My Applications, my grants, and the top 3 opportunities on the home page.",
+  "acceptance": "Every number opens its list",
+  "text": "Story: As an association representative, I want the most important action right now, My Applications, my grants, and the top 3 opportunities on the home page.\n\nAcceptance criterion: Every number opens its list\n\nParty: Association\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: N-21, BR-ASC-01\nSize: M (5 points) · AI: No · Depends on: F-07.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgpj",
+  "feature": "F-07.02 · Match and rank opportunities by specialty",
+  "epic": "EP-07 · Opportunities and guided application",
+  "story": "As an association representative, I want to see opportunities that fit my specialty, ranked by fit and closeness to the closing date.",
+  "acceptance": "A Quran association does not see orphan opportunities first; show the match reason and what is missing",
+  "text": "Story: As an association representative, I want to see opportunities that fit my specialty, ranked by fit and closeness to the closing date.\n\nAcceptance criterion: A Quran association does not see orphan opportunities first; show the match reason and what is missing\n\nParty: Association\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: N-23, BR-OPP-01, BR-OPP-02\nSize: L (8 points) · AI: Yes · Depends on: F-05.08, F-06.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgpm",
+  "feature": "F-07.03 · Opportunities page and digest notification",
+  "epic": "EP-07 · Opportunities and guided application",
+  "story": "As an association representative, I want an opportunities page with filters and a single notification for new opportunities.",
+  "acceptance": "One notification, not one per opportunity",
+  "text": "Story: As an association representative, I want an opportunities page with filters and a single notification for new opportunities.\n\nAcceptance criterion: One notification, not one per opportunity\n\nParty: Association\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: BR-OPP-03, BR-OPP-04, N-04\nSize: M (5 points) · AI: No · Depends on: F-07.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgpq",
+  "feature": "F-07.04 · Readiness check and readiness dashboard",
+  "epic": "EP-07 · Opportunities and guided application",
+  "story": "As an association representative, I want to know exactly what I am missing before I apply.",
+  "acceptance": "An association that is not ready sees the reason and what is required",
+  "text": "Story: As an association representative, I want to know exactly what I am missing before I apply.\n\nAcceptance criterion: An association that is not ready sees the reason and what is required\n\nParty: Association\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: R-015, R-016, N-02\nSize: M (5 points) · AI: No · Depends on: F-06.04, F-05.10\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgpv",
+  "feature": "F-07.05 · Interactive application with Muhsin",
+  "epic": "EP-07 · Opportunities and guided application",
+  "story": "As an association representative, I want Muhsin to fill in the form and ask me about missing items one at a time.",
+  "acceptance": "Every field carries its source; skip and return; attachments are uploaded in place",
+  "text": "Story: As an association representative, I want Muhsin to fill in the form and ask me about missing items one at a time.\n\nAcceptance criterion: Every field carries its source; skip and return; attachments are uploaded in place\n\nParty: Association\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: N-36, BR-APL-01–03\nSize: XL (13 points) · AI: Yes · Depends on: F-07.04, F-15.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgpw",
+  "feature": "F-07.06 · Review, declaration and submission",
+  "epic": "EP-07 · Opportunities and guided application",
+  "story": "As an association representative, I want a full review and calculation checks, then a declaration and submission.",
+  "acceptance": "No submission with an empty required field; an application number and a notification to the official email",
+  "text": "Story: As an association representative, I want a full review and calculation checks, then a declaration and submission.\n\nAcceptance criterion: No submission with an empty required field; an application number and a notification to the official email\n\nParty: Association\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: BR-APL-04–06, R-022\nSize: M (5 points) · AI: No · Depends on: F-07.05\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgpx",
+  "feature": "F-07.07 · My Applications and what is required from me",
+  "epic": "EP-07 · Opportunities and guided application",
+  "story": "As an association representative, I want the status and next step of each application, with change requests shown under \"Required from you\".",
+  "acceptance": "The status matches the actual stage; resubmission returns the application to its stage",
+  "text": "Story: As an association representative, I want the status and next step of each application, with change requests shown under \"Required from you\".\n\nAcceptance criterion: The status matches the actual stage; resubmission returns the application to its stage\n\nParty: Association\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: R-023, BR-ASC-05, BR-WF-04\nSize: M (5 points) · AI: No · Depends on: F-09.03\nIn prototype: Partial · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgpy",
+  "feature": "F-07.08 · Use a ready-made proposal",
+  "epic": "EP-07 · Opportunities and guided application",
+  "story": "As an association representative, I want to upload a proposal I prepared for another party so that Muhsin converts it into a draft.",
+  "acceptance": "A reviewable draft that is never submitted automatically",
+  "text": "Story: As an association representative, I want to upload a proposal I prepared for another party so that Muhsin converts it into a draft.\n\nAcceptance criterion: A reviewable draft that is never submitted automatically\n\nParty: Association\nPriority · Release · Sprint: Should · MVP · S3 (ClickUp Sprint 2)\nReferences: N-03\nSize: M (5 points) · AI: Yes · Depends on: F-07.05\nIn prototype: — · Cut candidate: Yes",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgpz",
+  "feature": "F-08.01 · Application sources and natural key",
+  "epic": "EP-08 · Application intake and sources",
+  "story": "As a funder, I want to receive applications from the platform, Ataa, Atheer, imports, and the partner API without duplicates.",
+  "acceptance": "(organization, source, number) is unique; a second arrival is an update",
+  "text": "Story: As a funder, I want to receive applications from the platform, Ataa, Atheer, imports, and the partner API without duplicates.\n\nAcceptance criterion: (organization, source, number) is unique; a second arrival is an update\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: BR-INT-01, RUL-08, D-18\nSize: L (8 points) · AI: No · Depends on: F-01.04\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgq0",
+  "feature": "F-08.02 · Merge answers and source status",
+  "epic": "EP-08 · Application intake and sources",
+  "story": "As a funder, I want answers from every source to be merged, and to see the application status as it is in its source.",
+  "acceptance": "An empty value does not overwrite; an unknown status is shown by its name",
+  "text": "Story: As a funder, I want answers from every source to be merged, and to see the application status as it is in its source.\n\nAcceptance criterion: An empty value does not overwrite; an unknown status is shown by its name\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: RUL-09, RUL-10\nSize: M (5 points) · AI: No · Depends on: F-08.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgq2",
+  "feature": "F-08.03 · Application list with analysis status and stage",
+  "epic": "EP-08 · Application intake and sources",
+  "story": "As a staff member, I want a list showing source, track, requested amount, approved amount, Manih analysis status, stage, and time in stage.",
+  "acceptance": "Approved amount shows \"—\", not zero; filter by analysis status",
+  "text": "Story: As a staff member, I want a list showing source, track, requested amount, approved amount, Manih analysis status, stage, and time in stage.\n\nAcceptance criterion: Approved amount shows \"—\", not zero; filter by analysis status\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: BR-INT-02, BR-INT-03, N-25\nSize: M (5 points) · AI: No · Depends on: F-08.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgq3",
+  "feature": "F-08.04 · Completion form without an account",
+  "epic": "EP-08 · Application intake and sources",
+  "story": "As a funder, I want to send a one-time link to an association whose application arrived without answers.",
+  "acceptance": "The link goes to the official email; the answers are merged",
+  "text": "Story: As a funder, I want to send a one-time link to an association whose application arrived without answers.\n\nAcceptance criterion: The link goes to the official email; the answers are merged\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S3 (ClickUp Sprint 2)\nReferences: BR-INT-05\nSize: M (5 points) · AI: No · Depends on: F-08.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgq4",
+  "feature": "F-08.05 · Classify applications without a track",
+  "epic": "EP-08 · Application intake and sources",
+  "story": "As a staff member, I want Manih to suggest a track with the supporting phrase, so I can approve it or classify manually.",
+  "acceptance": "Whether the classification was automatic or human is recorded",
+  "text": "Story: As a staff member, I want Manih to suggest a track with the supporting phrase, so I can approve it or classify manually.\n\nAcceptance criterion: Whether the classification was automatic or human is recorded\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: BR-INT-06\nSize: S (3 points) · AI: Yes · Depends on: F-08.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgq5",
+  "feature": "F-08.06 · Documents, fetch status and product basket",
+  "epic": "EP-08 · Application intake and sources",
+  "story": "As a staff member, I want to know which document was not fetched and why, and see the product basket with provisional prices.",
+  "acceptance": "A price of 1–3 SAR is excluded from totals",
+  "text": "Story: As a staff member, I want to know which document was not fetched and why, and see the product basket with provisional prices.\n\nAcceptance criterion: A price of 1–3 SAR is excluded from totals\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: BR-INT-07, BR-INT-08, RUL-11\nSize: M (5 points) · AI: No · Depends on: F-08.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgq6",
+  "feature": "F-08.07 · Partner API for applications",
+  "epic": "EP-08 · Application intake and sources",
+  "story": "As a technical partner, I want to submit applications via POST /api/v1/applications with a key per partner.",
+  "acceptance": "One key per partner; Idempotency",
+  "text": "Story: As a technical partner, I want to submit applications via POST /api/v1/applications with a key per partner.\n\nAcceptance criterion: One key per partner; Idempotency\n\nParty: Technical\nPriority · Release · Sprint: Should · MVP · S4 (ClickUp Sprint 3)\nReferences: BR-INT-01\nSize: M (5 points) · AI: No · Depends on: F-08.01\nIn prototype: — · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgq7",
+  "feature": "F-09.01 · Workflow stages and engines",
+  "epic": "EP-09 · Workflow and review",
+  "story": "As a grants manager, I want stages with any count, type, duration, supervisors, and permitted actions, starting from a ready-made engine.",
+  "acceptance": "The last stage is final, not a committee; at least one scoring stage",
+  "text": "Story: As a grants manager, I want stages with any count, type, duration, supervisors, and permitted actions, starting from a ready-made engine.\n\nAcceptance criterion: The last stage is final, not a committee; at least one scoring stage\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: BR-WF-01, BR-WF-02\nSize: L (8 points) · AI: No · Depends on: F-05.05\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgq8",
+  "feature": "F-09.02 · Automatic assignment, reassignment and absence",
+  "epic": "EP-09 · Workflow and review",
+  "story": "As a grants manager, I want no application left unassigned, reassignment only with a reason, and absent staff excluded.",
+  "acceptance": "Every application has an assignee as soon as it arrives; no reassignment without a reason",
+  "text": "Story: As a grants manager, I want no application left unassigned, reassignment only with a reason, and absent staff excluded.\n\nAcceptance criterion: Every application has an assignee as soon as it arrives; no reassignment without a reason\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: R-024–R-029\nSize: L (8 points) · AI: No · Depends on: F-09.01\nIn prototype: — · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgq9",
+  "feature": "F-09.03 · Application actions by stage and permission",
+  "epic": "EP-09 · Workflow and review",
+  "story": "As a stage supervisor, I want to receive, approve, skip, return, request changes, close, reopen, and add notes.",
+  "acceptance": "Only the actions I am permitted show; the log records every action",
+  "text": "Story: As a stage supervisor, I want to receive, approve, skip, return, request changes, close, reopen, and add notes.\n\nAcceptance criterion: Only the actions I am permitted show; the log records every action\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S4 (ClickUp Sprint 3)\nReferences: BR-WF-03–05, RUL-21, RUL-22\nSize: L (8 points) · AI: No · Depends on: F-09.01, F-02.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqa",
+  "feature": "F-09.04 · Review file and automated checks",
+  "epic": "EP-09 · Workflow and review",
+  "story": "As a specialist, I want Manih's summary and the completeness, eligibility, cap, duplication, and association history checks in one review file.",
+  "acceptance": "Checks are visible before the decision",
+  "text": "Story: As a specialist, I want Manih's summary and the completeness, eligibility, cap, duplication, and association history checks in one review file.\n\nAcceptance criterion: Checks are visible before the decision\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S4 (ClickUp Sprint 3)\nReferences: R-031, R-033, R-037, BR-DEC-01\nSize: L (8 points) · AI: Yes · Depends on: F-15.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqb",
+  "feature": "F-09.05 · Scoring against criteria and pass mark",
+  "epic": "EP-09 · Workflow and review",
+  "story": "As a specialist, I want to score criterion by criterion and see the difference from Manih and the pass mark.",
+  "acceptance": "No recommendation without a judgment under the specialist's name",
+  "text": "Story: As a specialist, I want to score criterion by criterion and see the difference from Manih and the pass mark.\n\nAcceptance criterion: No recommendation without a judgment under the specialist's name\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S4 (ClickUp Sprint 3)\nReferences: R-034, R-038, BR-DEC-02, RUL-12\nSize: M (5 points) · AI: Yes · Depends on: F-09.04\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqc",
+  "feature": "F-09.06 · Independent review mode",
+  "epic": "EP-09 · Workflow and review",
+  "story": "As a specialist, I want Manih's opinion hidden until I submit my own scoring, then I want to compare the differences.",
+  "acceptance": "Manih's opinion stays hidden until the specialist saves their scoring",
+  "text": "Story: As a specialist, I want Manih's opinion hidden until I submit my own scoring, then I want to compare the differences.\n\nAcceptance criterion: Manih's opinion stays hidden until the specialist saves their scoring\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S4 (ClickUp Sprint 3)\nReferences: R-039\nSize: S (3 points) · AI: Yes · Depends on: F-09.05\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqd",
+  "feature": "F-09.07 · Request for information pauses the SLA timer",
+  "epic": "EP-09 · Workflow and review",
+  "story": "As a specialist, I want to send a request for information that pauses the SLA timer, reaches the association, and is followed up automatically.",
+  "acceptance": "The SLA timer does not count while waiting for the association's response",
+  "text": "Story: As a specialist, I want to send a request for information that pauses the SLA timer, reaches the association, and is followed up automatically.\n\nAcceptance criterion: The SLA timer does not count while waiting for the association's response\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S4 (ClickUp Sprint 3)\nReferences: R-032, BR-DEC-03\nSize: M (5 points) · AI: Yes · Depends on: F-09.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqe",
+  "feature": "F-09.08 · Budget review and proposed schedule",
+  "epic": "EP-09 · Workflow and review",
+  "story": "As a specialist, I want to detect unreasonable budget line items and get a proposed schedule of deliverables and payments.",
+  "acceptance": "An inflated line item is flagged with its reference",
+  "text": "Story: As a specialist, I want to detect unreasonable budget line items and get a proposed schedule of deliverables and payments.\n\nAcceptance criterion: An inflated line item is flagged with its reference\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S4 (ClickUp Sprint 3)\nReferences: R-035, R-036\nSize: M (5 points) · AI: Yes · Depends on: F-09.04\nIn prototype: Partial · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqf",
+  "feature": "F-09.09 · Conflict of interest",
+  "epic": "EP-09 · Workflow and review",
+  "story": "As a specialist, I want to declare a conflict of interest when I open an application so that it is reassigned.",
+  "acceptance": "The declaration blocks any action on the application and triggers reassignment",
+  "text": "Story: As a specialist, I want to declare a conflict of interest when I open an application so that it is reassigned.\n\nAcceptance criterion: The declaration blocks any action on the application and triggers reassignment\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S4 (ClickUp Sprint 3)\nReferences: N-08, BR-IAM-03\nSize: S (3 points) · AI: No · Depends on: F-02.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqh",
+  "feature": "F-09.10 · External evaluator and site visits",
+  "epic": "EP-09 · Workflow and review",
+  "story": "As a grants manager, I want to temporarily assign an expert to a single application and document a site visit.",
+  "acceptance": "The expert sees only their assigned application, and only until the expiry date",
+  "text": "Story: As a grants manager, I want to temporarily assign an expert to a single application and document a site visit.\n\nAcceptance criterion: The expert sees only their assigned application, and only until the expiry date\n\nParty: Funder\nPriority · Release · Sprint: Could · R2 · S4 (ClickUp Sprint 3)\nReferences: R-040, R-041\nSize: M (5 points) · AI: Yes · Depends on: F-02.07\nIn prototype: Partial · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqk",
+  "feature": "F-10.01 · Approval engine with amount limits",
+  "epic": "EP-10 · Approvals, committees and decisions",
+  "story": "As a funder, I want an application to pass only through the approval levels that apply to its amount.",
+  "acceptance": "Changing the amount re-evaluates the approval chain",
+  "text": "Story: As a funder, I want an application to pass only through the approval levels that apply to its amount.\n\nAcceptance criterion: Changing the amount re-evaluates the approval chain\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S4 (ClickUp Sprint 3)\nReferences: R-042–R-044, RUL-14\nSize: L (8 points) · AI: No · Depends on: F-04.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqm",
+  "feature": "F-10.02 · Single committee decision with minutes",
+  "epic": "EP-10 · Approvals, committees and decisions",
+  "story": "As a committee secretary, I want to select applications from the same stage and execute one decision with attached minutes.",
+  "acceptance": "Each item goes through the individual action and its checks; a result is returned for each item",
+  "text": "Story: As a committee secretary, I want to select applications from the same stage and execute one decision with attached minutes.\n\nAcceptance criterion: Each item goes through the individual action and its checks; a result is returned for each item\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S4 (ClickUp Sprint 3)\nReferences: R-045, BR-TSK-03, RUL-21, RUL-23\nSize: L (8 points) · AI: No · Depends on: F-10.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqn",
+  "feature": "F-10.03 · Extract decisions from minutes",
+  "epic": "EP-10 · Approvals, committees and decisions",
+  "story": "As a committee secretary, I want to upload the signed minutes so that Manih extracts each application's decision and its location in the document.",
+  "acceptance": "I review every line before approval",
+  "text": "Story: As a committee secretary, I want to upload the signed minutes so that Manih extracts each application's decision and its location in the document.\n\nAcceptance criterion: I review every line before approval\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S4 (ClickUp Sprint 3)\nReferences: R-045\nSize: M (5 points) · AI: Yes · Depends on: F-10.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqp",
+  "feature": "F-10.04 · Committee presentation file",
+  "epic": "EP-10 · Approvals, committees and decisions",
+  "story": "As a committee secretary, I want a single PDF with the summary, recommendation, amount, and association date for each application.",
+  "acceptance": "One file per meeting",
+  "text": "Story: As a committee secretary, I want a single PDF with the summary, recommendation, amount, and association date for each application.\n\nAcceptance criterion: One file per meeting\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S4 (ClickUp Sprint 3)\nReferences: R-046\nSize: S (3 points) · AI: Yes · Depends on: F-10.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqt",
+  "feature": "F-10.05 · Decision rationale and decision log",
+  "epic": "EP-10 · Approvals, committees and decisions",
+  "story": "As an auditor, I want one page that explains the decision: criteria, scores, approval chain, minutes, and framework version.",
+  "acceptance": "The full decision can be understood from a single page",
+  "text": "Story: As an auditor, I want one page that explains the decision: criteria, scores, approval chain, minutes, and framework version.\n\nAcceptance criterion: The full decision can be understood from a single page\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S4 (ClickUp Sprint 3)\nReferences: R-047, R-089, BR-DEC-07\nSize: M (5 points) · AI: No · Depends on: F-10.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqu",
+  "feature": "F-10.06 · Decision notification and decline letter",
+  "epic": "EP-10 · Approvals, committees and decisions",
+  "story": "As an association, I want to receive the decision and its reason at my official email.",
+  "acceptance": "Status stays \"Awaiting decline letter\" until it is sent",
+  "text": "Story: As an association, I want to receive the decision and its reason at my official email.\n\nAcceptance criterion: Status stays \"Awaiting decline letter\" until it is sent\n\nParty: Association\nPriority · Release · Sprint: Must · MVP · S4 (ClickUp Sprint 3)\nReferences: R-047, BR-WF-04\nSize: S (3 points) · AI: Yes · Depends on: F-17.01\nIn prototype: Partial · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqv",
+  "feature": "F-11.01 · My Tasks: derived and manual tasks",
+  "epic": "EP-11 · My Tasks and dashboards",
+  "story": "As a staff member, I want to see everything awaiting my decision (applications at my stage, payments at my step) along with my tasks and meetings.",
+  "acceptance": "A task disappears once it is completed in its own place",
+  "text": "Story: As a staff member, I want to see everything awaiting my decision (applications at my stage, payments at my step) along with my tasks and meetings.\n\nAcceptance criterion: A task disappears once it is completed in its own place\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S4 (ClickUp Sprint 3)\nReferences: R-077, BR-TSK-01\nSize: L (8 points) · AI: No · Depends on: F-09.03, F-13.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqw",
+  "feature": "F-11.02 · Task views: list, kanban, and calendar",
+  "epic": "EP-11 · My Tasks and dashboards",
+  "story": "As a staff member, I want to view my tasks as a list, a kanban board, or a calendar that starts on Sunday.",
+  "acceptance": "\"Today\" uses Riyadh time",
+  "text": "Story: As a staff member, I want to view my tasks as a list, a kanban board, or a calendar that starts on Sunday.\n\nAcceptance criterion: \"Today\" uses Riyadh time\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S4 (ClickUp Sprint 3)\nReferences: BR-TSK-02\nSize: M (5 points) · AI: No · Depends on: F-11.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqx",
+  "feature": "F-11.03 · Funder dashboard and inbox",
+  "epic": "EP-11 · My Tasks and dashboards",
+  "story": "As a grants manager, I want period indicators and the items awaiting my approval, sorted by risk.",
+  "acceptance": "Numbers match the lists; results are filtered by permissions",
+  "text": "Story: As a grants manager, I want period indicators and the items awaiting my approval, sorted by risk.\n\nAcceptance criterion: Numbers match the lists; results are filtered by permissions\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S5 (ClickUp Sprint 3)\nReferences: R-078, R-079, N-24, BR-DEC-05\nSize: M (5 points) · AI: No · Depends on: F-11.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgqz",
+  "feature": "F-11.04 · Finance and CEO dashboards",
+  "epic": "EP-11 · My Tasks and dashboards",
+  "story": "As finance, I want to see due, suspended, and returned payments; as CEO, I want to see my decisions, funds, and endowment deed spending channels.",
+  "acceptance": "Suspended items show their reason; personal sort order is saved",
+  "text": "Story: As finance, I want to see due, suspended, and returned payments; as CEO, I want to see my decisions, funds, and endowment deed spending channels.\n\nAcceptance criterion: Suspended items show their reason; personal sort order is saved\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S5 (ClickUp Sprint 3)\nReferences: R-080, R-082, R-105\nSize: M (5 points) · AI: No · Depends on: F-11.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgr0",
+  "feature": "F-11.05 · Staff member page",
+  "epic": "EP-11 · My Tasks and dashboards",
+  "story": "As a manager, I want calculated indicators for a staff member and what is assigned to them.",
+  "acceptance": "A colleague sees the assigned items but not the indicators",
+  "text": "Story: As a manager, I want calculated indicators for a staff member and what is assigned to them.\n\nAcceptance criterion: A colleague sees the assigned items but not the indicators\n\nParty: Funder\nPriority · Release · Sprint: Could · R2 · S6 (ClickUp Sprint 4)\nReferences: R-098\nSize: S (3 points) · AI: No · Depends on: F-11.01\nIn prototype: — · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgr1",
+  "feature": "F-12.01 · Agreement generation and contract stages",
+  "epic": "EP-12 · Agreements, projects and deliverables",
+  "story": "As a grants manager, I want an agreement generated from the template, moving through stages: Preparation → Association → Signing → Signed.",
+  "acceptance": "The association completes its step from its portal using a code; no project is created before signing",
+  "text": "Story: As a grants manager, I want an agreement generated from the template, moving through stages: Preparation → Association → Signing → Signed.\n\nAcceptance criterion: The association completes its step from its portal using a code; no project is created before signing\n\nParty: Funder and association\nPriority · Release · Sprint: Must · MVP · S5 (ClickUp Sprint 3)\nReferences: R-048, R-049, BR-EXE-01, BR-PRJ-02\nSize: L (8 points) · AI: No · Depends on: F-04.06\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgr2",
+  "feature": "F-12.02 · Project list and project page",
+  "epic": "EP-12 · Agreements, projects and deliverables",
+  "story": "As a project manager, I want grants and initiatives in one list, and a project page with the plan, payments, contract, reports, and closure.",
+  "acceptance": "A project is created automatically from the approved application",
+  "text": "Story: As a project manager, I want grants and initiatives in one list, and a project page with the plan, payments, contract, reports, and closure.\n\nAcceptance criterion: A project is created automatically from the approved application\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S5 (ClickUp Sprint 3)\nReferences: R-050, BR-PRJ-01, BR-PRJ-02\nSize: L (8 points) · AI: No · Depends on: F-12.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgr3",
+  "feature": "F-12.03 · Project plan with activities and edit session",
+  "epic": "EP-12 · Agreements, projects and deliverables",
+  "story": "As a project manager, I want activities with weights and progress, calculated overall progress, and edits made through a draft.",
+  "acceptance": "Weights total 100%; a \"N unsaved changes\" bar is shown",
+  "text": "Story: As a project manager, I want activities with weights and progress, calculated overall progress, and edits made through a draft.\n\nAcceptance criterion: Weights total 100%; a \"N unsaved changes\" bar is shown\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S5 (ClickUp Sprint 3)\nReferences: BR-PRJ-03, RUL-26\nSize: M (5 points) · AI: No · Depends on: F-12.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgr4",
+  "feature": "F-12.04 · Deliverables, reminders, and escalation",
+  "epic": "EP-12 · Agreements, projects and deliverables",
+  "story": "As an association, I want a reminder before a deliverable is due; as a specialist, I want Manih to review it before I make my decision.",
+  "acceptance": "Accepting a deliverable unlocks the linked payment; delays are escalated",
+  "text": "Story: As an association, I want a reminder before a deliverable is due; as a specialist, I want Manih to review it before I make my decision.\n\nAcceptance criterion: Accepting a deliverable unlocks the linked payment; delays are escalated\n\nParty: Funder and association\nPriority · Release · Sprint: Must · MVP · S5 (ClickUp Sprint 3)\nReferences: R-051–R-054, BR-EXE-05\nSize: L (8 points) · AI: Yes · Depends on: F-12.02\nIn prototype: Partial · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgr5",
+  "feature": "F-12.05 · Change request and agreement addendum",
+  "epic": "EP-12 · Agreements, projects and deliverables",
+  "story": "As an association or specialist, I want to submit a change request (extension, line item transfer) that shows the difference and its impact and goes through the approval chain.",
+  "acceptance": "Nothing approved changes outside a change request; every version is saved",
+  "text": "Story: As an association or specialist, I want to submit a change request (extension, line item transfer) that shows the difference and its impact and goes through the approval chain.\n\nAcceptance criterion: Nothing approved changes outside a change request; every version is saved\n\nParty: Funder and association\nPriority · Release · Sprint: Must · MVP · S5 (ClickUp Sprint 3)\nReferences: R-055–R-059, BR-EXE-06\nSize: L (8 points) · AI: Yes · Depends on: F-10.01\nIn prototype: Partial · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgr8",
+  "feature": "F-12.06 · Reports and final report",
+  "epic": "EP-12 · Agreements, projects and deliverables",
+  "story": "As an association, I want to submit periodic and final reports with standardized numeric fields, and the funder approves or returns them.",
+  "acceptance": "Beneficiary counts can be aggregated",
+  "text": "Story: As an association, I want to submit periodic and final reports with standardized numeric fields, and the funder approves or returns them.\n\nAcceptance criterion: Beneficiary counts can be aggregated\n\nParty: Funder and association\nPriority · Release · Sprint: Must · MVP · S6 (ClickUp Sprint 4)\nReferences: R-071, R-072, BR-PRJ-02\nSize: M (5 points) · AI: Yes · Depends on: F-12.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgr9",
+  "feature": "F-12.07 · Closure, settlement, and performance evaluation",
+  "epic": "EP-12 · Agreements, projects and deliverables",
+  "story": "As a grants manager, I want to close a project once its conditions are met, settle unspent funds, and evaluate the association.",
+  "acceptance": "No closure while any amount is unresolved; surplus is released through a documented transaction",
+  "text": "Story: As a grants manager, I want to close a project once its conditions are met, settle unspent funds, and evaluate the association.\n\nAcceptance criterion: No closure while any amount is unresolved; surplus is released through a documented transaction\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S6 (ClickUp Sprint 4)\nReferences: R-073–R-076, RUL-27\nSize: M (5 points) · AI: Yes · Depends on: F-12.06\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgrc",
+  "feature": "F-13.01 · Payment statuses and schedule",
+  "epic": "EP-13 · Payments and disbursement",
+  "story": "As finance, I want every payment to show its status from New to Paid, and a payment schedule with percentages and conditions.",
+  "acceptance": "Total payments ≤ contract value",
+  "text": "Story: As finance, I want every payment to show its status from New to Paid, and a payment schedule with percentages and conditions.\n\nAcceptance criterion: Total payments ≤ contract value\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S5 (ClickUp Sprint 3)\nReferences: BR-PAY-01, BR-EXE-02\nSize: M (5 points) · AI: No · Depends on: F-12.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgrf",
+  "feature": "F-13.02 · Payment approval chain",
+  "epic": "EP-13 · Payments and disbursement",
+  "story": "As a funder, I want a payment approval chain of project manager → grants manager → CEO above the limit, with no person approving two steps.",
+  "acceptance": "Rejection returns the payment to Due and restarts the chain from the beginning",
+  "text": "Story: As a funder, I want a payment approval chain of project manager → grants manager → CEO above the limit, with no person approving two steps.\n\nAcceptance criterion: Rejection returns the payment to Due and restarts the chain from the beginning\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S5 (ClickUp Sprint 3)\nReferences: R-064, BR-PAY-02, RUL-24\nSize: M (5 points) · AI: No · Depends on: F-13.01, F-10.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgrg",
+  "feature": "F-13.03 · Blockers and automatic suspension",
+  "epic": "EP-13 · Payments and disbursement",
+  "story": "As finance, I want payments with a blocker not to reach me, and to resume automatically once the blocker is cleared.",
+  "acceptance": "No submission before the contract is signed; no transfer before the bank account is verified",
+  "text": "Story: As finance, I want payments with a blocker not to reach me, and to resume automatically once the blocker is cleared.\n\nAcceptance criterion: No submission before the contract is signed; no transfer before the bank account is verified\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S5 (ClickUp Sprint 3)\nReferences: R-063, R-069, RUL-18, RUL-25\nSize: M (5 points) · AI: No · Depends on: F-13.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgrh",
+  "feature": "F-13.04 · Transfer recording and receipt voucher",
+  "epic": "EP-13 · Payments and disbursement",
+  "story": "As finance, I want to record the transfer with its reference number and document, then the receipt voucher, to close the payment.",
+  "acceptance": "The reference number and document are mandatory; the association is notified immediately on execution",
+  "text": "Story: As finance, I want to record the transfer with its reference number and document, then the receipt voucher, to close the payment.\n\nAcceptance criterion: The reference number and document are mandatory; the association is notified immediately on execution\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S5 (ClickUp Sprint 3)\nReferences: R-065, R-066, BR-PAY-03\nSize: M (5 points) · AI: No · Depends on: F-13.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgrj",
+  "feature": "F-13.05 · Receipt acknowledgement and dealings suspension",
+  "epic": "EP-13 · Payments and disbursement",
+  "story": "As a funder, I want an SLA timer for the receipt acknowledgement, and when it expires, escalation and suspension of dealings with the association.",
+  "acceptance": "Suspension blocks new applications and payment requests",
+  "text": "Story: As a funder, I want an SLA timer for the receipt acknowledgement, and when it expires, escalation and suspension of dealings with the association.\n\nAcceptance criterion: Suspension blocks new applications and payment requests\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S5 (ClickUp Sprint 3)\nReferences: R-067, BR-IAM-03\nSize: S (3 points) · AI: No · Depends on: F-13.04\nIn prototype: — · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgrk",
+  "feature": "F-13.06 · Payment order export and finance system reference",
+  "epic": "EP-13 · Payments and disbursement",
+  "story": "As finance, I want to export payment orders and have a field for the finance system reference.",
+  "acceptance": "The export file matches the records",
+  "text": "Story: As finance, I want to export payment orders and have a field for the finance system reference.\n\nAcceptance criterion: The export file matches the records\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S6 (ClickUp Sprint 4)\nReferences: R-068\nSize: S (3 points) · AI: No · Depends on: F-13.04\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgrm",
+  "feature": "F-14.01 · Association directory",
+  "epic": "EP-14 · Associations at the funder",
+  "story": "As a staff member, I want all associations with their specialization, region, applications, grants, compliance, and alerts.",
+  "acceptance": "Declared conflicts of interest are tagged",
+  "text": "Story: As a staff member, I want all associations with their specialization, region, applications, grants, compliance, and alerts.\n\nAcceptance criterion: Declared conflicts of interest are tagged\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: N-25, BR-ORG-01\nSize: M (5 points) · AI: No · Depends on: F-06.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgrn",
+  "feature": "F-14.02 · Live association groups",
+  "epic": "EP-14 · Associations at the funder",
+  "story": "As a grants manager, I want groups to target opportunities with, where any edit takes effect immediately.",
+  "acceptance": "Membership is stored in a junction table, not an array",
+  "text": "Story: As a grants manager, I want groups to target opportunities with, where any edit takes effect immediately.\n\nAcceptance criterion: Membership is stored in a junction table, not an array\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: BR-ELG-02\nSize: S (3 points) · AI: No · Depends on: F-14.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgrp",
+  "feature": "F-14.03 · Funder-side association profile and update requests",
+  "epic": "EP-14 · Associations at the funder",
+  "story": "As a staff member, I want to see register data and its source, and approve or reject requests to update it.",
+  "acceptance": "An approved update changes the profile immediately",
+  "text": "Story: As a staff member, I want to see register data and its source, and approve or reject requests to update it.\n\nAcceptance criterion: An approved update changes the profile immediately\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: BR-ORG-02, BR-ORG-04\nSize: M (5 points) · AI: No · Depends on: F-14.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgrq",
+  "feature": "F-14.04 · Association account status with the foundation",
+  "epic": "EP-14 · Associations at the funder",
+  "story": "As a grants manager, I want to change an association's status with us (active, suspended, blocked) with a reason.",
+  "acceptance": "The status does not affect the association with any other funder",
+  "text": "Story: As a grants manager, I want to change an association's status with us (active, suspended, blocked) with a reason.\n\nAcceptance criterion: The status does not affect the association with any other funder\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: BR-ORG-03, RUL-15\nSize: S (3 points) · AI: No · Depends on: F-14.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgrt",
+  "feature": "F-14.05 · Bank account and verification",
+  "epic": "EP-14 · Associations at the funder",
+  "story": "As a finance officer, I want to verify a bank account or reject it with a reason, and to validate the IBAN.",
+  "acceptance": "Changing the IBAN returns the account to pending verification; the change requires a verification code from the association",
+  "text": "Story: As a finance officer, I want to verify a bank account or reject it with a reason, and to validate the IBAN.\n\nAcceptance criterion: Changing the IBAN returns the account to pending verification; the change requires a verification code from the association\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S5 (ClickUp Sprint 3)\nReferences: R-070, BR-ORG-05\nSize: M (5 points) · AI: No · Depends on: F-14.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgrv",
+  "feature": "F-14.06 · Team, primary representative and action log",
+  "epic": "EP-14 · Associations at the funder",
+  "story": "As a grants manager, I want to see the association's team, transfer the primary authorization with a reason, and keep a log of every action.",
+  "acceptance": "Only one active primary authorized representative; every action is attributed to a person",
+  "text": "Story: As a grants manager, I want to see the association's team, transfer the primary authorization with a reason, and keep a log of every action.\n\nAcceptance criterion: Only one active primary authorized representative; every action is attributed to a person\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: BR-ORG-06, RUL-28\nSize: M (5 points) · AI: No · Depends on: F-14.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgrw",
+  "feature": "F-14.07 · Association classification",
+  "epic": "EP-14 · Associations at the funder",
+  "story": "As a funder, I want to classify associations using criteria I configure.",
+  "acceptance": "Every change is recorded with who made it and why",
+  "text": "Story: As a funder, I want to classify associations using criteria I configure.\n\nAcceptance criterion: Every change is recorded with who made it and why\n\nParty: Funder\nPriority · Release · Sprint: Could · R2 · S6 (ClickUp Sprint 4)\nReferences: R-108\nSize: S (3 points) · AI: No · Depends on: F-14.01\nIn prototype: — · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgrx",
+  "feature": "F-15.01 · Manih adapter and asynchronous contract",
+  "epic": "EP-15 · AI layer: Manih and Muhsin",
+  "story": "As the system, I want all AI calls to go through a single adapter with a task contract (202 then polling), plus a mock adapter for testing.",
+  "acceptance": "The mock adapter passes the same tests",
+  "text": "Story: As the system, I want all AI calls to go through a single adapter with a task contract (202 then polling), plus a mock adapter for testing.\n\nAcceptance criterion: The mock adapter passes the same tests\n\nParty: Technical\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: D-08, R-113, T-09\nSize: L (8 points) · AI: Yes · Depends on: F-01.04\nIn prototype: — · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgry",
+  "feature": "F-15.02 · Application analysis and its states",
+  "epic": "EP-15 · AI layer: Manih and Muhsin",
+  "story": "As a staff member, I want applications analyzed in the background with clear states: not analyzed, in progress, failed with a reason, completed.",
+  "acceptance": "\"Changed after analysis\" does not trigger automatic re-analysis; usage is charged on completion",
+  "text": "Story: As a staff member, I want applications analyzed in the background with clear states: not analyzed, in progress, failed with a reason, completed.\n\nAcceptance criterion: \"Changed after analysis\" does not trigger automatic re-analysis; usage is charged on completion\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: BR-INT-03, BR-INT-04, BR-INT-09, BR-AI-05\nSize: L (8 points) · AI: Yes · Depends on: F-15.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgrz",
+  "feature": "F-15.03 · Personal data masking and AI shutoff",
+  "epic": "EP-15 · AI layer: Manih and Muhsin",
+  "story": "As a funder, I want personal data masked before it reaches the model, and a setting that disables AI entirely.",
+  "acceptance": "A full cycle completes with AI disabled",
+  "text": "Story: As a funder, I want personal data masked before it reaches the model, and a setting that disables AI entirely.\n\nAcceptance criterion: A full cycle completes with AI disabled\n\nParty: All parties\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: R-112, BR-AI-07\nSize: M (5 points) · AI: Yes · Depends on: F-15.01\nIn prototype: — · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgt0",
+  "feature": "F-15.04 · AI components in the interface",
+  "epic": "EP-15 · AI layer: Manih and Muhsin",
+  "story": "As a user, I want every AI output labeled with its evidence and to have accept, edit and rate buttons.",
+  "acceptance": "No suggestion is saved before confirmation; the rating is saved with the output",
+  "text": "Story: As a user, I want every AI output labeled with its evidence and to have accept, edit and rate buttons.\n\nAcceptance criterion: No suggestion is saved before confirmation; the rating is saved with the output\n\nParty: All parties\nPriority · Release · Sprint: Must · MVP · S0–S3 (ClickUp Sprint 1)\nReferences: N-11, N-12, BR-AI-02, T-04\nSize: M (5 points) · AI: Yes · Depends on: F-03.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgt1",
+  "feature": "F-15.05 · In-page assistant: Muhsin and Manih",
+  "epic": "EP-15 · AI layer: Manih and Muhsin",
+  "story": "As a user, I want an assistant that knows my current page, suggests relevant questions and answers using read-only tools.",
+  "acceptance": "No write tools; a suggested action opens the actual page",
+  "text": "Story: As a user, I want an assistant that knows my current page, suggests relevant questions and answers using read-only tools.\n\nAcceptance criterion: No write tools; a suggested action opens the actual page\n\nParty: All parties\nPriority · Release · Sprint: Should · MVP · S6 (ClickUp Sprint 4)\nReferences: N-32\nSize: L (8 points) · AI: Yes · Depends on: F-15.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgt3",
+  "feature": "F-15.06 · Contextual action hints",
+  "epic": "EP-15 · AI layer: Manih and Muhsin",
+  "story": "As a user, I want a small hint next to the element I am working on at the right moment.",
+  "acceptance": "Hints can be dismissed and do not reappear after dismissal",
+  "text": "Story: As a user, I want a small hint next to the element I am working on at the right moment.\n\nAcceptance criterion: Hints can be dismissed and do not reappear after dismissal\n\nParty: All parties\nPriority · Release · Sprint: Could · MVP · S6 (ClickUp Sprint 4)\nReferences: N-33\nSize: M (5 points) · AI: Yes · Depends on: F-15.05\nIn prototype: Yes · Cut candidate: Yes",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgt4",
+  "feature": "F-15.07 · Correspondence drafts",
+  "epic": "EP-15 · AI layer: Manih and Muhsin",
+  "story": "As a specialist, I want drafts for requests for information, rejection reasons and return notes.",
+  "acceptance": "The draft can be edited before sending",
+  "text": "Story: As a specialist, I want drafts for requests for information, rejection reasons and return notes.\n\nAcceptance criterion: The draft can be edited before sending\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S4 (ClickUp Sprint 3)\nReferences: N-07\nSize: S (3 points) · AI: Yes · Depends on: F-15.01\nIn prototype: Partial · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgt5",
+  "feature": "F-15.08 · Evaluation suite and thresholds",
+  "epic": "EP-15 · AI layer: Manih and Muhsin",
+  "story": "As WBL, I want to measure the quality of Manih's tasks against thresholds before every release.",
+  "acceptance": "A release cannot pass below the threshold",
+  "text": "Story: As WBL, I want to measure the quality of Manih's tasks against thresholds before every release.\n\nAcceptance criterion: A release cannot pass below the threshold\n\nParty: Technical\nPriority · Release · Sprint: Must · MVP · S6 (ClickUp Sprint 4)\nReferences: §2 AI layer, evals\nSize: M (5 points) · AI: Yes · Depends on: F-15.01\nIn prototype: — · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgt6",
+  "feature": "F-16.01 · Instant search and command palette",
+  "epic": "EP-16 · Search, reports and questions",
+  "story": "As a user, I want to search by number or name from any page (Ctrl+K) within my permissions.",
+  "acceptance": "No results outside the user's permissions; Arabic text normalization",
+  "text": "Story: As a user, I want to search by number or name from any page (Ctrl+K) within my permissions.\n\nAcceptance criterion: No results outside the user's permissions; Arabic text normalization\n\nParty: All parties\nPriority · Release · Sprint: Must · MVP · S6 (ClickUp Sprint 4)\nReferences: R-099, N-06, D-10\nSize: M (5 points) · AI: No · Depends on: F-02.03\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgtd",
+  "feature": "F-16.02 · Standard reports",
+  "epic": "EP-16 · Search, reports and questions",
+  "story": "As a manager, I want reports on disbursement, alignment with the plan and the deed, and outputs.",
+  "acceptance": "Totals match the records",
+  "text": "Story: As a manager, I want reports on disbursement, alignment with the plan and the deed, and outputs.\n\nAcceptance criterion: Totals match the records\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S6 (ClickUp Sprint 4)\nReferences: R-104–R-106\nSize: L (8 points) · AI: No · Depends on: F-13.04\nIn prototype: Partial · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgte",
+  "feature": "F-16.03 · Indicators dashboard with filters and export",
+  "epic": "EP-16 · Search, reports and questions",
+  "story": "As a manager, I want an indicators dashboard that I can filter and export.",
+  "acceptance": "Core indicators can be exported",
+  "text": "Story: As a manager, I want an indicators dashboard that I can filter and export.\n\nAcceptance criterion: Core indicators can be exported\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S6 (ClickUp Sprint 4)\nReferences: R-107\nSize: M (5 points) · AI: No · Depends on: F-16.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgtf",
+  "feature": "F-16.04 · Natural language questions",
+  "epic": "EP-16 · Search, reports and questions",
+  "story": "As a manager, I want to ask questions about my data and get answers through a semantic layer, not free-form SQL.",
+  "acceptance": "The number matches the list view; questions that are not understood are reported as such",
+  "text": "Story: As a manager, I want to ask questions about my data and get answers through a semantic layer, not free-form SQL.\n\nAcceptance criterion: The number matches the list view; questions that are not understood are reported as such\n\nParty: Funder\nPriority · Release · Sprint: Should · MVP · S6 (ClickUp Sprint 4)\nReferences: R-100, R-101, D-09\nSize: L (8 points) · AI: Yes · Depends on: F-16.02\nIn prototype: Yes · Cut candidate: Yes",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgth",
+  "feature": "F-16.05 · 360Giving export",
+  "epic": "EP-16 · Search, reports and questions",
+  "story": "As a funder, I want to export approved grants in 360Giving format.",
+  "acceptance": "Core fields are present",
+  "text": "Story: As a funder, I want to export approved grants in 360Giving format.\n\nAcceptance criterion: Core fields are present\n\nParty: Funder\nPriority · Release · Sprint: Could · R2 · S7 (ClickUp Sprint 4)\nReferences: N-09\nSize: S (3 points) · AI: No · Depends on: F-16.02\nIn prototype: — · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgtq",
+  "feature": "F-17.01 · In-app and official email notifications",
+  "epic": "EP-17 · Notifications and messaging",
+  "story": "As an association, I want to receive key events inside the system and at my official email.",
+  "acceptance": "Every event in the list reaches the official email",
+  "text": "Story: As an association, I want to receive key events inside the system and at my official email.\n\nAcceptance criterion: Every event in the list reaches the official email\n\nParty: All parties\nPriority · Release · Sprint: Must · MVP · S3 (ClickUp Sprint 2)\nReferences: R-094, R-102\nSize: M (5 points) · AI: No · Depends on: F-01.04\nIn prototype: Partial · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgtr",
+  "feature": "F-17.02 · User notification preferences",
+  "epic": "EP-17 · Notifications and messaging",
+  "story": "As a user, I want to choose my notification channels.",
+  "acceptance": "Key notifications cannot be turned off",
+  "text": "Story: As a user, I want to choose my notification channels.\n\nAcceptance criterion: Key notifications cannot be turned off\n\nParty: All parties\nPriority · Release · Sprint: Should · MVP · S6 (ClickUp Sprint 4)\nReferences: BR-REG-07\nSize: S (3 points) · AI: No · Depends on: F-17.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgtt",
+  "feature": "F-17.03 · WhatsApp for reminders and urgent alerts",
+  "epic": "EP-17 · Notifications and messaging",
+  "story": "As an association, I want reminders and urgent alerts on WhatsApp using approved templates.",
+  "acceptance": "Channels can be configured per funder",
+  "text": "Story: As an association, I want reminders and urgent alerts on WhatsApp using approved templates.\n\nAcceptance criterion: Channels can be configured per funder\n\nParty: All parties\nPriority · Release · Sprint: Should · MVP · S6 (ClickUp Sprint 4)\nReferences: R-103\nSize: M (5 points) · AI: No · Depends on: F-17.01\nIn prototype: — · Cut candidate: Yes",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgtu",
+  "feature": "F-18.01 · Platform dashboard and funders",
+  "epic": "EP-18 · WBL console",
+  "story": "As WBL, I want to create a funder, configure it, activate its products and suspend it with a second approver.",
+  "acceptance": "A new funder is set up without a developer",
+  "text": "Story: As WBL, I want to create a funder, configure it, activate its products and suspend it with a second approver.\n\nAcceptance criterion: A new funder is set up without a developer\n\nParty: WBL\nPriority · Release · Sprint: Must · MVP · S6 (ClickUp Sprint 4)\nReferences: R-083, R-086, N-26, BR-WBL-01\nSize: L (8 points) · AI: No · Depends on: F-02.04\nIn prototype: Yes · Cut candidate: No",
+  "status": "done"
+ },
+ {
+  "id": "z90uw3vgtv",
+  "feature": "F-18.02 · Usage and billing",
+  "epic": "EP-18 · WBL console",
+  "story": "As WBL, I want to track each funder's usage from day one, along with subscriptions and invoices.",
+  "acceptance": "The number of completed applications per funder is available",
+  "text": "Story: As WBL, I want to track each funder's usage from day one, along with subscriptions and invoices.\n\nAcceptance criterion: The number of completed applications per funder is available\n\nParty: WBL\nPriority · Release · Sprint: Must · MVP · S6 (ClickUp Sprint 4)\nReferences: R-084, BR-WBL-03\nSize: M (5 points) · AI: No · Depends on: F-18.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgtw",
+  "feature": "F-18.03 · Temporary support access",
+  "epic": "EP-18 · WBL console",
+  "story": "As WBL, I want to access a funder's data only with permission the funder grants, recorded in its log.",
+  "acceptance": "No application can be opened without valid permission",
+  "text": "Story: As WBL, I want to access a funder's data only with permission the funder grants, recorded in its log.\n\nAcceptance criterion: No application can be opened without valid permission\n\nParty: WBL\nPriority · Release · Sprint: Must · MVP · S6 (ClickUp Sprint 4)\nReferences: R-085, BR-IAM-06\nSize: M (5 points) · AI: No · Depends on: F-02.07\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgtx",
+  "feature": "F-18.04 · Unified associations",
+  "epic": "EP-18 · WBL console",
+  "story": "As WBL, I want to link records of the same association across funders and resolve conflicting values by rule or by a person's decision.",
+  "acceptance": "Internal to WBL; two different unified numbers are never merged",
+  "text": "Story: As WBL, I want to link records of the same association across funders and resolve conflicting values by rule or by a person's decision.\n\nAcceptance criterion: Internal to WBL; two different unified numbers are never merged\n\nParty: WBL\nPriority · Release · Sprint: Should · MVP · S6 (ClickUp Sprint 4)\nReferences: BR-WBL-02, RUL-16, RUL-17\nSize: L (8 points) · AI: No · Depends on: F-06.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgtz",
+  "feature": "F-18.05 · AI, templates, integrations and security",
+  "epic": "EP-18 · WBL console",
+  "story": "As WBL, I want per-funder AI settings, agent quality, templates, integrations and a security log.",
+  "acceptance": "Every change requires a second approver and a security key",
+  "text": "Story: As WBL, I want per-funder AI settings, agent quality, templates, integrations and a security log.\n\nAcceptance criterion: Every change requires a second approver and a security key\n\nParty: WBL\nPriority · Release · Sprint: Should · MVP · S6 (ClickUp Sprint 4)\nReferences: BR-WBL-03, N-26\nSize: L (8 points) · AI: No · Depends on: F-18.01\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgu0",
+  "feature": "F-19.01 · Supplier portal and delivery confirmation",
+  "epic": "EP-19 · Suppliers",
+  "story": "As a supplier, I want to see only my orders and confirm delivery with proof.",
+  "acceptance": "No access outside the supplier's own orders",
+  "text": "Story: As a supplier, I want to see only my orders and confirm delivery with proof.\n\nAcceptance criterion: No access outside the supplier's own orders\n\nParty: Funder and supplier\nPriority · Release · Sprint: Should · R2 · S5 (ClickUp Sprint 3)\nReferences: R-060\nSize: M (5 points) · AI: No · Depends on: F-02.03\nIn prototype: — · Cut candidate: Yes",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgu1",
+  "feature": "F-19.02 · Supplier matching and payment",
+  "epic": "EP-19 · Suppliers",
+  "story": "As a specialist, I want to match the supplier's confirmation with the association's, and to pay by prepaid balance or invoice.",
+  "acceptance": "Discrepancies are routed to the specialist",
+  "text": "Story: As a specialist, I want to match the supplier's confirmation with the association's, and to pay by prepaid balance or invoice.\n\nAcceptance criterion: Discrepancies are routed to the specialist\n\nParty: Funder\nPriority · Release · Sprint: Should · R2 · S5 (ClickUp Sprint 3)\nReferences: R-061, R-062\nSize: M (5 points) · AI: No · Depends on: F-19.01\nIn prototype: — · Cut candidate: Yes",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgu2",
+  "feature": "F-20.01 · In-Kingdom hosting",
+  "epic": "EP-20 · Quality, security and launch",
+  "story": "As a funder, I want my data and its backups kept inside Saudi Arabia.",
+  "acceptance": "Trial report and a recorded decision",
+  "text": "Story: As a funder, I want my data and its backups kept inside Saudi Arabia.\n\nAcceptance criterion: Trial report and a recorded decision\n\nParty: Technical\nPriority · Release · Sprint: Must · MVP · S0–S7 (ClickUp Sprint 1)\nReferences: R-111, Q-1, T-08\nSize: L (8 points) · AI: No · Depends on: —\nIn prototype: — · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgu3",
+  "feature": "F-20.02 · Performance, availability and backups",
+  "epic": "EP-20 · Quality, security and launch",
+  "story": "As a funder, I want an available, fast platform with tested daily backups.",
+  "acceptance": "99.5%, page load ≤ 3 seconds, tested restore",
+  "text": "Story: As a funder, I want an available, fast platform with tested daily backups.\n\nAcceptance criterion: 99.5%, page load ≤ 3 seconds, tested restore\n\nParty: Technical\nPriority · Release · Sprint: Must · MVP · S7 (ClickUp Sprint 4)\nReferences: R-116\nSize: M (5 points) · AI: No · Depends on: F-20.01\nIn prototype: — · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgu5",
+  "feature": "F-20.03 · Accessibility and mobile",
+  "epic": "EP-20 · Quality, security and launch",
+  "story": "As a user, I want an interface that works with a keyboard, a screen reader and at 360px width.",
+  "acceptance": "axe reports no critical errors on core screens",
+  "text": "Story: As a user, I want an interface that works with a keyboard, a screen reader and at 360px width.\n\nAcceptance criterion: axe reports no critical errors on core screens\n\nParty: All parties\nPriority · Release · Sprint: Must · MVP · S7 (ClickUp Sprint 4)\nReferences: N-10, R-115\nSize: M (5 points) · AI: No · Depends on: F-03.02\nIn prototype: Yes · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgu7",
+  "feature": "F-20.04 · Security hardening and trust file",
+  "epic": "EP-20 · Quality, security and launch",
+  "story": "As a funder, I want CSP, rate limiting, dependency scanning, penetration testing and a trust file that answers my questions.",
+  "acceptance": "No open critical vulnerability",
+  "text": "Story: As a funder, I want CSP, rate limiting, dependency scanning, penetration testing and a trust file that answers my questions.\n\nAcceptance criterion: No open critical vulnerability\n\nParty: Technical\nPriority · Release · Sprint: Must · MVP · S7 (ClickUp Sprint 4)\nReferences: §8 Security, R-114\nSize: M (5 points) · AI: No · Depends on: F-01.02\nIn prototype: — · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgu9",
+  "feature": "F-20.05 · Migrating the funder's existing data",
+  "epic": "EP-20 · Quality, security and launch",
+  "story": "As Al-Malahi Foundation, I want my existing applications and associations in the platform without any loss.",
+  "acceptance": "No missing field or status",
+  "text": "Story: As Al-Malahi Foundation, I want my existing applications and associations in the platform without any loss.\n\nAcceptance criterion: No missing field or status\n\nParty: Technical\nPriority · Release · Sprint: Must · MVP · S6–S7 (ClickUp Sprint 4)\nReferences: D-18, §9 Acceptance\nSize: L (8 points) · AI: No · Depends on: F-08.01, F-14.01\nIn prototype: — · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3vgua",
+  "feature": "F-20.06 · Launch acceptance with Al-Malahi",
+  "epic": "EP-20 · Quality, security and launch",
+  "story": "As Al-Malahi Foundation, I want to test the full cycle on staging before launch.",
+  "acceptance": "The full cycle works with AI enabled and disabled",
+  "text": "Story: As Al-Malahi Foundation, I want to test the full cycle on staging before launch.\n\nAcceptance criterion: The full cycle works with AI enabled and disabled\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · S7 (ClickUp Sprint 4)\nReferences: §9 Acceptance criteria\nSize: M (5 points) · AI: No · Depends on: All epics\nIn prototype: — · Cut candidate: No",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3xhrf",
+  "feature": "F-05.00 · Create an Annual Plan",
+  "epic": "EP-05 · Funding structure and opportunities",
+  "story": "As an Authorized user, I want to create an annual plan manually or using AI-assisted suggestions, so that I can define the plan.",
+  "acceptance": "",
+  "text": "Feature: Create an Annual Plan\n\nBRD reference: Section 4.4 (Annual Plan) · UC20\n\nGoal: As an Authorized user, I want to create an annual plan manually or using AI-assisted suggestions, so that I can define the plan.\n\nSummary: The user creates a new annual plan by entering its name, year and total budget, or by using optional AI suggestions. The plan starts as active and not yet approved; its structure (tracks and initiatives) is built later in the plan edit session (F-05.02). Only one annual plan may exist per year within the same organization.\n\nStories: the ready story with its full details (scenario, business requirements, errors and fields) is the subtask UC20 – Create an Annual Plan.\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · Sprint 2\nSize: to be estimated by the team · AI: Optional (AI-assisted proposal) · Depends on: F-01.02\nScope: Annual Plan only — endowment funding",
+  "status": "backlog"
+ },
+ {
+  "id": "z90uw3xhrg",
+  "feature": "F-05.04 · Lock or Reopen an Annual Plan",
+  "epic": "EP-05 · Funding structure and opportunities",
+  "story": "As an authorized user, I want to lock or reopen an annual plan with a documented decision, so that new approvals are controlled.",
+  "acceptance": "",
+  "text": "Feature: Lock or Reopen an Annual Plan\n\nBRD reference: Section 4.4 (Annual Plan) · UC23\n\nGoal: As an authorized user, I want to lock or reopen an annual plan with a documented decision, so that new approvals are controlled.\n\nSummary: Locking a plan prevents new projects from being approved against it while existing projects and payments continue. Before locking, the user decides how outstanding obligations will be handled and attaches the decision evidence. An authorized user can reopen the plan.\n\nStories: the ready story with its full details (scenario, business requirements, errors and fields) is the subtask UC23 – Lock or Reopen an Annual Plan.\n\nParty: Funder\nPriority · Release · Sprint: Must · MVP · Sprint 2\nSize: to be estimated by the team · AI: No · Depends on: F-05.01\nScope: Annual Plan only — endowment funding and consumption from applications, projects and payments are handled ",
+  "status": "backlog"
+ }
+]
