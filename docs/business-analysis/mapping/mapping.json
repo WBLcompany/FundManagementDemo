@@ -213,14 +213,14 @@
    "clickup": [
     {
      "id": "z90uw3vgp2",
-     "feature": "F-05.06 · Template-based application form builder",
+     "feature": "F-05.09 · Template-based application form builder",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Full",
      "note": ""
     },
     {
      "id": "z90uw3vgp1",
-     "feature": "F-05.05 · Inherited settings: conditions, criteria, form, workflow",
+     "feature": "F-05.08 · Inherited settings: conditions, criteria, form, workflow",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Partial",
      "note": "Links a form to track/initiative/opportunity by inheritance"
@@ -259,8 +259,16 @@
   {
    "uc": "UC16",
    "name": "Register and manage endowments",
-   "clickup": [],
-   "gap_note": "Not in ClickUp. Endowments are explicitly out of scope of the EP-05 annual plan features."
+   "clickup": [
+    {
+     "id": "z90uw3ydcq",
+     "feature": "F-05.05 · Register and Manage Endowments",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
   },
   {
    "uc": "UC17",
@@ -370,14 +378,30 @@
   {
    "uc": "UC24",
    "name": "Record endowment funding",
-   "clickup": [],
-   "gap_note": "Not in ClickUp. Endowment funding records are explicitly out of scope (EP-05 scope note)."
+   "clickup": [
+    {
+     "id": "z90uw3ydcr",
+     "feature": "F-05.06 · Record Endowment Funding",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
   },
   {
    "uc": "UC25",
    "name": "Manage endowment participation and review endowment share",
-   "clickup": [],
-   "gap_note": "Not in ClickUp. Endowment shares per plan item and endowment page not in backlog."
+   "clickup": [
+    {
+     "id": "z90uw3ydct",
+     "feature": "F-05.07 · Manage Endowment Participation and Shares",
+     "epic": "EP-05 · Funding structure and opportunities",
+     "coverage": "Full",
+     "note": ""
+    }
+   ],
+   "gap_note": ""
   },
   {
    "uc": "UC26",
@@ -434,14 +458,14 @@
    "clickup": [
     {
      "id": "z90uw3vgp5",
-     "feature": "F-05.08 · Opportunity basics, application type, access and publishing",
+     "feature": "F-05.11 · Opportunity basics, application type, access and publishing",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Full",
      "note": ""
     },
     {
      "id": "z90uw3vgp6",
-     "feature": "F-05.09 · Create an opportunity from a description",
+     "feature": "F-05.12 · Create an opportunity from a description",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Partial",
      "note": "AI drafting of the opportunity from a description only"
@@ -455,14 +479,14 @@
    "clickup": [
     {
      "id": "z90uw3vgp5",
-     "feature": "F-05.08 · Opportunity basics, application type, access and publishing",
+     "feature": "F-05.11 · Opportunity basics, application type, access and publishing",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Partial",
      "note": "Basics, period, access and publishing; evidence-backed edit session, early close/reactivate switch and max applications per partner not stated"
     },
     {
      "id": "z90uw3vgp7",
-     "feature": "F-05.10 · Targeting, eligibility and eligibility testing",
+     "feature": "F-05.13 · Targeting, eligibility and eligibility testing",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Partial",
      "note": "Eligibility/targeting part only"
@@ -476,7 +500,7 @@
    "clickup": [
     {
      "id": "z90uw3vgp7",
-     "feature": "F-05.10 · Targeting, eligibility and eligibility testing",
+     "feature": "F-05.13 · Targeting, eligibility and eligibility testing",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Full",
      "note": ""
@@ -511,21 +535,21 @@
     },
     {
      "id": "z90uw3vgp1",
-     "feature": "F-05.05 · Inherited settings: conditions, criteria, form, workflow",
+     "feature": "F-05.08 · Inherited settings: conditions, criteria, form, workflow",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Partial",
      "note": "Inherited conditions/criteria/form/workflow per opportunity"
     },
     {
      "id": "z90uw3vgp3",
-     "feature": "F-05.07 · Track scoring settings",
+     "feature": "F-05.10 · Track scoring settings",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Partial",
      "note": "Pass mark and scoring settings at track level"
     },
     {
      "id": "z90uw3vgp2",
-     "feature": "F-05.06 · Template-based application form builder",
+     "feature": "F-05.09 · Template-based application form builder",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Partial",
      "note": "Form attachment"
@@ -553,7 +577,7 @@
    "clickup": [
     {
      "id": "z90uw3vgp9",
-     "feature": "F-05.12 · Item catalog with balances and caps",
+     "feature": "F-05.15 · Item catalog with balances and caps",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Full",
      "note": ""
@@ -574,7 +598,7 @@
    "clickup": [
     {
      "id": "z90uw3vgp8",
-     "feature": "F-05.11 · Tendered projects: invitations, bids and award",
+     "feature": "F-05.14 · Tendered projects: invitations, bids and award",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Partial",
      "note": "Invitations exist only for tendered projects; one-invitation-per-partner personal links and sent/opened/answered/declined tracking not stated"
@@ -588,7 +612,7 @@
    "clickup": [
     {
      "id": "z90uw3vgp8",
-     "feature": "F-05.11 · Tendered projects: invitations, bids and award",
+     "feature": "F-05.14 · Tendered projects: invitations, bids and award",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Full",
      "note": ""
@@ -707,7 +731,7 @@
     },
     {
      "id": "z90uw3vgp7",
-     "feature": "F-05.10 · Targeting, eligibility and eligibility testing",
+     "feature": "F-05.13 · Targeting, eligibility and eligibility testing",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Partial",
      "note": "Eligibility rule set and reasons"
@@ -721,7 +745,7 @@
    "clickup": [
     {
      "id": "z90uw3vgp8",
-     "feature": "F-05.11 · Tendered projects: invitations, bids and award",
+     "feature": "F-05.14 · Tendered projects: invitations, bids and award",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Partial",
      "note": "Invited associations can bid on tenders; invitation landing page, account activation and decline with status tracking not stated"
@@ -756,7 +780,7 @@
     },
     {
      "id": "z90uw3vgp9",
-     "feature": "F-05.12 · Item catalog with balances and caps",
+     "feature": "F-05.15 · Item catalog with balances and caps",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Partial",
      "note": "In-kind quantity requests within caps"
@@ -1242,7 +1266,7 @@
    "clickup": [
     {
      "id": "z90uw3vgp9",
-     "feature": "F-05.12 · Item catalog with balances and caps",
+     "feature": "F-05.15 · Item catalog with balances and caps",
      "epic": "EP-05 · Funding structure and opportunities",
      "coverage": "Partial",
      "note": "Stock balances and no overselling"
@@ -2096,8 +2120,38 @@
    "note": "1 Full / 0 Partial link(s)"
   },
   {
+   "id": "z90uw3ydcq",
+   "feature": "F-05.05 · Register and Manage Endowments",
+   "epic": "EP-05 · Funding structure and opportunities",
+   "status": "backlog",
+   "ucs": [
+    "UC16"
+   ],
+   "note": "Built from the updated Endowments BRD; story UC16 is its subtask."
+  },
+  {
+   "id": "z90uw3ydcr",
+   "feature": "F-05.06 · Record Endowment Funding",
+   "epic": "EP-05 · Funding structure and opportunities",
+   "status": "backlog",
+   "ucs": [
+    "UC24"
+   ],
+   "note": "Built from the updated Endowments BRD; story UC24 is its subtask."
+  },
+  {
+   "id": "z90uw3ydct",
+   "feature": "F-05.07 · Manage Endowment Participation and Shares",
+   "epic": "EP-05 · Funding structure and opportunities",
+   "status": "backlog",
+   "ucs": [
+    "UC25"
+   ],
+   "note": "Built from the updated Endowments BRD; story UC25 is its subtask."
+  },
+  {
    "id": "z90uw3vgp1",
-   "feature": "F-05.05 · Inherited settings: conditions, criteria, form, workflow",
+   "feature": "F-05.08 · Inherited settings: conditions, criteria, form, workflow",
    "epic": "EP-05 · Funding structure and opportunities",
    "status": "backlog",
    "ucs": [
@@ -2108,7 +2162,7 @@
   },
   {
    "id": "z90uw3vgp2",
-   "feature": "F-05.06 · Template-based application form builder",
+   "feature": "F-05.09 · Template-based application form builder",
    "epic": "EP-05 · Funding structure and opportunities",
    "status": "backlog",
    "ucs": [
@@ -2119,7 +2173,7 @@
   },
   {
    "id": "z90uw3vgp3",
-   "feature": "F-05.07 · Track scoring settings",
+   "feature": "F-05.10 · Track scoring settings",
    "epic": "EP-05 · Funding structure and opportunities",
    "status": "backlog",
    "ucs": [
@@ -2129,7 +2183,7 @@
   },
   {
    "id": "z90uw3vgp5",
-   "feature": "F-05.08 · Opportunity basics, application type, access and publishing",
+   "feature": "F-05.11 · Opportunity basics, application type, access and publishing",
    "epic": "EP-05 · Funding structure and opportunities",
    "status": "backlog",
    "ucs": [
@@ -2140,7 +2194,7 @@
   },
   {
    "id": "z90uw3vgp6",
-   "feature": "F-05.09 · Create an opportunity from a description",
+   "feature": "F-05.12 · Create an opportunity from a description",
    "epic": "EP-05 · Funding structure and opportunities",
    "status": "backlog",
    "ucs": [
@@ -2150,7 +2204,7 @@
   },
   {
    "id": "z90uw3vgp7",
-   "feature": "F-05.10 · Targeting, eligibility and eligibility testing",
+   "feature": "F-05.13 · Targeting, eligibility and eligibility testing",
    "epic": "EP-05 · Funding structure and opportunities",
    "status": "backlog",
    "ucs": [
@@ -2162,7 +2216,7 @@
   },
   {
    "id": "z90uw3vgp8",
-   "feature": "F-05.11 · Tendered projects: invitations, bids and award",
+   "feature": "F-05.14 · Tendered projects: invitations, bids and award",
    "epic": "EP-05 · Funding structure and opportunities",
    "status": "backlog",
    "ucs": [
@@ -2174,7 +2228,7 @@
   },
   {
    "id": "z90uw3vgp9",
-   "feature": "F-05.12 · Item catalog with balances and caps",
+   "feature": "F-05.15 · Item catalog with balances and caps",
    "epic": "EP-05 · Funding structure and opportunities",
    "status": "backlog",
    "ucs": [
