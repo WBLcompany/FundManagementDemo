@@ -151,7 +151,7 @@
     },
     {
       "key": "PRG-4",
-      "name": "Define eligibility targeting and application quota",
+      "name": "Define eligibility targeting and application limit",
       "title": "As a Grants Manager, I want to target an opportunity by classification, region, governorate, governance score, partner groups or named partners so that only intended partners can apply.",
       "description": "The Grants Manager defines who may apply: partner groups, national classification groups and sub-classifications, regions, governorates or cities, a minimum governance score and named partners. Partners named explicitly or belonging to a targeted group are always eligible; other rules must all be met. In the partner portal each partner sees which open opportunities they qualify for, the reasons if not, and how many applications they have left.",
       "actors": ["Grants Manager", "Partner Organization (Applicant / Partner Delegate)", "System"],
