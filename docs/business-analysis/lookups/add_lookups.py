@@ -45,8 +45,11 @@ for uc in ("UC29", "UC30"):
     rows = t.findall(q("tr"))
     for tr in rows:
         tcs = tr.findall(q("tc"))
-        key = (uc, tx(tcs[0]).strip())
-        if key in NOTES: set_text(tcs[5], NOTES[key])
+        lab = tx(tcs[0]).strip()
+        hit = next((k for k in NOTES if k[0] == uc and k[1].lower() == lab.lower()), None)
+        if hit:
+            set_text(tcs[5], NOTES[hit])
+            if lab != hit[1]: set_text(tcs[0], hit[1])
     if uc == "UC30" and not any(tx(tr.findall(q("tc"))[0]).strip() == "Second sub-classification" for tr in rows):
         sub = next(tr for tr in rows if tx(tr.findall(q("tc"))[0]).strip() == "Sub-classification")
         new = copy.deepcopy(sub); c = new.findall(q("tc"))
