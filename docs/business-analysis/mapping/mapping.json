@@ -607,20 +607,6 @@
    "gap_note": "Invitation flow only for tenders."
   },
   {
-   "uc": "UC35",
-   "name": "Define a tendered project (RFP) and award it to the best offer",
-   "clickup": [
-    {
-     "id": "z90uw3vgp8",
-     "feature": "F-05.14 · Tendered projects: invitations, bids and award",
-     "epic": "EP-05 · Funding structure and opportunities",
-     "coverage": "Full",
-     "note": ""
-    }
-   ],
-   "gap_note": ""
-  },
-  {
    "uc": "UC36",
    "name": "Govern configuration changes with evidence, rollback and history",
    "clickup": [
@@ -2221,10 +2207,9 @@
    "status": "backlog",
    "ucs": [
     "UC34",
-    "UC35",
     "UC41"
    ],
-   "note": "1 Full / 2 Partial link(s)"
+   "note": "1 Full / 2 Partial link(s) RFP is out of scope (UC35 removed from the BRD)."
   },
   {
    "id": "z90uw3vgp9",

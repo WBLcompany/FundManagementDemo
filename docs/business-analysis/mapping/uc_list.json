@@ -306,15 +306,6 @@
   "status": "draft"
  },
  {
-  "uc": "UC35",
-  "name": "Define a tendered project (RFP) and award it to the best offer",
-  "section": "4.6.9",
-  "area": "Grant Opportunities, Products & Workflow Templates",
-  "title": "As a Grants Manager, I want to specify a tendered project, compare the offers received and award it to one offer so that the contract and project are created and the other bidders are informed.",
-  "description": "For a tendered project the foundation defines the scope of work, deliverables, implementation duration, weighted activities and a payment plan expressed as percentages of the winning offer. Invited partners submit offers within the budget ceiling. The Grants Manager compares offers by price and evaluation score and awards the project to one offer; the system creates the contract and project with the planned activities and payments and closes the other offers with an apology.",
-  "status": "draft"
- },
- {
   "uc": "UC36",
   "name": "Govern configuration changes with evidence, rollback and history",
   "section": "4.6.10",
